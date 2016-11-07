@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <drawable name="wheel_bg_color">#ffffff</drawable>
+    <drawable name="wheel_val_color">#e2e2e2</drawable>
+
+    <color name="plan_repeat_checked">#4dd0c7</color>
+    <color name="plan_repeat_normal">#e2e2e2</color>
+
+    <color name="white">#ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="half_transparent">#33000000</color>
+
+    <color name="light_gray">#999999</color>
+
+    <color name="bg_touch">#dcdcdc</color>
+
+    <color name="text_color_normal">#00b9b1</color>
+    <color name="text_color_abnormal">#ff5c62</color>
+
+    <color name="bg_color">#009fb1</color>
+
+
+    <color name="background_color_normal">#00b9b1</color>
+    <color name="background_color_high">#ff5c62</color>
+    <color name="background_color_low">#ffc953</color>
+
+    <color name="line_color1">#007570</color>
+    <color name="line_color2">#001af4</color>
+    <color name="line_color3">#00d02d</color>
+    <color name="line_color4">#ff00f9</color>
+
+    <color name="line_color_conga1">#ffce3e</color>
+    <color name="line_color_conga2">#4e7bc8</color>
+    <color name="line_color_conga3">#8bc067</color>
+    <color name="line_color_mean">#43729e</color>
+    <color name="line_color_sd">#7fb0dd</color>
+    <color name="line_color_mage">#698ecf</color>
+    <color name="line_color_modd">#f0975a</color>
+
+
+    <color name="radio_button_selected_color">#009eb0</color>
+    <color name="radio_button_unselected_color">@android:color/transparent</color>
+
+    <color name="bg_menu_selected">#2a3139</color>
+
+    <color name="input_text_color">#434a54</color>
+    <color name="hint_text_color">#999999</color>
+
+    <drawable name="list_item_press">#774dd0c7</drawable>
+    <drawable name="transparent">#00000000</drawable>
+    <drawable name="half_transparent">#22000000</drawable>
+    <drawable name="text_press">#66999999</drawable>
+    <drawable name="white">#ffffff</drawable>
+
+
+    <color name="view_indicator_press">#ebf3f7</color>
+
+    <color name="text_dark">#af000000</color>
+    <color name="text_light">#3f000000</color>
+
+
+    <color name="list_divider_color">#dedede</color>
+    <color name="ui_dialog_divider">@color/list_divider_color</color>
+    <color name="ui_dialog_list_text">#5E5E5E</color>
+    <color name="black">#ff000000</color>
+
+    <color name="home_press">#dfdfdf</color>
+    
+    <color name="heart_rate_chart">#272e36</color>
+    <color name="heart_rate_line_chart">#00fff0</color>
+    <color name="heart_grid_line">#f9d1cf</color>
+    <color name="pop_black">#888888</color>
+
+
+</resources>

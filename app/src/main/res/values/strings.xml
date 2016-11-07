@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">ERP运维小管家</string>
+    <string name="home">首页</string>
+    <string name="transfer">交接</string>
+    <string name="msg">消息</string>
+    <string name="secretary">小秘书</string>
+    <string name="user_name">用户名</string>
+    <string name="password">密码</string>
+    <string name="phone_number">手机号码</string>
+    <string name="valid_code">验证码</string>
+    <string name="get_valid_code">获取验证码</string>
+    <string name="register_new_user">注册新用户</string>
+    <string name="forget_password">忘记密码&#063;</string>
+    <string name="login">登录</string>
+    <string name="next">下一步</string>
+    <string name="name">姓名</string>
+    <string name="department">部门</string>
+    <string name="door_number">门牌号</string>
+    <string name="telephone_number">座机号</string>
+    <string name="area">区域</string>
+    <string name="floor">楼层</string>
+    <string name="register">注册</string>
+    <string name="hint_input_phone_number">请输入手机号码</string>
+    <string name="hint_input_valid_code">请输入验证码</string>
+    <string name="hint_input_password">请输入密码</string>
+    <string name="hint_input_username">请输入用户名称</string>
+    <string name="hint_input_name">请输入姓名(必填)</string>
+    <string name="hint_text_department">请选择部门(必选)</string>
+    <string name="hint_input_door_number">请输入办公室门牌号</string>
+    <string name="hint_input_telephone_number">请输入座机号</string>
+    <string name="hint_input_area">请输入区域(必填)</string>
+    <string name="hint_input_floor_number">请输入楼层(必填)</string>
+    <string name="error_valid_code_increct">验证码错误</string>
+
+    <string name="page_name_register">新用户注册</string>
+    <string name="page_name_forget_password">忘记密码</string>
+    <string name="confirm">确认</string>
+
+    <string name="maintain">运维服务</string>
+    <string name="communication">意见交流</string>
+    <string name="telephone_book">电话簿</string>
+    <string name="resource_apply">物品申请</string>
+    <string name="meeting_apply">会议申请</string>
+    <string name="good_news">好消息</string>
+
+    <string name="meeting_occupy">占用一览表</string>
+    <string name="meeting_my">我的会议</string>
+    <string name="meeting_manage">会议管理</string>
+
+    <string name="meeting_name">会议名称</string>
+    <string name="meeting_location">会议地点</string>
+    <string name="meeting_start_time">开始时间</string>
+    <string name="meeting_end_time">结束时间</string>
+    <string name="meeting_description">会议简介</string>
+    <string name="meeting_hint_name">请输入本次会议名称</string>
+    <string name="meeting_hint_location">请选择会议地点</string>
+    <string name="meeting_hint_start_time">请输入会议开始时间</string>
+    <string name="meeting_hint_end_time">请输入会议结束时间</string>
+    <string name="meeting_hint_description">请输入会议简介(最多50字)</string>
+    <string name="meeting_submit">提交申请</string>
+</resources>

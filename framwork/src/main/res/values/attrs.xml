@@ -1,0 +1,104 @@
+<!--
+  Copyright 2011 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+-->
+
+<resources>
+
+    <declare-styleable name="SlidingMenu">
+        <attr name="mode">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+        <attr name="viewAbove" format="reference" />
+        <attr name="viewBehind" format="reference" />
+        <attr name="behindOffset" format="dimension" />
+        <attr name="behindWidth" format="dimension" />
+        <attr name="behindScrollScale" format="float" />
+        <attr name="touchModeAbove">
+            <enum name="margin" value="0" />
+            <enum name="fullscreen" value="1" />
+        </attr>
+        <attr name="touchModeBehind">
+            <enum name="margin" value="0" />
+            <enum name="fullscreen" value="1" />
+        </attr>
+        <attr name="shadowDrawable" format="reference" />
+        <attr name="shadowWidth" format="dimension" />
+        <attr name="fadeEnabled" format="boolean" />
+        <attr name="fadeDegree" format="float" />
+        <attr name="selectorEnabled" format="boolean" />
+        <attr name="selectorDrawable" format="reference" />
+    </declare-styleable>
+
+
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="slidingBlock" format="reference|color"/>
+        <attr name="allowWidthFull" format="boolean"/>
+        <attr name="disableViewPager" format="boolean"/>
+        <attr name="disableTensileSlidingBlock" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="SegmentedGroup">
+        <attr name="corner_radius" format="dimension" />
+        <attr name="border_width_segment" format="dimension" />
+        <attr name="tint_color" format="color" />
+        <attr name="checked_text_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="FlowLayout">
+        <attr name="android:gravity" />
+    </declare-styleable>
+    <declare-styleable name="FlowLayout_Layout">
+        <attr name="android:layout_gravity" />
+    </declare-styleable>
+
+
+    <declare-styleable name="PhoneNumberAutoComplete">
+        <attr name="colorOfData" format="color" />
+        <attr name="colorOfNames" format="color" />
+        <!--Caution: this property is overwritten by a bold text-->
+        <attr name="typedLettersHaveDifferentStyle" format="boolean" />
+        <attr name="styleOfTypedLetters" format="enum">
+            <enum name="underlined" value="1"/>
+            <enum name="bold" value="2"/>
+        </attr>
+        <attr name="getTextPattern" format="string"/>
+        <attr name="displayPhotoIfAvailable" format="boolean"/>
+        <attr name="typeOfData" format="enum">
+            <enum name="phone" value="1"/>
+            <enum name="email" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <string-array name="choose_sex">
+        <item>男</item>
+        <item>女</item>
+        <item>保密</item>
+    </string-array>
+    <string-array name="choose_picture">
+        <item>相册</item>
+        <item>相机</item>
+    </string-array>
+    <string-array name="choose_blood_type">
+        <item>A</item>
+        <item>B</item>
+        <item>AB</item>
+        <item>O</item>
+        <item>RH</item>
+    </string-array>
+
+</resources>

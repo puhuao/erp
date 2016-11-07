@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_meeting_manage"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:background="@color/main_background">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <RelativeLayout
+            android:id="@+id/meeting_occupy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/dimen_24"
+            android:background="@color/white"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp">
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/meeting_occupy"
+            android:drawableTop="@drawable/img_meeting_occupy"
+            android:drawablePadding="@dimen/dimen_10"
+            android:layout_centerInParent="true"
+            android:gravity="center"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_meeting_apply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/dimen_24"
+            android:background="@color/white"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meeting_apply"
+                android:drawableTop="@drawable/img_meeting_mapply"
+                android:drawablePadding="@dimen/dimen_10"
+                android:layout_gravity="center"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_meeting_my"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/dimen_24"
+            android:background="@color/white"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meeting_my"
+                android:drawableTop="@drawable/img_meeting_my"
+                android:drawablePadding="@dimen/dimen_10"
+                android:layout_gravity="center"/>
+        </RelativeLayout>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
