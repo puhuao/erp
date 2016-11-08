@@ -33,6 +33,7 @@ public class MeetingManageFragment extends CommonFragment {
         switch (v.getId()) {
             case R.id.meeting_occupy:
                 //会议室占用
+                getContext().pushFragmentToBackStack(MeetingRoomFragment.class,null);
                 break;
             case R.id.layout_meeting_apply:
                 //会议申请
@@ -40,6 +41,7 @@ public class MeetingManageFragment extends CommonFragment {
                 break;
             case R.id.layout_meeting_my:
                 //我的会议
+                getContext().pushFragmentToBackStack(PersonalMeetingFragment.class,null);
                 break;
 
         }

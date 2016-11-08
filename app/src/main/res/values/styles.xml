@@ -16,4 +16,18 @@
         <item name="android:backgroundDimAmount">0.7</item>
     </style>
 
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/tab_text_color</item>
+        <item name="tabIndicatorHeight">1dp</item>
+        <item name="tabBackground">@color/white</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/tab_text_color</item>
+    </style>
+
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_hint</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
 </resources>
