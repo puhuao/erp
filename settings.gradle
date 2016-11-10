@@ -1,1 +1,1 @@
-include ':app', ':okhttpserver', ':okhttputils', ':framwork', ':calendarListViewLibrary'
+include ':app', ':okhttpserver', ':okhttputils', ':framwork'

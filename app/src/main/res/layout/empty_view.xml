@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/empty_back"
+        android:drawablePadding="@dimen/dimen_15"
+        android:textSize="@dimen/text_size_16"
+        android:textColor="@color/empty_color"
+        android:background="@color/white"
+        android:text="暂时没有数据"
+        android:gravity="center"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

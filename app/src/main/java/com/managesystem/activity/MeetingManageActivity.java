@@ -1,11 +1,9 @@
 package com.managesystem.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.managesystem.R;
-import com.managesystem.fragment.LoginFragment;
-import com.managesystem.fragment.MeetingManageFragment;
+import com.managesystem.fragment.meeting.MeetingManageFragment;
 import com.wksc.framwork.activity.CommonActivity;
 import com.wksc.framwork.platform.config.IConfig;
 

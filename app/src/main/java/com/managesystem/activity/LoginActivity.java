@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.managesystem.R;
-import com.managesystem.fragment.LoginFragment;
-import com.wksc.framwork.BaseApplication;
+import com.managesystem.fragment.loginAndRegister.LoginFragment;
 import com.wksc.framwork.activity.CommonActivity;
 import com.wksc.framwork.platform.config.IConfig;
 

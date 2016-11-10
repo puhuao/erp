@@ -28,5 +28,4 @@ dependencies {
     provided 'io.realm:realm-android:0.87.3'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support:design:23.2.0'
-    compile project(':calendarListViewLibrary')
 }

@@ -60,6 +60,27 @@
     <string name="meeting_submit">提交申请</string>
     <string name="meeting_apply_record">申请记录</string>
     <string name="meeting_attend_record">参会记录</string>
+    <string name="meeting_detail">会议详情</string>
+    <string name="meeting_guarantee_information">保障信息</string>
+    <string name="meeting_notice">会议通知</string>
+    <string name="meeting_notice_next">通知下一议题侯会人员</string>
+    <string name="meeting_sign_up">会议报名人员</string>
+    <string name="meeting_attend_person">实际参会人员</string>
+    <string name="meeting_zcod_sign_up">报名二维码</string>
+    <string name="meeting_sign_in">签到二维码</string>
+    <string name="meeting_system_notice">系统内通知</string>
+    <string name="select">选择</string>
+    <string name="meeting_guarantee_progress">保障进度</string>
+    <string name="meeting_guarantee_person">保障人员</string>
+    <string name="meeting_apply_person">申请人</string>
+    <string name="meeting_apply_person_phone">申请人电话</string>
+    <string name="meeting_apply_person_department">申请人部门</string>
+    <string name="meeting_apply_person_area">申请人办公区域</string>
+    <string name="meeting_apply_person_floor">申请人楼层</string>
+    <string name="meeting_apply_person_door">申请人办公室</string>
+    
+    <string name="msg_read">已读</string>
+    <string name="msg_read_not">未读</string>
 
     <string name="calendar_item_new_count">%d条</string>
 </resources>

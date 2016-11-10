@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.kelin.calendarlistview.library.CalendarListView
-        android:id="@+id/calendar_list_view"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <com.managesystem.widegt.HorizontalListView
+        android:id="@+id/horizontal_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="120dp"
+        android:background="@drawable/horizontal_background"/>
 
-    </com.kelin.calendarlistview.library.CalendarListView>
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>

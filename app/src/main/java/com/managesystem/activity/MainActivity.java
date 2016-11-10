@@ -1,20 +1,14 @@
 package com.managesystem.activity;
 
 import android.content.DialogInterface;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Window;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.fragment.MainFragment;
 import com.managesystem.fragment.MsgFragment;
@@ -26,24 +20,12 @@ import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.baseui.activity.BaseFragmentActivity;
 import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.GsonUtil;
-import com.wksc.framwork.util.StringUtils;
-import com.wksc.framwork.util.ToastUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by puhua on 2016/5/26.

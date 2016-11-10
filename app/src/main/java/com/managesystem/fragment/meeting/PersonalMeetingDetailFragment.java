@@ -1,4 +1,4 @@
-package com.managesystem.fragment;
+package com.managesystem.fragment.meeting;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.managesystem.R;
-import com.managesystem.fragment.msg.MsgNotReadFragment;
-import com.managesystem.fragment.msg.MsgReadFragment;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import java.util.ArrayList;
@@ -22,9 +20,9 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/11/8.
- * 消息页面
+ * 我的会议——会议详情
  */
-public class MsgFragment extends CommonFragment {
+public class PersonalMeetingDetailFragment extends CommonFragment {
     @Bind(R.id.tab_cursor)
     TabLayout tabCursor;
     @Bind(R.id.viewpager)
@@ -41,13 +39,13 @@ public class MsgFragment extends CommonFragment {
     }
 
     private void initView() {
-        setHeaderTitle(getStringFromResource(R.string.msg));
-        mTitleList.add(getStringFromResource(R.string.msg_read));
-        mTitleList.add(getStringFromResource(R.string.msg_read_not));
-        MsgReadFragment msgReadFragment = new MsgReadFragment();
-        fragmentList.add(msgReadFragment);
-        MsgNotReadFragment msgNotReadFragment = new MsgNotReadFragment();
-        fragmentList.add(msgNotReadFragment);
+        setHeaderTitle(getStringFromResource(R.string.meeting_my));
+        mTitleList.add(getStringFromResource(R.string.meeting_detail));
+        mTitleList.add(getStringFromResource(R.string.meeting_guarantee_information));
+        MeetingDetailFragment meetingDetailFragment = new MeetingDetailFragment();
+        fragmentList.add(meetingDetailFragment);
+        MeetingGuaranteeInformationFragment guaranteeInformationFragment = new MeetingGuaranteeInformationFragment();
+        fragmentList.add(guaranteeInformationFragment);
         NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
         viewpager.setAdapter(adapter);
         tabCursor.setupWithViewPager(viewpager);
