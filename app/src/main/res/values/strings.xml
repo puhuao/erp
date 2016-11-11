@@ -81,6 +81,9 @@
     
     <string name="msg_read">已读</string>
     <string name="msg_read_not">未读</string>
+    <string name="good_news_has_sign_in">已报名</string>
+    <string name="good_news_sign_in_now">马上报名</string>
+
 
     <string name="calendar_item_new_count">%d条</string>
 </resources>

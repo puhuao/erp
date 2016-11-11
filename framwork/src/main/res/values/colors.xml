@@ -71,6 +71,7 @@
     <color name="heart_rate_line_chart">#00fff0</color>
     <color name="heart_grid_line">#f9d1cf</color>
     <color name="pop_black">#888888</color>
+    <color name="title_bar_right">#61c3f9</color>
 
 
 </resources>

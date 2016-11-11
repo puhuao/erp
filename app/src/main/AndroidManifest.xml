@@ -31,6 +31,8 @@
         </activity>
         <activity android:name=".activity.MeetingManageActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.GoodNewsActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
