@@ -1,6 +1,7 @@
 package com.managesystem.adapter;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,13 +17,16 @@ import butterknife.ButterKnife;
  */
 public class HorizontalListViewAdapter extends BaseListAdapter<HorizontalCalenderModel> {
 
+    public int currentPositon=0;
+    private float x;
+
     public HorizontalListViewAdapter(Activity context) {
         super(context);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        ViewHolder holder = null;
 
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
@@ -31,33 +35,51 @@ public class HorizontalListViewAdapter extends BaseListAdapter<HorizontalCalende
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
+        HorizontalCalenderModel model = mList.get(position);
         String weekDay = "";
-        switch (position%7){
-            case 1:
+        switch (model.weekDay){
+            case 2:
                 weekDay = "一";
                 break;
-            case 2:
+            case 3:
                 weekDay = "二";
                 break;
-            case 3:
+            case 4:
                 weekDay = "三";
                 break;
-            case 4:
+            case 5:
                 weekDay = "四";
                 break;
-            case 5:
+            case 6:
                 weekDay = "五";
                 break;
-            case 6:
+            case 7:
                 weekDay = "六";
                 break;
-            case 0:
+            case 1:
                 weekDay = "日";
                 break;
         }
         holder.tvWeekDay.setText(weekDay);
-        holder.tvCalendarDay.setText(String.valueOf(position));
+        holder.tvCalendarDay.setText(String.valueOf(model.name));
+        if (currentPositon == position){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                holder.tvCalendarDay.setBackground(mContext.getResources().getDrawable(R.drawable.shape_tody_bacgroud));
+            }
+        }else{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                holder.tvCalendarDay.setBackground(mContext.getResources().getDrawable(R.drawable.shape_tody_bacgroud_normal));
+            }
+        }
+        holder.tvWeekDay.setWidth((int) x);
+        holder.tvCalendarDay.setWidth((int) x);
+        holder.tvCalendarDay.setHeight((int) x);
+        holder.tvWeekDay.setHeight((int) x);
         return convertView;
+    }
+
+    public void setX(float x) {
+        this.x = x;
     }
 
     class ViewHolder{

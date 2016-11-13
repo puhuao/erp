@@ -3,10 +3,16 @@ package com.managesystem.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.managesystem.R;
 import com.managesystem.model.MeetingRoomDetail;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -29,10 +35,20 @@ public class MeetingRoomRecordAdapter extends BaseListAdapter<MeetingRoomDetail>
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
+        MeetingRoomDetail detail = mList.get(position);
+        holder.location.setText(detail.getMeetingroomName());
+        holder.time.setText(detail.getStartDate().substring(11,16)+"~"+detail.getEndDate().substring(11,16));
+        holder.name.setText(detail.getMeetingName());
         return convertView;
     }
 
     class ViewHolder{
+        @Bind(R.id.time)
+        TextView time;
+        @Bind(R.id.name)
+        TextView name;
+        @Bind(R.id.location)
+        TextView location;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:hedgehog="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,6 +18,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_name"
@@ -38,6 +41,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_location"
@@ -60,6 +64,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_start_time"
@@ -82,6 +87,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_end_time"
@@ -104,6 +110,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/guarantee_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_guarantee_progress"
@@ -126,6 +133,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/guarantee_person"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_guarantee_person"
@@ -133,5 +141,61 @@
             android:textColor="@color/meet_detail_text_color"
             android:padding="@dimen/dimen_10"
             />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rating"
+        android:padding="@dimen/dimen_12"
+        android:textSize="@dimen/text_size_16"
+        android:textColor="@color/meet_detail_text_color"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating_star"
+            android:padding="@dimen/dimen_12"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_black"
+            android:layout_gravity="center_vertical"/>
+        <com.managesystem.widegt.RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            hedgehog:clickable="true"
+            hedgehog:halfstart="true"
+            hedgehog:starCount="5"
+            hedgehog:starEmpty="@mipmap/star_empty"
+            hedgehog:starFill="@mipmap/star_full"
+            hedgehog:starHalf="@mipmap/star_full"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating_message"
+            android:padding="@dimen/dimen_12"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_black"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating_message"
+            android:padding="@dimen/dimen_12"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_black"
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
 </LinearLayout>

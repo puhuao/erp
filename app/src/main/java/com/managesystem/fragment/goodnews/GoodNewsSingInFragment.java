@@ -25,8 +25,6 @@ import butterknife.ButterKnife;
 public class GoodNewsSingInFragment extends CommonFragment {
     @Bind(R.id.list_view)
     NestedListView listView;
-    @Bind(R.id.swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
     GoodNewsAdapter goodNewsAdapter;
     ArrayList<GoodNews> goodNewses = new ArrayList<>();
     View empty;

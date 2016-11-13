@@ -18,6 +18,12 @@ public class SecretaryFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_secretary, null);
         ButterKnife.bind(this, container);
+        intView();
         return container;
+    }
+
+    private void intView() {
+        setHeaderTitle(getStringFromResource(R.string.secretary));
+        enableDefaultBack(false);
     }
 }

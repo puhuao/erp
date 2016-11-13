@@ -96,6 +96,7 @@ public class LoginFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, PersonalInfo o, Request request, @Nullable Response response) {
                 if (o!=null){
                     config.setString("username", username);
+                    config.setString("userId",o.getUserId());
                     config.setString("password", password);
                     startActivity(MainActivity.class);
                     getActivity().finish();

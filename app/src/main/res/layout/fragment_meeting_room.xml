@@ -6,9 +6,19 @@
     <com.managesystem.widegt.HorizontalListView
         android:id="@+id/horizontal_list_view"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/horizontal_background"/>
-
+        android:layout_height="100dp"
+        android:background="@drawable/horizontal_background"
+        />
+<EditText
+    android:id="@+id/search"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/search_background"
+    android:drawableLeft="@drawable/ic_search"
+    android:layout_margin="@dimen/dimen_12"
+    android:padding="@dimen/dimen_12"
+    android:hint="请输入关键字搜索"
+    android:drawablePadding="@dimen/dimen_6"/>
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"

@@ -1,5 +1,7 @@
 package com.managesystem.model;
 
+import java.util.Calendar;
+
 /**
  * Created by puhua on 2016/11/10.
  *
@@ -7,6 +9,9 @@ package com.managesystem.model;
  */
 
 public class HorizontalCalenderModel {
-    public String name;
+    public int month;
+    public int name;
+    public int weekDay;
+    public String calendar;
 
 }

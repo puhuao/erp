@@ -24,8 +24,6 @@ import butterknife.ButterKnife;
 public class MsgReadFragment extends CommonFragment {
     @Bind(R.id.list_view)
     NestedListView listView;
-    @Bind(R.id.swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
     MsgReadAdapter msgReadAdapter;
     ArrayList<Message> messages = new ArrayList<>();
     View empty;

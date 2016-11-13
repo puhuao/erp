@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_back_gray">
@@ -17,6 +20,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_name"
@@ -39,6 +43,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_location"
@@ -61,6 +66,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_start_time"
@@ -83,6 +89,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_end_time"
@@ -105,6 +112,7 @@
             android:padding="@dimen/dimen_10"
             />
         <TextView
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_description"
@@ -128,6 +136,7 @@
             android:textColor="@color/text_color"
             android:padding="@dimen/dimen_10"/>
         <Button
+            android:id="@+id/notice_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_system_notice"
@@ -152,6 +161,7 @@
             android:textColor="@color/text_color"
             android:padding="@dimen/dimen_10"/>
         <Button
+            android:id="@+id/select_next_person"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/select"
@@ -162,6 +172,7 @@
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
     <TextView
+        android:id="@+id/sign_person"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -171,6 +182,7 @@
         android:padding="@dimen/dimen_10"
         android:drawableRight="@drawable/ic_right"/>
     <TextView
+        android:id="@+id/attend_person"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -184,7 +196,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_12"
-        android:background="@color/white">
+        >
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -208,3 +220,4 @@
     </RelativeLayout>
 
 </LinearLayout>
+</ScrollView>

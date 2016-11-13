@@ -18,4 +18,5 @@
     <color name="meet_detail_text_color">#4e4e4e</color>
     <color name="main_back_gray">#eeeeee</color>
     <color name="button_color">#00a1ea</color>
+    <color name="search_background">#e0e0e0</color>
 </resources>
