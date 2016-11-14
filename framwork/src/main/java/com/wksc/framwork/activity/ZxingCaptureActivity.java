@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
@@ -22,7 +23,13 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.R;
+import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.ToastUtil;
+import com.wksc.framwork.zxing.SignInOrUpEvent;
 import com.wksc.framwork.zxing.ZxingConfig;
 import com.wksc.framwork.zxing.camera.BeepManager;
 import com.wksc.framwork.zxing.camera.CameraManager;
@@ -31,11 +38,22 @@ import com.wksc.framwork.zxing.decode.DecodeThread;
 import com.wksc.framwork.zxing.decode.FinishListener;
 import com.wksc.framwork.zxing.view.ViewfinderView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import model.QRCodeModel;
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 /**
@@ -44,6 +62,9 @@ import java.util.Vector;
  * @二维码扫描页面
  */
 public class ZxingCaptureActivity extends Activity implements SurfaceHolder.Callback {
+    public static  final int MEETING_SIGN_IN = 0x01;//会议签到
+    public static  final int MEETING_SIGN_UP = 0x02;//会议报名
+
     private boolean hasSurface;
     private BeepManager beepManager;// 声音震动管理器。如果扫描成功后可以播放一段音频，也可以震动提醒，可以通过配置来决定扫描成功后的行为。
     public SharedPreferences mSharedPreferences;// 存储二维码条形码选择的状态
@@ -230,6 +251,7 @@ public class ZxingCaptureActivity extends Activity implements SurfaceHolder.Call
         //        inactivityTimer.shutdown();
         saveScanTypeToSp();
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -254,32 +276,24 @@ public class ZxingCaptureActivity extends Activity implements SurfaceHolder.Call
             beepManager.playBeepSoundAndVibrate();
             drawResultPoints(barcode, scaleFactor, rawResult);
         }
-
         handleDecodeInternally(rawResult, barcode);
-        Map<ResultMetadataType, Object> metadata = rawResult
-                .getResultMetadata();
-        StringBuilder metadataText = new StringBuilder();
-        if (metadata != null) {
-            for (Map.Entry<ResultMetadataType, Object> entry : metadata
-                    .entrySet()) {
-                if (DISPLAYABLE_METADATA_TYPES.contains(entry.getKey())) {
-                    metadataText.append(entry.getValue()).append('\n');
-                }
-            }
-            if (metadataText.length() > 0) {
-                metadataText.setLength(metadataText.length() - 1);
+
+        QRCodeModel qrCodeModel =  GsonUtil.fromJson(rawResult.getText(),QRCodeModel.class);
+        if (qrCodeModel!=null){
+            switch (qrCodeModel.getType()){
+                case MEETING_SIGN_IN:
+                    //到会议签到
+                    EventBus.getDefault().post(new SignInOrUpEvent(qrCodeModel));
+                    break;
+                case  MEETING_SIGN_UP:
+                    //到会议报名
+                    EventBus.getDefault().post(new SignInOrUpEvent(qrCodeModel));
+                    break;
             }
         }
-//        Toast.makeText(this, rawResult.getText(), Toast.LENGTH_LONG).show();
 
-//        Intent intent = new Intent();
-//        intent.putExtra(Constants.Mainfragment.PARAM_SCAN_RESULT,rawResult.getText());
-//        setResult(RESULT_OK,intent);
-//        finish();
-        //        restartPreviewAfterDelay(1000);
-        //        bitmap = (ImageView) this.findViewById(R.id.bitmap);
-        //        bitmap.setImageBitmap(barcode);
-        //        bitmap.setVisibility(View.VISIBLE);
+        this.finish();
+
     }
 
     /**

@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
@@ -61,6 +63,10 @@ public class MeetingRoomFragment extends CommonFragment {
     ListView listView;
     @Bind(R.id.search)
     EditText etSearch;
+    @Bind(R.id.iv_left)
+    ImageView ivLeft;
+    @Bind(R.id.title_bar_title)
+    TextView title;
     View empty;
     HorizontalListViewAdapter adapter;
     MeetingRoomRecordAdapter meetingRoomRecordAdapter;
@@ -86,7 +92,14 @@ Boolean isSearch = false;
     private void initView() {
         int currentPosition=0;
         Calendar calendar = Calendar.getInstance();
-        setHeaderTitle(formatter.format(calendar.getTime()));
+        hideTitleBar();
+        title.setText(formatter.format(calendar.getTime()));
+        ivLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
+        });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             getTitleHeaderBar().setBackground(getContext().getResources().getDrawable(R.drawable.horizontal_background));
         }
@@ -147,8 +160,11 @@ Boolean isSearch = false;
         horizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 meetingSelectCondition.setDate(models.get(position).calendar);
+                adapter.currentPositon = position;
+                adapter.notifyDataSetInvalidated();
+                horizontalListView.scrollTo((int) (position*x));
+
                 getMeetings();
             }
         });

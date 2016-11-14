@@ -27,7 +27,8 @@
     <!-- Optional for location -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
         android:name=".CustomApplication"
@@ -38,15 +39,15 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.LoginActivity"
             android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
+
         </activity>
         <activity android:name=".activity.MeetingManageActivity"
             android:screenOrientation="portrait"/>

@@ -91,12 +91,6 @@ public class MeetingApplyFragment extends CommonFragment {
         tvMeetingRoom.setText(meetingRoom.getMeetingroomName());
     }
 
-//    @Subscribe
-//    public void onEvent(MeetingTypeSelectEvent event){
-//        meetingType = event.getDepartment();
-//        tvMeetingType.setText(meetingType.getServicetypeName());
-//    }
-
 
     @OnClick({R.id.fab,R.id.tv_location,R.id.et_start_time,R.id.et_end_time})
     public void onClick(View v) {
@@ -123,13 +117,6 @@ public class MeetingApplyFragment extends CommonFragment {
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.meeting_hint_location));
                     return;
                 }
-
-//                if (meetingType!=null){
-//                    meetingApply.setServicetypeId(meetingType.getServicetypeId());
-//                }else{
-//                    ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.meeting_hint_type));
-//                    return;
-//                }
                 meetingApply.setStartDate(etStartTime.getText().toString());
                 if (StringUtils.isBlank(meetingApply.getStartDate())){
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.meeting_hint_start_time));
@@ -162,20 +149,13 @@ public class MeetingApplyFragment extends CommonFragment {
                     getMeetingRooms();
                 }
                 break;
-//            case R.id.tv_type:
-//                if (meetingTypes.size()>0){
-//                    MeetingTypeSelectPopupwindow  popupwindow = new MeetingTypeSelectPopupwindow(getContext(),meetingTypes);
-//                    popupwindow.showPopupwindow(tvMeetingType);
-//                }else{
-//                    getMeetingTypes();
-//                }
-//                break;
         }
     }
 
     private void initView() {
-        setHeaderTitle(getStringFromResource(R.string.meeting_apply));
         meetingApply = new MeetingApply();
+//        getMeetingTypes();
+        setHeaderTitle(getStringFromResource(R.string.meeting_apply));
         timePickerView = new TimePickerView(getContext(), TimePickerView.Type.ALL);
 
             Date date = new Date();
@@ -223,29 +203,32 @@ public class MeetingApplyFragment extends CommonFragment {
                 .execute(callback);
     }
 
-//    private void getMeetingTypes(){
-//        StringBuilder sb = new StringBuilder(Urls.METTING_TYPES);
-//        UrlUtils.getInstance(sb);
-//        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-//            @Override
-//            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-//                super.onError(isFromCache, call, response, e);
-//                ToastUtil.showShortMessage(getContext(),"网络错误");
-//            }
-//
-//            @Override
-//            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-//                if (o!=null){
-//                    meetingTypes.addAll(GsonUtil.fromJsonList(o, MeetingType.class));
-//                    MeetingTypeSelectPopupwindow  popupwindow = new MeetingTypeSelectPopupwindow(getContext(),meetingTypes);
-//                    popupwindow.showPopupwindow(tvMeetingType);
-//                }
-//            }
-//        };
-//        OkHttpUtils.post(sb.toString())//
-//                .tag(this)//
-//                .execute(callback);
-//    }
+    private void getMeetingTypes(){
+        StringBuilder sb = new StringBuilder(Urls.METTING_TYPES);
+        UrlUtils.getInstance(sb);
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(),"网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o!=null){
+                    meetingTypes.addAll(GsonUtil.fromJsonList(o, MeetingType.class));
+                    for (MeetingType t:
+                            meetingTypes ) {
+                        if (t.getServicetypeName().equals("会议"));
+                        meetingApply.setServicetypeId(t.getServicetypeId());
+                    }
+                }
+            }
+        };
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
+    }
 
     private void apply(){
         StringBuilder sb = new StringBuilder(Urls.MEETIG_APPLY);

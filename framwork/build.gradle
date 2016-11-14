@@ -28,6 +28,7 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.3.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':okhttpserver')
     compile project(':okhttputils')
     compile files('src/libs/zxing-core-2.3.0.jar')
