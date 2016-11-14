@@ -14,7 +14,7 @@ public class MeetingApply {
      * endDate : 2011-09-10%2010:30:00
      */
 
-    private String servicetypeId;
+//    private String servicetypeId;
     private String meetingroomId;
     private String meetingName;
     private String userId;
@@ -30,13 +30,13 @@ public class MeetingApply {
         this.infor = infor;
     }
 
-    public String getServicetypeId() {
-        return servicetypeId;
-    }
-
-    public void setServicetypeId(String servicetypeId) {
-        this.servicetypeId = servicetypeId;
-    }
+//    public String getServicetypeId() {
+//        return servicetypeId;
+//    }
+//
+//    public void setServicetypeId(String servicetypeId) {
+//        this.servicetypeId = servicetypeId;
+//    }
 
     public String getMeetingroomId() {
         return meetingroomId;

@@ -1,5 +1,6 @@
 package com.managesystem.fragment.meeting;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,29 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.zxing.WriterException;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.fragment.loginAndRegister.ForgetPasswordFragment;
-import com.managesystem.fragment.loginAndRegister.RegisterFragment;
 import com.managesystem.model.AddUserParam;
 import com.managesystem.model.MeetingApplyRecord;
-import com.managesystem.model.MeetingRoomDetail;
-import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.popupwindow.MeetingNoticeNextPersonPopupwindow;
 import com.managesystem.popupwindow.MeetingSignPersonPopupwindow;
+import com.managesystem.popupwindow.QrcodeViewPopupwindow;
 import com.managesystem.tools.UrlUtils;
-import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
+import com.wksc.framwork.zxing.CreateQrCode;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,9 +71,38 @@ public class MeetingDetailFragment extends CommonFragment {
         bundeDataToView();
     }
 
-    @OnClick({R.id.sign_person,R.id.attend_person,R.id.select_next_person,R.id.notice_all})
+    @OnClick({R.id.btn_sign_in,R.id.btn_sign_up,R.id.sign_person,R.id.attend_person,R.id.select_next_person,R.id.notice_all})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_sign_in:
+                AddUserParam addUserParam = new AddUserParam(meetingApplyRecord.getMeetingId(),"0","0");
+                StringBuilder sb = new StringBuilder(Urls.MEETING_ADD_USERS);
+                UrlUtils.getInstance(sb).praseToUrl("meetingId",addUserParam.getMeetingId())
+                        .praseToUrl("type","2")
+                        .removeLastWord();
+                try {
+                    Bitmap bitmap = CreateQrCode.createQRCode(sb.toString(), 300);
+                    QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);
+                    popupwindow.showPopupwindow(tvDescription);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.btn_sign_up:
+                AddUserParam addUserParam1 = new AddUserParam(meetingApplyRecord.getMeetingId(),"0","0");
+                StringBuilder sb1 = new StringBuilder(Urls.MEETING_ADD_USERS);
+                UrlUtils.getInstance(sb1).praseToUrl("meetingId",addUserParam1.getMeetingId())
+                        .praseToUrl("type","1")
+                        .removeLastWord();
+                try {
+                    Bitmap bitmap = CreateQrCode.createQRCode(sb1.toString(), 300);
+                    QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);
+                    popupwindow.showPopupwindow(tvDescription);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+                break;
             case R.id.notice_all:
                 noticeAll();
                 break;

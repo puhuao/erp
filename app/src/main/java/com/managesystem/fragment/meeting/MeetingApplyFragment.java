@@ -12,17 +12,13 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.event.DepartmentSelectEvent;
 import com.managesystem.event.MeetingRoomSelectEvent;
-import com.managesystem.event.MeetingTypeSelectEvent;
-import com.managesystem.model.Department;
 import com.managesystem.model.MeetingApply;
 import com.managesystem.model.MeetingRoom;
 import com.managesystem.model.MeetingType;
-import com.managesystem.popupwindow.DepartmentSelectPopupwindow;
 import com.managesystem.popupwindow.MeetingRoomSelectPopupwindow;
-import com.managesystem.popupwindow.MeetingTypeSelectPopupwindow;
 import com.managesystem.tools.UrlUtils;
+import com.managesystem.widegt.pickview.TimePickerView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -35,7 +31,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,6 +42,8 @@ import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.managesystem.widegt.pickview.view.WheelTime.dateFormat;
+
 /**
  * Created by Administrator on 2016/11/5.
  * 申请会议
@@ -51,14 +51,12 @@ import okhttp3.Response;
 public class MeetingApplyFragment extends CommonFragment {
     @Bind(R.id.tv_location)
     TextView tvMeetingRoom;
-    @Bind(R.id.tv_type)
-    TextView tvMeetingType;
     @Bind(R.id.et_name)
     EditText etName;
     @Bind(R.id.et_start_time)
-    EditText etStartTime;
+    TextView etStartTime;
     @Bind(R.id.et_end_time)
-    EditText etEndTime;
+    TextView etEndTime;
     @Bind(R.id.et_description)
     EditText etDescription;
 
@@ -69,6 +67,9 @@ public class MeetingApplyFragment extends CommonFragment {
     private MeetingType meetingType;
 
     private MeetingApply meetingApply;
+    private TimePickerView timePickerView;
+
+    public int viewId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,16 +91,24 @@ public class MeetingApplyFragment extends CommonFragment {
         tvMeetingRoom.setText(meetingRoom.getMeetingroomName());
     }
 
-    @Subscribe
-    public void onEvent(MeetingTypeSelectEvent event){
-        meetingType = event.getDepartment();
-        tvMeetingType.setText(meetingType.getServicetypeName());
-    }
+//    @Subscribe
+//    public void onEvent(MeetingTypeSelectEvent event){
+//        meetingType = event.getDepartment();
+//        tvMeetingType.setText(meetingType.getServicetypeName());
+//    }
 
 
-    @OnClick({R.id.fab,R.id.tv_location,R.id.tv_type})
+    @OnClick({R.id.fab,R.id.tv_location,R.id.et_start_time,R.id.et_end_time})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.et_start_time:
+                timePickerView.show();
+                viewId = R.id.et_start_time;
+                break;
+            case R.id.et_end_time:
+                viewId = R.id.et_end_time;
+                timePickerView.show();
+                break;
             case R.id.fab:
                 IConfig config = BaseApplication.getInstance().getCurrentConfig();
                 meetingApply.setUserId(config.getString("userId", ""));
@@ -115,12 +124,12 @@ public class MeetingApplyFragment extends CommonFragment {
                     return;
                 }
 
-                if (meetingType!=null){
-                    meetingApply.setServicetypeId(meetingType.getServicetypeId());
-                }else{
-                    ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.meeting_hint_type));
-                    return;
-                }
+//                if (meetingType!=null){
+//                    meetingApply.setServicetypeId(meetingType.getServicetypeId());
+//                }else{
+//                    ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.meeting_hint_type));
+//                    return;
+//                }
                 meetingApply.setStartDate(etStartTime.getText().toString());
                 if (StringUtils.isBlank(meetingApply.getStartDate())){
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.meeting_hint_start_time));
@@ -130,6 +139,17 @@ public class MeetingApplyFragment extends CommonFragment {
                 if (StringUtils.isBlank(meetingApply.getEndDate())){
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.meeting_hint_end_time));
                     return;
+                }
+
+                try {
+                    Date start = dateFormat.parse(meetingApply.getStartDate());
+                    Date end = dateFormat.parse(meetingApply.getEndDate());
+                    if (start.after(end)){
+                        ToastUtil.showShortMessage(getContext(),"开始时间不能再结束时间之后");
+                        return;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
                 meetingApply.setInfor(etDescription.getText().toString());
                 apply();
@@ -142,20 +162,41 @@ public class MeetingApplyFragment extends CommonFragment {
                     getMeetingRooms();
                 }
                 break;
-            case R.id.tv_type:
-                if (meetingTypes.size()>0){
-                    MeetingTypeSelectPopupwindow  popupwindow = new MeetingTypeSelectPopupwindow(getContext(),meetingTypes);
-                    popupwindow.showPopupwindow(tvMeetingType);
-                }else{
-                    getMeetingTypes();
-                }
-                break;
+//            case R.id.tv_type:
+//                if (meetingTypes.size()>0){
+//                    MeetingTypeSelectPopupwindow  popupwindow = new MeetingTypeSelectPopupwindow(getContext(),meetingTypes);
+//                    popupwindow.showPopupwindow(tvMeetingType);
+//                }else{
+//                    getMeetingTypes();
+//                }
+//                break;
         }
     }
 
     private void initView() {
         setHeaderTitle(getStringFromResource(R.string.meeting_apply));
         meetingApply = new MeetingApply();
+        timePickerView = new TimePickerView(getContext(), TimePickerView.Type.ALL);
+
+            Date date = new Date();
+            String dateString=  dateFormat.format(date);
+            timePickerView.setTime(date);
+            etStartTime.setText(dateString);
+            etEndTime.setText(dateString);
+        timePickerView.setCyclic(false);
+        timePickerView.setCancelable(true);
+        timePickerView.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+
+            @Override
+            public void onTimeSelect(Date date) {
+                String format = dateFormat.format(date);
+                if (viewId == R.id.et_start_time) {
+                    etStartTime.setText(format);
+                } else if (viewId == R.id.et_end_time) {
+                    etEndTime.setText(format);
+                }
+            }
+        });
     }
 
     private void getMeetingRooms(){
@@ -182,29 +223,29 @@ public class MeetingApplyFragment extends CommonFragment {
                 .execute(callback);
     }
 
-    private void getMeetingTypes(){
-        StringBuilder sb = new StringBuilder(Urls.METTING_TYPES);
-        UrlUtils.getInstance(sb);
-        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-            @Override
-            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
-            }
-
-            @Override
-            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    meetingTypes.addAll(GsonUtil.fromJsonList(o, MeetingType.class));
-                    MeetingTypeSelectPopupwindow  popupwindow = new MeetingTypeSelectPopupwindow(getContext(),meetingTypes);
-                    popupwindow.showPopupwindow(tvMeetingType);
-                }
-            }
-        };
-        OkHttpUtils.post(sb.toString())//
-                .tag(this)//
-                .execute(callback);
-    }
+//    private void getMeetingTypes(){
+//        StringBuilder sb = new StringBuilder(Urls.METTING_TYPES);
+//        UrlUtils.getInstance(sb);
+//        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+//            @Override
+//            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+//                super.onError(isFromCache, call, response, e);
+//                ToastUtil.showShortMessage(getContext(),"网络错误");
+//            }
+//
+//            @Override
+//            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+//                if (o!=null){
+//                    meetingTypes.addAll(GsonUtil.fromJsonList(o, MeetingType.class));
+//                    MeetingTypeSelectPopupwindow  popupwindow = new MeetingTypeSelectPopupwindow(getContext(),meetingTypes);
+//                    popupwindow.showPopupwindow(tvMeetingType);
+//                }
+//            }
+//        };
+//        OkHttpUtils.post(sb.toString())//
+//                .tag(this)//
+//                .execute(callback);
+//    }
 
     private void apply(){
         StringBuilder sb = new StringBuilder(Urls.MEETIG_APPLY);
