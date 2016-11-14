@@ -11,8 +11,10 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.model.MeetingRoomDetail;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.ZxingCaptureActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.SignInOrUpEvent;
@@ -64,6 +66,9 @@ public class SecretaryFragment extends CommonFragment {
     }
     @Subscribe
     public void onEvent(final SignInOrUpEvent event){
+
+
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -82,7 +87,13 @@ public class SecretaryFragment extends CommonFragment {
                 }
             }
         };
-        OkHttpUtils.post(event.qrCodeModel.getUrl())//
+        StringBuilder sb = new StringBuilder(event.qrCodeModel.getUrl());
+        if (event.qrCodeModel.getType() == ZxingCaptureActivity.MEETING_SIGN_IN){
+             sb.append("&userIds="+config.getString("userId", ""));
+        }else if(event.qrCodeModel.getType() == ZxingCaptureActivity.MEETING_SIGN_UP){
+            sb.append("&userIds="+config.getString("userId", ""));
+        }
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
     }

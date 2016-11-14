@@ -79,14 +79,13 @@ public class MeetingDetailFragment extends CommonFragment {
     @OnClick({R.id.btn_sign_in,R.id.btn_sign_up,R.id.sign_person,R.id.attend_person,R.id.select_next_person,R.id.notice_all})
     public void onClick(View v) {
         QRCodeModel qrCodeModel = new QRCodeModel();
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+
         switch (v.getId()) {
             case R.id.btn_sign_in:
                 //签到二维码
                 AddUserParam addUserParam = new AddUserParam(meetingApplyRecord.getMeetingId(),"0","0");
                 StringBuilder sb = new StringBuilder(Urls.MEETING_ADD_USERS);
                 UrlUtils.getInstance(sb).praseToUrl("meetingId",addUserParam.getMeetingId())
-                        .praseToUrl("userIds",config.getString("userId", ""))
                         .praseToUrl("type","2")
                         .removeLastWord();
                 qrCodeModel.setType(ZxingCaptureActivity.MEETING_SIGN_IN);
@@ -105,7 +104,6 @@ public class MeetingDetailFragment extends CommonFragment {
                 AddUserParam addUserParam1 = new AddUserParam(meetingApplyRecord.getMeetingId(),"0","0");
                 StringBuilder sb1 = new StringBuilder(Urls.MEETING_ADD_USERS);
                 UrlUtils.getInstance(sb1).praseToUrl("meetingId",addUserParam1.getMeetingId())
-                        .praseToUrl("userIds",config.getString("userId", ""))
                         .praseToUrl("type","1")
                         .removeLastWord();
                 qrCodeModel.setType(ZxingCaptureActivity.MEETING_SIGN_UP);
