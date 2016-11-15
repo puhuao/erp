@@ -21,10 +21,8 @@ import com.managesystem.popupwindow.MeetingNoticeNextPersonPopupwindow;
 import com.managesystem.popupwindow.MeetingSignPersonPopupwindow;
 import com.managesystem.popupwindow.QrcodeViewPopupwindow;
 import com.managesystem.tools.UrlUtils;
-import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.ZxingCaptureActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
@@ -84,7 +82,7 @@ public class MeetingDetailFragment extends CommonFragment {
             case R.id.btn_sign_in:
                 //签到二维码
                 AddUserParam addUserParam = new AddUserParam(meetingApplyRecord.getMeetingId(),"0","0");
-                StringBuilder sb = new StringBuilder(Urls.MEETING_ADD_USERS);
+                StringBuilder sb = new StringBuilder("meeting/saveUser?");
                 UrlUtils.getInstance(sb).praseToUrl("meetingId",addUserParam.getMeetingId())
                         .praseToUrl("type","2")
                         .removeLastWord();
@@ -102,7 +100,7 @@ public class MeetingDetailFragment extends CommonFragment {
             case R.id.btn_sign_up:
                 //报名二维码
                 AddUserParam addUserParam1 = new AddUserParam(meetingApplyRecord.getMeetingId(),"0","0");
-                StringBuilder sb1 = new StringBuilder(Urls.MEETING_ADD_USERS);
+                StringBuilder sb1 = new StringBuilder("meeting/saveUser?");
                 UrlUtils.getInstance(sb1).praseToUrl("meetingId",addUserParam1.getMeetingId())
                         .praseToUrl("type","1")
                         .removeLastWord();

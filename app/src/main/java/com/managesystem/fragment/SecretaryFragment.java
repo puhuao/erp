@@ -10,19 +10,16 @@ import android.widget.LinearLayout;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
-import com.managesystem.model.MeetingRoomDetail;
+import com.managesystem.config.Urls;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.ZxingCaptureActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.SignInOrUpEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -87,7 +84,7 @@ public class SecretaryFragment extends CommonFragment {
                 }
             }
         };
-        StringBuilder sb = new StringBuilder(event.qrCodeModel.getUrl());
+        StringBuilder sb = new StringBuilder(Urls.BASE_URL+event.qrCodeModel.getUrl());
         if (event.qrCodeModel.getType() == ZxingCaptureActivity.MEETING_SIGN_IN){
              sb.append("&userIds="+config.getString("userId", ""));
         }else if(event.qrCodeModel.getType() == ZxingCaptureActivity.MEETING_SIGN_UP){
