@@ -160,6 +160,7 @@ Boolean isSearch = false;
         horizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                title.setText(models.get(position).calendar);
                 meetingSelectCondition.setDate(models.get(position).calendar);
                 adapter.currentPositon = position;
                 adapter.notifyDataSetInvalidated();

@@ -6,6 +6,15 @@ package com.managesystem.model;
 public class MeetingRoom {
     private String meetingroomId;
     private String meetingroomName;
+    private String area;
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 
     public String getMeetingroomName() {
         return meetingroomName;

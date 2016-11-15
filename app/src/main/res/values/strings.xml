@@ -101,4 +101,10 @@
     <string name="pickerview_minutes">分</string>
     <string name="pickerview_seconds">秒</string>
 
+    <string name="resource_manage">物资管理</string>
+    <string name="check_all">全选</string>
+    <string name="resource_lost">物资挂失</string>
+    <string name="resource_lost_apply">物资挂失申请单</string>
+    <string name="resource_lost_list">物资挂失申请记录</string>
+
 </resources>

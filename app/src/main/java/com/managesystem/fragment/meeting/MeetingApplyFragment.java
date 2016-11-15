@@ -88,7 +88,7 @@ public class MeetingApplyFragment extends CommonFragment {
     @Subscribe
     public void onEvent(MeetingRoomSelectEvent event){
         meetingRoom = event.getDepartment();
-        tvMeetingRoom.setText(meetingRoom.getMeetingroomName());
+        tvMeetingRoom.setText(meetingRoom.getArea());
     }
 
 
@@ -161,8 +161,8 @@ public class MeetingApplyFragment extends CommonFragment {
             Date date = new Date();
             String dateString=  dateFormat.format(date);
             timePickerView.setTime(date);
-            etStartTime.setText(dateString);
-            etEndTime.setText(dateString);
+//            etStartTime.setText(dateString);
+//            etEndTime.setText(dateString);
         timePickerView.setCyclic(false);
         timePickerView.setCancelable(true);
         timePickerView.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {

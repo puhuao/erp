@@ -16,12 +16,11 @@ import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.AddUserParam;
 import com.managesystem.model.MeetingApplyRecord;
-import com.managesystem.model.QRCodeModel;
 import com.managesystem.popupwindow.MeetingNoticeNextPersonPopupwindow;
 import com.managesystem.popupwindow.MeetingSignPersonPopupwindow;
 import com.managesystem.popupwindow.QrcodeViewPopupwindow;
+import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 import com.managesystem.tools.UrlUtils;
-import com.wksc.framwork.activity.ZxingCaptureActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
@@ -30,6 +29,7 @@ import com.wksc.framwork.zxing.CreateQrCode;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.QRCodeModel;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -77,17 +77,19 @@ public class MeetingDetailFragment extends CommonFragment {
     @OnClick({R.id.btn_sign_in,R.id.btn_sign_up,R.id.sign_person,R.id.attend_person,R.id.select_next_person,R.id.notice_all})
     public void onClick(View v) {
         QRCodeModel qrCodeModel = new QRCodeModel();
-
+        QRChecInModel qrChecInModel = new QRChecInModel();
         switch (v.getId()) {
             case R.id.btn_sign_in:
                 //签到二维码
-                AddUserParam addUserParam = new AddUserParam(meetingApplyRecord.getMeetingId(),"0","0");
-                StringBuilder sb = new StringBuilder("meeting/saveUser?");
-                UrlUtils.getInstance(sb).praseToUrl("meetingId",addUserParam.getMeetingId())
-                        .praseToUrl("type","2")
-                        .removeLastWord();
-                qrCodeModel.setType(ZxingCaptureActivity.MEETING_SIGN_IN);
-                qrCodeModel.setUrl(sb.toString());
+//                StringBuilder sb = new StringBuilder("meeting/saveUser?");
+//                UrlUtils.getInstance(sb).praseToUrl("meetingId",addUserParam.getMeetingId())
+//                        .praseToUrl("type","2")
+//                        .removeLastWord();
+
+                qrChecInModel.setMeetingId(meetingApplyRecord.getMeetingId());
+                qrChecInModel.setType("2");
+                qrCodeModel.setType("2");
+                qrCodeModel.setParam(GsonUtil.objectToJson(qrChecInModel));
                 try {
                     Bitmap bitmap = CreateQrCode.createQRCode(GsonUtil.objectToJson(qrCodeModel), 300);
                     QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);
@@ -99,13 +101,14 @@ public class MeetingDetailFragment extends CommonFragment {
                 break;
             case R.id.btn_sign_up:
                 //报名二维码
-                AddUserParam addUserParam1 = new AddUserParam(meetingApplyRecord.getMeetingId(),"0","0");
-                StringBuilder sb1 = new StringBuilder("meeting/saveUser?");
-                UrlUtils.getInstance(sb1).praseToUrl("meetingId",addUserParam1.getMeetingId())
-                        .praseToUrl("type","1")
-                        .removeLastWord();
-                qrCodeModel.setType(ZxingCaptureActivity.MEETING_SIGN_UP);
-                qrCodeModel.setUrl(sb1.toString());
+//                StringBuilder sb1 = new StringBuilder("meeting/saveUser?");
+//                UrlUtils.getInstance(sb1).praseToUrl("meetingId",addUserParam1.getMeetingId())
+//                        .praseToUrl("type","1")
+//                        .removeLastWord();
+                qrChecInModel.setMeetingId(meetingApplyRecord.getMeetingId());
+                qrChecInModel.setType("1");
+                qrCodeModel.setType("1");
+                qrCodeModel.setParam(GsonUtil.objectToJson(qrChecInModel));
                 try {
                     Bitmap bitmap = CreateQrCode.createQRCode(GsonUtil.objectToJson(qrCodeModel), 300);
                     QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);

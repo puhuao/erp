@@ -53,6 +53,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.GoodNewsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ResourceApplyActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Required SDK核心功能-->
         <activity

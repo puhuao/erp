@@ -5,20 +5,14 @@
     android:background="@color/white">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="match_parent"
         android:layout_marginTop="42dp"
-        android:layout_weight="3"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
         android:background="@color/white">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -161,40 +155,41 @@
                 android:layout_marginBottom="20dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
                 <com.managesystem.widegt.JustifyTextView
                     android:layout_width="0dp"
                     android:layout_weight="2.5"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/meeting_description"
                     android:textSize="@dimen/text_size_16"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="right"
                     android:includeFontPadding="true"
-                    android:textColor="@color/text_black"/>
+                    android:textColor="@color/text_black"
+                    android:gravity="left|top"
+                    android:paddingTop="5dp"/>
                 <EditText
                     android:id="@+id/et_description"
                     android:layout_width="0dp"
                     android:layout_weight="8"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@null"
                     android:ellipsize="end"
-                    android:gravity="center_vertical"
                     android:hint="@string/meeting_hint_description"
-                    android:padding="5dp"
+                    android:paddingLeft="5dp"
                     android:singleLine="true"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/text_hint"
-                    android:layout_gravity="center_vertical"/>
+
+                    android:gravity="left|top"/>
             </LinearLayout>
-        </LinearLayout>
         <Button
             android:id="@+id/fab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:layout_marginBottom="@dimen/dimen_24"
             android:gravity="center"
             android:text="@string/meeting_submit"
             android:textSize="16sp"

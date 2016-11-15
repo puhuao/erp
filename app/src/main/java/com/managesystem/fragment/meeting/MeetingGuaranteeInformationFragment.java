@@ -37,6 +37,8 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
     TextView tvGuaranteePerson;
     @Bind(R.id.rating_bar)
     RatingBar ratingBar;
+    @Bind(R.id.ll_comments)
+    View llComment;
     private MeetingApplyRecord meetingApplyRecord;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +51,9 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
     private void initView() {
         hideTitleBar();
         bundeDataToView();
+        if (meetingApplyRecord.getStatus()==0){
+            llComment.setVisibility(View.GONE);
+        }
     }
 
     private void bundeDataToView(){

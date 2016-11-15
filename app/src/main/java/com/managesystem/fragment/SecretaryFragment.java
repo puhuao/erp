@@ -11,6 +11,9 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.tools.UrlUtils;
+import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.ZxingCaptureActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -63,7 +66,7 @@ public class SecretaryFragment extends CommonFragment {
     }
     @Subscribe
     public void onEvent(final SignInOrUpEvent event){
-
+        model.QRCodeModel qrCodeModel = event.qrCodeModel;
 
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
@@ -76,20 +79,21 @@ public class SecretaryFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
-                    if (event.qrCodeModel.getType() == ZxingCaptureActivity.MEETING_SIGN_IN){
+                    int type = Integer.valueOf(event.qrCodeModel.getType());
+                    if (type == ZxingCaptureActivity.MEETING_SIGN_IN){
                         ToastUtil.showShortMessage(getContext(),"会议签到成功");
-                    }else if(event.qrCodeModel.getType() == ZxingCaptureActivity.MEETING_SIGN_UP){
+                    }else if(type == ZxingCaptureActivity.MEETING_SIGN_UP){
                         ToastUtil.showShortMessage(getContext(),"会议报名成功");
                     }
                 }
             }
         };
-        StringBuilder sb = new StringBuilder(Urls.BASE_URL+event.qrCodeModel.getUrl());
-        if (event.qrCodeModel.getType() == ZxingCaptureActivity.MEETING_SIGN_IN){
-             sb.append("&userIds="+config.getString("userId", ""));
-        }else if(event.qrCodeModel.getType() == ZxingCaptureActivity.MEETING_SIGN_UP){
-            sb.append("&userIds="+config.getString("userId", ""));
-        }
+       QRChecInModel qrChecInModel = GsonUtil.fromJson(qrCodeModel.getParam(),QRChecInModel.class) ;
+        StringBuilder sb = new StringBuilder(Urls.MEETING_ADD_USERS);
+        UrlUtils.getInstance(sb).praseToUrl("meetingId",qrChecInModel.getMeetingId())
+                .praseToUrl("type",event.qrCodeModel.getType())
+                .praseToUrl("userIds",config.getString("userId", ""))
+                .removeLastWord();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);

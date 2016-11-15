@@ -36,6 +36,7 @@ import com.wksc.framwork.zxing.camera.CameraManager;
 import com.wksc.framwork.zxing.decode.CaptureActivityHandler;
 import com.wksc.framwork.zxing.decode.DecodeThread;
 import com.wksc.framwork.zxing.decode.FinishListener;
+import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 import com.wksc.framwork.zxing.view.ViewfinderView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,8 +63,8 @@ import okhttp3.Response;
  * @二维码扫描页面
  */
 public class ZxingCaptureActivity extends Activity implements SurfaceHolder.Callback {
-    public static  final int MEETING_SIGN_IN = 0x01;//会议签到
-    public static  final int MEETING_SIGN_UP = 0x02;//会议报名
+    public static  final int MEETING_SIGN_IN = 2;//会议签到
+    public static  final int MEETING_SIGN_UP = 1;//会议报名
 
     private boolean hasSurface;
     private BeepManager beepManager;// 声音震动管理器。如果扫描成功后可以播放一段音频，也可以震动提醒，可以通过配置来决定扫描成功后的行为。
@@ -280,7 +281,8 @@ public class ZxingCaptureActivity extends Activity implements SurfaceHolder.Call
 
         QRCodeModel qrCodeModel =  GsonUtil.fromJson(rawResult.getText(),QRCodeModel.class);
         if (qrCodeModel!=null){
-            switch (qrCodeModel.getType()){
+            int type = Integer.valueOf(qrCodeModel.getType());
+            switch (type){
                 case MEETING_SIGN_IN:
                     //到会议签到
                     EventBus.getDefault().post(new SignInOrUpEvent(qrCodeModel));

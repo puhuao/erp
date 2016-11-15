@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.managesystem.R;
 import com.managesystem.activity.GoodNewsActivity;
 import com.managesystem.activity.MeetingManageActivity;
+import com.managesystem.activity.ResourceApplyActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import butterknife.ButterKnife;
@@ -30,7 +31,7 @@ public class MainFragment extends CommonFragment {
         enableDefaultBack(false);
     }
 
-    @OnClick({R.id.layout_meet_apply,R.id.layout_good_news})
+    @OnClick({R.id.layout_meet_apply,R.id.layout_good_news,R.id.layout_resource_apply})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_meet_apply:
@@ -38,6 +39,9 @@ public class MainFragment extends CommonFragment {
                 break;
             case R.id.layout_good_news:
                 startActivity(GoodNewsActivity.class);
+                break;
+            case R.id.layout_resource_apply:
+                startActivity(ResourceApplyActivity.class);
                 break;
         }
     }

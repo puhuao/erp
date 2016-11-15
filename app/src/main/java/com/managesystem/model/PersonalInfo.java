@@ -60,6 +60,15 @@ public class PersonalInfo {
     private Object status;
     private String userId;
     private Object username;
+    private String stationName;
+
+    public String getStationName() {
+        return stationName;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
 
     public String getArea() {
         return area;

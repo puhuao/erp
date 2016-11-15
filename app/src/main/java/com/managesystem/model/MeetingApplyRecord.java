@@ -61,7 +61,7 @@ public class MeetingApplyRecord implements Parcelable {
         this.applyUsers = applyUsers;
     }
 
-    private int status;
+    private int status;//0：新增 1：已派单2：已确认3：已完成4：已评价
     private String endDate;
 
     public ArrayList<Users> getSignUsers() {

@@ -36,7 +36,7 @@ public class MeetingApplyRecordAdapter extends BaseListAdapter<MeetingRoomDetail
             convertView.setTag(holder);
         }
         MeetingRoomDetail detail = mList.get(position);
-        holder.location.setText("地点:"+detail.getMeetingroomName());
+        holder.location.setText("会议地点:"+detail.getMeetingroomName());
         if (!StringUtils.isBlank(detail.getCtime())){
 
             holder.time.setText("时间:"+detail.getCtime().substring(0,16));

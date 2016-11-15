@@ -1,5 +1,7 @@
 package com.wksc.framwork.zxing;
 
+import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
+
 import model.QRCodeModel;
 
 /**

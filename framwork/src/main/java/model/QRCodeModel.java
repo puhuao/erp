@@ -3,24 +3,24 @@ package model;
 /**
  * Created by Administrator on 2016/11/14.
  */
-public class QRCodeModel {
-    private int type;
-    private String url;
+public class QRCodeModel{
+    private String type;
+   private String param;
 
-
-    public String getUrl() {
-        return url;
+    public String getParam() {
+        return param;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setParam(String param) {
+        this.param = param;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
+
 }
