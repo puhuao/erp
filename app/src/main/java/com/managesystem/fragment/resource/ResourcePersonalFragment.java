@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.managesystem.R;
 import com.managesystem.activity.GoodNewsActivity;
@@ -27,13 +28,13 @@ import butterknife.OnClick;
  */
 public class ResourcePersonalFragment extends CommonFragment {
     @Bind(R.id.list_view)
-    NestedListView listView;
+    ListView listView;
     ResourcePersonAdapter resourcePersonAdapter;
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     View empty;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container = (ViewGroup) inflater.inflate(R.layout.layout_swipe_refresh_list, null);
+        container = (ViewGroup) inflater.inflate(R.layout.fragment_resource_person, null);
         empty = inflater.inflate(R.layout.empty_view, null);
         ButterKnife.bind(this, container);
         initView();
@@ -41,7 +42,7 @@ public class ResourcePersonalFragment extends CommonFragment {
     }
 
     private void initView() {
-        setHeaderTitle(getStringFromResource(R.string.resource_manage));
+        setHeaderTitle(getStringFromResource(R.string.resource_my));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());

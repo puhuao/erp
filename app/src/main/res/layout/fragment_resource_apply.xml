@@ -5,29 +5,69 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/white">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="设备名称"/>
+            android:text="设备名称"
+            android:textSize="@dimen/text_size_16"
+            android:layout_margin="@dimen/dimen_12"
+            android:padding="@dimen/dimen_12"
+            android:textColor="@color/text_color"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请选择设备(必选)"
+            android:textSize="@dimen/text_size_14"
+            android:layout_margin="@dimen/dimen_12"
+            android:padding="@dimen/dimen_12"
+            android:textColor="@color/text_color"
+            android:drawableRight="@drawable/ic_right"
+            android:gravity="right|center_vertical"
+            android:drawablePadding="@dimen/dimen_12"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dimen_12"
+        android:background="@color/white">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="设备名称"/>
+            android:text="挂失说明"
+            android:textSize="@dimen/text_size_16"
+            android:layout_margin="@dimen/dimen_12"
+            android:textColor="@color/text_color"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入挂失说明"
+            android:textSize="@dimen/text_size_14"
+            android:layout_margin="@dimen/dimen_12"
+            android:padding="@dimen/dimen_12"
+            android:textColor="@color/text_color"
+            android:gravity="top|left"
+            android:drawablePadding="@dimen/dimen_12"
+            android:background="@null"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dimen_12">
-        <TextView
+        android:orientation="horizontal">
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        />
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="挂失说明"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设备名称"/>
+            android:src="@drawable/ic_camare"/>
     </LinearLayout>
 </LinearLayout>
