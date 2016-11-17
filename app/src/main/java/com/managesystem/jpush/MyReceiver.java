@@ -27,10 +27,8 @@ public class MyReceiver extends BroadcastReceiver {
 			System.out.println("收到了自定义消息。消息内容是：" + bundle.getString(JPushInterface.EXTRA_MESSAGE));
 			// 自定义消息不会展示在通知栏，完全要开发者写代码去处理
 		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-//			System.out.println(printBundle(bundle));
 			System.out.println("收到了通知。消息内容是：" + bundle.getString("cn.jpush.android.ALERT"));
 		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-			System.out.println(printBundle(bundle));
 			System.out.println("用户点击打开了通知" + bundle.getString("cn.jpush.android.ALERT"));
 			// 在这里可以自己写代码去定义用户点击后的行为
 //			Intent i = new Intent(context, MainActivity.class);  //自定义打开的界面
