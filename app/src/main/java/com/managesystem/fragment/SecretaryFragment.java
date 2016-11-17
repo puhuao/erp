@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.WorkListsActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.tools.UrlUtils;
@@ -69,11 +70,14 @@ public class SecretaryFragment extends CommonFragment {
         }
 
     }
-    @OnClick({R.id.layout_scan})
+    @OnClick({R.id.layout_scan,R.id.ll_work_list})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_scan:
                 startActivity(ZxingCaptureActivity.class);
+                break;
+            case R.id.ll_work_list:
+                startActivity(WorkListsActivity.class);
                 break;
         }
     }

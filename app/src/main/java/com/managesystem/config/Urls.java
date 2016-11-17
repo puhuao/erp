@@ -16,4 +16,5 @@ public class Urls {
     public static final String MEETING_ATTEND = BASE_URL+"meeting/queryRecord?";//会议出席记录
     public static final String MEETING_ADD_USERS = BASE_URL + "meeting/saveUser?";//添加人员，签到
     public static final String MEETING_GUARANTEE_RATING = BASE_URL + "meeting/updateDistribute?";
+    public static final String WORK_LIST = BASE_URL + "distribute/query?";//我的工单
 }

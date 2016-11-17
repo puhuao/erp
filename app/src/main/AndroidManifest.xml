@@ -55,6 +55,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ResourceApplyActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.WorkListsActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Required SDK核心功能-->
         <activity

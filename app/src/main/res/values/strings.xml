@@ -111,6 +111,15 @@
     <string name="role_name_fix">运维人员</string>
     <string name="role_name_resource_manage">物资管理员</string>
     <string name="role_name_normal">普通员工</string>
-
+    <string name="work_list_my">我的工单</string>
+    <string name="work_list_unfinished">未完成</string>
+    <string name="work_list_finished">已完成</string>
+    <string name="work_list_type">工单类型</string>
+    <string name="work_list_apply">运维申请人</string>
+    <string name="work_list_apply_department">申请部门</string>
+    <string name="work_list_status">工单状态</string>
+    <string name="work_list_description">描述</string>
+    <string name="work_list_finish">完成</string>
+    <string name="meeting_time">会议时间</string>
 
 </resources>
