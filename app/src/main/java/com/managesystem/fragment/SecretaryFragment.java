@@ -13,6 +13,7 @@ import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.ZxingCaptureActivity;
@@ -37,6 +38,10 @@ import okhttp3.Response;
 public class SecretaryFragment extends CommonFragment {
     @Bind(R.id.layout_scan)
     LinearLayout llScan;
+    @Bind(R.id.ll_work_list)
+    LinearLayout workList;
+    private IConfig config;
+    private String roleName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class SecretaryFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_secretary, null);
         ButterKnife.bind(this, container);
+        config = BaseApplication.getInstance().getCurrentConfig();
         intView();
         return container;
     }
@@ -55,6 +61,13 @@ public class SecretaryFragment extends CommonFragment {
     private void intView() {
         setHeaderTitle(getStringFromResource(R.string.secretary));
         enableDefaultBack(false);
+        roleName = config.getString("roleName","");
+        if (!StringUtils.isBlank(roleName)&&roleName.equals(getStringFromResource(R.string.role_name_fix))){
+            workList.setVisibility(View.VISIBLE);
+        }else{
+            workList.setVisibility(View.GONE);
+        }
+
     }
     @OnClick({R.id.layout_scan})
     public void onClick(View v) {

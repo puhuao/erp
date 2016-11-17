@@ -18,12 +18,6 @@ public class CustomApplication extends BaseApplication{
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         //设置别名指定向某个手机发送
-        JPushInterface.setAlias(this, "zx", new TagAliasCallback() {
-            @Override
-            public void gotResult(int i, String s, Set<String> set) {
-
-            }
-        });
         //设置标签发送给某些手机
         Set<String> tagList = new HashSet<>();
         tagList.add("treebear");

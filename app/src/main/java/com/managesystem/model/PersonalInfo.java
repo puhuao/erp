@@ -54,7 +54,7 @@ public class PersonalInfo {
     private Object registerId;
     private Object rights;
     private Object roleId;
-    private Object roleName;
+    private String roleName;
     private Object sign;
     private Object skin;
     private Object status;
@@ -230,11 +230,11 @@ public class PersonalInfo {
         this.roleId = roleId;
     }
 
-    public Object getRoleName() {
+    public String getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(Object roleName) {
+    public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 

@@ -2,6 +2,7 @@ package com.managesystem.fragment.loginAndRegister;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,13 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import java.util.Set;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -98,6 +103,14 @@ public class LoginFragment extends CommonFragment {
                     config.setString("username", username);
                     config.setString("userId",o.getUserId());
                     config.setString("password", password);
+                    config.setString("roleName",o.getRoleName());
+                    JPushInterface.setAlias(getContext(), o.getUserId(), new TagAliasCallback() {
+                        @Override
+                        public void gotResult(int i, String s, Set<String> set) {
+                            Log.i("TAG","jpush:设置别名成功");
+                        }
+                    });
+
                     startActivity(MainActivity.class);
                     getActivity().finish();
                 }
