@@ -389,7 +389,31 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
 
     @Override
     public void setSelection(int position) {
-        mCurrentlySelectedAdapterIndex = position;
+//        mCurrentlySelectedAdapterIndex = position;
+//        if (!isInTouchMode()){
+//            position = lookForSelectablePosition(position, true);
+//            if (position >= 0) {
+//                setNextSelectedPositionInt(position);
+//            }
+//        }else {
+//            mCurrentlySelectedAdapterIndex = position;
+//        }
+//
+//        if (position >= 0) {
+//            mLayoutMode = LAYOUT_SPECIFIC;
+//            mSpecificTop = mListPadding.top;
+//
+//            if (mNeedSync) {
+//                mSyncPosition = position;
+//                mSyncRowId = mAdapter.getItemId(position);
+//            }
+//
+//            if (mPositionScroller != null) {
+//                mPositionScroller.stop();
+//            }
+            requestLayout();
+//        }
+
     }
 
     @Override
