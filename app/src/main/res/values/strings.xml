@@ -122,4 +122,11 @@
     <string name="work_list_finish">完成</string>
     <string name="meeting_time">会议时间</string>
 
+    <string name="STATUS_ADD">新增</string>
+    <string name="STATUS_DISPATCH">已派单</string>
+    <string name="STATUS_CONFIRM">已确认</string>
+    <string name="STATUS_FINISH">已完成</string>
+    <string name="STATUS_COMMENT">已评价</string>
+
+
 </resources>

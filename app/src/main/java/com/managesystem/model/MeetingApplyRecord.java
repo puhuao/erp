@@ -12,8 +12,25 @@ import java.util.ArrayList;
  */
 
 public class MeetingApplyRecord implements Parcelable {
+    //0：新增 1：已派单2：已确认3：已完成4：已评价
+    public static final int STATUS_ADD = 0;
+    public static final int STATUS_DISPATCH = 1;
+    public static final int STATUS_CONFIRM = 2;
+    public static final int STATUS_FINISH = 3;
+    public static final int STATUS_COMMENT = 4;
+
+
     private String startDate;
 
+    public String getResponsibleUserId() {
+        return responsibleUserId;
+    }
+
+    public void setResponsibleUserId(String responsibleUserId) {
+        this.responsibleUserId = responsibleUserId;
+    }
+
+    private String responsibleUserId;
 
     public MeetingApplyRecord(){
 
@@ -36,6 +53,7 @@ public class MeetingApplyRecord implements Parcelable {
         cphone = in.readString();
         meetingroomId = in.readString();
         officeNo = in.readString();
+        responsibleUserId = in.readString();
     }
 
     public static final Creator<MeetingApplyRecord> CREATOR = new Creator<MeetingApplyRecord>() {
@@ -266,5 +284,6 @@ public class MeetingApplyRecord implements Parcelable {
         dest.writeString(cphone);
         dest.writeString(meetingroomId);
         dest.writeString(officeNo);
+        dest.writeString(responsibleUserId);
     }
 }

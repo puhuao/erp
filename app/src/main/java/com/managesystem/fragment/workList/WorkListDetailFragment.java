@@ -1,7 +1,6 @@
 package com.managesystem.fragment.workList;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,21 +9,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.zxing.WriterException;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.fragment.meeting.MeetingDetailFragment;
-import com.managesystem.fragment.meeting.MeetingGuaranteeInformationFragment;
-import com.managesystem.model.AddUserParam;
-import com.managesystem.model.MeetingApply;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.MeetingSelectCondition;
+import com.managesystem.model.Users;
 import com.managesystem.model.WorkList;
-import com.managesystem.popupwindow.MeetingNoticeNextPersonPopupwindow;
-import com.managesystem.popupwindow.MeetingSignPersonPopupwindow;
-import com.managesystem.popupwindow.QrcodeViewPopupwindow;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.BaseApplication;
@@ -32,8 +24,6 @@ import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
-import com.wksc.framwork.zxing.CreateQrCode;
-import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +33,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.QRCodeModel;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -86,7 +75,6 @@ public class WorkListDetailFragment extends CommonFragment {
     private void initView() {
         workList = (WorkList) getmDataIn();
         setHeaderTitle("工单详情");
-//        bundeDataToView();
         getMeetings();
     }
 
@@ -100,17 +88,44 @@ public class WorkListDetailFragment extends CommonFragment {
     }
 
 
-
-    private void bundeDataToView(){
+    private void bundeDataToView() {
         workListType.setText(workList.getServicetypeName());
-        workListApply.setText(workList.getUserId());
-        department.setText(meetingApplyRecord.getDepartmentName());
-        location.setText(meetingApplyRecord.getMeetingroomName());
-        time.setText(meetingApplyRecord.getCtime());
+        if (meetingApplyRecord.getApplyUsers() != null) {
 
-        status.setText(workList.getImportant());
-        description.setText(workList.getRemark());
-        if (workList.getStatus()!=2&&workList.getStatus()!=3){
+            StringBuilder users = new StringBuilder();
+            for (Users record :
+                    meetingApplyRecord.getApplyUsers()) {
+                users.append(record.getName()).append("、");
+            }
+            if (users.length() > 0) {
+                users.deleteCharAt(users.length() - 1);
+            }
+            workListApply.setText(users);
+        }
+        department.setText(meetingApplyRecord.getDepartmentName());
+        location.setText(meetingApplyRecord.getArea());
+        time.setText(meetingApplyRecord.getCtime());
+        String statu = null;
+        switch (meetingApplyRecord.getStatus()) {
+            case MeetingApplyRecord.STATUS_ADD:
+                statu = getStringFromResource(R.string.STATUS_ADD);
+                break;
+            case MeetingApplyRecord.STATUS_DISPATCH:
+                statu = getStringFromResource(R.string.STATUS_DISPATCH);
+                break;
+            case MeetingApplyRecord.STATUS_CONFIRM:
+                statu = getStringFromResource(R.string.STATUS_CONFIRM);
+                break;
+            case MeetingApplyRecord.STATUS_FINISH:
+                statu = getStringFromResource(R.string.STATUS_FINISH);
+                break;
+            case MeetingApplyRecord.STATUS_COMMENT:
+                statu = getStringFromResource(R.string.STATUS_COMMENT);
+                break;
+        }
+        status.setText(statu);
+        description.setText(meetingApplyRecord.getInfor());
+        if (meetingApplyRecord.getStatus() == MeetingApplyRecord.STATUS_DISPATCH) {
             CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
             builder.setMessage("请确认工单");
             builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
@@ -132,24 +147,24 @@ public class WorkListDetailFragment extends CommonFragment {
         }
     }
 
-    private void updateDistribute(){
+    private void updateDistribute() {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
-        UrlUtils.getInstance(sb).praseToUrl("status","2")
-                .praseToUrl("rid",workList.getRid())
-                .praseToUrl("userId",config.getString("userId",""))
+        UrlUtils.getInstance(sb).praseToUrl("status", "2")
+                .praseToUrl("rid", workList.getRid())
+                .praseToUrl("userId", config.getString("userId", ""))
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    ToastUtil.showShortMessage(getContext(),"通知所有用户成功");
+                if (o != null) {
+                    ToastUtil.showShortMessage(getContext(), "通知所有用户成功");
                 }
             }
         };
@@ -159,34 +174,33 @@ public class WorkListDetailFragment extends CommonFragment {
     }
 
 
-
-    private void getMeetings(){
+    private void getMeetings() {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         meetingSelectCondition = new MeetingSelectCondition();
         StringBuilder sb = new StringBuilder(Urls.MEETING_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo",meetingSelectCondition.getPageNo())
-                .praseToUrl("userId",meetingSelectCondition.getUserId())
-                .praseToUrl("pageSize",meetingSelectCondition.getPageSize())
-                .praseToUrl("meetingName",meetingSelectCondition.getMeetingName())
-                .praseToUrl("date",meetingSelectCondition.getDate())
-                .praseToUrl("isQueryDetail","1")
-                .praseToUrl("meetingId",workList.getRid())
+        UrlUtils.getInstance(sb).praseToUrl("pageNo", meetingSelectCondition.getPageNo())
+                .praseToUrl("userId", meetingSelectCondition.getUserId())
+                .praseToUrl("pageSize", meetingSelectCondition.getPageSize())
+                .praseToUrl("meetingName", meetingSelectCondition.getMeetingName())
+                .praseToUrl("date", meetingSelectCondition.getDate())
+                .praseToUrl("isQueryDetail", "1")
+                .praseToUrl("meetingId", workList.getRid())
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
+                if (o != null) {
                     try {
                         JSONObject jsonObject = new JSONObject(o);
                         String list = jsonObject.getString("list");
-                       ArrayList<MeetingApplyRecord> applyRecords = new ArrayList<>();
-                        applyRecords.addAll(GsonUtil.fromJsonList(list,MeetingApplyRecord.class));
+                        ArrayList<MeetingApplyRecord> applyRecords = new ArrayList<>();
+                        applyRecords.addAll(GsonUtil.fromJsonList(list, MeetingApplyRecord.class));
                         meetingApplyRecord = applyRecords.get(0);
                         bundeDataToView();
 
