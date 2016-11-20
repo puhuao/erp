@@ -3,11 +3,13 @@ package com.managesystem.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.managesystem.R;
 import com.managesystem.model.GoodNews;
 import com.managesystem.model.ResourcePersonModel;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -32,10 +34,19 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
+        ResourcePersonModel resourcePersonModel = mList.get(position);
+        holder.type.setText("类型:"+resourcePersonModel.getMaterialtypeName());
+        holder.name.setText("名称:"+resourcePersonModel.getMaterialName());
+
         return convertView;
     }
 
     class ViewHolder{
+        @Bind(R.id.type)
+        TextView type;
+        @Bind(R.id.name)
+        TextView name;
+
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

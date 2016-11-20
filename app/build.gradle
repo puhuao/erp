@@ -27,5 +27,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     provided 'io.realm:realm-android:0.87.3'
     compile 'com.android.support:design:23.2.0'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.lzy.widget:ninegridview:0.2.0'
+    compile 'com.lzy.widget:view-core:0.2.1'
     compile files('libs/jpush-android-2.0.5.jar')
 }

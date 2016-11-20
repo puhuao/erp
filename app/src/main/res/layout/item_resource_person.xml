@@ -31,6 +31,7 @@
             android:textSize="@dimen/text_size_16"
             android:padding="@dimen/dimen_12"/>
         <TextView
+            android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="种类:"
@@ -50,6 +51,7 @@
                 android:textSize="@dimen/text_size_16"
                 android:padding="@dimen/dimen_12"/>
             <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="种类:"

@@ -26,6 +26,8 @@ import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 
+import java.util.HashMap;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,15 +83,11 @@ public class MeetingDetailFragment extends CommonFragment {
         switch (v.getId()) {
             case R.id.btn_sign_in:
                 //签到二维码
-//                StringBuilder sb = new StringBuilder("meeting/saveUser?");
-//                UrlUtils.getInstance(sb).praseToUrl("meetingId",addUserParam.getMeetingId())
-//                        .praseToUrl("type","2")
-//                        .removeLastWord();
-
                 qrChecInModel.setMeetingId(meetingApplyRecord.getMeetingId());
                 qrChecInModel.setType("2");
                 qrCodeModel.setType("2");
-                qrCodeModel.setParam(GsonUtil.objectToJson(qrChecInModel));
+                qrCodeModel.setParam(qrChecInModel);
+//                qrCodeModel.setParam(GsonUtil.objectToJson(qrChecInModel));
                 try {
                     Bitmap bitmap = CreateQrCode.createQRCode(GsonUtil.objectToJson(qrCodeModel), 300);
                     QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);
@@ -108,7 +106,8 @@ public class MeetingDetailFragment extends CommonFragment {
                 qrChecInModel.setMeetingId(meetingApplyRecord.getMeetingId());
                 qrChecInModel.setType("1");
                 qrCodeModel.setType("1");
-                qrCodeModel.setParam(GsonUtil.objectToJson(qrChecInModel));
+                qrCodeModel.setParam(qrChecInModel);
+//                qrCodeModel.setParam(GsonUtil.objectToJson(qrChecInModel));
                 try {
                     Bitmap bitmap = CreateQrCode.createQRCode(GsonUtil.objectToJson(qrCodeModel), 300);
                     QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);

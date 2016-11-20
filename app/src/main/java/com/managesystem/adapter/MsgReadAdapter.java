@@ -3,10 +3,14 @@ package com.managesystem.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.managesystem.R;
+import com.managesystem.jpush.JPUSHModel;
 import com.managesystem.model.Message;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -30,10 +34,40 @@ public class MsgReadAdapter extends BaseListAdapter<Message> {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
+        Message message = mList.get(position);
+        holder.msgName.setText(message.content);
+        if(message.status==1){
+            holder.notice.setVisibility(View.GONE);
+        }else{
+            holder.notice.setVisibility(View.VISIBLE);
+        }
+        holder.time.setText(message.ctime);
+        if (message.type.equals(JPUSHModel.MEETING_REMIND)){
+            holder.image.setImageResource(R.drawable.img_meeting_notice);
+
+        }else if(message.type.equals(JPUSHModel.REGISTER_NOTICE)){
+            holder.image.setImageResource(R.drawable.img_user_register);
+        }else if(message.type.equals(JPUSHModel.WORKLIST_NOTICE)){
+            holder.image.setImageResource(R.drawable.img_fix_mession);
+
+        }else if(message.type.equals(JPUSHModel.MEETING_NOTICE)){
+            holder.image.setImageResource(R.drawable.img_meeting_notice);
+
+        }else if(message.type.equals(JPUSHModel.DESPATCH_NOTICE)){
+            holder.image.setImageResource(R.drawable.img_fix_mession);
+        }
         return convertView;
     }
 
     class ViewHolder{
+        @Bind(R.id.msg_name)
+        TextView msgName;
+        @Bind(R.id.time)
+        TextView time;
+        @Bind(R.id.image)
+        ImageView image;
+        @Bind(R.id.img_notice)
+        ImageView notice;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

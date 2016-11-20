@@ -106,6 +106,8 @@
     <string name="resource_lost">物资挂失</string>
     <string name="resource_lost_apply">物资挂失申请单</string>
     <string name="resource_lost_list">物资挂失申请记录</string>
+    <string name="resource_apply_title">物资申请单</string>
+    <string name="resource_apply_list">物资申请记录</string>
     <string name="resource_my">我的物资</string>
 
     <string name="role_name_fix">运维人员</string>
@@ -127,6 +129,7 @@
     <string name="STATUS_CONFIRM">已确认</string>
     <string name="STATUS_FINISH">已完成</string>
     <string name="STATUS_COMMENT">已评价</string>
+    <string name="resource_yard">仓库物资交接</string>
 
 
 </resources>

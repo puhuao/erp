@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.managesystem.activity.MainActivity;
+import com.managesystem.activity.MeetingMsgDetailActivity;
+import com.managesystem.model.Message;
 import com.wksc.framwork.util.GsonUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -33,21 +36,16 @@ public class MyReceiver extends BroadcastReceiver {
 		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 			System.out.println("用户点击打开了通知" + bundle.getString("cn.jpush.android.ALERT"));
 			JPUSHModel jpushModel = GsonUtil.fromJson(bundle.getString("cn.jpush.android.ALERT"),JPUSHModel.class);
-			if (jpushModel.type.equals(JPUSHModel.MEETING_REMIND)){
-				//会议提醒
-			}else if(jpushModel.type.equals(JPUSHModel.REGISTER_NOTICE)){
-				//新用户注册，提示管理员审核
-			}else if(jpushModel.type.equals(JPUSHModel.WORKLIST_NOTICE)){
-				//工单提醒
-			}else if(jpushModel.type.equals(JPUSHModel.MEETING_NOTICE)){
-				//会议通知
-			}else if(jpushModel.type.equals(JPUSHModel.DESPATCH_NOTICE)){
-				//派单通知
-			}
 			// 在这里可以自己写代码去定义用户点击后的行为
-//			Intent i = new Intent(context, MainActivity.class);  //自定义打开的界面
-//			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			context.startActivity(i);
+			Intent i = new Intent(context, MeetingMsgDetailActivity.class);  //自定义打开的界面
+			Message message = new Message();
+			message.rid = jpushModel.rid;
+			message.type = jpushModel.type;
+			message.content = jpushModel.content;
+			i.putExtra("obj",message);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(i);
+
 		} else {
 			Log.d(TAG, "Unhandled intent - " + intent.getAction());
 		}

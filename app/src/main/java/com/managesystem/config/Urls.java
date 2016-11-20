@@ -17,4 +17,12 @@ public class Urls {
     public static final String MEETING_ADD_USERS = BASE_URL + "meeting/saveUser?";//添加人员，签到
     public static final String MEETING_GUARANTEE_RATING = BASE_URL + "meeting/updateDistribute?";
     public static final String WORK_LIST = BASE_URL + "distribute/query?";//我的工单
+    public static final String RESOURCE_TYPE = BASE_URL +"material/queryMaterialType";//物资类型
+    public static final String RESOURCE_NAME = BASE_URL +"material/queryMaterialName?";//物资名称
+    public static final String RESOURCE_APPLY = BASE_URL +"material/saveOrder";//物资申请(挂失)
+    public static final String RESOURCE_APPLY_LIST = BASE_URL + "material/queryOrder?";//物资申请列表(挂失)
+    public static final String RESOURCE_LIST = BASE_URL+"material/query?";//物资列表
+    public static final String UPLOAD = "http://101.200.172.229:8080/ERP/appuser/savePic";//上传文件
+    public static final String MSG_LIST = BASE_URL+"getMessages?";//获取消息列表
+    public static final String UPDATE_MSG_STATUS = BASE_URL +"updateMessageStatus?";
 }

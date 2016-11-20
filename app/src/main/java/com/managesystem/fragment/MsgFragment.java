@@ -42,12 +42,12 @@ public class MsgFragment extends CommonFragment {
 
     private void initView() {
         setHeaderTitle(getStringFromResource(R.string.msg));
-        mTitleList.add(getStringFromResource(R.string.msg_read));
         mTitleList.add(getStringFromResource(R.string.msg_read_not));
-        MsgReadFragment msgReadFragment = new MsgReadFragment();
-        fragmentList.add(msgReadFragment);
+        mTitleList.add(getStringFromResource(R.string.msg_read));
         MsgNotReadFragment msgNotReadFragment = new MsgNotReadFragment();
         fragmentList.add(msgNotReadFragment);
+        MsgReadFragment msgReadFragment = new MsgReadFragment();
+        fragmentList.add(msgReadFragment);
         NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
         viewpager.setAdapter(adapter);
         tabCursor.setupWithViewPager(viewpager);

@@ -15,6 +15,7 @@ import com.managesystem.config.Urls;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.StringUtils;
+import com.wksc.framwork.zxing.QRResourceSendEvent;
 import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.ZxingCaptureActivity;
@@ -81,9 +82,14 @@ public class SecretaryFragment extends CommonFragment {
                 break;
         }
     }
+
+    @Subscribe
+    public void onEvent(QRResourceSendEvent event){
+
+    }
     @Subscribe
     public void onEvent(final SignInOrUpEvent event){
-        model.QRCodeModel qrCodeModel = event.qrCodeModel;
+        QRChecInModel qrChecInModel = event.qrCodeModel;
 
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
@@ -105,10 +111,9 @@ public class SecretaryFragment extends CommonFragment {
                 }
             }
         };
-       QRChecInModel qrChecInModel = GsonUtil.fromJson(qrCodeModel.getParam(),QRChecInModel.class) ;
         StringBuilder sb = new StringBuilder(Urls.MEETING_ADD_USERS);
         UrlUtils.getInstance(sb).praseToUrl("meetingId",qrChecInModel.getMeetingId())
-                .praseToUrl("type",event.qrCodeModel.getType())
+                .praseToUrl("type",qrChecInModel.getType())
                 .praseToUrl("userIds",config.getString("userId", ""))
                 .removeLastWord();
         OkHttpUtils.post(sb.toString())//

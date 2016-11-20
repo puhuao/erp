@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
@@ -41,7 +42,7 @@ import okhttp3.Response;
  */
 public class MeetingAttendRecordFragment extends CommonFragment {
     @Bind(R.id.list_view)
-    NestedListView listView;
+    ListView listView;
     MeetingAttendRecordAdapter adapter;
     ArrayList<MeetingAttendRecord> records = new ArrayList<>();
     View empty;
@@ -70,7 +71,7 @@ public class MeetingAttendRecordFragment extends CommonFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getContext().pushFragmentToBackStack(PersonalMeetingDetailFragment.class,null);
+                getContext().pushFragmentToBackStack(PersonalMeetingDetailFragment.class,meetingSelectCondition);
             }
         });
         getMeetings();

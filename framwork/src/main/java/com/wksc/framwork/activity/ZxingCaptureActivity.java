@@ -29,6 +29,7 @@ import com.wksc.framwork.R;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
+import com.wksc.framwork.zxing.QRResourceSendEvent;
 import com.wksc.framwork.zxing.SignInOrUpEvent;
 import com.wksc.framwork.zxing.ZxingConfig;
 import com.wksc.framwork.zxing.camera.BeepManager;
@@ -37,6 +38,7 @@ import com.wksc.framwork.zxing.decode.CaptureActivityHandler;
 import com.wksc.framwork.zxing.decode.DecodeThread;
 import com.wksc.framwork.zxing.decode.FinishListener;
 import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
+import com.wksc.framwork.zxing.qrcodeModel.QRresourceSend;
 import com.wksc.framwork.zxing.view.ViewfinderView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,6 +67,7 @@ import okhttp3.Response;
 public class ZxingCaptureActivity extends Activity implements SurfaceHolder.Callback {
     public static  final int MEETING_SIGN_IN = 2;//会议签到
     public static  final int MEETING_SIGN_UP = 1;//会议报名
+    public static final int RESORCE_SEND = 3;//物资发放
 
     private boolean hasSurface;
     private BeepManager beepManager;// 声音震动管理器。如果扫描成功后可以播放一段音频，也可以震动提醒，可以通过配置来决定扫描成功后的行为。
@@ -278,20 +281,26 @@ public class ZxingCaptureActivity extends Activity implements SurfaceHolder.Call
             drawResultPoints(barcode, scaleFactor, rawResult);
         }
         handleDecodeInternally(rawResult, barcode);
-
-        QRCodeModel qrCodeModel =  GsonUtil.fromJson(rawResult.getText(),QRCodeModel.class);
-        if (qrCodeModel!=null){
-            int type = Integer.valueOf(qrCodeModel.getType());
-            switch (type){
-                case MEETING_SIGN_IN:
-                    //到会议签到
-                    EventBus.getDefault().post(new SignInOrUpEvent(qrCodeModel));
-                    break;
-                case  MEETING_SIGN_UP:
-                    //到会议报名
-                    EventBus.getDefault().post(new SignInOrUpEvent(qrCodeModel));
-                    break;
+        try {
+            JSONObject jsonObject = new JSONObject(rawResult.getText());
+            String type = jsonObject.getString("type");
+                switch (Integer.valueOf(type)){
+                    case MEETING_SIGN_IN:
+                        //到会议签到
+                        QRChecInModel qrChecInModel = (QRChecInModel) jsonObject.get("param");
+                        EventBus.getDefault().post(new SignInOrUpEvent(qrChecInModel));
+                        break;
+                    case  MEETING_SIGN_UP:
+                        //到会议报名
+                        EventBus.getDefault().post(new SignInOrUpEvent((QRChecInModel) jsonObject.get("param")));
+                        break;
+                    case RESORCE_SEND:
+                        //到会议报名
+                        EventBus.getDefault().post(new QRResourceSendEvent((QRresourceSend) jsonObject.get("param")));
+                        break;
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         this.finish();

@@ -42,8 +42,8 @@ public class WorkListFragment extends CommonFragment {
 
     private void initView() {
         setHeaderTitle(getStringFromResource(R.string.work_list_my));
-        mTitleList.add(getStringFromResource(R.string.work_list_finished));
         mTitleList.add(getStringFromResource(R.string.work_list_unfinished));
+        mTitleList.add(getStringFromResource(R.string.work_list_finished));
         WorkListUnfinishFragment workListUnfinishFragment = new WorkListUnfinishFragment();
         fragmentList.add(workListUnfinishFragment);
         WorkListfinishFragment workListfinishFragment = new WorkListfinishFragment();

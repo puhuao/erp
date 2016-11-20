@@ -8,9 +8,9 @@ import model.QRCodeModel;
  * Created by Administrator on 2016/11/14.
  */
 public class SignInOrUpEvent {
-    public QRCodeModel qrCodeModel;
+    public QRChecInModel qrCodeModel;
 
-    public SignInOrUpEvent(QRCodeModel qrCodeModel) {
+    public SignInOrUpEvent(QRChecInModel qrCodeModel) {
         this.qrCodeModel = qrCodeModel;
     }
 }

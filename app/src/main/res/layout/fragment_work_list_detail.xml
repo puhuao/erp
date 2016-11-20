@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:text="紧急"
             android:textSize="@dimen/text_size_16"
-            android:textColor="@color/red"
+            android:textColor="@color/text_color"
             android:padding="@dimen/dimen_10"
             />
     </LinearLayout>

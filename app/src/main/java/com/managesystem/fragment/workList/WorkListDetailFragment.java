@@ -82,7 +82,7 @@ public class WorkListDetailFragment extends CommonFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-
+                updateDistribute(3);
                 break;
         }
     }
@@ -133,7 +133,7 @@ public class WorkListDetailFragment extends CommonFragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    updateDistribute();
+                    updateDistribute(2);
                 }
             });
             builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
@@ -147,10 +147,10 @@ public class WorkListDetailFragment extends CommonFragment {
         }
     }
 
-    private void updateDistribute() {
+    private void updateDistribute(int status) {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
-        UrlUtils.getInstance(sb).praseToUrl("status", "2")
+        UrlUtils.getInstance(sb).praseToUrl("status", String.valueOf(status))
                 .praseToUrl("rid", workList.getRid())
                 .praseToUrl("userId", config.getString("userId", ""))
                 .removeLastWord();

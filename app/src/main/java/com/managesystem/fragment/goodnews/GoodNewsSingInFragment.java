@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.managesystem.R;
 import com.managesystem.adapter.GoodNewsAdapter;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  */
 public class GoodNewsSingInFragment extends CommonFragment {
     @Bind(R.id.list_view)
-    NestedListView listView;
+    ListView listView;
     GoodNewsAdapter goodNewsAdapter;
     ArrayList<GoodNews> goodNewses = new ArrayList<>();
     View empty;

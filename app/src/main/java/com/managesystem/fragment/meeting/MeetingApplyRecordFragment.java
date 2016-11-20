@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
@@ -41,7 +42,7 @@ import okhttp3.Response;
  */
 public class MeetingApplyRecordFragment extends CommonFragment {
     @Bind(R.id.list_view)
-    NestedListView listView;
+    ListView listView;
     View empty;
     MeetingApplyRecordAdapter adapter;
     ArrayList<MeetingRoomDetail> records = new ArrayList<>();

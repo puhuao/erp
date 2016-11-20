@@ -57,6 +57,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.WorkListsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MeetingMsgDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Required SDK核心功能-->
         <activity
