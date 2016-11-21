@@ -296,7 +296,9 @@ public class ZxingCaptureActivity extends Activity implements SurfaceHolder.Call
                         break;
                     case RESORCE_SEND:
                         //到会议报名
-                        EventBus.getDefault().post(new QRResourceSendEvent((QRresourceSend) jsonObject.get("param")));
+                        String s = jsonObject.getString("param");
+                        QRresourceSend qRresourceSend = GsonUtil.fromJson(s,QRresourceSend.class);
+                        EventBus.getDefault().post(new QRResourceSendEvent(qRresourceSend));
                         break;
             }
         } catch (JSONException e) {

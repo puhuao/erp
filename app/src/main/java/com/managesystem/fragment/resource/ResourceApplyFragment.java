@@ -211,7 +211,7 @@ public class ResourceApplyFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
-                    ToastUtil.showShortMessage(getContext(),o);
+                    ToastUtil.showShortMessage(getContext(),"物资申请成功");
                     getContext().popTopFragment(null);
                 }
             }

@@ -25,6 +25,8 @@ import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
+import com.wksc.framwork.zxing.qrcodeModel.QRresourceSend;
+import com.wksc.framwork.zxing.qrcodeModel.QrResourceModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +42,7 @@ import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/8.
- *我的物资
+ *仓库管理
  */
 public class ResourceYardFragment extends CommonFragment {
     @Bind(R.id.list_view)
@@ -50,6 +52,9 @@ public class ResourceYardFragment extends CommonFragment {
     ResourcePersonAdapter resourcePersonAdapter;
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     View empty;
+    private IConfig config;
+    private String userID;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_resource_yard, null);
@@ -60,6 +65,8 @@ public class ResourceYardFragment extends CommonFragment {
     }
 
     private void initView() {
+        config = BaseApplication.getInstance().getCurrentConfig();
+        userID = config.getString("userId", "");
         setHeaderTitle(getStringFromResource(R.string.resource_yard));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
@@ -77,20 +84,23 @@ public class ResourceYardFragment extends CommonFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                QRCodeModel qrCodeModel = new QRCodeModel();
-//                QRChecInModel qrChecInModel = new QRChecInModel();
-//                qrChecInModel.setMeetingId(meetingApplyRecord.getMeetingId());
-//                qrChecInModel.setType("1");
-//                qrCodeModel.setType("3");
-//                qrCodeModel.setParam(qrChecInModel);
-////                qrCodeModel.setParam(GsonUtil.objectToJson(qrChecInModel));
-//                try {
-//                    Bitmap bitmap = CreateQrCode.createQRCode(GsonUtil.objectToJson(qrCodeModel), 300);
-//                    QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);
-//                    popupwindow.showPopupwindow(tvDescription);
-//                } catch (WriterException e) {
-//                    e.printStackTrace();
-//                }
+                String ms = getStringParam();
+                QrResourceModel qrResourceModel = new QrResourceModel();
+                qrResourceModel.setType("3");
+                QRresourceSend qRresourceSend = new QRresourceSend();
+                StringBuilder sb = new StringBuilder("?");
+                UrlUtils.getInstance(sb).praseToUrl("type","2")//1：交接2：发放
+                .praseToUrl("fromUserId",userID).removeLastWord();
+                sb.append(ms);
+                qRresourceSend.setPStr(sb.toString());
+                qrResourceModel.setParam(qRresourceSend);
+                try {
+                    Bitmap bitmap = CreateQrCode.createQRCode(GsonUtil.objectToJson(qrResourceModel), 300);
+                    QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);
+                    popupwindow.showPopupwindow(v);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
             }
         });
         getResource();
@@ -128,6 +138,22 @@ public class ResourceYardFragment extends CommonFragment {
         OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);
+    }
+
+    private String getStringParam(){
+        StringBuilder sb = new StringBuilder();
+        int i =0 ;
+        for (ResourcePersonModel r :
+                resourcePersonModels) {
+            if (r.isCheck){
+                sb.append("&materials["+i+"].materialId="+r.getMaterialId());
+                i++;
+            }
+        }
+//        if (sb.length()>0){
+//            sb.deleteCharAt(sb.length()-1);
+//        }
+        return  sb.toString();
     }
 
 }

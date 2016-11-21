@@ -39,7 +39,6 @@ View yard;
 
     private void initView() {
         setHeaderTitle(getStringFromResource(R.string.resource_manage));
-        hideLeftButton();
         roleName = config.getString("roleName","");
         if (!StringUtils.isBlank(roleName)&&
                 roleName.equals(getStringFromResource(R.string.role_name_resource_manage))){
@@ -62,7 +61,7 @@ View yard;
                 getContext().pushFragmentToBackStack(PersonalResourceLostFragment.class,null);
                 break;
             case R.id.rl_resource_yard:
-                startActivity(GoodNewsActivity.class);
+                getContext().pushFragmentToBackStack(ResourceYardFragment.class,null);
                 break;
         }
     }

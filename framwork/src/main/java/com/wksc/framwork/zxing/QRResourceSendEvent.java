@@ -6,9 +6,10 @@ import com.wksc.framwork.zxing.qrcodeModel.QRresourceSend;
  * Created by Administrator on 2016/11/21.
  */
 public class QRResourceSendEvent {
-    QRresourceSend qRresourceSend;
+   public  QRresourceSend qRresourceSend;
 
     public QRResourceSendEvent(QRresourceSend qrResourceSend) {
         this.qRresourceSend = qrResourceSend;
     }
+
 }

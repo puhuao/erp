@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.MainTainListActivity;
 import com.managesystem.activity.WorkListsActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
@@ -44,6 +45,7 @@ public class SecretaryFragment extends CommonFragment {
     LinearLayout workList;
     private IConfig config;
     private String roleName;
+    private String userId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class SecretaryFragment extends CommonFragment {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_secretary, null);
         ButterKnife.bind(this, container);
         config = BaseApplication.getInstance().getCurrentConfig();
+        userId = config.getString("userId", "");
         intView();
         return container;
     }
@@ -71,7 +74,7 @@ public class SecretaryFragment extends CommonFragment {
         }
 
     }
-    @OnClick({R.id.layout_scan,R.id.ll_work_list})
+    @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_scan:
@@ -80,18 +83,42 @@ public class SecretaryFragment extends CommonFragment {
             case R.id.ll_work_list:
                 startActivity(WorkListsActivity.class);
                 break;
+            case R.id.ll_maintain_list:
+                startActivity(MainTainListActivity.class);
+                break;
         }
     }
 
     @Subscribe
-    public void onEvent(QRResourceSendEvent event){
+    public void onEvent(final QRResourceSendEvent event){
+        String url = Urls.RESOURCE_SEND_TRANSFER+event.qRresourceSend.getPStr();
 
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(),"网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o!=null){
+                        ToastUtil.showShortMessage(getContext(),"物资交接成功");
+                }
+            }
+        };
+        StringBuilder sb = new StringBuilder(url);
+        sb.append("&");
+        UrlUtils.getInstance(sb)
+                .praseToUrl("toUserId",userId)
+                .removeLastWord();
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
     }
     @Subscribe
     public void onEvent(final SignInOrUpEvent event){
         QRChecInModel qrChecInModel = event.qrCodeModel;
-
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -114,7 +141,7 @@ public class SecretaryFragment extends CommonFragment {
         StringBuilder sb = new StringBuilder(Urls.MEETING_ADD_USERS);
         UrlUtils.getInstance(sb).praseToUrl("meetingId",qrChecInModel.getMeetingId())
                 .praseToUrl("type",qrChecInModel.getType())
-                .praseToUrl("userIds",config.getString("userId", ""))
+                .praseToUrl("userIds",userId)
                 .removeLastWord();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//

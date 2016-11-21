@@ -1,9 +1,7 @@
-package com.managesystem.fragment.msg;
+package com.managesystem.fragment.maintain;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +10,21 @@ import android.widget.ListView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
-import com.managesystem.activity.MeetingMsgDetailActivity;
-import com.managesystem.adapter.MsgReadAdapter;
+import com.managesystem.adapter.MaintainApplyRecordAdapter;
+import com.managesystem.adapter.MeetingApplyRecordAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.fragment.meeting.PersonalMeetingDetailFragment;
+import com.managesystem.model.Maintain;
 import com.managesystem.model.MeetingRoomDetail;
-import com.managesystem.model.Message;
+import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.tools.UrlUtils;
-import com.managesystem.widegt.NestedListView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,14 +38,14 @@ import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/5.
- * 消息未读
+ * 我的运维记录
  */
-public class MsgNotReadFragment extends CommonFragment {
+public class MaintainApplyRecordFragment extends CommonFragment {
     @Bind(R.id.list_view)
     ListView listView;
-    MsgReadAdapter msgReadAdapter;
-    ArrayList<Message> messages = new ArrayList<>();
     View empty;
+    MaintainApplyRecordAdapter adapter;
+    ArrayList<Maintain> records = new ArrayList<>();
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,32 +57,27 @@ public class MsgNotReadFragment extends CommonFragment {
     }
 
     private void initView() {
-        hideTitleBar();
-        msgReadAdapter = new MsgReadAdapter(getContext());
-        listView.setAdapter(msgReadAdapter);
+        setHeaderTitle("我的运维服务");
+        adapter = new MaintainApplyRecordAdapter(getContext());
+        listView.setAdapter(adapter);
         ((ViewGroup)(listView.getParent())).addView(empty);
         listView.setEmptyView(empty);
-        msgReadAdapter.setList(messages);
-        getunReadMsg();
+        adapter.setList(records);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getContext(), MeetingMsgDetailActivity.class);
-                Message message = messages.get(position);
-                i.putExtra("obj",message);
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getContext().startActivity(i);
+                getContext().pushFragmentToBackStack(PersonalMeetingDetailFragment.class,null);
             }
         });
+        getMaintains();
     }
 
-    private void getunReadMsg(){
+    private void getMaintains(){
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
-        StringBuilder sb = new StringBuilder(Urls.MSG_LIST);
+        StringBuilder sb = new StringBuilder(Urls.MAINTAIN_LIST_DETAIL);
         UrlUtils.getInstance(sb).praseToUrl("pageNo","1")
                 .praseToUrl("userId",config.getString("userId", ""))
                 .praseToUrl("pageSize","20")
-                .praseToUrl("status","0")
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
@@ -99,8 +92,8 @@ public class MsgNotReadFragment extends CommonFragment {
                     try {
                         JSONObject jsonObject = new JSONObject(o);
                         String list = jsonObject.getString("list");
-                        messages.addAll(GsonUtil.fromJsonList(list, Message.class));
-                        msgReadAdapter.notifyDataSetChanged();
+                        records.addAll(GsonUtil.fromJsonList(list, Maintain.class));
+                        adapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

@@ -203,32 +203,7 @@ public class MeetingApplyFragment extends CommonFragment {
                 .execute(callback);
     }
 
-    private void getMeetingTypes(){
-        StringBuilder sb = new StringBuilder(Urls.METTING_TYPES);
-        UrlUtils.getInstance(sb);
-        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-            @Override
-            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
-            }
 
-            @Override
-            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    meetingTypes.addAll(GsonUtil.fromJsonList(o, MeetingType.class));
-                    for (MeetingType t:
-                            meetingTypes ) {
-                        if (t.getServicetypeName().equals("会议"));
-                        meetingApply.setServicetypeId(t.getServicetypeId());
-                    }
-                }
-            }
-        };
-        OkHttpUtils.post(sb.toString())//
-                .tag(this)//
-                .execute(callback);
-    }
 
     private void apply(){
         StringBuilder sb = new StringBuilder(Urls.MEETIG_APPLY);

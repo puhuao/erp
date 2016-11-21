@@ -3,6 +3,8 @@ package com.managesystem.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.managesystem.R;
@@ -18,13 +20,14 @@ import butterknife.ButterKnife;
 public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> {
     public Boolean isAll=false;
     public StringBuilder sb = new StringBuilder();
+    private boolean isFromCheckAll = false;
 
     public ResourcePersonAdapter(Activity context) {
         super(context);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
         if (convertView != null) {
@@ -35,10 +38,26 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
             convertView.setTag(holder);
         }
         ResourcePersonModel resourcePersonModel = mList.get(position);
-        holder.type.setText("类型:"+resourcePersonModel.getMaterialtypeName());
-        holder.name.setText("名称:"+resourcePersonModel.getMaterialName());
-
+        holder.type.setText(resourcePersonModel.getMaterialName());
+        holder.name.setText(resourcePersonModel.getBrand());
+        holder.checkBox.setChecked(resourcePersonModel.isCheck);
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isFromCheckAll){
+                    if (isChecked){
+                        mList.get(position).isCheck = true;
+                    }else{
+                        mList.get(position).isCheck = false;
+                    }
+                }
+            }
+        });
         return convertView;
+    }
+
+    public void setIsFromCheckAll(boolean isFromCheckAll) {
+        this.isFromCheckAll = isFromCheckAll;
     }
 
     class ViewHolder{
@@ -46,7 +65,8 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         TextView type;
         @Bind(R.id.name)
         TextView name;
-
+        @Bind(R.id.checkbox)
+        CheckBox checkBox;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

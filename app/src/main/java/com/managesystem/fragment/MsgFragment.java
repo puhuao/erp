@@ -41,6 +41,7 @@ public class MsgFragment extends CommonFragment {
     }
 
     private void initView() {
+        enableDefaultBack(false);
         setHeaderTitle(getStringFromResource(R.string.msg));
         mTitleList.add(getStringFromResource(R.string.msg_read_not));
         mTitleList.add(getStringFromResource(R.string.msg_read));

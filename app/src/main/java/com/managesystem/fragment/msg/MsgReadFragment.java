@@ -76,7 +76,7 @@ public class MsgReadFragment extends CommonFragment {
         });
     }
 
-    private void getReadMsg(){
+    private void getReadMsg(){//获取已读消息
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.MSG_LIST);
         UrlUtils.getInstance(sb).praseToUrl("pageNo","1")
@@ -95,9 +95,9 @@ public class MsgReadFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                     try {
-                        JSONArray jsonObject = new JSONArray(o);
-//                        String list = jsonObject.getString("list");
-                        messages.addAll(GsonUtil.fromJsonList(o, Message.class));
+                        JSONObject jsonObject = new JSONObject(o);
+                        String list = jsonObject.getString("list");
+                        messages.addAll(GsonUtil.fromJsonList(list, Message.class));
                         msgReadAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();

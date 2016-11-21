@@ -27,13 +27,9 @@ import com.managesystem.config.Urls;
 import com.managesystem.model.HorizontalCalenderModel;
 import com.managesystem.model.MeetingRoomDetail;
 import com.managesystem.model.MeetingSelectCondition;
-import com.managesystem.model.MeetingType;
-import com.managesystem.popupwindow.MeetingTypeSelectPopupwindow;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.HorizontalListView;
-import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 

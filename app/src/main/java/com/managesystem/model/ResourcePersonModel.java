@@ -18,6 +18,7 @@ public class ResourcePersonModel {
     private String brand;
     private String materialtypeName;
     private String materialtypeId;
+    public Boolean isCheck = false;
 
     public String getMaterialName() {
         return materialName;

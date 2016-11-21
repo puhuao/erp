@@ -24,5 +24,8 @@ public class Urls {
     public static final String RESOURCE_LIST = BASE_URL+"material/query?";//物资列表
     public static final String UPLOAD = "http://101.200.172.229:8080/ERP/appuser/savePic";//上传文件
     public static final String MSG_LIST = BASE_URL+"getMessages?";//获取消息列表
-    public static final String UPDATE_MSG_STATUS = BASE_URL +"updateMessageStatus?";
+    public static final String UPDATE_MSG_STATUS = BASE_URL +"updateMessageStatus?";//修改消息状态
+    public static final String RESOURCE_SEND_TRANSFER = BASE_URL+"material/saveRecord";//物资发放和交接
+    public static final String MAINTAIN_APPLY = BASE_URL + "order/save?";//申请运维服务
+    public static final String MAINTAIN_LIST_DETAIL = BASE_URL+"order/query?";//我的运维列表或详情
 }

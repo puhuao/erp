@@ -130,6 +130,7 @@
     <string name="STATUS_FINISH">已完成</string>
     <string name="STATUS_COMMENT">已评价</string>
     <string name="resource_yard">仓库物资交接</string>
+    <string name="resource_transfer">物资交接</string>
 
 
 </resources>

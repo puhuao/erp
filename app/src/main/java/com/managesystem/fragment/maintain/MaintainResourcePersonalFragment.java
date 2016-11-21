@@ -1,4 +1,4 @@
-package com.managesystem.fragment;
+package com.managesystem.fragment.maintain;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -34,38 +34,42 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by Administrator on 2016/11/5.
+ * Created by Administrator on 2016/11/8.
+ *我的物资
  */
-public class TransferFragment extends CommonFragment {
+public class MaintainResourcePersonalFragment extends CommonFragment {
+    @Bind(R.id.send)
+    Button sure;
+    @Bind(R.id.fix)
+    Button cancel;
     @Bind(R.id.list_view)
     ListView listView;
-    @Bind(R.id.fab)
-    Button fab;
     ResourcePersonAdapter resourcePersonAdapter;
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     View empty;
-    private IConfig config;
-    private String userID;
-
+    String userID;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container = (ViewGroup) inflater.inflate(R.layout.fragment_resource_yard, null);
+        container = (ViewGroup) inflater.inflate(R.layout.fragment_resource_person, null);
         empty = inflater.inflate(R.layout.empty_view, null);
         ButterKnife.bind(this, container);
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        userID = config.getString("userId", "");
         initView();
         return container;
     }
 
     private void initView() {
-        enableDefaultBack(false);
-        config = BaseApplication.getInstance().getCurrentConfig();
-        userID = config.getString("userId", "");
-        setHeaderTitle(getStringFromResource(R.string.resource_transfer));
+
+        setHeaderTitle(getStringFromResource(R.string.resource_my));
+        sure.setText("取消");
+        cancel.setText("确认");
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());
@@ -77,28 +81,13 @@ public class TransferFragment extends CommonFragment {
             @Override
             public void onClick(View v) {
                 //check_all
-            }
-        });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String ms = getStringParam();
-                QrResourceModel qrResourceModel = new QrResourceModel();
-                qrResourceModel.setType("3");
-                QRresourceSend qRresourceSend = new QRresourceSend();
-                StringBuilder sb = new StringBuilder("?");
-                UrlUtils.getInstance(sb).praseToUrl("type","1")//1：交接2：发放
-                        .praseToUrl("fromUserId",userID).removeLastWord();
-                sb.append(ms);
-                qRresourceSend.setPStr(sb.toString());
-                qrResourceModel.setParam(qRresourceSend);
-                try {
-                    Bitmap bitmap = CreateQrCode.createQRCode(GsonUtil.objectToJson(qrResourceModel), 300);
-                    QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);
-                    popupwindow.showPopupwindow(v);
-                } catch (WriterException e) {
-                    e.printStackTrace();
+                resourcePersonAdapter.setIsFromCheckAll(true);
+                for (ResourcePersonModel r :
+                        resourcePersonModels) {
+                    r.isCheck = true;
                 }
+                resourcePersonAdapter.notifyDataSetChanged();
+                resourcePersonAdapter.setIsFromCheckAll(false);
             }
         });
         getResource();
@@ -106,9 +95,10 @@ public class TransferFragment extends CommonFragment {
 
 
     private void getResource(){
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+
         StringBuilder sb = new StringBuilder(Urls.RESOURCE_LIST);
         UrlUtils.getInstance(sb).praseToUrl("pageNo","1")
+                .praseToUrl("userId",userID)
                 .praseToUrl("pageSize","20")
                 .praseToUrl("keyword","")
                 .removeLastWord();
@@ -118,6 +108,7 @@ public class TransferFragment extends CommonFragment {
                 super.onError(isFromCache, call, response, e);
                 ToastUtil.showShortMessage(getContext(),"网络错误");
             }
+
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
@@ -138,16 +129,18 @@ public class TransferFragment extends CommonFragment {
                 .execute(callback);
     }
 
-    private String getStringParam(){
-        StringBuilder sb = new StringBuilder();
-        int i =0 ;
-        for (ResourcePersonModel r :
-                resourcePersonModels) {
-            if (r.isCheck){
-                sb.append("&materials["+i+"].materialId="+r.getMaterialId());
-                i++;
-            }
+    @OnClick({R.id.send,R.id.fix})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.send:
+                //确认
+
+                break;
+            case R.id.fix:
+                //取消
+                break;
         }
-        return  sb.toString();
     }
+
+
 }
