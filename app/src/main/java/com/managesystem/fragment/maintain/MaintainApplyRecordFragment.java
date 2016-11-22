@@ -66,7 +66,7 @@ public class MaintainApplyRecordFragment extends CommonFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getContext().pushFragmentToBackStack(PersonalMeetingDetailFragment.class,null);
+                getContext().pushFragmentToBackStack(MaintainDetailFragment.class,records.get(position).getOrderId());
             }
         });
         getMaintains();

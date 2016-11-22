@@ -83,6 +83,8 @@ public class WorkListUnfinishFragment extends CommonFragment {
         StringBuilder sb = new StringBuilder(Urls.WORK_LIST);
         UrlUtils.getInstance(sb).praseToUrl("status","2")
                 .praseToUrl("userId",config.getString("userId",""))
+                .praseToUrl("pageNo","1")
+                .praseToUrl("pageSize","20")
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
@@ -106,7 +108,7 @@ public class WorkListUnfinishFragment extends CommonFragment {
                 }
             }
         };
-        OkHttpUtils.get(sb.toString())//
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
     }

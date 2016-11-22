@@ -77,6 +77,8 @@ adapter =  new WorkListAdapter(getContext());
         StringBuilder sb = new StringBuilder(Urls.WORK_LIST);
         UrlUtils.getInstance(sb).praseToUrl("status","3")
                 .praseToUrl("userId",config.getString("userId",""))
+                .praseToUrl("pageNo","1")
+                .praseToUrl("pageSize","20")
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
@@ -100,7 +102,7 @@ adapter =  new WorkListAdapter(getContext());
                 }
             }
         };
-        OkHttpUtils.get(sb.toString())//
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
     }

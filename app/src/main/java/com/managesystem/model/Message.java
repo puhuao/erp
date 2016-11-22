@@ -3,7 +3,7 @@ package com.managesystem.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.managesystem.jpush.JPUSHModel;
+import java.io.Serializable;
 
 /**
  * Created by puhua on 2016/11/10.
@@ -11,8 +11,17 @@ import com.managesystem.jpush.JPUSHModel;
  * @
  */
 
-public class Message extends JPUSHModel implements Parcelable{
-
+public class Message implements Serializable{
+    public static final String REGISTER_NOTICE = "10001";
+    public static final String WORK_LIST_REMIND = "10002";
+    public static final String MEETING_REMIND = "10003";
+    public static final String MEETING_NOTICE = "10004";
+    public static final String DESPATCH_NOTICE = "10005";
+    public static final String WORK_LIST_NOTICE = "10006";
+    //10001：注册提醒10002：工单提醒10003：会议提醒10004：会议通知10005：派单通知，10006：工单通知
+    public String rid;
+    public String type;
+    public String content;
     public String ctime;
     public int messageId;
     public int status;
@@ -20,42 +29,4 @@ public class Message extends JPUSHModel implements Parcelable{
     public String userId;
     public Message(){}
 
-    protected Message(Parcel in){
-        ctime = in.readString();
-        messageId = in.readInt();
-        status = in.readInt();
-        title = in.readString();
-        userId = in.readString();
-        rid = in.readString();
-        type = in.readString();
-        content = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(ctime);
-        dest.writeInt(messageId);
-        dest.writeString(userId);
-        dest.writeInt(status);
-        dest.writeString(title);
-        dest.writeString(rid);
-        dest.writeString(type);
-        dest.writeString(content);
-    }
-    public static final Creator<Message> CREATOR = new Creator<Message>() {
-        @Override
-        public Message createFromParcel(Parcel in) {
-            return new Message(in);
-        }
-
-        @Override
-        public Message[] newArray(int size) {
-            return new Message[size];
-        }
-    };
 }

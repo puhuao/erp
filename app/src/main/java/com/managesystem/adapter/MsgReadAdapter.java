@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.managesystem.R;
-import com.managesystem.jpush.JPUSHModel;
 import com.managesystem.model.Message;
 
 import butterknife.Bind;
@@ -42,18 +41,20 @@ public class MsgReadAdapter extends BaseListAdapter<Message> {
             holder.notice.setVisibility(View.VISIBLE);
         }
         holder.time.setText(message.ctime);
-        if (message.type.equals(JPUSHModel.MEETING_REMIND)){
+        if (message.type.equals(Message.MEETING_REMIND)){
             holder.image.setImageResource(R.drawable.img_meeting_notice);
 
-        }else if(message.type.equals(JPUSHModel.REGISTER_NOTICE)){
+        }else if(message.type.equals(Message.REGISTER_NOTICE)){
             holder.image.setImageResource(R.drawable.img_user_register);
-        }else if(message.type.equals(JPUSHModel.WORKLIST_NOTICE)){
+        }else if(message.type.equals(Message.WORK_LIST_NOTICE)){
             holder.image.setImageResource(R.drawable.img_fix_mession);
 
-        }else if(message.type.equals(JPUSHModel.MEETING_NOTICE)){
+        }else if(message.type.equals(Message.MEETING_NOTICE)){
             holder.image.setImageResource(R.drawable.img_meeting_notice);
 
-        }else if(message.type.equals(JPUSHModel.DESPATCH_NOTICE)){
+        }else if(message.type.equals(Message.DESPATCH_NOTICE)){
+            holder.image.setImageResource(R.drawable.img_fix_mession);
+        }else if(message.type.equals(Message.WORK_LIST_REMIND)){
             holder.image.setImageResource(R.drawable.img_fix_mession);
         }
         return convertView;

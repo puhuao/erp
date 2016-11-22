@@ -1,37 +1,25 @@
-package com.managesystem.fragment.msg;
+package com.managesystem.fragment.maintain;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
-import com.managesystem.activity.MeetingMsgDetailActivity;
-import com.managesystem.adapter.MsgReadAdapter;
+import com.managesystem.adapter.PopMeetingTypeAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.model.MeetingRoomDetail;
-import com.managesystem.model.Message;
+import com.managesystem.event.MeetingTypeSelectEvent;
+import com.managesystem.model.MeetingType;
 import com.managesystem.tools.UrlUtils;
-import com.managesystem.widegt.NestedListView;
-import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;
@@ -40,14 +28,14 @@ import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/5.
- * 消息未读
+ * 运维申请时服务类型页面
  */
-public class MsgNotReadFragment extends CommonFragment {
+public class MaintainResourceTypeFragment extends CommonFragment {
     @Bind(R.id.list_view)
     ListView listView;
-    MsgReadAdapter msgReadAdapter;
-    ArrayList<Message> messages = new ArrayList<>();
     View empty;
+    PopMeetingTypeAdapter adapter;
+    private ArrayList<MeetingType> meetingTypes = new ArrayList<>();
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,32 +47,34 @@ public class MsgNotReadFragment extends CommonFragment {
     }
 
     private void initView() {
-        hideTitleBar();
-        msgReadAdapter = new MsgReadAdapter(getContext());
-        listView.setAdapter(msgReadAdapter);
+        setHeaderTitle("服务类型");
+        adapter = new PopMeetingTypeAdapter(getContext());
+        listView.setAdapter(adapter);
         ((ViewGroup)(listView.getParent())).addView(empty);
         listView.setEmptyView(empty);
-        msgReadAdapter.setList(messages);
-        getunReadMsg();
+        adapter.setList(meetingTypes);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getContext(), MeetingMsgDetailActivity.class);
-                Message message = messages.get(position);
-                i.putExtra("obj",message);
-                getContext().startActivity(i);
+
+                if (meetingTypes.get(position).getServicetypeName().equals("设备")){
+
+                    getContext().pushFragmentToBackStack(MaintainResourcePersonalFragment.class,
+                            meetingTypes.get(position));
+                }else{
+                    String name = meetingTypes.get(position).getServicetypeName();
+                    EventBus.getDefault().post(new MeetingTypeSelectEvent(meetingTypes.get(position),null));
+                    getContext().popTopFragment(null);
+                }
+
             }
         });
+        getMeetingTypes();
     }
 
-    private void getunReadMsg(){
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
-        StringBuilder sb = new StringBuilder(Urls.MSG_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo","1")
-                .praseToUrl("userId",config.getString("userId", ""))
-                .praseToUrl("pageSize","20")
-                .praseToUrl("status","0")
-                .removeLastWord();
+    private void getMeetingTypes(){
+        StringBuilder sb = new StringBuilder(Urls.METTING_TYPES);
+        UrlUtils.getInstance(sb);
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -95,20 +85,14 @@ public class MsgNotReadFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
-                    try {
-                        JSONObject jsonObject = new JSONObject(o);
-                        String list = jsonObject.getString("list");
-                        messages.addAll(GsonUtil.fromJsonList(list, Message.class));
-                        msgReadAdapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    meetingTypes.addAll(GsonUtil.fromJsonList(o, MeetingType.class));
+                    adapter.notifyDataSetChanged();
                 }
             }
         };
-        OkHttpUtils.get(sb.toString())//
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
     }
+
 }

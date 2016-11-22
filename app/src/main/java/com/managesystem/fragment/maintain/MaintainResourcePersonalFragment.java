@@ -15,6 +15,9 @@ import com.managesystem.R;
 import com.managesystem.adapter.ResourcePersonAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.MaintainServiceTypeSelectEvent;
+import com.managesystem.event.MeetingTypeSelectEvent;
+import com.managesystem.model.MeetingType;
 import com.managesystem.model.ResourcePersonModel;
 import com.managesystem.popupwindow.QrcodeViewPopupwindow;
 import com.managesystem.tools.UrlUtils;
@@ -27,6 +30,7 @@ import com.wksc.framwork.zxing.CreateQrCode;
 import com.wksc.framwork.zxing.qrcodeModel.QRresourceSend;
 import com.wksc.framwork.zxing.qrcodeModel.QrResourceModel;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,6 +58,7 @@ public class MaintainResourcePersonalFragment extends CommonFragment {
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     View empty;
     String userID;
+    MeetingType meetingType;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_resource_person, null);
@@ -61,13 +66,14 @@ public class MaintainResourcePersonalFragment extends CommonFragment {
         ButterKnife.bind(this, container);
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         userID = config.getString("userId", "");
+        meetingType = (MeetingType) getmDataIn();
         initView();
         return container;
     }
 
     private void initView() {
 
-        setHeaderTitle(getStringFromResource(R.string.resource_my));
+        setHeaderTitle("我的设备");
         sure.setText("取消");
         cancel.setText("确认");
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
@@ -134,7 +140,18 @@ public class MaintainResourcePersonalFragment extends CommonFragment {
         switch (v.getId()) {
             case R.id.send:
                 //确认
-
+                StringBuilder sb = new StringBuilder();
+                for (ResourcePersonModel r :
+                        resourcePersonModels) {
+                    if (r.isCheck){
+                        sb.append(r.getMaterialtypeName()+",");
+                    }
+                }
+                if (sb.length()>0){
+                    sb.deleteCharAt(sb.length()-1);
+                }
+                EventBus.getDefault().post(new MeetingTypeSelectEvent(meetingType,sb.toString()));
+                getContext().popToRoot(null);
                 break;
             case R.id.fix:
                 //取消

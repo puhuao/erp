@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
@@ -39,6 +40,12 @@ import okhttp3.Response;
  * Created by Administrator on 2016/11/5.
  */
 public class SecretaryFragment extends CommonFragment {
+    @Bind(R.id.user_name)
+    TextView userName;
+    @Bind(R.id.department_name)
+    TextView departmentName;
+    @Bind(R.id.station_name)
+    TextView stationName;
     @Bind(R.id.layout_scan)
     LinearLayout llScan;
     @Bind(R.id.ll_work_list)
@@ -72,7 +79,9 @@ public class SecretaryFragment extends CommonFragment {
         }else{
             workList.setVisibility(View.GONE);
         }
-
+        userName.setText(config.getString("name", ""));
+        departmentName.setText(config.getString("department", ""));
+        stationName.setText(config.getString("stationName", ""));
     }
     @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list})
     public void onClick(View v) {

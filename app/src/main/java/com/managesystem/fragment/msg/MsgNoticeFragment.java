@@ -1,4 +1,4 @@
-package com.managesystem.fragment.meeting;
+package com.managesystem.fragment.msg;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,9 +28,9 @@ import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/5.
- * 会议详情
+ * 消息提醒页面
  */
-public class MeetingMSGDetailFragment extends CommonFragment {
+public class MsgNoticeFragment extends CommonFragment {
     @Bind(R.id.content)
     TextView content;
     @Bind(R.id.fab)
@@ -46,41 +46,41 @@ public class MeetingMSGDetailFragment extends CommonFragment {
     }
 
     private void initView() {
-        setHeaderTitle("会议消息通知");
+        setHeaderTitle("会议保障通知");
         content.setText(message.content);
+        fab.setText("确认");
     }
 
     @OnClick({R.id.fab,})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                signUp();
+                getContext().finish();
                 break;
         }
     }
 
-    public void signUp(){
-
+    private void updateDistribute() {//确认接收派单4
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
+        UrlUtils.getInstance(sb).praseToUrl("status", String.valueOf(2))
+                .praseToUrl("rid", message.rid)
+                .praseToUrl("userId",config.getString("userId", ""))
+                .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                        ToastUtil.showShortMessage(getContext(),"会议报名成功");
+                if (o != null) {
+                    ToastUtil.showShortMessage(getContext(), "评价成功");
                 }
             }
         };
-        StringBuilder sb = new StringBuilder(Urls.MEETING_ADD_USERS);
-        UrlUtils.getInstance(sb).praseToUrl("meetingId",message.rid)
-                .praseToUrl("type","1")
-                .praseToUrl("userIds",config.getString("userId", ""))
-                .removeLastWord();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);

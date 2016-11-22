@@ -7,9 +7,9 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.fragment.goodnews.GoodNewsFragment;
 import com.managesystem.fragment.meeting.MeetingMSGDetailFragment;
-import com.managesystem.jpush.JPUSHModel;
+import com.managesystem.fragment.msg.MsgMeetingGuaranteeDetailFragment;
+import com.managesystem.fragment.msg.MsgNoticeFragment;
 import com.managesystem.model.Message;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
@@ -32,26 +32,30 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_container);
-        message = getIntent().getParcelableExtra("obj");
+        message = (Message) getIntent().getSerializableExtra("obj");
         if (!StringUtils.isBlank(message.type)){
             if (message.status==0){
                 updateMessageStatus(1);//1：已查看，0：未查看
             }
-            if (message.type.equals(JPUSHModel.MEETING_REMIND)){
+            if (message.type.equals(Message.MEETING_REMIND)){
                 //会议提醒
                 pushFragmentToBackStack(MeetingMSGDetailFragment.class, message);
-            }else if(message.type.equals(JPUSHModel.REGISTER_NOTICE)){
+            }else if(message.type.equals(Message.REGISTER_NOTICE)){
                 //新用户注册，提示管理员审核
-                pushFragmentToBackStack(MeetingMSGDetailFragment.class, null);
-            }else if(message.type.equals(JPUSHModel.WORKLIST_NOTICE)){
-                //工单提醒
-                pushFragmentToBackStack(MeetingMSGDetailFragment.class, null);
-            }else if(message.type.equals(JPUSHModel.MEETING_NOTICE)){
-                //会议通知
-                pushFragmentToBackStack(MeetingMSGDetailFragment.class, null);
-            }else if(message.type.equals(JPUSHModel.DESPATCH_NOTICE)){
-                //派单通知
-                pushFragmentToBackStack(MeetingMSGDetailFragment.class, null);
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+            }else if(message.type.equals(Message.WORK_LIST_REMIND)){
+                //工单提醒，提醒管理员
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+            }else if(message.type.equals(Message.MEETING_NOTICE)){
+                //会议通知（可以报名）
+//                pushFragmentToBackStack(MeetingMSGDetailFragment.class, message);
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+            }else if(message.type.equals(Message.DESPATCH_NOTICE)){
+                //派单通知（确认）
+                pushFragmentToBackStack(MsgMeetingGuaranteeDetailFragment.class, message);
+            }else if(message.type.equals(Message.WORK_LIST_NOTICE)){
+                //工单通知
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }
 
         }else{
@@ -91,7 +95,7 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
-                    ToastUtil.showShortMessage(MeetingMsgDetailActivity.this,"通知所有用户成功");
+//                    ToastUtil.showShortMessage(MeetingMsgDetailActivity.this,"通知所有用户成功");
                 }
             }
         };

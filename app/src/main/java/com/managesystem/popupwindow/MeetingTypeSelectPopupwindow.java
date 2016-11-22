@@ -58,8 +58,6 @@ public class MeetingTypeSelectPopupwindow extends PopupWindow {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dissmisPopupwindow();
-                MeetingTypeSelectEvent event = new MeetingTypeSelectEvent(list.get(position));
-                EventBus.getDefault().post(event);
             }
         });
     }
