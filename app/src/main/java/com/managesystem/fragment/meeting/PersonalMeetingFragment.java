@@ -42,14 +42,35 @@ public class PersonalMeetingFragment extends CommonFragment {
         setHeaderTitle(getStringFromResource(R.string.meeting_my));
         mTitleList.add(getStringFromResource(R.string.meeting_apply_record));
         mTitleList.add(getStringFromResource(R.string.meeting_attend_record));
-        MeetingApplyRecordFragment meetingApplyRecordFragment = new MeetingApplyRecordFragment();
+        final MeetingApplyRecordFragment meetingApplyRecordFragment = new MeetingApplyRecordFragment();
         fragmentList.add(meetingApplyRecordFragment);
-        MeetingAttendRecordFragment meetingAttendRecordFragment = new MeetingAttendRecordFragment();
+        final MeetingAttendRecordFragment meetingAttendRecordFragment = new MeetingAttendRecordFragment();
         fragmentList.add(meetingAttendRecordFragment);
         NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
         viewpager.setAdapter(adapter);
         tabCursor.setupWithViewPager(viewpager);
         viewpager.setCurrentItem(0);
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+                if (position ==0){
+                    if (meetingApplyRecordFragment.isFirstLoad)
+                    meetingApplyRecordFragment.handler.sendEmptyMessage(0);
+                }else if(position ==1){
+                    if (meetingAttendRecordFragment.isFirstLoad)
+                        meetingAttendRecordFragment.handler.sendEmptyMessage(0);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public class NetFragmentAdapter extends FragmentPagerAdapter {

@@ -1,13 +1,10 @@
 package com.managesystem.fragment.meeting;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,55 +12,39 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.adapter.HorizontalListViewAdapter;
 import com.managesystem.adapter.MeetingRoomRecordAdapter;
-import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.HorizontalCalenderModel;
 import com.managesystem.model.MeetingRoomDetail;
 import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.HorizontalListView;
-import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.util.GsonUtil;
-import com.wksc.framwork.util.ToastUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/5.
  */
-public class MeetingRoomFragment extends CommonFragment {
+public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDetail> {
     @Bind(R.id.horizontal_list_view)
     HorizontalListView horizontalListView;
-    @Bind(R.id.list_view)
-    ListView listView;
     @Bind(R.id.search)
     EditText etSearch;
     @Bind(R.id.iv_left)
     ImageView ivLeft;
     @Bind(R.id.title_bar_title)
     TextView title;
-    View empty;
     HorizontalListViewAdapter adapter;
     MeetingRoomRecordAdapter meetingRoomRecordAdapter;
     ArrayList<HorizontalCalenderModel> models = new ArrayList<>();
@@ -76,7 +57,6 @@ Boolean isSearch = false;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_meeting_room, null);
-        empty = inflater.inflate(R.layout.empty_view, null);
         ButterKnife.bind(this, container);
         initView();
 
@@ -86,6 +66,7 @@ Boolean isSearch = false;
 
     int firstVisialePositon = 0;
     private void initView() {
+        isfirstFragment = true;
         int currentPosition=0;
         Calendar calendar = Calendar.getInstance();
         hideTitleBar();
@@ -142,10 +123,11 @@ Boolean isSearch = false;
             }
         },500);
         meetingRoomRecordAdapter = new MeetingRoomRecordAdapter(getContext());
-        listView.setAdapter(meetingRoomRecordAdapter);
-        meetingRoomRecordAdapter.setList(details);
-        ((ViewGroup)(listView.getParent())).addView(empty);
-        listView.setEmptyView(empty);
+//        listView.setAdapter(meetingRoomRecordAdapter);
+//        meetingRoomRecordAdapter.setList(details);
+//        ((ViewGroup)(listView.getParent())).addView(empty);
+//        listView.setEmptyView(empty);
+        setData(details,meetingRoomRecordAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -161,8 +143,7 @@ Boolean isSearch = false;
                 adapter.currentPositon = position;
                 adapter.notifyDataSetInvalidated();
                 horizontalListView.scrollTo((int) (position*x));
-
-                getMeetings();
+                loadMore(1);
             }
         });
         horizontalListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -191,49 +172,44 @@ Boolean isSearch = false;
             public void afterTextChanged(Editable s) {
                 isSearch = true;
                 meetingSelectCondition.setMeetingName(s.toString());
-                getMeetings();
+                loadMore(1);
             }
         });
-        getMeetings();
+
     }
 
-    private void getMeetings(){
-        StringBuilder sb = new StringBuilder(Urls.MEETING_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo",meetingSelectCondition.getPageNo())
-        .praseToUrl("pageSize",meetingSelectCondition.getPageSize())
-        .praseToUrl("meetingName",meetingSelectCondition.getMeetingName())
-        .praseToUrl("date",meetingSelectCondition.getDate())
-        .removeLastWord();
-        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-            @Override
-            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
-            }
-
-            @Override
-            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    try {
-                        JSONObject jsonObject = new JSONObject(o);
-                        String list = jsonObject.getString("list");
-                        details.clear();
-                        details.addAll(GsonUtil.fromJsonList(list, MeetingRoomDetail.class));
-                        meetingRoomRecordAdapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        };
-        if (isSearch){
-            callback.setDialogHide();
-        }
-        OkHttpUtils.get(sb.toString())//
-                .tag(this)//
-                .execute(callback);
-    }
+//    private void getMeetings(){
+//
+//        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+//            @Override
+//            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+//                super.onError(isFromCache, call, response, e);
+//                ToastUtil.showShortMessage(getContext(),"网络错误");
+//            }
+//
+//            @Override
+//            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+//                if (o!=null){
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(o);
+//                        String list = jsonObject.getString("list");
+//                        details.clear();
+//                        details.addAll(GsonUtil.fromJsonList(list, MeetingRoomDetail.class));
+//                        meetingRoomRecordAdapter.notifyDataSetChanged();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//        };
+//        if (isSearch){
+//            callback.setDialogHide();
+//        }
+//        OkHttpUtils.get(sb.toString())//
+//                .tag(this)//
+//                .execute(callback);
+//    }
 
     // 获得今天是一周的第几天，星期日是第一天，星期二是第二天......
     private int getMondayPlus(Calendar cd) {
@@ -256,4 +232,14 @@ Boolean isSearch = false;
         return model;
     }
 
+    @Override
+    public void loadMore(int pageNo) {
+        StringBuilder sb = new StringBuilder(Urls.MEETING_LIST);
+        UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
+                .praseToUrl("pageSize",meetingSelectCondition.getPageSize())
+                .praseToUrl("meetingName",meetingSelectCondition.getMeetingName())
+                .praseToUrl("date",meetingSelectCondition.getDate())
+                .removeLastWord();
+        excute(sb.toString(),MeetingRoomDetail.class);
+    }
 }

@@ -22,14 +22,11 @@ import com.wksc.framwork.baseui.activity.BaseFragmentActivity;
 import com.wksc.framwork.platform.config.IConfig;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * Created by puhua on 2016/5/26.
@@ -91,7 +88,13 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
             @Override
             public void onPageSelected(int position) {
-            }
+                if (position ==1){
+                    if (transferFragment.isFirstLoad)
+                        transferFragment.handler.sendEmptyMessage(0);
+                }else if(position ==2){
+                    msgFragment.postToLoadData();
+                }
+             }
 
             @Override
             public void onPageScrollStateChanged(int state) {

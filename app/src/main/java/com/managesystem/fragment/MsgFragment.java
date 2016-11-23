@@ -31,7 +31,7 @@ public class MsgFragment extends CommonFragment {
     ViewPager viewpager;
     private ArrayList<String> mTitleList = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
-
+    MsgNotReadFragment msgNotReadFragment;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.layout_tab_layout_view_pager, null);
@@ -40,19 +40,50 @@ public class MsgFragment extends CommonFragment {
         return container;
     }
 
+    public void postToLoadData(){
+        if (msgNotReadFragment.isFirstLoad)
+            msgNotReadFragment.handler.sendEmptyMessage(0);
+    }
+
+
     private void initView() {
         enableDefaultBack(false);
         setHeaderTitle(getStringFromResource(R.string.msg));
         mTitleList.add(getStringFromResource(R.string.msg_read_not));
         mTitleList.add(getStringFromResource(R.string.msg_read));
-        MsgNotReadFragment msgNotReadFragment = new MsgNotReadFragment();
+        msgNotReadFragment = new MsgNotReadFragment();
         fragmentList.add(msgNotReadFragment);
-        MsgReadFragment msgReadFragment = new MsgReadFragment();
+        final MsgReadFragment msgReadFragment = new MsgReadFragment();
         fragmentList.add(msgReadFragment);
         NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
         viewpager.setAdapter(adapter);
         tabCursor.setupWithViewPager(viewpager);
         viewpager.setCurrentItem(0);
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position==0){
+                    if (msgNotReadFragment.isFirstLoad){
+                        msgNotReadFragment.handler.sendEmptyMessage(0);
+                    }
+                }else if(position == 1){
+                    if (msgReadFragment.isFirstLoad){
+                        msgReadFragment.handler.sendEmptyMessage(0);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public class NetFragmentAdapter extends FragmentPagerAdapter {

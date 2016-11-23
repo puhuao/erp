@@ -49,14 +49,34 @@ public class PersonalResourceApplyFragment extends CommonFragment {
         setHeaderTitle(getStringFromResource(R.string.resource_apply));
         mTitleList.add(getStringFromResource(R.string.resource_apply_title));
         mTitleList.add(getStringFromResource(R.string.resource_apply_list));
-        ResourceApplyFragment resourceLostApplyFragment = new ResourceApplyFragment();
+        final ResourceApplyFragment resourceLostApplyFragment = new ResourceApplyFragment();
         fragmentList.add(resourceLostApplyFragment);
-        ResourceApplyListFragment resourceLostApplyListFragment = new ResourceApplyListFragment();
+        final ResourceApplyListFragment resourceLostApplyListFragment = new ResourceApplyListFragment();
         fragmentList.add(resourceLostApplyListFragment);
         NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
         viewpager.setAdapter(adapter);
         tabCursor.setupWithViewPager(viewpager);
         viewpager.setCurrentItem(0);
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1){
+                    if (resourceLostApplyListFragment.isFirstLoad){
+                        resourceLostApplyListFragment.handler.sendEmptyMessage(0);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public class NetFragmentAdapter extends FragmentPagerAdapter {

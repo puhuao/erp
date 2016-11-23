@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.managesystem.R;
+import com.managesystem.activity.EBookActivity;
 import com.managesystem.activity.GoodNewsActivity;
 import com.managesystem.activity.MainTainApplyActivity;
 import com.managesystem.activity.MeetingManageActivity;
+import com.managesystem.activity.PPSActivity;
 import com.managesystem.activity.ResourceApplyActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
@@ -32,7 +34,7 @@ public class MainFragment extends CommonFragment {
         enableDefaultBack(false);
     }
 
-    @OnClick({R.id.layout_meet_apply,R.id.layout_good_news,R.id.layout_resource_apply,R.id.layout_maintain})
+    @OnClick({R.id.layout_telephone_book,R.id.layout_communication,R.id.layout_meet_apply,R.id.layout_good_news,R.id.layout_resource_apply,R.id.layout_maintain})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_maintain:
@@ -46,6 +48,12 @@ public class MainFragment extends CommonFragment {
                 break;
             case R.id.layout_resource_apply:
                 startActivity(ResourceApplyActivity.class);
+                break;
+            case R.id.layout_communication:
+                startActivity(PPSActivity.class);
+                break;
+            case R.id.layout_telephone_book:
+                startActivity(EBookActivity.class);
                 break;
         }
     }

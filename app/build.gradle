@@ -31,4 +31,5 @@ dependencies {
     compile 'com.lzy.widget:ninegridview:0.2.0'
     compile 'com.lzy.widget:view-core:0.2.1'
     compile files('libs/jpush-android-2.0.5.jar')
+    compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
 }

@@ -29,5 +29,20 @@
         <item name="android:textColor">@color/text_hint</item>
         <item name="textAllCaps">true</item>
     </style>
+    <style name="styleEmojicon">
+        <item name="emojiconSize">20sp</item>
+    </style>
+    <style name="black_fourteen_text">
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/text_black</item>
+    </style>
 
+    <style name="black_fiveteen_text">
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/text_black</item>
+    </style>
+    <style name="a_child_text">
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/color1</item>
+    </style>
 </resources>

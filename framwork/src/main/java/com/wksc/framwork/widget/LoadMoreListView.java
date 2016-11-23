@@ -147,7 +147,7 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 
     public void setCanLoadMore(boolean canLoadMore){
         mCanLoadMore = canLoadMore;
-        mLabLoadMore.setVisibility(View.INVISIBLE);
+        mLabLoadMore.setVisibility(View.GONE);
     }
 
     public void onLoadMore() {

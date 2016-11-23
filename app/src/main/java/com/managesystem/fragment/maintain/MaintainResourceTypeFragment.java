@@ -2,11 +2,12 @@ package com.managesystem.fragment.maintain;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.adapter.PopMeetingTypeAdapter;
@@ -18,8 +19,12 @@ import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
+import com.wksc.framwork.widget.LoadMoreListView;
+
 import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;
@@ -31,8 +36,10 @@ import okhttp3.Response;
  * 运维申请时服务类型页面
  */
 public class MaintainResourceTypeFragment extends CommonFragment {
+    @Bind(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.list_view)
-    ListView listView;
+    LoadMoreListView listView;
     View empty;
     PopMeetingTypeAdapter adapter;
     private ArrayList<MeetingType> meetingTypes = new ArrayList<>();
@@ -69,6 +76,12 @@ public class MaintainResourceTypeFragment extends CommonFragment {
 
             }
         });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getMeetingTypes();
+            }
+        });
         getMeetingTypes();
     }
 
@@ -85,6 +98,13 @@ public class MaintainResourceTypeFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
+                    if (swipeRefreshLayout.isRefreshing()){
+                        swipeRefreshLayout.setRefreshing(false);
+                        swipeRefreshLayout.setEnabled(true);
+                    }
+                    listView.onLoadMoreComplete();
+                    listView.setCanLoadMore(false);
+                    meetingTypes.clear();
                     meetingTypes.addAll(GsonUtil.fromJsonList(o, MeetingType.class));
                     adapter.notifyDataSetChanged();
                 }
