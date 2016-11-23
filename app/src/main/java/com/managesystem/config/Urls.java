@@ -28,4 +28,10 @@ public class Urls {
     public static final String RESOURCE_SEND_TRANSFER = BASE_URL+"material/saveRecord";//物资发放和交接
     public static final String MAINTAIN_APPLY = BASE_URL + "order/save?";//申请运维服务
     public static final String MAINTAIN_LIST_DETAIL = BASE_URL+"order/query?";//我的运维列表或详情
+    public static final String PPS_POST = BASE_URL +"topic/save?";//发帖
+    public static final String PPS_LIST = BASE_URL+"topic/query?";//帖子列表
+    public static final String PPS_COMMECT = BASE_URL +"topic/saveReply?";//回帖
+    public static final String PPS_COMMENT_LIST = BASE_URL +"topic/queryReplys?";//回帖列表
+    public static final String PPS_ZAN = BASE_URL +"topic/praise?";//点赞
+    public static final String GETPICS = "http://101.200.172.229:8080/ERP/appuser/getPic?path=";
 }

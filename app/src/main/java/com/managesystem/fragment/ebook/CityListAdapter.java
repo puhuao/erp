@@ -1,9 +1,6 @@
 package com.managesystem.fragment.ebook;
 
 import android.support.v7.widget.RecyclerView;
-
-import com.bigkoo.quicksidebardemo.model.City;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

@@ -15,7 +15,8 @@ public class PPSActivity extends CommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_container);
-        pushFragmentToBackStack(PPSListFragment.class, null);
+        int type = getIntent().getExtras().getInt("type");
+        pushFragmentToBackStack(PPSListFragment.class, type);
     }
 
     @Override

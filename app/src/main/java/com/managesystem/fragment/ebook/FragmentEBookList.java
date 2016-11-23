@@ -1,7 +1,6 @@
 package com.managesystem.fragment.ebook;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +12,9 @@ import android.widget.TextView;
 import com.bigkoo.quicksidebar.QuickSideBarTipsView;
 import com.bigkoo.quicksidebar.QuickSideBarView;
 import com.bigkoo.quicksidebar.listener.OnQuickSideBarTouchListener;
-import com.bigkoo.quicksidebardemo.constants.DataConstants;
-import com.bigkoo.quicksidebardemo.model.City;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.managesystem.R;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -24,37 +22,34 @@ import com.wksc.framwork.baseui.fragment.CommonFragment;
 import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static com.google.gson.jpush.internal.bind.y.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class FragmentEBookList extends CommonFragment implements OnQuickSideBarTouchListener {
+    @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
-    HashMap<String,Integer> letters = new HashMap<>();
+    @Bind(R.id.quickSideBarView)
     QuickSideBarView quickSideBarView;
+    @Bind(R.id.quickSideBarTipsView)
     QuickSideBarTipsView quickSideBarTipsView;
-
+    HashMap<String,Integer> letters = new HashMap<>();
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
+        container = (ViewGroup) inflater.inflate(R.layout.fragment_ebook, null);
+        ButterKnife.bind(this, container);
+        initView();
+        return container;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        quickSideBarView = (QuickSideBarView) findViewById(R.id.quickSideBarView);
-        quickSideBarTipsView = (QuickSideBarTipsView) findViewById(R.id.quickSideBarTipsView);
-
-        //设置监听
+    private void initView() {
         quickSideBarView.setOnQuickSideBarTouchListener(this);
 
 
         //设置列表数据和浮动header
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         // Add the sticky headers decoration
@@ -87,8 +82,9 @@ public class FragmentEBookList extends CommonFragment implements OnQuickSideBarT
         recyclerView.addItemDecoration(headersDecor);
 
         // Add decoration for dividers between list items
-        recyclerView.addItemDecoration(new DividerDecoration(this));
+        recyclerView.addItemDecoration(new DividerDecoration(getContext()));
     }
+
 
 
     @Override

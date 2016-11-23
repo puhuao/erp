@@ -50,7 +50,9 @@ public class MainFragment extends CommonFragment {
                 startActivity(ResourceApplyActivity.class);
                 break;
             case R.id.layout_communication:
-                startActivity(PPSActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("type",0);
+                startActivity(PPSActivity.class,bundle);
                 break;
             case R.id.layout_telephone_book:
                 startActivity(EBookActivity.class);

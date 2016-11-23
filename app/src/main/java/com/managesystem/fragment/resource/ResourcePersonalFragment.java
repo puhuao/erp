@@ -28,12 +28,13 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/11/8.
- *我的物资
+ * 我的物资
  */
 public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePersonModel> {
     ResourcePersonAdapter resourcePersonAdapter;
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     String userID;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_resource_person, null);
@@ -45,12 +46,12 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
     }
 
     private void initView() {
-isfirstFragment = true;
+        isfirstFragment = true;
         setHeaderTitle(getStringFromResource(R.string.resource_my));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());
-        setData(resourcePersonModels,resourcePersonAdapter);
+        setData(resourcePersonModels, resourcePersonAdapter);
         getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +66,8 @@ isfirstFragment = true;
             }
         });
     }
-    @OnClick({R.id.send,R.id.fix})
+
+    @OnClick({R.id.send, R.id.fix})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.send:
@@ -82,42 +84,42 @@ isfirstFragment = true;
         qrResourceModel.setType("3");
         QRresourceSend qRresourceSend = new QRresourceSend();
         StringBuilder sb = new StringBuilder("?");
-        UrlUtils.getInstance(sb).praseToUrl("type","1")//1：交接2：发放
-                .praseToUrl("fromUserId",userID).removeLastWord();
+        UrlUtils.getInstance(sb).praseToUrl("type", "1")//1：交接2：发放
+                .praseToUrl("fromUserId", userID).removeLastWord();
         sb.append(ms);
         qRresourceSend.setPStr(sb.toString());
         qrResourceModel.setParam(qRresourceSend);
         try {
             Bitmap bitmap = CreateQrCode.createQRCode(GsonUtil.objectToJson(qrResourceModel), 300);
-            QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(),bitmap);
+            QrcodeViewPopupwindow popupwindow = new QrcodeViewPopupwindow(getContext(), bitmap);
             popupwindow.showPopupwindow(v);
         } catch (WriterException e) {
             e.printStackTrace();
         }
     }
 
-    private String getStringParam(){
+    private String getStringParam() {
         StringBuilder sb = new StringBuilder();
-        int i =0 ;
+        int i = 0;
         for (ResourcePersonModel r :
                 resourcePersonModels) {
-            if (r.isCheck){
-                sb.append("&materials["+i+"].materialId="+r.getMaterialId());
+            if (r.isCheck) {
+                sb.append("&materials[" + i + "].materialId=" + r.getMaterialId());
                 i++;
             }
         }
-        return  sb.toString();
+        return sb.toString();
     }
 
 
     @Override
     public void loadMore(int pageNo) {
         StringBuilder sb = new StringBuilder(Urls.RESOURCE_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
-                .praseToUrl("userId",userID)
-                .praseToUrl("pageSize","20")
-                .praseToUrl("keyword","")
+        UrlUtils.getInstance(sb).praseToUrl("pageNo", String.valueOf(pageNo))
+                .praseToUrl("userId", userID)
+                .praseToUrl("pageSize", "20")
+                .praseToUrl("keyword", "")
                 .removeLastWord();
-        excute(sb.toString(),ResourcePersonModel.class);
+        excute(sb.toString(), ResourcePersonModel.class);
     }
 }

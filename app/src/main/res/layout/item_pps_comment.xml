@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_back_gray"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/dimen_12">
+
+        <com.wksc.framwork.widget.CircleImageView
+            android:id="@+id/cirimg_user"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_header_defalt"
+            app:border_color="@color/transparent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dimen_12">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XXX"
+                android:textSize="@dimen/text_size_16"
+                android:textColor="@color/text_color"/>
+            <com.managesystem.widegt.EmojiTextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/dimen_2"
+                android:maxLines="3"
+                android:padding="@dimen/dimen_12"
+                android:text="dgafggdf"
+                android:background="@color/white"
+                android:textSize="@dimen/text_size_16"/>
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="124"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/text_hint"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

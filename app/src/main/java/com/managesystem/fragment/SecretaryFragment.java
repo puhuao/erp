@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.activity.MainTainListActivity;
+import com.managesystem.activity.PPSActivity;
 import com.managesystem.activity.WorkListsActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
@@ -83,7 +84,7 @@ public class SecretaryFragment extends CommonFragment {
         departmentName.setText(config.getString("department", ""));
         stationName.setText(config.getString("stationName", ""));
     }
-    @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list})
+    @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_scan:
@@ -94,6 +95,11 @@ public class SecretaryFragment extends CommonFragment {
                 break;
             case R.id.ll_maintain_list:
                 startActivity(MainTainListActivity.class);
+                break;
+            case R.id.ll_pps_list:
+                Bundle bundle = new Bundle();
+                bundle.putInt("type",1);
+                startActivity(PPSActivity.class,bundle);
                 break;
         }
     }

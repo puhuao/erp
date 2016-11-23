@@ -54,6 +54,7 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
         @Override
         public void handleMessage(Message msg) {
             startRefresh();
+            pageNo = 1;
             loadMore(1);
         }
     };
@@ -90,6 +91,7 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageNo = 1;
                 loadMore(1);
             }
         });
