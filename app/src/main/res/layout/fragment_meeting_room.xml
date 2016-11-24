@@ -36,12 +36,15 @@
                         android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
-        <com.managesystem.widegt.HorizontalListView
+        <!--<com.managesystem.widegt.HorizontalListView
             android:id="@+id/horizontal_list_view"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-
-            />
+            />-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
     </LinearLayout>
 
 <EditText

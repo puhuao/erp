@@ -1,39 +1,27 @@
 package com.managesystem.fragment.pps;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.lzy.imagepicker.ImagePicker;
-import com.lzy.imagepicker.bean.ImageItem;
-import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.okhttputils.OkHttpUtils;
-import com.lzy.widget.ExpandGridView;
 import com.managesystem.R;
-import com.managesystem.adapter.GridImageAdapter;
 import com.managesystem.adapter.PPSCommentAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.MeetingRoomSelectEvent;
-import com.managesystem.fragment.BaseListRefreshFragment;
+import com.managesystem.fragment.BaseNestListRefreshFragment;
 import com.managesystem.model.PPSComment;
 import com.managesystem.model.PPSModel;
-import com.managesystem.tools.GlideImageLoader;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.EmojiTextView;
 import com.managesystem.widegt.multiImageView.MultiImageView;
 import com.wksc.framwork.BaseApplication;
-import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.StringUtils;
@@ -58,7 +46,7 @@ import okhttp3.Response;
  * Created by Administrator on 2016/11/5.
  * 发布新消息
  */
-public class PPSDetailFragment extends BaseListRefreshFragment<PPSComment> {
+public class PPSDetailFragment extends BaseNestListRefreshFragment<PPSComment> {
     @Bind(R.id.tv_name)
     TextView name;
     @Bind(R.id.tv_time)
@@ -77,8 +65,7 @@ public class PPSDetailFragment extends BaseListRefreshFragment<PPSComment> {
             EditText etReact;
     @Bind(R.id.react)
             TextView react;
-    @Bind(R.id.scrollView)
-    ScrollView scrollView;
+
 private String reactContent;
     PPSModel ppsModel;
     ArrayList<PPSComment> ppsComments = new ArrayList<>();
@@ -120,21 +107,12 @@ private String reactContent;
     }
 
     private void initView() {
+        isfirstFragment = true;
         ppsModel = (PPSModel) getmDataIn();
         ppsCommentAdapter = new PPSCommentAdapter(getContext());
         setData(ppsComments,ppsCommentAdapter);
         detail();
         setHeaderTitle(ppsModel.getTitle());
-        if (scrollView != null) {
-            scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                @Override
-                public void onScrollChanged() {
-                    if (swipeRefreshLayout != null) {
-                        swipeRefreshLayout.setEnabled(scrollView.getScrollY() == 0);
-                    }
-                }
-            });
-        }
     }
 
     private void praise(){

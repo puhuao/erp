@@ -1,14 +1,15 @@
 package com.managesystem.fragment.meeting;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ import com.managesystem.model.HorizontalCalenderModel;
 import com.managesystem.model.MeetingRoomDetail;
 import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.tools.UrlUtils;
-import com.managesystem.widegt.HorizontalListView;
+import com.managesystem.widegt.recycler.OnRecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,14 +38,16 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/11/5.
  */
 public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDetail> {
-    @Bind(R.id.horizontal_list_view)
-    HorizontalListView horizontalListView;
+    /*@Bind(R.id.horizontal_list_view)
+    HorizontalListView horizontalListView;*/
     @Bind(R.id.search)
     EditText etSearch;
     @Bind(R.id.iv_left)
     ImageView ivLeft;
     @Bind(R.id.title_bar_title)
     TextView title;
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
     HorizontalListViewAdapter adapter;
     MeetingRoomRecordAdapter meetingRoomRecordAdapter;
     ArrayList<HorizontalCalenderModel> models = new ArrayList<>();
@@ -107,26 +110,22 @@ Boolean isSearch = false;
         meetingSelectCondition.setDate(d);
         adapter = new HorizontalListViewAdapter(getContext());
         adapter.currentPositon = currentPosition;
-
-        horizontalListView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                WindowManager wm = (WindowManager) getContext()
-                        .getSystemService(Context.WINDOW_SERVICE);
-                int width = wm.getDefaultDisplay().getWidth();
-                x = width/7;
+        final LinearLayoutManager rvManager = new LinearLayoutManager(getContext());
+        rvManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(rvManager);
+        adapter.setmList(models);
+        recyclerView.setAdapter(adapter);
+        final int finalCurrentPosition = currentPosition;
+//        recyclerView.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+                DisplayMetrics dm = getResources().getDisplayMetrics();
+                x = dm.widthPixels/7;
                 adapter.setX(x);
-                adapter.setList(models);
-                horizontalListView.setAdapter(adapter);
-                horizontalListView.requestFocusFromTouch();
-                horizontalListView.scrollTo((int) (firstVisialePositon*x));
-            }
-        },500);
+                rvManager.smoothScrollToPosition(recyclerView,null, finalCurrentPosition+6);
+//            }
+//        },500);
         meetingRoomRecordAdapter = new MeetingRoomRecordAdapter(getContext());
-//        listView.setAdapter(meetingRoomRecordAdapter);
-//        meetingRoomRecordAdapter.setList(details);
-//        ((ViewGroup)(listView.getParent())).addView(empty);
-//        listView.setEmptyView(empty);
         setData(details,meetingRoomRecordAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -135,18 +134,32 @@ Boolean isSearch = false;
                 getContext().pushFragmentToBackStack(MeetingRoomTakenInformationFragment.class,meetingSelectCondition);
             }
         });
-        horizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        recyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(recyclerView) {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(RecyclerView.ViewHolder vh) {
+                int position = vh.getAdapterPosition();
                 title.setText(models.get(position).calendar);
                 meetingSelectCondition.setDate(models.get(position).calendar);
                 adapter.currentPositon = position;
-                adapter.notifyDataSetInvalidated();
-                horizontalListView.scrollTo((int) (position*x));
+                adapter.notifyDataSetChanged();
+                rvManager.smoothScrollToPosition(recyclerView,null,position);
+//                horizontalListView.scrollTo((int) (position*x));
                 loadMore(1);
             }
+
+            @Override
+            public void onItemLongClick(RecyclerView.ViewHolder vh) {
+
+            }
         });
-        horizontalListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+       /* horizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });*/
+        /*horizontalListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -156,7 +169,7 @@ Boolean isSearch = false;
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

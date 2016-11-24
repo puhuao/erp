@@ -16,11 +16,10 @@ import android.widget.TextView;
 
 import com.wksc.framwork.R;
 
-
 /**
- *
+ * Created by wanglin on 2015/7/6.
  */
-public class LoadMoreListView extends ListView implements OnScrollListener {
+public class LoadMoreNestListView extends ListView implements OnScrollListener {
 
     private static final String TAG = "LoadMoreListView";
 
@@ -39,17 +38,17 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 
     private boolean mCanLoadMore = true;
     private int mCurrentScrollState;
-    public LoadMoreListView(Context context) {
+    public LoadMoreNestListView(Context context) {
         super(context);
         init(context);
     }
 
-    public LoadMoreListView(Context context, AttributeSet attrs) {
+    public LoadMoreNestListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public LoadMoreListView(Context context, AttributeSet attrs, int defStyle) {
+    public LoadMoreNestListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -87,6 +86,13 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
         mOnScrollListener = l;
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
+                MeasureSpec.AT_MOST);
+        super.onMeasure(widthMeasureSpec, expandSpec);
+    }
+
     /**
      * Register a callback to be invoked when this list reaches the end (last
      * item be visible)
@@ -94,6 +100,8 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
      * @param onLoadMoreListener
      *            The callback to run.
      */
+
+
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         mOnLoadMoreListener = onLoadMoreListener;
@@ -147,12 +155,7 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 
     public void setCanLoadMore(boolean canLoadMore){
         mCanLoadMore = canLoadMore;
-        if(!canLoadMore){
-            mLabLoadMore.setVisibility(View.VISIBLE);
-        }else {
-            mLabLoadMore.setVisibility(View.GONE);
-        }
-
+        mLabLoadMore.setVisibility(View.INVISIBLE);
     }
 
     public void onLoadMore() {
@@ -186,8 +189,4 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
         void onLoadMore();
     }
 
-    @Override
-    protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-        return super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX, 300, isTouchEvent);
-    }
 }
