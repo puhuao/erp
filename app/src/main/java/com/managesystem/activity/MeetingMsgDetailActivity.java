@@ -39,7 +39,8 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
             }
             if (message.type.equals(Message.MEETING_REMIND)){
                 //会议提醒
-                pushFragmentToBackStack(MeetingMSGDetailFragment.class, message);
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+//                pushFragmentToBackStack(MeetingMSGDetailFragment.class, message);
             }else if(message.type.equals(Message.REGISTER_NOTICE)){
                 //新用户注册，提示管理员审核
                 pushFragmentToBackStack(MsgNoticeFragment.class, message);
@@ -48,8 +49,8 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
                 pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }else if(message.type.equals(Message.MEETING_NOTICE)){
                 //会议通知（可以报名）
-//                pushFragmentToBackStack(MeetingMSGDetailFragment.class, message);
-                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+                pushFragmentToBackStack(MeetingMSGDetailFragment.class, message);
+//                pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }else if(message.type.equals(Message.DESPATCH_NOTICE)){
                 //派单通知（确认）
                 pushFragmentToBackStack(MsgMeetingGuaranteeDetailFragment.class, message);
