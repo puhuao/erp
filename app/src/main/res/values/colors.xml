@@ -32,4 +32,5 @@
 
     <!--覆盖颜色-->
     <color name="bgColor_overlay">#60000000</color>
+    <color name="img_status_bar">#303135</color>
 </resources>

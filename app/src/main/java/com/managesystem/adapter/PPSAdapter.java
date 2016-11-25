@@ -1,15 +1,15 @@
 package com.managesystem.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lzy.okhttpserver.L;
 import com.managesystem.R;
+import com.managesystem.activity.ImageActivity;
 import com.managesystem.config.Urls;
-import com.managesystem.model.Message;
 import com.managesystem.model.PPSModel;
 import com.managesystem.widegt.EmojiTextView;
 import com.managesystem.widegt.multiImageView.MultiImageView;
@@ -41,7 +41,7 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        PPSModel ppsModel = mList.get(position);
+        final PPSModel ppsModel = mList.get(position);
         holder.name.setText(ppsModel.getName());
         holder.time.setText(ppsModel.getCtime());
         holder.content.setText(ppsModel.getContent());
@@ -55,6 +55,20 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
             holder.multiImageView.setList(imgs);
         }
         holder.check.setText(String.valueOf(ppsModel.getScanCount()));
+        holder.multiImageView.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                Bundle bd = null;
+                if (bd == null) {
+                    bd = new Bundle();
+                }
+                    bd.putStringArrayList("list", (ArrayList<String>) ppsModel.getPics());
+                bd.putInt("position", position);
+                intent.putExtras(bd);
+                mContext.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
