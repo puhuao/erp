@@ -8,13 +8,13 @@ public class ResourcePersonModel {
 
     private String materialName;
     private String model;
-    private int isNeedSerial;
+    private int isNeedSerial;//1:表示需要序列码，0：表示不需要序列码
     private int price;
     private String materialnameId;
     private String param;
     private String materialId;
     private Object userId;
-    private Object serialNumber;
+    private String serialNumber;
     private String brand;
     private String materialtypeName;
     private String materialtypeId;
@@ -84,11 +84,11 @@ public class ResourcePersonModel {
         this.userId = userId;
     }
 
-    public Object getSerialNumber() {
+    public String getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(Object serialNumber) {
+    public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
     }
 

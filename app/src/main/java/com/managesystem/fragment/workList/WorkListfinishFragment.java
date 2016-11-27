@@ -11,13 +11,16 @@ import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.WorkListDetailActivity;
 import com.managesystem.adapter.WorkListAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.fragment.meeting.MeetingDetailFragment;
 import com.managesystem.fragment.meeting.MeetingGuaranteeInformationFragment;
 import com.managesystem.model.MeetingApplyRecord;
@@ -35,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,16 +50,13 @@ import okhttp3.Response;
  * Created by Administrator on 2016/11/8.
  * 我的工单--已完成
  */
-public class WorkListfinishFragment extends CommonFragment {
-    @Bind(R.id.list_view)
-    ListView listView;
-    View empty;
+public class WorkListfinishFragment extends BaseListRefreshFragment<WorkList> {
     private ArrayList<WorkList> workLists = new ArrayList<>();
     WorkListAdapter adapter;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.layout_swipe_refresh_list, null);
-        empty = inflater.inflate(R.layout.empty_view, null);
         ButterKnife.bind(this, container);
         initView();
         return container;
@@ -63,48 +64,38 @@ public class WorkListfinishFragment extends CommonFragment {
 
     private void initView() {
         hideTitleBar();
-adapter =  new WorkListAdapter(getContext());
-        listView.setAdapter(adapter);
-        adapter.setList(workLists);
+        adapter = new WorkListAdapter(getContext());
         adapter.setType(0);
-        ((ViewGroup)(listView.getParent())).addView(empty);
-        listView.setEmptyView(empty);
-        getList();
-    }
-
-    private void getList(){
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
-        StringBuilder sb = new StringBuilder(Urls.WORK_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("status","3")
-                .praseToUrl("userId",config.getString("userId",""))
-                .praseToUrl("pageNo","1")
-                .praseToUrl("pageSize","20")
-                .removeLastWord();
-        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+        setData(workLists, adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
-            }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
 
-            @Override
-            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    try {
-                        JSONObject jsonObject = new JSONObject(o);
-                        String list = jsonObject.getString("list");
-                        workLists.clear();
-                        workLists.addAll(GsonUtil.fromJsonList(list, WorkList.class));
-                        adapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                if (workLists.get(position).getServicetypeName().equals("会议")){
+                    bundle.putInt("type",0);
+                    bundle.putSerializable("obj",workLists.get(position));
+                    startActivity(WorkListDetailActivity.class,bundle);
+                }else{
+                    bundle.putInt("type",1);
+                    bundle.putSerializable("obj",workLists.get(position));
+                    startActivity(WorkListDetailActivity.class,bundle);
                 }
             }
-        };
-        OkHttpUtils.post(sb.toString())//
-                .tag(this)//
-                .execute(callback);
+        });
     }
+
+    @Override
+    public void loadMore(int pageNo) {
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        StringBuilder sb = new StringBuilder(Urls.WORK_LIST);
+        UrlUtils.getInstance(sb).praseToUrl("status", "3")
+                .praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("pageNo", "1")
+                .praseToUrl("pageSize", "20")
+                .removeLastWord();
+        excute(sb.toString(), WorkList.class);
+    }
+
 
 }

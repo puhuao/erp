@@ -67,6 +67,14 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PPSActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PersonListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.WorkListDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.RecycleZxingCaptureActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Required SDK核心功能-->
         <activity

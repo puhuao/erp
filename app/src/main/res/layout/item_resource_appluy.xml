@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:layout_marginTop="@dimen/dimen_1">
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/name"
             android:textSize="@dimen/text_size_16"
             android:text="设备类型\设备名称"
-            android:padding="@dimen/dimen_12"
+            android:paddingLeft="@dimen/dimen_12"
+            android:textColor="@color/text_color"
             />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/manager"
+            android:textSize="@dimen/text_size_16"
+            android:text="管理员:"
+            android:layout_marginTop="@dimen/dimen_12"
+            android:paddingLeft="@dimen/dimen_12"
+            android:textColor="@color/text_hint"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,32 +34,32 @@
             android:textSize="@dimen/text_size_16"
             android:text="领取时间:2016-11-25 12:30"
             android:paddingLeft="@dimen/dimen_12"
-            />
+            android:layout_marginTop="@dimen/dimen_12"
+            android:textColor="@color/text_hint"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/manager"
-            android:textSize="@dimen/text_size_16"
-            android:text="管理员:"
-            android:padding="@dimen/dimen_12"
-            />
+
     </LinearLayout>
     <TextView
         android:id="@+id/status"
+        style="@style/style_not_verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="未审批"
-        android:background="@drawable/shape_status_bacgroud"
-        android:padding="@dimen/dimen_12"
+        android:paddingLeft="@dimen/dimen_12"
+        android:paddingRight="@dimen/dimen_12"
+        android:paddingTop="@dimen/dimen_6"
+        android:paddingBottom="@dimen/dimen_6"
         android:textSize="@dimen/text_size_16"
-        android:layout_marginRight="@dimen/dimen_12"/>
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dimen_12"/>
     <ImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/img_delay"
         android:layout_gravity="center_vertical"
-        android:visibility="gone"/>
-</LinearLayout>
+        android:visibility="gone"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

@@ -18,6 +18,9 @@ public class Message implements Serializable{
     public static final String MEETING_NOTICE = "10004";
     public static final String DESPATCH_NOTICE = "10005";
     public static final String WORK_LIST_NOTICE = "10006";
+    public static final String MEETING_FINISH = "10010";
+    public static final String WORK_LIST_FINISH = "10011";
+    public static final String COMMENT_FINISH = "10012";
     //10001：注册提醒10002：工单提醒10003：会议提醒10004：会议报名10005：派单通知，10006：工单通知
     //10007会议通知10008会议确认10009工单确认10010会议完成10011工单完成10012会议评价10013工单评价
     public String rid;

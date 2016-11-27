@@ -118,6 +118,9 @@ public class SecretaryFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
+                    if (event.type == 2)
+                        ToastUtil.showShortMessage(getContext(),"物资发放成功");
+                    else
                         ToastUtil.showShortMessage(getContext(),"物资交接成功");
                 }
             }

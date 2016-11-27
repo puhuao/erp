@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.zxing.WriterException;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.PersonListActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.AddUserParam;
@@ -62,6 +63,7 @@ public class MeetingDetailFragment extends CommonFragment {
 
 
     private MeetingApplyRecord meetingApplyRecord;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_meeting_detail, null);
@@ -120,37 +122,49 @@ public class MeetingDetailFragment extends CommonFragment {
                 noticeAll();
                 break;
             case R.id.sign_person:
-//                if (meetingApplyRecord.getSignUsers()!=null){
-//                    if (meetingApplyRecord.getSignUsers().size()>0){
+                if (meetingApplyRecord.getApplyUsers()!=null){
+                    if (meetingApplyRecord.getApplyUsers().size()>0){
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("list",meetingApplyRecord.getApplyUsers());
+                        bundle.putInt("type",0);
+                        startActivity(PersonListActivity.class,bundle);
 //                        MeetingSignPersonPopupwindow personPopupwindow = new MeetingSignPersonPopupwindow(getContext()
 //                        ,meetingApplyRecord.getSignUsers());
 //                        personPopupwindow.showPopupwindow(sign);
-//                    }else{
-//                        ToastUtil.showShortMessage(getContext(),"没有签到人员");
-//                    }
-//                }else{
-//                    ToastUtil.showShortMessage(getContext(),"没有签到人员");
-//                }
+                    }else{
+                        ToastUtil.showShortMessage(getContext(),"没有报名人员");
+                    }
+                }else{
+                    ToastUtil.showShortMessage(getContext(),"没有报名人员");
+                }
                 break;
             case R.id.attend_person:
                 if (meetingApplyRecord.getSignUsers()!=null){
                     if (meetingApplyRecord.getSignUsers().size()>0){
-                        MeetingSignPersonPopupwindow personPopupwindow = new MeetingSignPersonPopupwindow(getContext()
-                                ,meetingApplyRecord.getSignUsers());
-                        personPopupwindow.showPopupwindow(attend);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("list",meetingApplyRecord.getSignUsers());
+                        bundle.putInt("type",1);
+                        startActivity(PersonListActivity.class,bundle);
+
+//                        MeetingSignPersonPopupwindow personPopupwindow = new MeetingSignPersonPopupwindow(getContext()
+//                                ,meetingApplyRecord.getSignUsers());
+//                        personPopupwindow.showPopupwindow(attend);
                     }else{
-                        ToastUtil.showShortMessage(getContext(),"没有出席人员");
+                        ToastUtil.showShortMessage(getContext(),"没有参会人员");
                     }
                 }else{
-                    ToastUtil.showShortMessage(getContext(),"没有出席人员");
+                    ToastUtil.showShortMessage(getContext(),"没有参会人员");
                 }
                 break;
             case R.id.select_next_person:
-                if (meetingApplyRecord.getNoticeUsers()!=null){
-                    if (meetingApplyRecord.getNoticeUsers().size()>0){
-                        MeetingNoticeNextPersonPopupwindow personPopupwindow = new MeetingNoticeNextPersonPopupwindow(getContext()
-                                ,meetingApplyRecord.getNoticeUsers());
-                        personPopupwindow.showPopupwindow(btnSelectNext);
+                if (meetingApplyRecord.getApplyUsers()!=null){
+                    if (meetingApplyRecord.getApplyUsers().size()>0){
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("list",meetingApplyRecord.getApplyUsers());
+                        bundle.putInt("type",2);
+                        bundle.putString("meetingId",meetingApplyRecord.getMeetingId());
+                        startActivity(PersonListActivity.class,bundle);
                     }else{
                         ToastUtil.showShortMessage(getContext(),"没有可通知的人");
                     }

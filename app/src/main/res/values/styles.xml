@@ -45,4 +45,23 @@
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:textColor">@color/color1</item>
     </style>
+    
+    <style name="style_not_verify">
+        <item name="android:textColor">@color/text_hint</item>
+        <item name="android:background">@drawable/shape_bacgroud_not_valify</item>
+
+    </style>
+    <style name="style_verify">
+        <item name="android:textColor">@color/color_style_verify</item>
+        <item name="android:background">@drawable/shape_bacgroud_not_valify</item>
+
+    </style>
+    <style name="style_refuse">
+        <item name="android:textColor">@color/refuse</item>
+        <item name="android:background">@drawable/shape_bacgroud_refuse</item>
+
+    </style>
+    
+    
+    
 </resources>

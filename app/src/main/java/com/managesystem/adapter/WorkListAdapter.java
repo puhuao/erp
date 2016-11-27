@@ -50,7 +50,7 @@ public class WorkListAdapter extends BaseListAdapter<WorkList> {
         holder.time.setText("时间:"+workList.getDate());
         holder.remark.setText("备注:"+workList.getRemark());
         if (type == 1){
-            if (workList.getImportant().equals("紧急")){
+            if (workList.getImportant().equals("加急")){
                 holder.urgent.setVisibility(View.VISIBLE);
             }else{
                 holder.urgent.setVisibility(View.GONE);

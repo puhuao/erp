@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.WorkListFinishEvent;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.model.Users;
@@ -23,8 +25,10 @@ import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,11 +62,23 @@ public class WorkListDetailFragment extends CommonFragment {
     TextView description;
     @Bind(R.id.fab)
     Button submit;
-
+    @Bind(R.id.lable)
+    TextView lable;
+    @Bind(R.id.maintain_name)
+    TextView maintainName;
+    @Bind(R.id.responsible_name)
+    TextView responsibleName;
+    @Bind(R.id.ll_result)
+    View llResult;
+    @Bind(R.id.result)
+    EditText result;
+    @Bind(R.id.ll_result_text)
+    View llResultText;
+    @Bind(R.id.tv_result)
+    TextView tvResult;
 
     private WorkList workList;
     private MeetingSelectCondition meetingSelectCondition;
-    MeetingApplyRecord meetingApplyRecord;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,70 +105,91 @@ public class WorkListDetailFragment extends CommonFragment {
 
 
     private void bundeDataToView() {
-        workListType.setText(workList.getServicetypeName());
-        if (meetingApplyRecord.getApplyUsers() != null) {
-
-            StringBuilder users = new StringBuilder();
-            for (Users record :
-                    meetingApplyRecord.getApplyUsers()) {
-                users.append(record.getName()).append("、");
-            }
-            if (users.length() > 0) {
-                users.deleteCharAt(users.length() - 1);
-            }
-            workListApply.setText(users);
+        if (StringUtils.isBlank(workList.getServicetypeName())) {
+            workListType.setText("会议");
+        } else {
+            workListType.setText(workList.getServicetypeName());
+            lable.setText("运维人员");
         }
-        department.setText(meetingApplyRecord.getDepartmentName());
-        location.setText(meetingApplyRecord.getArea());
-        time.setText(meetingApplyRecord.getCtime());
+        StringBuilder sb = new StringBuilder();
+
+        if (workList.getHandleUsers() != null) {
+            for (Users u :
+                    workList.getHandleUsers()) {
+                sb.append(u.getName() + "、");
+                responsibleName.setText(u.getName());
+            }
+        }
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+
+        maintainName.setText(sb);
+        if (workList.getName() != null) {
+
+            workListApply.setText(workList.getName());
+        }
+        department.setText(workList.getDepartmentName());
+        location.setText(workList.getCphone());
+        time.setText(workList.getCtime());
         String statu = null;
-        switch (meetingApplyRecord.getStatus()) {
+        switch (workList.getStatus()) {
             case MeetingApplyRecord.STATUS_ADD:
                 statu = getStringFromResource(R.string.STATUS_ADD);
+                llResult.setVisibility(View.GONE);
+                llResultText.setVisibility(View.GONE);
                 break;
             case MeetingApplyRecord.STATUS_DISPATCH:
                 statu = getStringFromResource(R.string.STATUS_DISPATCH);
+                llResult.setVisibility(View.GONE);
+                llResultText.setVisibility(View.GONE);
+                CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                builder.setMessage("请确认工单");
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        updateDistribute(2);
+                    }
+                });
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
                 break;
             case MeetingApplyRecord.STATUS_CONFIRM:
                 statu = getStringFromResource(R.string.STATUS_CONFIRM);
+                llResult.setVisibility(View.VISIBLE);
+                llResultText.setVisibility(View.GONE);
                 break;
             case MeetingApplyRecord.STATUS_FINISH:
                 statu = getStringFromResource(R.string.STATUS_FINISH);
+                llResult.setVisibility(View.GONE);
+                llResultText.setVisibility(View.VISIBLE);
+                tvResult.setText(workList.getRemark());
                 break;
             case MeetingApplyRecord.STATUS_COMMENT:
                 statu = getStringFromResource(R.string.STATUS_COMMENT);
+                llResult.setVisibility(View.GONE);
+                llResultText.setVisibility(View.VISIBLE);
                 break;
         }
         status.setText(statu);
-        description.setText(meetingApplyRecord.getInfor());
-        if (meetingApplyRecord.getStatus() == MeetingApplyRecord.STATUS_DISPATCH) {
-            CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-            builder.setMessage("请确认工单");
-            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    updateDistribute(2);
-                }
-            });
-            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.create().show();
-        }
+        description.setText(workList.getInfor());
     }
 
-    private void updateDistribute(int status) {
+    private void updateDistribute(final int status) {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
         UrlUtils.getInstance(sb).praseToUrl("status", String.valueOf(status))
-                .praseToUrl("rid", workList.getRid())
+                .praseToUrl("rid", workList.getOrderId())
                 .praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("remark",result.getText().toString())
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
@@ -164,7 +201,13 @@ public class WorkListDetailFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
-                    ToastUtil.showShortMessage(getContext(), "通知所有用户成功");
+                    if (status == 2) {
+                        ToastUtil.showShortMessage(getContext(), "确认工单成功");
+                    } else {
+                        ToastUtil.showShortMessage(getContext(), "完成工单成功");
+                        EventBus.getDefault().post(new WorkListFinishEvent());
+                    }
+
                 }
             }
         };
@@ -177,14 +220,13 @@ public class WorkListDetailFragment extends CommonFragment {
     private void getMeetings() {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         meetingSelectCondition = new MeetingSelectCondition();
-        StringBuilder sb = new StringBuilder(Urls.MEETING_LIST);
+        StringBuilder sb = new StringBuilder(Urls.MAINTAIN_LIST_DETAIL);
         UrlUtils.getInstance(sb).praseToUrl("pageNo", meetingSelectCondition.getPageNo())
-                .praseToUrl("userId", meetingSelectCondition.getUserId())
                 .praseToUrl("pageSize", meetingSelectCondition.getPageSize())
                 .praseToUrl("meetingName", meetingSelectCondition.getMeetingName())
                 .praseToUrl("date", meetingSelectCondition.getDate())
                 .praseToUrl("isQueryDetail", "1")
-                .praseToUrl("meetingId", workList.getRid())
+                .praseToUrl("orderId", workList.getRid())
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
@@ -199,9 +241,9 @@ public class WorkListDetailFragment extends CommonFragment {
                     try {
                         JSONObject jsonObject = new JSONObject(o);
                         String list = jsonObject.getString("list");
-                        ArrayList<MeetingApplyRecord> applyRecords = new ArrayList<>();
-                        applyRecords.addAll(GsonUtil.fromJsonList(list, MeetingApplyRecord.class));
-                        meetingApplyRecord = applyRecords.get(0);
+                        ArrayList<WorkList> applyRecords = new ArrayList<>();
+                        applyRecords.addAll(GsonUtil.fromJsonList(list, WorkList.class));
+                        workList = applyRecords.get(0);
                         bundeDataToView();
 
                     } catch (JSONException e) {

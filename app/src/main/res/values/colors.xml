@@ -33,4 +33,6 @@
     <!--覆盖颜色-->
     <color name="bgColor_overlay">#60000000</color>
     <color name="img_status_bar">#303135</color>
+    <color name="color_style_verify">#00ade9</color>
+    <color name="refuse">#e60111</color>
 </resources>

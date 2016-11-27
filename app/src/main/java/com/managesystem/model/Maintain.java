@@ -1,5 +1,7 @@
 package com.managesystem.model;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/11/21.
  */
@@ -40,6 +42,15 @@ public class Maintain {
     private String name;
     private String cphone;
     private String orderId;
+    private List<Users> handleUsers;
+
+    public List<Users> getHandleUsers() {
+        return handleUsers;
+    }
+
+    public void setHandleUsers(List<Users> handleUsers) {
+        this.handleUsers = handleUsers;
+    }
 
     public String getMaterialnameIds() {
         return materialnameIds;

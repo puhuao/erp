@@ -3,10 +3,12 @@ package com.managesystem.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.managesystem.R;
 import com.managesystem.model.MeetingAttendRecord;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -29,10 +31,35 @@ public class MeetingAttendRecordAdapter extends BaseListAdapter<MeetingAttendRec
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
+        MeetingAttendRecord meetingAttendRecord = mList.get(position);
+        holder.name.setText(meetingAttendRecord.getMeetingName());
+        holder.location.setText(meetingAttendRecord.getArea());
+        holder.time.setText(meetingAttendRecord.getStartDate()+"-"+meetingAttendRecord.getEndDate());
+        String sStatus = null;
+        switch (meetingAttendRecord.getMeetigStatus()){
+            case -1:
+                sStatus = "未召开";
+                break;
+            case 0:
+                sStatus = "进行中";
+                break;
+            case 1:
+                sStatus = "已召开";
+                break;
+        }
+        holder.status.setText(sStatus);
         return convertView;
     }
 
     class ViewHolder{
+        @Bind(R.id.name)
+        TextView name;
+        @Bind(R.id.location)
+        TextView location;
+        @Bind(R.id.time)
+        TextView time;
+        @Bind(R.id.status)
+        TextView status;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

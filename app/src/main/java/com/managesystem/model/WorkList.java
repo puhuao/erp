@@ -1,9 +1,12 @@
 package com.managesystem.model;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/11/17.
  */
-public class WorkList {
+public class WorkList implements Serializable {
 
     /**
      * content : null
@@ -30,6 +33,52 @@ public class WorkList {
     private String date;
     private String servicetypeId;
     private String distributeId;
+    private List<Users> handleUsers;
+    private String name;
+    private String departmentName;
+    /**
+     * materialnameIds : null
+     * materialNames : 易耗,易耗
+     * handlerInfo : null
+     * responsibleUserId : 51c7dd3b5926472db1db7b87bcaa4c6f
+     * ctime : 2016-11-27 12:18
+     * infor : 看看
+     * cphone : 22311452
+     * orderId : e671bc9db8824de7a3be3089b8dcf523
+     */
+
+    private Object materialnameIds;
+    private String materialNames;
+    private Object handlerInfo;
+    private String responsibleUserId;
+    private String ctime;
+    private String infor;
+    private String cphone;
+    private String orderId;
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Users> getHandleUsers() {
+        return handleUsers;
+    }
+
+    public void setHandleUsers(List<Users> handleUsers) {
+        this.handleUsers = handleUsers;
+    }
 
     public String getContent() {
         return content;
@@ -117,5 +166,69 @@ public class WorkList {
 
     public void setDistributeId(String distributeId) {
         this.distributeId = distributeId;
+    }
+
+    public Object getMaterialnameIds() {
+        return materialnameIds;
+    }
+
+    public void setMaterialnameIds(Object materialnameIds) {
+        this.materialnameIds = materialnameIds;
+    }
+
+    public String getMaterialNames() {
+        return materialNames;
+    }
+
+    public void setMaterialNames(String materialNames) {
+        this.materialNames = materialNames;
+    }
+
+    public Object getHandlerInfo() {
+        return handlerInfo;
+    }
+
+    public void setHandlerInfo(Object handlerInfo) {
+        this.handlerInfo = handlerInfo;
+    }
+
+    public String getResponsibleUserId() {
+        return responsibleUserId;
+    }
+
+    public void setResponsibleUserId(String responsibleUserId) {
+        this.responsibleUserId = responsibleUserId;
+    }
+
+    public String getCtime() {
+        return ctime;
+    }
+
+    public void setCtime(String ctime) {
+        this.ctime = ctime;
+    }
+
+    public String getInfor() {
+        return infor;
+    }
+
+    public void setInfor(String infor) {
+        this.infor = infor;
+    }
+
+    public String getCphone() {
+        return cphone;
+    }
+
+    public void setCphone(String cphone) {
+        this.cphone = cphone;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

@@ -11,11 +11,15 @@ import com.managesystem.R;
 import com.managesystem.activity.MeetingMsgDetailActivity;
 import com.managesystem.adapter.MsgReadAdapter;
 import com.managesystem.config.Urls;
+import com.managesystem.event.UpdateMsgListEvent;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.Message;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -30,11 +34,24 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
     ArrayList<Message> messages = new ArrayList<>();
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.layout_swipe_refresh_list, null);
         ButterKnife.bind(this, container);
         initView();
         return container;
+    }
+
+    @Subscribe
+    public void onEvent(UpdateMsgListEvent event){
+        pageNo=1;
+        callback.setDialogHide();
+        loadMore(1);
     }
 
     private void initView() {
@@ -47,6 +64,7 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
                 Intent i = new Intent(getContext(), MeetingMsgDetailActivity.class);
                 Message message = messages.get(position);
                 i.putExtra("obj",message);
+                i.putExtra("flag",1);
                 getContext().startActivity(i);
             }
         });
@@ -62,5 +80,11 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
                 .praseToUrl("status","0")
                 .removeLastWord();
         excute(sb.toString(),Message.class);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

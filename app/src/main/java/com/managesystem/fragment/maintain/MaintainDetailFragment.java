@@ -74,6 +74,12 @@ public class MaintainDetailFragment extends CommonFragment {
     Button fab;
     @Bind(R.id.edit_text)
     EditText content;
+    @Bind(R.id.ll_reason)
+            View llReason;
+    @Bind(R.id.problem)
+            TextView handlerInfo;
+    @Bind(R.id.content)
+            TextView tvComment;
     String userID;
     private String oderId;
 
@@ -93,24 +99,48 @@ public class MaintainDetailFragment extends CommonFragment {
     }
 
     private void initView() {
-        bundeDataToView();
+        StringBuilder sb = new StringBuilder();
+        if (maintain.getHandleUsers()!=null){
+            for (Users u :
+                    maintain.getHandleUsers()) {
+                sb.append(u.getName()+",");
+            }
+            if (sb.length()>0)
+                sb.deleteCharAt(sb.length()-1);
+        }
+        handlerInfo.setText(maintain.getHandlerInfo());
+        tvName.setText(maintain.getServicetypeName());//服务名称
+        tvStartTime.setText(maintain.getCtime());//申请实际那
+        tvLocation.setText(maintain.getHandlerInfo()==null?"暂无":maintain.getHandlerInfo());//维修详情
+        tvGuaranteePerson.setText(maintain.getResponsibleUserId()==null?"暂无":maintain.getResponsibleUserId());
         switch (maintain.getStatus()){//0：新增 1：已派单2：已确认3：已完成4：已评价
             case 0:
+                setHeaderTitle("新增");
                 guaranteeProgress.setText("新增");
                 llComment.setVisibility(View.GONE);
+                tvGuaranteePerson.setText("暂无");
                 break;
             case 1:
+
+                tvGuaranteePerson.setText(sb.toString());
+                setHeaderTitle("已派单");
                 guaranteeProgress.setText("已派单");
                 llComment.setVisibility(View.GONE);
                 break;
             case 2:
+                tvGuaranteePerson.setText(sb.toString());
+                setHeaderTitle("已确认");
                 guaranteeProgress.setText("已确认");
                 llComment.setVisibility(View.GONE);
                 break;
             case 3:
+                tvGuaranteePerson.setText(sb.toString());
+                setHeaderTitle("已完成");
                 guaranteeProgress.setText("已完成");
                 llComment.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.GONE);
+                llReason.setVisibility(View.VISIBLE);
+
                 if (userID.equals(maintain.getUserId())){
                     llEdit.setVisibility(View.VISIBLE);
                     fab.setVisibility(View.VISIBLE);
@@ -124,12 +154,17 @@ public class MaintainDetailFragment extends CommonFragment {
                 }
                 break;
             case 4:
+                tvGuaranteePerson.setText(sb.toString());
+                setHeaderTitle("已评价");
+                tvComment.setText(maintain.getContent());
                 guaranteeProgress.setText("已评价");
                 llComment.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.VISIBLE);
                 llEdit.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
+                llReason.setVisibility(View.VISIBLE);
                 ratingBar.setClickable(false);
+                ratingBar.setStar(maintain.getStar());
                 break;
         }
         fab.setOnClickListener(new View.OnClickListener() {
@@ -149,30 +184,6 @@ public class MaintainDetailFragment extends CommonFragment {
         });
     }
 
-    private void bundeDataToView(){
-        ratingBar.setStar(3f);
-        tvName.setText(maintain.getServicetypeName());//服务名称
-        tvStartTime.setText(maintain.getCtime());//申请实际那
-        tvLocation.setText(maintain.getHandlerInfo());//维修详情
-        switch (maintain.getStatus()){
-            case 0:
-                guaranteeProgress.setText("新增");
-                break;
-            case 1:
-                guaranteeProgress.setText("已受理");
-                break;
-            case 2:
-                guaranteeProgress.setText("已确认");
-                break;
-            case 3:
-                guaranteeProgress.setText("已完成");
-                break;
-            case 4:
-                guaranteeProgress.setText("已评价");
-                break;
-        }
-        tvGuaranteePerson.setText(maintain.getResponsibleUserId());
-    }
 
 
     private void updateDistribute() {//评价4

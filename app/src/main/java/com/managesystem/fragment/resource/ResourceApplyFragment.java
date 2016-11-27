@@ -183,6 +183,7 @@ public class ResourceApplyFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
+                    resourceNames.clear();
                     resourceNames.addAll(GsonUtil.fromJsonList(o,ResourceName.class));
                     ResourceNameSelectPopupwindow resourceNameSelectPopupwindow =
                             new ResourceNameSelectPopupwindow(getContext(),resourceNames);
@@ -197,10 +198,13 @@ public class ResourceApplyFragment extends CommonFragment {
 
     private void apply(){
         StringBuilder sb = new StringBuilder(Urls.RESOURCE_APPLY);//物资申请
+        sb.append("?");
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
-//        UrlUtils.getInstance(sb) .praseToUrl("type", "1") .praseToUrl("userId",config.getString("userId", ""))
-//                .praseToUrl("remark", "1") .praseToUrl("materialnameId", "1") .praseToUrl("materialtypeId", "1")
-//                .removeLastWord();
+        UrlUtils.getInstance(sb) .praseToUrl("type", "1") .praseToUrl("userId",config.getString("userId", ""))
+                .praseToUrl("remark", "1") .praseToUrl("materialnameId",resourceName.getMaterialnameId())
+                .praseToUrl("materialtypeId", resourceType.getMaterialtypeId())
+                .praseToUrl("picurl", gridImageAdapter.sb.toString())
+                .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -221,12 +225,12 @@ public class ResourceApplyFragment extends CommonFragment {
         }
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .params("type", "1")
-                .params("userId", config.getString("userId", ""))
-                .params("remark", "")
-                .params("materialnameId",resourceName.getMaterialName())
-                .params("materialtypeId",resourceType.getMaterialtypeId())
-                .params("picurl", gridImageAdapter.sb.toString()) // 这里支持一个key传多个文件
+//                .params("type", "1")
+//                .params("userId", config.getString("userId", ""))
+//                .params("remark", "")
+//                .params("materialnameId",resourceName.getMaterialnameId())
+//                .params("materialtypeId",resourceType.getMaterialtypeId())
+//                .params("picurl", gridImageAdapter.sb.toString()) // 这里支持一个key传多个文件
                 .execute(callback);
     }
 

@@ -107,6 +107,7 @@ public class LoginFragment extends CommonFragment {
                     config.setString("name",o.getName());
                     config.setString("stationName",o.getStationName());
                     config.setString("department",o.getDepartmentName());
+                    config.setString("cphone",o.getCphone());
                     JPushInterface.setAlias(getContext(), o.getUserId(), new TagAliasCallback() {
                         @Override
                         public void gotResult(int i, String s, Set<String> set) {

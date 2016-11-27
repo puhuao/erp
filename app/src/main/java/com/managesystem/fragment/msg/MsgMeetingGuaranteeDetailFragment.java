@@ -1,5 +1,6 @@
 package com.managesystem.fragment.msg;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.Message;
 import com.managesystem.tools.UrlUtils;
+import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -49,6 +51,26 @@ public class MsgMeetingGuaranteeDetailFragment extends CommonFragment {
         setHeaderTitle("会议保障通知");
         content.setText(message.content);
         fab.setText("确认");
+        if (message.status == 0){
+            CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+            builder.setMessage("请确认工单");
+            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    updateDistribute();
+                }
+            });
+            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+        }
     }
 
     @OnClick({R.id.fab,})
@@ -60,7 +82,7 @@ public class MsgMeetingGuaranteeDetailFragment extends CommonFragment {
         }
     }
 
-    private void updateDistribute() {//确认接收派单4
+    private void updateDistribute() {//确认接收派单
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
         UrlUtils.getInstance(sb).praseToUrl("status", String.valueOf(2))

@@ -54,6 +54,8 @@ public class MeetingApplyRecord implements Parcelable {
         meetingroomId = in.readString();
         officeNo = in.readString();
         responsibleUserId = in.readString();
+        star = in.readInt();
+        content = in.readString();
     }
 
     public static final Creator<MeetingApplyRecord> CREATOR = new Creator<MeetingApplyRecord>() {
@@ -114,6 +116,24 @@ public class MeetingApplyRecord implements Parcelable {
     private String departmentName;
     private String servicetypeId;
     private ArrayList<Users> applyUsers;
+    private int star;
+    private String content;
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public ArrayList<Users> getApplyUsers() {
         return applyUsers;
@@ -285,5 +305,7 @@ public class MeetingApplyRecord implements Parcelable {
         dest.writeString(meetingroomId);
         dest.writeString(officeNo);
         dest.writeString(responsibleUserId);
+        dest.writeInt(star);
+        dest.writeString(content);
     }
 }

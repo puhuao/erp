@@ -12,11 +12,8 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.managesystem.R;
-import com.managesystem.adapter.PopDepartmentAdapter;
 import com.managesystem.adapter.ResourcePersonAdapter;
-import com.managesystem.event.DepartmentSelectEvent;
-import com.managesystem.event.ResourceSelectEcent;
-import com.managesystem.model.Department;
+import com.managesystem.event.ResourceSelectEvent;
 import com.managesystem.model.ResourcePersonModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,8 +55,8 @@ public class ResourceListPopupwindow extends PopupWindow {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dissmisPopupwindow();
-                ResourceSelectEcent event = new ResourceSelectEcent(list.get(position));
-                EventBus.getDefault().post(event);
+//                ResourceSelectEvent event = new ResourceSelectEvent(list.get(position));
+//                EventBus.getDefault().post(event);
             }
         });
     }

@@ -7,9 +7,11 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.UpdateMsgListEvent;
 import com.managesystem.fragment.meeting.MeetingMSGDetailFragment;
 import com.managesystem.fragment.msg.MsgMeetingGuaranteeDetailFragment;
 import com.managesystem.fragment.msg.MsgNoticeFragment;
+import com.managesystem.jpush.MsgMeetingFinishFragment;
 import com.managesystem.model.Message;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
@@ -17,6 +19,8 @@ import com.wksc.framwork.activity.CommonActivity;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import okhttp3.Call;
 import okhttp3.Request;
@@ -54,11 +58,18 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
             }else if(message.type.equals(Message.DESPATCH_NOTICE)){
                 //派单通知（确认）
                 pushFragmentToBackStack(MsgMeetingGuaranteeDetailFragment.class, message);
-            }else if(message.type.equals(Message.WORK_LIST_NOTICE)){
-                //工单通知
+            }else if(message.type.equals(Message.MEETING_FINISH)){
+                //会议工单完成，去评价
+                pushFragmentToBackStack(MsgMeetingFinishFragment.class, message);
+            }else if(message.type.equals(Message.WORK_LIST_FINISH)){
+                //工单完成，去评价
+                pushFragmentToBackStack(MsgMeetingFinishFragment.class, message);
+            }else if(message.type.equals(Message.COMMENT_FINISH)){
+                //评价完成，提示就行
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+            }else{
                 pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }
-
         }else{
             ToastUtil.showShortMessage(this,"系统错误");
             finish();
@@ -103,5 +114,11 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().post(new UpdateMsgListEvent());
     }
 }

@@ -45,9 +45,9 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
         holder.name.setText(ppsModel.getName());
         holder.time.setText(ppsModel.getCtime());
         holder.content.setText(ppsModel.getContent());
-
+        final ArrayList<String> imgs = new ArrayList<>();
         if (ppsModel.getPics()!=null){
-            List<String> imgs = new ArrayList<>();
+
             for (String s :
                     ppsModel.getPics()) {
                 imgs.add(Urls.GETPICS+s);
@@ -63,7 +63,7 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
                 if (bd == null) {
                     bd = new Bundle();
                 }
-                    bd.putStringArrayList("list", (ArrayList<String>) ppsModel.getPics());
+                    bd.putStringArrayList("list", imgs);
                 bd.putInt("position", position);
                 intent.putExtras(bd);
                 mContext.startActivity(intent);

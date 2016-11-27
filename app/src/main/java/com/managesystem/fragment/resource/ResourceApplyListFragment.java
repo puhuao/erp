@@ -37,37 +37,7 @@ public class ResourceApplyListFragment extends BaseListRefreshFragment<ResourceA
        hideTitleBar();
         adapter = new ResourceApplyAdapter(getContext());
         setData(resourceApplyLosts,adapter);
-//        getRecords();
     }
-
-//    private void getRecords(){
-//
-//        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-//            @Override
-//            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-//                super.onError(isFromCache, call, response, e);
-//                ToastUtil.showShortMessage(getContext(),"网络错误");
-//            }
-//
-//            @Override
-//            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-//                if (o!=null){
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(o);
-//                        String list = jsonObject.getString("list");
-//                        resourceApplyLosts.addAll(GsonUtil.fromJsonList(list, ResourceApplyLost.class));
-//                        adapter.notifyDataSetChanged();
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }
-//        };
-//        OkHttpUtils.get(sb.toString())//
-//                .tag(this)//
-//                .execute(callback);
-//    }
 
     @Override
     public void loadMore(int pageNo) {

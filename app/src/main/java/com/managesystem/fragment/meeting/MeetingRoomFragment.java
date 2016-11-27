@@ -185,6 +185,7 @@ Boolean isSearch = false;
             public void afterTextChanged(Editable s) {
                 isSearch = true;
                 meetingSelectCondition.setMeetingName(s.toString());
+                pageNo = 1;
                 loadMore(1);
             }
         });

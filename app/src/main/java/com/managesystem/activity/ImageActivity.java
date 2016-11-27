@@ -33,8 +33,8 @@ import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
- * 班级驿站 图片放大
- * Author: zhuxiaohong
+ * 图片放大
+ * Author: puhua
  * Date: 2016/4/8 10:43
  */
 public class ImageActivity extends ImageBaseActivity {

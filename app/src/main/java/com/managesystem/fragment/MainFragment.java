@@ -38,7 +38,9 @@ public class MainFragment extends CommonFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_maintain:
-                startActivity(MainTainApplyActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("type",1);
+                startActivity(MainTainApplyActivity.class,b);
                 break;
             case R.id.layout_meet_apply:
                 startActivity(MeetingManageActivity.class);

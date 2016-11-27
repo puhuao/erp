@@ -15,7 +15,7 @@ public class MainTainApplyActivity extends CommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_container);
-        pushFragmentToBackStack(MainTainApplyFragment.class, null);
+        pushFragmentToBackStack(MainTainApplyFragment.class, getIntent().getExtras());
     }
 
     @Override

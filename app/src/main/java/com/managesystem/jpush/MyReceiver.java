@@ -38,6 +38,7 @@ public class MyReceiver extends BroadcastReceiver {
 			Message message = GsonUtil.fromJson(bundle.getString("cn.jpush.android.ALERT"),Message.class);
 			Intent i = new Intent(context, MeetingMsgDetailActivity.class);
 			i.putExtra("obj",message);
+			i.putExtra("flag",0);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(i);
 

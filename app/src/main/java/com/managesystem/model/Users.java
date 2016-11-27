@@ -1,9 +1,11 @@
 package com.managesystem.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/11/13.
  */
-public class Users {
+public class Users implements Serializable{
 
 
     /**
@@ -15,7 +17,7 @@ public class Users {
     private String name;
     private String userId;
     private String type;
-
+    public Boolean isCheck;
     public String getName() {
         return name;
     }

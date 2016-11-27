@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.google.zxing.WriterException;
 import com.managesystem.R;
+import com.managesystem.activity.MainTainApplyActivity;
 import com.managesystem.adapter.ResourcePersonAdapter;
 import com.managesystem.config.Urls;
 import com.managesystem.fragment.BaseListRefreshFragment;
@@ -71,20 +72,34 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.send:
-                createQrCode(v);
+                createQrCode(v,1);
                 break;
             case R.id.fix:
+                Bundle bundle = new Bundle();
+                bundle.putInt("type",0);
+                StringBuilder sb = new StringBuilder();
+                for (ResourcePersonModel r :
+                        resourcePersonModels) {
+                    if (r.isCheck) {
+                        sb.append(r.getMaterialName() + ",");
+                    }
+                }
+                if (sb.length() > 0) {
+                    sb.deleteCharAt(sb.length() - 1);
+                }
+                bundle.putString("string",sb.toString());
+                startActivity(MainTainApplyActivity.class,bundle);
                 break;
         }
     }
 
-    private void createQrCode(View v) {//创建交接二维码
+    private void createQrCode(View v,int type) {//创建交接二维码
         String ms = getStringParam();
         QrResourceModel qrResourceModel = new QrResourceModel();
         qrResourceModel.setType("3");
         QRresourceSend qRresourceSend = new QRresourceSend();
         StringBuilder sb = new StringBuilder("?");
-        UrlUtils.getInstance(sb).praseToUrl("type", "1")//1：交接2：发放
+        UrlUtils.getInstance(sb).praseToUrl("type", String.valueOf(type))//1：交接2：发放
                 .praseToUrl("fromUserId", userID).removeLastWord();
         sb.append(ms);
         qRresourceSend.setPStr(sb.toString());

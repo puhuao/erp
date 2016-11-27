@@ -1,6 +1,7 @@
 package com.managesystem.adapter;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import com.managesystem.R;
 import com.managesystem.model.GoodNews;
 import com.managesystem.model.ResourceApplyLost;
 import com.managesystem.model.ResourcePersonModel;
+import com.wksc.framwork.util.StringUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,7 +20,6 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/5/29.
  */
 public class ResourceApplyAdapter extends BaseListAdapter<ResourceApplyLost> {
-    public Boolean isAll=false;
     public StringBuilder sb = new StringBuilder();
 
     public ResourceApplyAdapter(Activity context) {
@@ -38,20 +39,37 @@ public class ResourceApplyAdapter extends BaseListAdapter<ResourceApplyLost> {
         }
         ResourceApplyLost resourceApplyLost = mList.get(position);
 
-        holder.name.setText(resourceApplyLost.getMaterialName());
-        holder.time.setText(resourceApplyLost.getUtime());
-        holder.manager.setText(resourceApplyLost.getHandleName());
+        holder.name.setText(resourceApplyLost.getMaterialTypeName()+"/"+resourceApplyLost.getMaterialName());
+        holder.time.setText("领取时间:"+resourceApplyLost.getUtime());
+        if (!StringUtils.isBlank(resourceApplyLost.getHandleName()))
+        holder.manager.setText("管理员:"+resourceApplyLost.getHandleName());
+        else{
+            holder.manager.setVisibility(View.GONE);
+        }
         if (resourceApplyLost.getStatus().equals("1")){
             holder.status.setVisibility(View.VISIBLE);
             holder.iamge.setVisibility(View.GONE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.status.setTextAppearance(R.style.style_not_verify);
+            }else{
+                holder.status.setTextAppearance(mContext,R.style.style_not_verify);
+            }
         }else if (resourceApplyLost.getStatus().equals("2")){
-            holder.status.setVisibility(View.GONE);
-            holder.iamge.setVisibility(View.VISIBLE);
-            holder.iamge.setImageResource(R.drawable.img_delay);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.status.setTextAppearance(R.style.style_refuse);
+            }else{
+                holder.status.setTextAppearance(mContext,R.style.style_refuse);
+            }
         }else if (resourceApplyLost.getStatus().equals("3")){
-            holder.status.setVisibility(View.GONE);
-            holder.iamge.setVisibility(View.VISIBLE);
-            holder.iamge.setImageResource(R.drawable.img_approval);
+//            holder.status.setVisibility(View.GONE);
+//            holder.iamge.setVisibility(View.VISIBLE);
+//            holder.iamge.setImageResource(R.drawable.img_approval);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.status.setTextAppearance(R.style.style_verify);
+            }else{
+                holder.status.setTextAppearance(mContext,R.style.style_verify);
+            }
+            holder.status.setText("已审批");
         }
         return convertView;
     }

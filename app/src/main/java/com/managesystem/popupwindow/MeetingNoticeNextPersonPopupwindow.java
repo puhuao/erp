@@ -27,6 +27,7 @@ public class MeetingNoticeNextPersonPopupwindow extends PopupWindow {
     Activity mContext;
     MeetingNoticePersonAdapter adapter;
     private List<Users> list;
+
     public MeetingNoticeNextPersonPopupwindow(Activity context, final List<Users> list){
         super();
         mContext = context;

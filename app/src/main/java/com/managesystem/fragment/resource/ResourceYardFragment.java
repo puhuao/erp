@@ -55,6 +55,7 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());
+        resourcePersonAdapter.setNeedSeareaNumber(true);
         setData(resourcePersonModels,resourcePersonAdapter);
         getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,14 +66,16 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ms = getStringParam();
+
+                    getStringParam();
                 QrResourceModel qrResourceModel = new QrResourceModel();
                 qrResourceModel.setType("3");
                 QRresourceSend qRresourceSend = new QRresourceSend();
                 StringBuilder sb = new StringBuilder("?");
                 UrlUtils.getInstance(sb).praseToUrl("type","2")//1：交接2：发放
                 .praseToUrl("fromUserId",userID).removeLastWord();
-                sb.append(ms);
+                sb.append(ids);
+                sb.append(serialNumbers);
                 qRresourceSend.setPStr(sb.toString());
                 qrResourceModel.setParam(qRresourceSend);
                 try {
@@ -85,17 +88,22 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
             }
         });
     }
-    private String getStringParam(){
-        StringBuilder sb = new StringBuilder();
+    private StringBuilder ids = new StringBuilder();//id
+    private StringBuilder serialNumbers = new StringBuilder();//序列号
+    private void getStringParam(){
         int i =0 ;
+        if (ids.length()>0){
+            ids.delete(0,ids.length()-1);
+            serialNumbers.delete(0,serialNumbers.length()-1);
+        }
         for (ResourcePersonModel r :
                 resourcePersonModels) {
             if (r.isCheck){
-                sb.append("&materials["+i+"].materialId="+r.getMaterialId());
+                ids.append("&materials["+i+"].materialId="+r.getMaterialId());
+                serialNumbers.append("&materials["+i+"].serialNumber="+r.getSerialNumber());
                 i++;
             }
         }
-        return  sb.toString();
     }
 
     @Override

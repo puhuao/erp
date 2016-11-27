@@ -15,9 +15,12 @@ import android.widget.ListView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.WorkListDetailActivity;
 import com.managesystem.adapter.WorkListAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.WorkListFinishEvent;
+import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.fragment.meeting.MeetingDetailFragment;
 import com.managesystem.fragment.meeting.MeetingGuaranteeInformationFragment;
 import com.managesystem.model.MeetingApplyRecord;
@@ -30,10 +33,13 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,12 +51,18 @@ import okhttp3.Response;
  * Created by Administrator on 2016/11/8.
  * 我的工单--未完成
  */
-public class WorkListUnfinishFragment extends CommonFragment {
+public class WorkListUnfinishFragment extends BaseListRefreshFragment<WorkList> {
     @Bind(R.id.list_view)
     ListView listView;
     View empty;
     private ArrayList<WorkList> workLists = new ArrayList<>();
     WorkListAdapter adapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,55 +74,50 @@ public class WorkListUnfinishFragment extends CommonFragment {
     }
 
     private void initView() {
+        isfirstFragment = true;
         hideTitleBar();
         adapter =  new WorkListAdapter(getContext());
-        listView.setAdapter(adapter);
-        adapter.setList(workLists);
         adapter.setType(1);
-        ((ViewGroup)(listView.getParent())).addView(empty);
-        listView.setEmptyView(empty);
+        setData(workLists,adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getContext().pushFragmentToBackStack(WorkListDetailFragment.class,workLists.get(position));
+                Bundle bundle = new Bundle();
+
+                if (workLists.get(position).getServicetypeName().equals("会议")){
+                    bundle.putInt("type",0);
+                    bundle.putSerializable("obj",workLists.get(position));
+                    startActivity(WorkListDetailActivity.class,bundle);
+                }else{
+                    bundle.putInt("type",1);
+                    bundle.putSerializable("obj",workLists.get(position));
+                    startActivity(WorkListDetailActivity.class,bundle);
+                }
             }
         });
-        getList();
     }
 
-    private void getList(){
+    @Subscribe
+    public void onEvent(WorkListFinishEvent event){
+        pageNo = 1;
+        loadMore(1);
+    }
+    @Override
+    public void loadMore(int pageNo) {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.WORK_LIST);
         UrlUtils.getInstance(sb).praseToUrl("status","2")
                 .praseToUrl("userId",config.getString("userId",""))
-                .praseToUrl("pageNo","1")
+                .praseToUrl("pageNo",String.valueOf(pageNo))
                 .praseToUrl("pageSize","20")
                 .removeLastWord();
-        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-            @Override
-            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
-            }
+        excute(sb.toString(),WorkList.class);
+    }
 
-            @Override
-            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    try {
-                        JSONObject jsonObject = new JSONObject(o);
-                        String list = jsonObject.getString("list");
-                        workLists.clear();
-                        workLists.addAll(GsonUtil.fromJsonList(list, WorkList.class));
-                        adapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        OkHttpUtils.post(sb.toString())//
-                .tag(this)//
-                .execute(callback);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 

@@ -62,50 +62,88 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
     Button fab;
     @Bind(R.id.edit_text)
     EditText content;
+    @Bind(R.id.tv_comment)
+    TextView tvComment;
+    @Bind(R.id.responsible_name)
+    TextView responsibleName;
     private MeetingApplyRecord meetingApplyRecord;
     String userID;
 
-    private float rating;
+    private int rating;
     private String comment;
+    Bundle bundle;
+    private int type=0;//0会议保障详情1会议工单详情
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_meeting_guarantee, null);
         ButterKnife.bind(this, container);
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         userID = config.getString("userId", "");
-        meetingApplyRecord = getArguments().getParcelable("key");
-         initView();
+        meetingApplyRecord= (MeetingApplyRecord) getmDataIn();
+        if (meetingApplyRecord==null){
+            meetingApplyRecord = getArguments().getParcelable("key");
+            hideTitleBar();
+            type = 0;
+        }
+        else{
+            setHeaderTitle("会议保障详情");
+            type = 1;
+
+        }
+        initView();
         return container;
     }
+
     private void initView() {
-        hideTitleBar();
+
         bundeDataToView();
-        switch (meetingApplyRecord.getStatus()){//0：新增 1：已派单2：已确认3：已完成4：已评价
+        switch (meetingApplyRecord.getStatus()) {//0：新增 1：已派单2：已确认3：已完成4：已评价
             case 0:
+                tvGuaranteeProgress.setText("新增");
                 llComment.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
                 break;
             case 1:
+                tvGuaranteeProgress.setText("已派单");
                 llComment.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
                 break;
             case 2:
+                tvGuaranteeProgress.setText("已确认");
                 llComment.setVisibility(View.GONE);
+//                if (type == 1){
+//                    fab.setVisibility(View.VISIBLE);
+//                    fab.setText("完成");
+//                }
                 break;
             case 3:
-                llComment.setVisibility(View.VISIBLE);
-                llText.setVisibility(View.GONE);
-                if (userID.equals(meetingApplyRecord.getUserId())){
-                    llEdit.setVisibility(View.VISIBLE);
-                    fab.setVisibility(View.VISIBLE);
-                    ratingBar.setClickable(true);
-                    ratingBar.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
-                        @Override
-                        public void onRatingChange(float RatingCount) {
-rating = RatingCount;
-                        }
-                    });
-                }
+//                if (type == 0){
+                    tvGuaranteeProgress.setText("已完成");
+                    llComment.setVisibility(View.VISIBLE);
+                    llText.setVisibility(View.GONE);
+                    if (userID.equals(meetingApplyRecord.getUserId())) {
+                        llEdit.setVisibility(View.VISIBLE);
+                        fab.setVisibility(View.VISIBLE);
+                        ratingBar.setClickable(true);
+                        ratingBar.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
+                            @Override
+                            public void onRatingChange(float RatingCount) {
+                                rating = (int) RatingCount;
+                            }
+                        });
+                    }
+//                }else{
+//                    tvGuaranteeProgress.setText("已完成");
+//                    llComment.setVisibility(View.GONE);
+//                    fab.setVisibility(View.GONE);
+//                }
+
                 break;
             case 4:
+                ratingBar.setStar(meetingApplyRecord.getStar());
+                tvComment.setText(meetingApplyRecord.getContent());
+                tvGuaranteeProgress.setText("已评价");
                 llComment.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.VISIBLE);
                 llEdit.setVisibility(View.GONE);
@@ -116,64 +154,57 @@ rating = RatingCount;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comment = content.getText().toString();
-                if (rating == 0){
-                    ToastUtil.showShortMessage(getContext(),"请选择评星等级");
-                    return;
-                }
-                if (StringUtils.isBlank(comment)){
-                    ToastUtil.showShortMessage(getContext(),"请输入评价内容");
-                    return;
-                }
-                updateDistribute();
+                IConfig config = BaseApplication.getInstance().getCurrentConfig();
+//                if (type == 0){
+
+                    comment = content.getText().toString();
+                    if (rating == 0) {
+                        ToastUtil.showShortMessage(getContext(), "请选择评星等级");
+                        return;
+                    }
+                    if (StringUtils.isBlank(comment)) {
+                        ToastUtil.showShortMessage(getContext(), "请输入评价内容");
+                        return;
+                    }
+
+                    updateDistribute(null,"4",comment,String.valueOf(rating));
+//                }else{
+//                    updateDistribute(config.getString("userId", ""),"3",null,null);
+//                }
             }
         });
     }
 
-    private void bundeDataToView(){
-        ratingBar.setStar(3f);
+    private void bundeDataToView() {
+//        ratingBar.setStar(3f);
         tvName.setText(meetingApplyRecord.getMeetingName());
         tvStartTime.setText(meetingApplyRecord.getStartDate());
         tvLocation.setText(meetingApplyRecord.getArea());
         tvEndTime.setText(meetingApplyRecord.getEndDate());
-
-        switch (meetingApplyRecord.getStatus()){
-            case 0:
-                tvGuaranteeProgress.setText("新增");
-                break;
-            case 1:
-                tvGuaranteeProgress.setText("已受理");
-                break;
-            case 2:
-                tvGuaranteeProgress.setText("已确认");
-                break;
-            case 3:
-                tvGuaranteeProgress.setText("已完成");
-                break;
-            case 4:
-                tvGuaranteeProgress.setText("已评价");
-                break;
-        }
         ArrayList<Users> handleUsers = meetingApplyRecord.getHandleUsers();
         StringBuilder sb = new StringBuilder();
-        if (handleUsers!=null&&handleUsers.size()>0){
+        if (handleUsers != null && handleUsers.size() > 0) {
             for (Users user :
                     handleUsers) {
                 sb.append(user.getName()).append("、");
+                if (meetingApplyRecord.getResponsibleUserId().equals(user.getUserId())){
+                    responsibleName.setText(user.getName());
+                }
             }
-            sb.deleteCharAt(sb.length()-1);
+            sb.deleteCharAt(sb.length() - 1);
         }
         tvGuaranteePerson.setText(sb);
     }
 
 
-    private void updateDistribute() {//评价4
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+    private void updateDistribute(String userId,String status,String comments,String rating) {//评价4完成3
+
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
-        UrlUtils.getInstance(sb).praseToUrl("status", String.valueOf(4))
+        UrlUtils.getInstance(sb).praseToUrl("status", status)
+                .praseToUrl("userId", userId)
                 .praseToUrl("rid", meetingApplyRecord.getMeetingId())
-                .praseToUrl("content",String.valueOf(comment) )
-                .praseToUrl("star",String.valueOf(rating) )
+                .praseToUrl("content", comments)
+                .praseToUrl("star", rating)
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
@@ -185,7 +216,16 @@ rating = RatingCount;
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
-                    ToastUtil.showShortMessage(getContext(), "通知所有用户成功");
+//                    if (type == 1){
+//                        ToastUtil.showShortMessage(getContext(), "会议工单完成");
+//                        fab.setVisibility(View.GONE);
+//                    }else{
+                        ToastUtil.showShortMessage(getContext(), "会议保障评价成功");
+                        ratingBar.setClickable(false);
+                        llEdit.setVisibility(View.GONE);
+                        llText.setVisibility(View.VISIBLE);
+                        tvComment.setText(comment);
+//                    }
                 }
             }
         };
