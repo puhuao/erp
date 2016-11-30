@@ -2,22 +2,33 @@ package com.managesystem.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.activity.ImageActivity;
+import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.PPSModel;
+import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.EmojiTextView;
 import com.managesystem.widegt.multiImageView.MultiImageView;
+import com.wksc.framwork.BaseApplication;
+import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/5/29.
@@ -31,7 +42,7 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         convertView = null;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
@@ -41,6 +52,20 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
             convertView.setTag(holder);
         }
         final PPSModel ppsModel = mList.get(position);
+        if (ppsModel.getPraise()){
+            Drawable drawable = mContext.getResources().getDrawable(R.drawable.img_zan_select);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+            holder.zan.setCompoundDrawables(drawable, null, null, null);
+            holder.zan.setFocusable(false);
+        }else{
+            holder.zan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    praise(ppsModel,holder);
+                }
+            });
+        }
+
         holder.zan.setText(String.valueOf(ppsModel.getPraiseCount()));
         holder.name.setText(ppsModel.getName());
         holder.time.setText(ppsModel.getCtime());
@@ -55,6 +80,7 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
             }
             holder.multiImageView.setList(imgs);
         }
+
         holder.check.setText(String.valueOf(ppsModel.getScanCount()));
         holder.multiImageView.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
             @Override
@@ -72,6 +98,36 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
         });
         return convertView;
     }
+
+    private void praise(PPSModel ppsModel, final ViewHolder holder){
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        StringBuilder sb = new StringBuilder(Urls.PPS_ZAN);
+        UrlUtils.getInstance(sb) .praseToUrl("topicId", ppsModel.getTopicId())
+                .praseToUrl("userId", config.getString("userId", ""))
+                .removeLastWord();
+        DialogCallback callback = new DialogCallback<String>(mContext, String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(mContext,"网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o!=null){
+                    ToastUtil.showShortMessage(mContext,"点赞成功");
+                    Drawable drawable = mContext.getResources().getDrawable(R.drawable.img_zan_select);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+                    holder.zan.setCompoundDrawables(drawable, null, null, null);
+                    holder.zan.setFocusable(false);
+                }
+            }
+        };
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
+    }
+
 
     class ViewHolder {
         @Bind(R.id.tv_name)

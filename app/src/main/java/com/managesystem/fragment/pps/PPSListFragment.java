@@ -32,8 +32,8 @@ import butterknife.ButterKnife;
  * 论坛列表页面
  */
 public class PPSListFragment extends BaseListRefreshFragment<PPSModel> {
-    public static int ALL = 0;
-    public static int MY = 1;
+    public static int ALL = 1;
+    public static int MY = 0;
     PPSAdapter msgReadAdapter;
     ArrayList<PPSModel> messages = new ArrayList<>();
     private int type;
@@ -83,12 +83,13 @@ public class PPSListFragment extends BaseListRefreshFragment<PPSModel> {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.PPS_LIST);
         String userid = null;
-        if (type == MY){
+//        if (type == MY){
             userid = config.getString("userId", "");
-        }
+//        }
         UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
                 .praseToUrl("userId",userid)
                 .praseToUrl("pageSize","20")
+                .praseToUrl("type",String.valueOf(type))
                 .removeLastWord();
         excute(sb.toString(),PPSModel.class);
     }

@@ -3,10 +3,13 @@ package com.managesystem.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.managesystem.R;
 import com.managesystem.model.GoodNews;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -31,10 +34,24 @@ public class GoodNewsAdapter extends BaseListAdapter<GoodNews> {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
+        GoodNews goodNew = mList.get(position);
+        holder.name.setText(goodNew.getTitle());
+        holder.description.setText(goodNew.getInfor());
+        if (goodNew.isIsApply()){
+            holder.image.setVisibility(View.GONE);
+        }else{
+            holder.image.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 
     class ViewHolder{
+        @Bind(R.id.name)
+        TextView name;
+        @Bind(R.id.description)
+        TextView description;
+        @Bind(R.id.image)
+        ImageView image;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

@@ -12,6 +12,7 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.activity.MainTainListActivity;
 import com.managesystem.activity.PPSActivity;
+import com.managesystem.activity.SettingActivity;
 import com.managesystem.activity.WorkListsActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
@@ -51,6 +52,8 @@ public class SecretaryFragment extends CommonFragment {
     LinearLayout llScan;
     @Bind(R.id.ll_work_list)
     LinearLayout workList;
+    @Bind(R.id.ll_setting)
+    LinearLayout llSetting;
     private IConfig config;
     private String roleName;
     private String userId;
@@ -84,9 +87,13 @@ public class SecretaryFragment extends CommonFragment {
         departmentName.setText(config.getString("department", ""));
         stationName.setText(config.getString("stationName", ""));
     }
-    @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list})
+    @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list
+    ,R.id.ll_setting})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_setting:
+                startActivity(SettingActivity.class);
+                break;
             case R.id.layout_scan:
                 startActivity(ZxingCaptureActivity.class);
                 break;
@@ -98,7 +105,7 @@ public class SecretaryFragment extends CommonFragment {
                 break;
             case R.id.ll_pps_list:
                 Bundle bundle = new Bundle();
-                bundle.putInt("type",1);
+                bundle.putInt("type",0);
                 startActivity(PPSActivity.class,bundle);
                 break;
         }

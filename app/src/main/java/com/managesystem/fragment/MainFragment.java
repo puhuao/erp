@@ -53,7 +53,7 @@ public class MainFragment extends CommonFragment {
                 break;
             case R.id.layout_communication:
                 Bundle bundle = new Bundle();
-                bundle.putInt("type",0);
+                bundle.putInt("type",1);
                 startActivity(PPSActivity.class,bundle);
                 break;
             case R.id.layout_telephone_book:

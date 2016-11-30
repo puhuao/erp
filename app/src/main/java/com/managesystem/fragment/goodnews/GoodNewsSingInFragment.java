@@ -10,9 +10,14 @@ import android.widget.ListView;
 
 import com.managesystem.R;
 import com.managesystem.adapter.GoodNewsAdapter;
+import com.managesystem.config.Urls;
+import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.GoodNews;
+import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.NestedListView;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
 
 import java.util.ArrayList;
 
@@ -23,37 +28,42 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/11/8.
  * 好消息_已报名页面
  */
-public class GoodNewsSingInFragment extends CommonFragment {
-    @Bind(R.id.list_view)
-    ListView listView;
+public class GoodNewsSingInFragment extends BaseListRefreshFragment<GoodNews> {
     GoodNewsAdapter goodNewsAdapter;
     ArrayList<GoodNews> goodNewses = new ArrayList<>();
-    View empty;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.layout_swipe_refresh_list, null);
-        empty = inflater.inflate(R.layout.empty_view, null);
         ButterKnife.bind(this, container);
         initView();
         return container;
     }
 
     private void initView() {
-        setHeaderTitle(getStringFromResource(R.string.good_news));
+        isfirstFragment = true;
+        setHeaderTitle("已报名福利");
         goodNewsAdapter = new GoodNewsAdapter(getContext());
-        listView.setAdapter(goodNewsAdapter);
-        ((ViewGroup)(listView.getParent())).addView(empty);
-        listView.setEmptyView(empty);
-        for (int i =0 ;i < 10;i ++){
-            goodNewses.add(new GoodNews());
-        }
-        goodNewsAdapter.setList(goodNewses);
+        setData(goodNewses,goodNewsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getContext().pushFragmentToBackStack(GoodNewsDetailFragment.class,null);
+                getContext().pushFragmentToBackStack(GoodNewsDetailFragment.class,goodNewses.get(position));
             }
         });
+    }
+
+    @Override
+    public void loadMore(int pageNo) {
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        StringBuilder sb = new StringBuilder(Urls.GOOD_NEWS);
+        String userid = null;
+        userid = config.getString("userId", "");
+        UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
+                .praseToUrl("userId",userid)
+                .praseToUrl("pageSize","20")
+                .praseToUrl("type","2")//我的已报名福利
+                .removeLastWord();
+        excute(sb.toString(),GoodNews.class);
     }
 }

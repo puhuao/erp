@@ -12,6 +12,15 @@ public class Department {
 
     public String departmentName;
     public String departmentId;
+    private String firstLetter;
+
+    public String getFirstLetter() {
+        return firstLetter;
+    }
+
+    public void setFirstLetter(String firstLetter) {
+        this.firstLetter = firstLetter;
+    }
 
     public String getDepartmentName() {
         return departmentName;

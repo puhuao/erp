@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/ll_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dimen_1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消息静音"
+            android:layout_margin="@dimen/dimen_12"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开启"
+            android:drawableRight="@drawable/ic_right_small"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/text_size_16"
+            android:drawablePadding="@dimen/dimen_12"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_check_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dimen_24"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关于我们"
+            android:layout_margin="@dimen/dimen_12"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="v1.0.0"
+            android:drawableRight="@drawable/ic_right_small"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/text_size_16"
+            android:drawablePadding="@dimen/dimen_12"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="退出登录"
+        android:textSize="@dimen/text_size_16"
+        android:padding="@dimen/dimen_12"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dimen_24"/>
+
+</LinearLayout>

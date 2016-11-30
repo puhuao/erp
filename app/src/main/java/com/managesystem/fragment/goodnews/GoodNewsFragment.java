@@ -6,13 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.managesystem.R;
 import com.managesystem.adapter.GoodNewsAdapter;
+import com.managesystem.config.Urls;
+import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.GoodNews;
+import com.managesystem.model.PPSModel;
+import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.NestedListView;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
 
 import java.util.ArrayList;
 
@@ -23,35 +30,29 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/11/8.
  * 好消息页面
  */
-public class GoodNewsFragment extends CommonFragment {
-    @Bind(R.id.list_view)
-    ListView listView;
+public class GoodNewsFragment extends BaseListRefreshFragment<GoodNews> {
     GoodNewsAdapter goodNewsAdapter;
     ArrayList<GoodNews> goodNewses = new ArrayList<>();
-    View empty;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_good_news, null);
-        empty = inflater.inflate(R.layout.empty_view, null);
         ButterKnife.bind(this, container);
         initView();
         return container;
     }
 
     private void initView() {
+        isfirstFragment = true;
         setHeaderTitle(getStringFromResource(R.string.good_news));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.good_news_has_sign_in));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         goodNewsAdapter = new GoodNewsAdapter(getContext());
-        listView.setAdapter(goodNewsAdapter);
-        ((ViewGroup) (listView.getParent())).addView(empty);
-        listView.setEmptyView(empty);
-        goodNewsAdapter.setList(goodNewses);
+        setData(goodNewses,goodNewsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getContext().pushFragmentToBackStack(GoodNewsDetailFragment.class, null);
+                getContext().pushFragmentToBackStack(GoodNewsDetailFragment.class, goodNewses.get(position));
             }
         });
         getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
@@ -60,5 +61,19 @@ public class GoodNewsFragment extends CommonFragment {
                 getContext().pushFragmentToBackStack(GoodNewsSingInFragment.class,null);
             }
         });
+    }
+
+    @Override
+    public void loadMore(int pageNo) {
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        StringBuilder sb = new StringBuilder(Urls.GOOD_NEWS);
+        String userid = null;
+        userid = config.getString("userId", "");
+        UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
+                .praseToUrl("userId",userid)
+                .praseToUrl("pageSize","20")
+                .praseToUrl("type","1")//所有福利
+                .removeLastWord();
+        excute(sb.toString(),GoodNews.class);
     }
 }

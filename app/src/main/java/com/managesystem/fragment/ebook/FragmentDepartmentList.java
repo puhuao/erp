@@ -2,9 +2,11 @@ package com.managesystem.fragment.ebook;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,28 +16,43 @@ import com.bigkoo.quicksidebar.QuickSideBarView;
 import com.bigkoo.quicksidebar.listener.OnQuickSideBarTouchListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.callBack.DialogCallback;
+import com.managesystem.config.Urls;
+import com.managesystem.model.Department;
+import com.managesystem.popupwindow.DepartmentSelectPopupwindow;
+import com.managesystem.tools.UrlUtils;
+import com.managesystem.widegt.recycler.OnRecyclerItemClickListener;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
-public class FragmentEBookList extends CommonFragment implements OnQuickSideBarTouchListener {
+public class FragmentDepartmentList extends CommonFragment implements OnQuickSideBarTouchListener {
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
     @Bind(R.id.quickSideBarView)
     QuickSideBarView quickSideBarView;
     @Bind(R.id.quickSideBarTipsView)
     QuickSideBarTipsView quickSideBarTipsView;
-    HashMap<String,Integer> letters = new HashMap<>();
+    private List<Department> departments = new ArrayList<>();
+    CityListWithHeadersAdapter adapter;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_ebook, null);
@@ -47,53 +64,44 @@ public class FragmentEBookList extends CommonFragment implements OnQuickSideBarT
     private void initView() {
         quickSideBarView.setOnQuickSideBarTouchListener(this);
 
-
         //设置列表数据和浮动header
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         // Add the sticky headers decoration
-        CityListWithHeadersAdapter adapter = new CityListWithHeadersAdapter();
+        adapter = new CityListWithHeadersAdapter();
 
-        //GSON解释出来
-        Type listType = new TypeToken<LinkedList<City>>(){}.getType();
-        Gson gson = new Gson();
-        LinkedList<City> cities = gson.fromJson(DataConstants.cityDataList, listType);
-
-        ArrayList<String> customLetters = new ArrayList<>();
-
-        int position = 0;
-        for(City city: cities){
-            String letter = city.getFirstLetter();
-            //如果没有这个key则加入并把位置也加入
-            if(!letters.containsKey(letter)){
-                letters.put(letter,position);
-                customLetters.add(letter);
-            }
-            position++;
-        }
-
-        //不自定义则默认26个字母
-        quickSideBarView.setLetters(customLetters);
-        adapter.addAll(cities);
+//        GSON解释出来
+//        Type listType = new TypeToken<LinkedList<City>>(){}.getType();
+        adapter.addAll(departments);
         recyclerView.setAdapter(adapter);
-
         final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(adapter);
         recyclerView.addItemDecoration(headersDecor);
-
         // Add decoration for dividers between list items
         recyclerView.addItemDecoration(new DividerDecoration(getContext()));
+        getDepartMents();
+        recyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(recyclerView) {
+            @Override
+            public void onItemClick(RecyclerView.ViewHolder vh) {
+                getContext().pushFragmentToBackStack(FragmentPhonenumberList.class,departments.get(vh.getAdapterPosition()));
+            }
+
+            @Override
+            public void onItemLongClick(RecyclerView.ViewHolder vh) {
+
+            }
+        });
     }
 
 
 
     @Override
     public void onLetterChanged(String letter, int position, float y) {
-        quickSideBarTipsView.setText(letter, position, y);
-        //有此key则获取位置并滚动到该位置
-        if(letters.containsKey(letter)) {
-            recyclerView.scrollToPosition(letters.get(letter));
-        }
+//        quickSideBarTipsView.setText(letter, position, y);
+//        //有此key则获取位置并滚动到该位置
+//        if(letters.containsKey(letter)) {
+//            recyclerView.scrollToPosition(letters.get(letter));
+//        }
     }
 
     @Override
@@ -115,7 +123,7 @@ public class FragmentEBookList extends CommonFragment implements OnQuickSideBarT
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             TextView textView = (TextView) holder.itemView;
-            textView.setText(getItem(position).getCityName());
+            textView.setText(getItem(position).getDepartmentName());
         }
 
         @Override
@@ -134,7 +142,7 @@ public class FragmentEBookList extends CommonFragment implements OnQuickSideBarT
         @Override
         public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
             TextView textView = (TextView) holder.itemView;
-            textView.setText(String.valueOf(getItem(position).getFirstLetter()));
+            textView.setText(String.valueOf(getItem(position).getDepartmentName()));
             holder.itemView.setBackgroundColor(getRandomColor());
         }
 
@@ -145,5 +153,29 @@ public class FragmentEBookList extends CommonFragment implements OnQuickSideBarT
             });
         }
 
+    }
+
+
+    private void getDepartMents(){
+        StringBuilder sb = new StringBuilder(Urls.GET_DEPARTMENT);
+        UrlUtils.getInstance(sb);
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(),"网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o!=null){
+                    departments.addAll(GsonUtil.fromJsonList(o, Department.class));
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        };
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
     }
 }

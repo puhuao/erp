@@ -3,7 +3,6 @@ package com.managesystem.activity;
 import android.os.Bundle;
 
 import com.managesystem.R;
-import com.managesystem.fragment.ebook.FragmentEBookList;
 import com.managesystem.fragment.meeting.MeetingPersonListFragment;
 import com.wksc.framwork.activity.CommonActivity;
 import com.wksc.framwork.platform.config.IConfig;
