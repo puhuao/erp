@@ -15,7 +15,6 @@ import com.managesystem.widegt.EmojiTextView;
 import com.managesystem.widegt.multiImageView.MultiImageView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,9 +41,11 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
             convertView.setTag(holder);
         }
         final PPSModel ppsModel = mList.get(position);
+        holder.zan.setText(String.valueOf(ppsModel.getPraiseCount()));
         holder.name.setText(ppsModel.getName());
         holder.time.setText(ppsModel.getCtime());
         holder.content.setText(ppsModel.getContent());
+//        holder.comment.setText(String.valueOf(ppsModel.get));
         final ArrayList<String> imgs = new ArrayList<>();
         if (ppsModel.getPics()!=null){
 

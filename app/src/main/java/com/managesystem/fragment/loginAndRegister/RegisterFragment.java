@@ -16,6 +16,9 @@ import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -72,7 +75,12 @@ public class RegisterFragment extends CommonFragment {
                 getContext().pushFragmentToBackStack(FinishPersonalInformationFragment.class,bundle);
                 break;
             case R.id.tv_get_valid_code:
-
+                Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9])|(17[6,7,8]))\\d{8}$");
+                Matcher m = p.matcher(phoneNumber);
+                if (!m.matches()) {
+                    ToastUtil.showShortMessage(getContext(), "请输入正确的手机号");
+                    break;
+                }
                 getVailidCode(phoneNumber);
                 break;
         }
@@ -106,4 +114,14 @@ public class RegisterFragment extends CommonFragment {
                 .tag(this)//
                 .execute(callback);
     }
+
+    private void getValidCode(String phone) {
+
+        if (StringUtils.isBlank(phone)) {
+            ToastUtil.showShortMessage(getContext(), "请输入手机号");
+            return;
+        }
+    }
+
+
 }

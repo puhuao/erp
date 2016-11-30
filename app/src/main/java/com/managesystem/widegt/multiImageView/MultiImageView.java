@@ -116,7 +116,7 @@ public class MultiImageView extends LinearLayout {
         int wrap = LayoutParams.WRAP_CONTENT;
         int match = LayoutParams.MATCH_PARENT;
 
-        onePicPara = new LayoutParams(pxOneMaxWandH, wrap);
+        onePicPara = new LayoutParams(match, wrap);
 
         moreParaColumnFirst = new LayoutParams(pxMoreWandH, pxMoreWandH);
         morePara = new LayoutParams(pxMoreWandH, pxMoreWandH);
@@ -184,6 +184,7 @@ public class MultiImageView extends LinearLayout {
         } else {
             imageView.setAdjustViewBounds(true);
            /* imageView.setScaleType(ScaleType.FIT_START);*/
+            imageView.setScaleType(ScaleType.CENTER_CROP);
             imageView.setMaxHeight(pxOneMaxWandH);
             imageView.setLayoutParams(onePicPara);
         }

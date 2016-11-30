@@ -145,6 +145,7 @@ Boolean isSearch = false;
                 adapter.notifyDataSetChanged();
                 rvManager.smoothScrollToPosition(recyclerView,null,position);
 //                horizontalListView.scrollTo((int) (position*x));
+                pageNo =1;
                 loadMore(1);
             }
 

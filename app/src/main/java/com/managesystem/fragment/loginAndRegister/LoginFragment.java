@@ -44,6 +44,9 @@ public class LoginFragment extends CommonFragment {
     @Bind(R.id.et_password)
     EditText passWord;
     private IConfig config;
+    private String username;
+    private String password;
+    private Boolean isAotuLogin = false;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,8 +54,14 @@ public class LoginFragment extends CommonFragment {
         final View view = inflater.inflate(R.layout.fragment_login, null);
         ButterKnife.bind(this, view);
         config = BaseApplication.getInstance().getCurrentConfig();
-        userName.setText(config.getString("username", ""));
-        passWord.setText(config.getString("password",""));
+        username = config.getString("username", "");
+        password = config.getString("password","");
+        userName.setText(username);
+        passWord.setText(password);
+        isAotuLogin = config.getBoolean("isLogin",false);
+        if (isAotuLogin){
+            doLogin();
+        }
         return view;
     }
     @OnClick({R.id.fab,R.id.register_new_user,R.id.tv_forgot_password})
@@ -71,13 +80,8 @@ public class LoginFragment extends CommonFragment {
         }
     }
 
-    String username;
-    String password;
 
     private void doLogin() {
-
-        username = userName.getText().toString();
-        password = passWord.getText().toString();
         if (StringUtils.isBlank(username)) {
             ToastUtil.showShortMessage(getContext(), "请输入用户名");
             return;
@@ -108,6 +112,7 @@ public class LoginFragment extends CommonFragment {
                     config.setString("stationName",o.getStationName());
                     config.setString("department",o.getDepartmentName());
                     config.setString("cphone",o.getCphone());
+                    config.setBoolean("isLogin",true);
                     JPushInterface.setAlias(getContext(), o.getUserId(), new TagAliasCallback() {
                         @Override
                         public void gotResult(int i, String s, Set<String> set) {

@@ -143,6 +143,7 @@ public class MeetingApplyFragment extends CommonFragment {
                 break;
             case R.id.tv_location:
                 if (meetingRooms.size()>0){
+                    hideSoftInput(v);
                     MeetingRoomSelectPopupwindow popupwindow = new MeetingRoomSelectPopupwindow(getContext(),meetingRooms);
                     popupwindow.showPopupwindow(tvMeetingRoom);
                 }else{
