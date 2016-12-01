@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -64,12 +63,7 @@ public class FragmentPhonenumberList extends CommonFragment implements OnQuickSi
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        // Add the sticky headers decoration
         adapter = new CityListWithHeadersAdapter();
-
-//        GSON解释出来
-//        Type listType = new TypeToken<LinkedList<City>>(){}.getType();
-        adapter.addAll(departments);
         recyclerView.setAdapter(adapter);
         final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(adapter);
         recyclerView.addItemDecoration(headersDecor);
@@ -114,7 +108,8 @@ public class FragmentPhonenumberList extends CommonFragment implements OnQuickSi
 
         @Override
         public long getHeaderId(int position) {
-            return getItem(position).getFirstLetter().charAt(0);
+//            return getItem(position).getFirstLetter().charAt(0);
+            return position;
         }
 
         @Override
@@ -161,6 +156,8 @@ public class FragmentPhonenumberList extends CommonFragment implements OnQuickSi
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
+                    adapter.addAll(GsonUtil.fromJsonList(o, Department.class));
+                    adapter.notifyDataSetChanged();
                 }
             }
         };

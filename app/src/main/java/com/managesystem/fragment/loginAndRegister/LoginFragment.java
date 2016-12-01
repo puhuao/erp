@@ -82,6 +82,9 @@ public class LoginFragment extends CommonFragment {
 
 
     private void doLogin() {
+
+        username = userName.getText().toString();
+        password = passWord.getText().toString();
         if (StringUtils.isBlank(username)) {
             ToastUtil.showShortMessage(getContext(), "请输入用户名");
             return;

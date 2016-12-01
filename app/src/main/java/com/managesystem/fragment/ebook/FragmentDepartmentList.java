@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,14 +13,11 @@ import android.widget.TextView;
 import com.bigkoo.quicksidebar.QuickSideBarTipsView;
 import com.bigkoo.quicksidebar.QuickSideBarView;
 import com.bigkoo.quicksidebar.listener.OnQuickSideBarTouchListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.Department;
-import com.managesystem.popupwindow.DepartmentSelectPopupwindow;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.recycler.OnRecyclerItemClickListener;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
@@ -30,11 +26,8 @@ import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 
-import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -71,9 +64,6 @@ public class FragmentDepartmentList extends CommonFragment implements OnQuickSid
         // Add the sticky headers decoration
         adapter = new CityListWithHeadersAdapter();
 
-//        GSON解释出来
-//        Type listType = new TypeToken<LinkedList<City>>(){}.getType();
-        adapter.addAll(departments);
         recyclerView.setAdapter(adapter);
         final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(adapter);
         recyclerView.addItemDecoration(headersDecor);
@@ -128,7 +118,8 @@ public class FragmentDepartmentList extends CommonFragment implements OnQuickSid
 
         @Override
         public long getHeaderId(int position) {
-            return getItem(position).getFirstLetter().charAt(0);
+//            return getItem(position).getFirstLetter().charAt(0);
+            return position;
         }
 
         @Override
@@ -170,6 +161,7 @@ public class FragmentDepartmentList extends CommonFragment implements OnQuickSid
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                     departments.addAll(GsonUtil.fromJsonList(o, Department.class));
+                    adapter.addAll(departments);
                     adapter.notifyDataSetChanged();
                 }
             }
