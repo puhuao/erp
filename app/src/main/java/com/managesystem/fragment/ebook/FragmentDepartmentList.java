@@ -162,7 +162,7 @@ public class FragmentDepartmentList extends CommonFragment implements OnQuickSid
                 if (o!=null){
                     departments.addAll(GsonUtil.fromJsonList(o, Department.class));
                     adapter.addAll(departments);
-                    adapter.notifyDataSetChanged();
+//                    adapter.notifyDataSetChanged();
                 }
             }
         };

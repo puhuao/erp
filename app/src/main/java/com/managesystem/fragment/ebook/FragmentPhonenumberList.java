@@ -18,6 +18,7 @@ import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.Department;
+import com.managesystem.model.PersonalInfo;
 import com.managesystem.tools.UrlUtils;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -44,7 +45,7 @@ public class FragmentPhonenumberList extends CommonFragment implements OnQuickSi
     QuickSideBarView quickSideBarView;
     @Bind(R.id.quickSideBarTipsView)
     QuickSideBarTipsView quickSideBarTipsView;
-    private List<Department> departments = new ArrayList<>();
+    private List<PersonalInfo> departments = new ArrayList<>();
     CityListWithHeadersAdapter adapter;
     Department department;
 
@@ -90,7 +91,7 @@ public class FragmentPhonenumberList extends CommonFragment implements OnQuickSi
         quickSideBarTipsView.setVisibility(touching? View.VISIBLE:View.INVISIBLE);
     }
 
-    private class CityListWithHeadersAdapter extends CityListAdapter<RecyclerView.ViewHolder>
+    private class CityListWithHeadersAdapter extends PersonListAdapter<RecyclerView.ViewHolder>
             implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -103,7 +104,7 @@ public class FragmentPhonenumberList extends CommonFragment implements OnQuickSi
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             TextView textView = (TextView) holder.itemView;
-            textView.setText(getItem(position).getDepartmentName());
+            textView.setText(getItem(position).getName());
         }
 
         @Override
@@ -156,7 +157,7 @@ public class FragmentPhonenumberList extends CommonFragment implements OnQuickSi
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
-                    adapter.addAll(GsonUtil.fromJsonList(o, Department.class));
+                    adapter.addAll(GsonUtil.fromJsonList(o, PersonalInfo.class));
                     adapter.notifyDataSetChanged();
                 }
             }

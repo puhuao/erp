@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.activity.MainTainListActivity;
+import com.managesystem.activity.MyWalletActivity;
 import com.managesystem.activity.PPSActivity;
 import com.managesystem.activity.SettingActivity;
 import com.managesystem.activity.WorkListsActivity;
@@ -88,9 +89,12 @@ public class SecretaryFragment extends CommonFragment {
         stationName.setText(config.getString("stationName", ""));
     }
     @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list
-    ,R.id.ll_setting})
+    ,R.id.ll_setting,R.id.ll_wallet})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_wallet:
+                startActivity(MyWalletActivity.class);
+                break;
             case R.id.ll_setting:
                 startActivity(SettingActivity.class);
                 break;

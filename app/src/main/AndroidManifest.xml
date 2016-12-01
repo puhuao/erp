@@ -77,6 +77,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.SettingActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyWalletActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Required SDK核心功能-->
         <activity

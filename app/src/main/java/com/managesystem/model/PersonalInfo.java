@@ -35,31 +35,31 @@ public class PersonalInfo {
      */
 
     private String area;
-    private Object bz;
-    private Object code;
+    private String bz;
+    private String code;
     private String cphone;
     private String departmentId;
     private String departmentName;
-    private Object deviceType;
-    private Object email;
+    private String deviceType;
+    private String email;
     private String floor;
-    private Object ip;
+    private String ip;
     private int ispublish;
-    private Object lastLogin;
+    private String lastLogin;
     private String name;
-    private Object number;
+    private String number;
     private String officeNo;
-    private Object password;
+    private String password;
     private String phone;
-    private Object registerId;
-    private Object rights;
-    private Object roleId;
+    private String registerId;
+    private String rights;
+    private String roleId;
     private String roleName;
-    private Object sign;
-    private Object skin;
-    private Object status;
+    private String sign;
+    private String skin;
+    private String status;
     private String userId;
-    private Object username;
+    private String username;
     private String stationName;
 
     public String getStationName() {
@@ -78,19 +78,19 @@ public class PersonalInfo {
         this.area = area;
     }
 
-    public Object getBz() {
+    public String getBz() {
         return bz;
     }
 
-    public void setBz(Object bz) {
+    public void setBz(String bz) {
         this.bz = bz;
     }
 
-    public Object getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Object code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -118,19 +118,19 @@ public class PersonalInfo {
         this.departmentName = departmentName;
     }
 
-    public Object getDeviceType() {
+    public String getDeviceType() {
         return deviceType;
     }
 
-    public void setDeviceType(Object deviceType) {
+    public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
     }
 
-    public Object getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(Object email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -142,11 +142,11 @@ public class PersonalInfo {
         this.floor = floor;
     }
 
-    public Object getIp() {
+    public String getIp() {
         return ip;
     }
 
-    public void setIp(Object ip) {
+    public void setIp(String ip) {
         this.ip = ip;
     }
 
@@ -158,11 +158,11 @@ public class PersonalInfo {
         this.ispublish = ispublish;
     }
 
-    public Object getLastLogin() {
+    public String getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(Object lastLogin) {
+    public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
     }
 
@@ -174,11 +174,11 @@ public class PersonalInfo {
         this.name = name;
     }
 
-    public Object getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Object number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -190,11 +190,11 @@ public class PersonalInfo {
         this.officeNo = officeNo;
     }
 
-    public Object getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(Object password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -206,27 +206,27 @@ public class PersonalInfo {
         this.phone = phone;
     }
 
-    public Object getRegisterId() {
+    public String getRegisterId() {
         return registerId;
     }
 
-    public void setRegisterId(Object registerId) {
+    public void setRegisterId(String registerId) {
         this.registerId = registerId;
     }
 
-    public Object getRights() {
+    public String getRights() {
         return rights;
     }
 
-    public void setRights(Object rights) {
+    public void setRights(String rights) {
         this.rights = rights;
     }
 
-    public Object getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Object roleId) {
+    public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
@@ -238,27 +238,27 @@ public class PersonalInfo {
         this.roleName = roleName;
     }
 
-    public Object getSign() {
+    public String getSign() {
         return sign;
     }
 
-    public void setSign(Object sign) {
+    public void setSign(String sign) {
         this.sign = sign;
     }
 
-    public Object getSkin() {
+    public String getSkin() {
         return skin;
     }
 
-    public void setSkin(Object skin) {
+    public void setSkin(String skin) {
         this.skin = skin;
     }
 
-    public Object getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -270,11 +270,11 @@ public class PersonalInfo {
         this.userId = userId;
     }
 
-    public Object getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(Object username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 }
