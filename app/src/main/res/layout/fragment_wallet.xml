@@ -58,7 +58,25 @@
         android:layout_weight="1"
         android:background="@color/white"
         android:orientation="vertical" >
-
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="radiogroup"
+                android:background="@drawable/selector_radio_select"
+                android:checked="false"
+                android:button="@null"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="radiogroup2"
+                android:background="@drawable/selector_radio_select"
+                android:checked="true"
+                android:button="@null"/>
+        </RadioGroup>
 
     </LinearLayout>
 </LinearLayout>
