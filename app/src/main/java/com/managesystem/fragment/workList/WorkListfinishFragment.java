@@ -70,16 +70,18 @@ public class WorkListfinishFragment extends BaseListRefreshFragment<WorkList> {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
+                if (position!=workLists.size()) {
+                    Bundle bundle = new Bundle();
 
-                if (workLists.get(position).getServicetypeName().equals("会议")){
-                    bundle.putInt("type",0);
-                    bundle.putSerializable("obj",workLists.get(position));
-                    startActivity(WorkListDetailActivity.class,bundle);
-                }else{
-                    bundle.putInt("type",1);
-                    bundle.putSerializable("obj",workLists.get(position));
-                    startActivity(WorkListDetailActivity.class,bundle);
+                    if (workLists.get(position).getServicetypeName().equals("会议")) {
+                        bundle.putInt("type", 0);
+                        bundle.putSerializable("obj", workLists.get(position));
+                        startActivity(WorkListDetailActivity.class, bundle);
+                    } else {
+                        bundle.putInt("type", 1);
+                        bundle.putSerializable("obj", workLists.get(position));
+                        startActivity(WorkListDetailActivity.class, bundle);
+                    }
                 }
             }
         });

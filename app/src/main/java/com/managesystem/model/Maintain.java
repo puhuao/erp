@@ -42,6 +42,25 @@ public class Maintain {
     private String name;
     private String cphone;
     private String orderId;
+    private String responsibleUserName;
+    private String responsibleUserPhone;
+
+    public String getResponsibleUserName() {
+        return responsibleUserName;
+    }
+
+    public void setResponsibleUserName(String responsibleUserName) {
+        this.responsibleUserName = responsibleUserName;
+    }
+
+    public String getResponsibleUserPhone() {
+        return responsibleUserPhone;
+    }
+
+    public void setResponsibleUserPhone(String responsibleUserPhone) {
+        this.responsibleUserPhone = responsibleUserPhone;
+    }
+
     private List<Users> handleUsers;
 
     public List<Users> getHandleUsers() {

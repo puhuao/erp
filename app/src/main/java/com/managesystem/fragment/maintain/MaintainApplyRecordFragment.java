@@ -43,6 +43,7 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position!=records.size())
                 getContext().pushFragmentToBackStack(MaintainDetailFragment.class,records.get(position).getOrderId());
             }
         });

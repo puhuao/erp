@@ -151,7 +151,51 @@
             android:padding="@dimen/dimen_10"
             />
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="责任人:"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_10"
+            />
+        <TextView
+            android:id="@+id/responsible_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/meeting_guarantee_person"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/meet_detail_text_color"
+            android:padding="@dimen/dimen_10"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="责任人手机号:"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_10"
+            />
+        <TextView
+            android:id="@+id/responsible_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/meet_detail_text_color"
+            android:padding="@dimen/dimen_10"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_comments"

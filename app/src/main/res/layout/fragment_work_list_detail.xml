@@ -29,23 +29,24 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_equipment_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/work_list_apply"
+            android:text="设备类型:"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
             android:padding="@dimen/dimen_10"
             />
         <TextView
-            android:id="@+id/work_list_apply"
+            android:id="@+id/work_list_equipment_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/work_list_apply"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/meet_detail_text_color"
             android:padding="@dimen/dimen_10"
@@ -70,6 +71,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/work_list_apply_department"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/meet_detail_text_color"
+            android:padding="@dimen/dimen_10"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/work_list_apply"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_10"
+            />
+        <TextView
+            android:id="@+id/work_list_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/work_list_apply"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/meet_detail_text_color"
             android:padding="@dimen/dimen_10"
@@ -136,6 +160,29 @@
             />
         <TextView
             android:id="@+id/work_list_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="紧急"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_10"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/work_list_status"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_10"
+            />
+        <TextView
+            android:id="@+id/work_list_priority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="紧急"

@@ -133,9 +133,9 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
 
     @Override
     public void loadMore(int pageNo) {
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.RESOURCE_LIST);
         UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
+                .praseToUrl("userId", userID)
                 .praseToUrl("pageSize","20")
                 .praseToUrl("keyword","")
                 .removeLastWord();

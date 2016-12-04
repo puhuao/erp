@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/make_qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:gravity="center"
+        android:text="支付二维码"
+        android:textSize="16sp"
+        android:background="@drawable/selector_btn_login"
+        android:textColor="@color/button_text_selector"
+        />
+    <Button
+        android:id="@+id/custom_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:gravity="center"
+        android:text="自定义支付"
+        android:textSize="16sp"
+        android:background="@drawable/selector_btn_login"
+        android:textColor="@color/button_text_selector"
+        />
+</LinearLayout>

@@ -44,10 +44,12 @@ public class MsgReadFragment extends BaseListRefreshFragment<Message> {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getContext(), MeetingMsgDetailActivity.class);
-                Message message = messages.get(position);
-                i.putExtra("obj",message);
-                getContext().startActivity(i);
+                if (position!=messages.size()) {
+                    Intent i = new Intent(getContext(), MeetingMsgDetailActivity.class);
+                    Message message = messages.get(position);
+                    i.putExtra("obj", message);
+                    getContext().startActivity(i);
+                }
             }
         });
     }

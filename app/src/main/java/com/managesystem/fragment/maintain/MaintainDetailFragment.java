@@ -80,10 +80,14 @@ public class MaintainDetailFragment extends CommonFragment {
             TextView handlerInfo;
     @Bind(R.id.content)
             TextView tvComment;
+    @Bind(R.id.responsible_name)
+    TextView responsibleName;
+    @Bind(R.id.responsible_phone)
+    TextView responsiblePhoneNumber;
     String userID;
     private String oderId;
 
-    private float rating;
+    private int rating;
     private String comment;
     Maintain maintain;
     @Override
@@ -111,6 +115,8 @@ public class MaintainDetailFragment extends CommonFragment {
         handlerInfo.setText(maintain.getHandlerInfo());
         tvName.setText(maintain.getServicetypeName());//服务名称
         tvStartTime.setText(maintain.getCtime());//申请实际那
+        responsibleName.setText(maintain.getResponsibleUserName()==null?"暂无":maintain.getResponsibleUserName());
+        responsiblePhoneNumber.setText(maintain.getResponsibleUserPhone()==null?"暂无":maintain.getResponsibleUserPhone());
         tvLocation.setText(maintain.getHandlerInfo()==null?"暂无":maintain.getHandlerInfo());//维修详情
         tvGuaranteePerson.setText(maintain.getResponsibleUserId()==null?"暂无":maintain.getResponsibleUserId());
         switch (maintain.getStatus()){//0：新增 1：已派单2：已确认3：已完成4：已评价
@@ -148,7 +154,7 @@ public class MaintainDetailFragment extends CommonFragment {
                     ratingBar.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
                         @Override
                         public void onRatingChange(float RatingCount) {
-                            rating = RatingCount;
+                            rating = (int) RatingCount;
                         }
                     });
                 }

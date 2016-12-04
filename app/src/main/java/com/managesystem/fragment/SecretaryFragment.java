@@ -5,14 +5,18 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.activity.MainTainListActivity;
+import com.managesystem.activity.MyMeetingNoticeActivity;
 import com.managesystem.activity.MyWalletActivity;
 import com.managesystem.activity.PPSActivity;
+import com.managesystem.activity.PersonalInfoActivity;
 import com.managesystem.activity.SettingActivity;
 import com.managesystem.activity.WorkListsActivity;
 import com.managesystem.callBack.DialogCallback;
@@ -55,6 +59,11 @@ public class SecretaryFragment extends CommonFragment {
     LinearLayout workList;
     @Bind(R.id.ll_setting)
     LinearLayout llSetting;
+    @Bind(R.id.phone)
+    TextView phoneNumber;
+    @Bind(R.id.header)
+    ImageView header;
+
     private IConfig config;
     private String roleName;
     private String userId;
@@ -84,14 +93,43 @@ public class SecretaryFragment extends CommonFragment {
         }else{
             workList.setVisibility(View.GONE);
         }
+        String phone = config.getString("phone","");
+        if (config.getBoolean("ispublish",false)){
+            StringBuilder sb  =new StringBuilder();
+            if (!StringUtils.isBlank(phone)&& phone.length() > 6){
+                for (int i = 0; i < phone.length(); i++) {
+                    char c = phone.charAt(i);
+                    if (i >= 3 && i <= 6) {
+                        sb.append('*');
+                    } else {
+                        sb.append(c);
+                    }
+                }
+            }
+            phoneNumber.setText(sb.toString());
+        }else{
+            phoneNumber.setText(phone);
+        }
         userName.setText(config.getString("name", ""));
         departmentName.setText(config.getString("department", ""));
         stationName.setText(config.getString("stationName", ""));
+        Glide.with(getContext())
+                .load(config.getString("headerIcon","")).crossFade()
+                .placeholder(R.drawable.ic_header_defalt)
+                .error(R.drawable.ic_header_defalt)
+                .thumbnail(0.1f).centerCrop()
+                .into(header);
     }
     @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list
-    ,R.id.ll_setting,R.id.ll_wallet})
+    ,R.id.ll_setting,R.id.ll_wallet,R.id.ll_meeting_notice,R.id.ll_personal_info})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_personal_info:
+                startActivity(PersonalInfoActivity.class);
+                break;
+            case R.id.ll_meeting_notice:
+                startActivity(MyMeetingNoticeActivity.class);
+                break;
             case R.id.ll_wallet:
                 startActivity(MyWalletActivity.class);
                 break;

@@ -66,6 +66,8 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
     TextView tvComment;
     @Bind(R.id.responsible_name)
     TextView responsibleName;
+    @Bind(R.id.responsible_phone)
+    TextView responsiblePhoneNumber;
     private MeetingApplyRecord meetingApplyRecord;
     String userID;
 
@@ -103,11 +105,15 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
                 tvGuaranteeProgress.setText("新增");
                 llComment.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
+                responsibleName.setText("暂无");
+                tvGuaranteePerson.setText("暂无");
+                responsiblePhoneNumber.setText("暂无");
                 break;
             case 1:
                 tvGuaranteeProgress.setText("已派单");
                 llComment.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 2:
                 tvGuaranteeProgress.setText("已确认");
@@ -116,9 +122,10 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
 //                    fab.setVisibility(View.VISIBLE);
 //                    fab.setText("完成");
 //                }
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 3:
-//                if (type == 0){
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                     tvGuaranteeProgress.setText("已完成");
                     llComment.setVisibility(View.VISIBLE);
                     llText.setVisibility(View.GONE);
@@ -133,14 +140,10 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
                             }
                         });
                     }
-//                }else{
-//                    tvGuaranteeProgress.setText("已完成");
-//                    llComment.setVisibility(View.GONE);
-//                    fab.setVisibility(View.GONE);
-//                }
 
                 break;
             case 4:
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 ratingBar.setStar(meetingApplyRecord.getStar());
                 tvComment.setText(meetingApplyRecord.getContent());
                 tvGuaranteeProgress.setText("已评价");
@@ -155,8 +158,6 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
             @Override
             public void onClick(View v) {
                 IConfig config = BaseApplication.getInstance().getCurrentConfig();
-//                if (type == 0){
-
                     comment = content.getText().toString();
                     if (rating == 0) {
                         ToastUtil.showShortMessage(getContext(), "请选择评星等级");
@@ -168,9 +169,6 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
                     }
 
                     updateDistribute(null,"4",comment,String.valueOf(rating));
-//                }else{
-//                    updateDistribute(config.getString("userId", ""),"3",null,null);
-//                }
             }
         });
     }
@@ -216,16 +214,11 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
-//                    if (type == 1){
-//                        ToastUtil.showShortMessage(getContext(), "会议工单完成");
-//                        fab.setVisibility(View.GONE);
-//                    }else{
                         ToastUtil.showShortMessage(getContext(), "会议保障评价成功");
                         ratingBar.setClickable(false);
                         llEdit.setVisibility(View.GONE);
                         llText.setVisibility(View.VISIBLE);
                         tvComment.setText(comment);
-//                    }
                 }
             }
         };

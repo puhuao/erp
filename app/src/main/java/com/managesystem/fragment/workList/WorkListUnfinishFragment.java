@@ -76,42 +76,42 @@ public class WorkListUnfinishFragment extends BaseListRefreshFragment<WorkList> 
     private void initView() {
         isfirstFragment = true;
         hideTitleBar();
-        adapter =  new WorkListAdapter(getContext());
+        adapter = new WorkListAdapter(getContext());
         adapter.setType(1);
-        setData(workLists,adapter);
+        setData(workLists, adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-
-                if (workLists.get(position).getServicetypeName().equals("会议")){
-                    bundle.putInt("type",0);
-                    bundle.putSerializable("obj",workLists.get(position));
-                    startActivity(WorkListDetailActivity.class,bundle);
-                }else{
-                    bundle.putInt("type",1);
-                    bundle.putSerializable("obj",workLists.get(position));
-                    startActivity(WorkListDetailActivity.class,bundle);
+                if (position != workLists.size()) {
+                    Bundle bundle = new Bundle();
+                    if (workLists.get(position).getServicetypeName().equals("会议")) {
+                        bundle.putInt("type", 0);
+                    } else {
+                        bundle.putInt("type", 1);
+                    }
+                    bundle.putSerializable("obj", workLists.get(position));
+                    startActivity(WorkListDetailActivity.class, bundle);
                 }
             }
         });
     }
 
     @Subscribe
-    public void onEvent(WorkListFinishEvent event){
+    public void onEvent(WorkListFinishEvent event) {
         pageNo = 1;
         loadMore(1);
     }
+
     @Override
     public void loadMore(int pageNo) {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.WORK_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("status","2")
-                .praseToUrl("userId",config.getString("userId",""))
-                .praseToUrl("pageNo",String.valueOf(pageNo))
-                .praseToUrl("pageSize","20")
+        UrlUtils.getInstance(sb).praseToUrl("status", "2")
+                .praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("pageNo", String.valueOf(pageNo))
+                .praseToUrl("pageSize", "20")
                 .removeLastWord();
-        excute(sb.toString(),WorkList.class);
+        excute(sb.toString(), WorkList.class);
     }
 
     @Override

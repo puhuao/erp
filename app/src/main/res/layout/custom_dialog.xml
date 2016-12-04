@@ -18,7 +18,7 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:textSize="15sp"
-            android:textColor="#ffffff"
+            android:textColor="@color/text_color"
             android:visibility="visible" />
 
         <LinearLayout

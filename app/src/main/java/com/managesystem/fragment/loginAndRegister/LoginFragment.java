@@ -115,7 +115,16 @@ public class LoginFragment extends CommonFragment {
                     config.setString("stationName",o.getStationName());
                     config.setString("department",o.getDepartmentName());
                     config.setString("cphone",o.getCphone());
+                    config.setString("headerIcon",o.getHeadPic());
                     config.setBoolean("isLogin",true);
+                    config.setString("sign",o.getSign());
+                    config.setString("phone",o.getPhone());
+                    if (o.getIspublish()==1){
+                        config.setBoolean("ispublish",true);
+                    }else{
+                        config.setBoolean("ispublish",false);
+                    }
+
                     JPushInterface.setAlias(getContext(), o.getUserId(), new TagAliasCallback() {
                         @Override
                         public void gotResult(int i, String s, Set<String> set) {

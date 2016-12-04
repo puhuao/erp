@@ -130,8 +130,11 @@ Boolean isSearch = false;
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                meetingSelectCondition.setMeetingId(details.get(position).getMeetingId());
-                getContext().pushFragmentToBackStack(MeetingRoomTakenInformationFragment.class,meetingSelectCondition);
+                if (position!=details.size()){
+
+                    meetingSelectCondition.setMeetingId(details.get(position).getMeetingId());
+                    getContext().pushFragmentToBackStack(MeetingRoomTakenInformationFragment.class,meetingSelectCondition);
+                }
             }
         });
 

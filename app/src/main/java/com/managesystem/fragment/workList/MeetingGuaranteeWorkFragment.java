@@ -64,6 +64,8 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
     TextView tvComment;
     @Bind(R.id.responsible_name)
     TextView responsibleName;
+    @Bind(R.id.responsible_phone)
+    TextView responsiblePhoneNumber;
     private MeetingApplyRecord meetingApplyRecord;
     String userID;
 
@@ -76,11 +78,8 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
         ButterKnife.bind(this, container);
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         userID = config.getString("userId", "");
-        meetingApplyRecord= (MeetingApplyRecord) getmDataIn();
-
-                setHeaderTitle("会议工单详情");
-//            fab.setText("完成");
-
+        meetingApplyRecord = (MeetingApplyRecord) getmDataIn();
+        setHeaderTitle("会议工单详情");
         initView();
         return container;
     }
@@ -93,40 +92,28 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
                 tvGuaranteeProgress.setText("新增");
                 llComment.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
+                responsibleName.setText("暂无");
+                tvGuaranteePerson.setText("暂无");
+                responsiblePhoneNumber.setText("暂无");
                 break;
             case 1:
                 tvGuaranteeProgress.setText("已派单");
                 llComment.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 2:
                 tvGuaranteeProgress.setText("已确认");
                 llComment.setVisibility(View.GONE);
-                    fab.setVisibility(View.VISIBLE);
-                    fab.setText("完成");
+                fab.setVisibility(View.VISIBLE);
+                fab.setText("完成");
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 3:
-//                if (type == 0){
-//                    tvGuaranteeProgress.setText("已完成");
-//                    llComment.setVisibility(View.VISIBLE);
-//                    llText.setVisibility(View.GONE);
-//                    if (userID.equals(meetingApplyRecord.getUserId())) {
-//                        llEdit.setVisibility(View.VISIBLE);
-//                        fab.setVisibility(View.VISIBLE);
-//                        ratingBar.setClickable(true);
-//                        ratingBar.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
-//                            @Override
-//                            public void onRatingChange(float RatingCount) {
-//                                rating = (int) RatingCount;
-//                            }
-//                        });
-//                    }
-//                }else{
-                    tvGuaranteeProgress.setText("已完成");
-                    llComment.setVisibility(View.GONE);
-                    fab.setVisibility(View.GONE);
-//                }
-
+                tvGuaranteeProgress.setText("已完成");
+                llComment.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 4:
                 ratingBar.setStar(meetingApplyRecord.getStar());
@@ -137,34 +124,19 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
                 llEdit.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
                 ratingBar.setClickable(false);
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
         }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IConfig config = BaseApplication.getInstance().getCurrentConfig();
-//                if (type == 0){
-//
-//                    comment = content.getText().toString();
-//                    if (rating == 0) {
-//                        ToastUtil.showShortMessage(getContext(), "请选择评星等级");
-//                        return;
-//                    }
-//                    if (StringUtils.isBlank(comment)) {
-//                        ToastUtil.showShortMessage(getContext(), "请输入评价内容");
-//                        return;
-//                    }
-//
-//                    updateDistribute(null,"4",comment,String.valueOf(rating));
-//                }else{
-                    updateDistribute(config.getString("userId", ""),"3",null,null);
-//                }
+                updateDistribute(config.getString("userId", ""), "3", null, null);
             }
         });
     }
 
     private void bundeDataToView() {
-//        ratingBar.setStar(3f);
         tvName.setText(meetingApplyRecord.getMeetingName());
         tvStartTime.setText(meetingApplyRecord.getStartDate());
         tvLocation.setText(meetingApplyRecord.getArea());
@@ -175,7 +147,7 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
             for (Users user :
                     handleUsers) {
                 sb.append(user.getName()).append("、");
-                if (meetingApplyRecord.getResponsibleUserId().equals(user.getUserId())){
+                if (meetingApplyRecord.getResponsibleUserId().equals(user.getUserId())) {
                     responsibleName.setText(user.getName());
                 }
             }
@@ -185,7 +157,7 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
     }
 
 
-    private void updateDistribute(String userId,String status,String comments,String rating) {//评价4完成3
+    private void updateDistribute(String userId, String status, String comments, String rating) {//评价4完成3
 
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
         UrlUtils.getInstance(sb).praseToUrl("status", status)
@@ -204,16 +176,8 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
-//                    if (type == 1){
-                        ToastUtil.showShortMessage(getContext(), "会议工单完成");
-                        fab.setVisibility(View.GONE);
-//                    }else{
-//                        ToastUtil.showShortMessage(getContext(), "会议保障评价成功");
-//                        ratingBar.setClickable(false);
-//                        llEdit.setVisibility(View.GONE);
-//                        llText.setVisibility(View.VISIBLE);
-//                        tvComment.setText(comment);
-//                    }
+                    ToastUtil.showShortMessage(getContext(), "会议工单完成");
+                    fab.setVisibility(View.GONE);
                 }
             }
         };

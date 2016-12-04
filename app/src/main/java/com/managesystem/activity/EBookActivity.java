@@ -14,7 +14,7 @@ public class EBookActivity extends CommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_container);
-        pushFragmentToBackStack(FragmentDepartmentList.class, null);
+        pushFragmentToBackStack(com.managesystem.fragment.phoneBooke.FragmentDepartmentList.class, null);
     }
 
     @Override

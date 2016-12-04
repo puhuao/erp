@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
@@ -76,9 +77,16 @@ public class WorkListDetailFragment extends CommonFragment {
     View llResultText;
     @Bind(R.id.tv_result)
     TextView tvResult;
+    @Bind(R.id.work_list_priority)
+    TextView priority;
+    @Bind(R.id.work_list_equipment_type)
+    TextView equipmentType;
+    @Bind(R.id.ll_equipment_type)
+    LinearLayout llEquipmentType;
 
     private WorkList workList;
     private MeetingSelectCondition meetingSelectCondition;
+    private Boolean isImportant = false;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +98,13 @@ public class WorkListDetailFragment extends CommonFragment {
 
     private void initView() {
         workList = (WorkList) getmDataIn();
+        if (!StringUtils.isBlank(workList.getImportant())){
+            priority.setText(workList.getImportant());
+        }
+        if (workList.getServicetypeName().equals("设备")){
+            llEquipmentType.setVisibility(View.VISIBLE);
+            equipmentType.setText(workList.getMaterialNames());
+        }
         setHeaderTitle("工单详情");
         getMeetings();
     }

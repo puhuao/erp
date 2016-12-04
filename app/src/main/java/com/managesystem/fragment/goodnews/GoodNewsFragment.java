@@ -52,6 +52,7 @@ public class GoodNewsFragment extends BaseListRefreshFragment<GoodNews> {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position!=goodNewses.size())
                 getContext().pushFragmentToBackStack(GoodNewsDetailFragment.class, goodNewses.get(position));
             }
         });

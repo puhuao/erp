@@ -21,6 +21,15 @@ public class MeetingApplyRecord implements Parcelable {
 
 
     private String startDate;
+    private String responsibleUserPhone;
+
+    public String getResponsibleUserPhone() {
+        return responsibleUserPhone;
+    }
+
+    public void setResponsibleUserPhone(String responsibleUserPhone) {
+        this.responsibleUserPhone = responsibleUserPhone;
+    }
 
     public String getResponsibleUserId() {
         return responsibleUserId;
@@ -56,6 +65,7 @@ public class MeetingApplyRecord implements Parcelable {
         responsibleUserId = in.readString();
         star = in.readInt();
         content = in.readString();
+        responsibleUserPhone = in.readString();
     }
 
     public static final Creator<MeetingApplyRecord> CREATOR = new Creator<MeetingApplyRecord>() {
@@ -307,5 +317,6 @@ public class MeetingApplyRecord implements Parcelable {
         dest.writeString(responsibleUserId);
         dest.writeInt(star);
         dest.writeString(content);
+        dest.writeString(responsibleUserPhone);
     }
 }

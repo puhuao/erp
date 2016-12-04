@@ -119,10 +119,10 @@ public class RatingBar extends LinearLayout {
                                     }
                                     if (onRatingChangeListener != null) {
                                         if (y % 2 == 0) {
-                                            onRatingChangeListener.onRatingChange(indexOfChild(v) + 1f);
+                                            onRatingChangeListener.onRatingChange(indexOfChild(v) + 1);
                                             y++;
                                         } else {
-                                            onRatingChangeListener.onRatingChange(indexOfChild(v) + 0.5f);
+                                            onRatingChangeListener.onRatingChange(indexOfChild(v) + 1);
                                             y++;
                                         }
                                     }

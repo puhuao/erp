@@ -45,8 +45,11 @@ public class MeetingAttendRecordFragment extends BaseListRefreshFragment<Meeting
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                meetingSelectCondition.setMeetingId(records.get(position).getMeetingId());
-                getContext().pushFragmentToBackStack(MeetingAttendDetailFragment.class,meetingSelectCondition);
+                if (position!=records.size()){
+
+                    meetingSelectCondition.setMeetingId(records.get(position).getMeetingId());
+                    getContext().pushFragmentToBackStack(MeetingAttendDetailFragment.class,meetingSelectCondition);
+                }
             }
         });
     }

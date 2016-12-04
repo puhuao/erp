@@ -3,6 +3,7 @@ package com.managesystem.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.managesystem.R;
@@ -42,16 +43,26 @@ public class MeetingAttendRecordAdapter extends BaseListAdapter<MeetingAttendRec
                 break;
             case 0:
                 sStatus = "进行中";
+                if (showNotStart)
+                    holder.layout.setVisibility(View.GONE);
                 break;
             case 1:
                 sStatus = "已召开";
+                if (showNotStart)
+                    holder.layout.setVisibility(View.GONE);
                 break;
         }
         holder.status.setText(sStatus);
         return convertView;
     }
+Boolean showNotStart = false;
+    public void showNotStart() {
+        showNotStart = true;
+    }
 
     class ViewHolder{
+        @Bind(R.id.layout)
+        LinearLayout layout;
         @Bind(R.id.name)
         TextView name;
         @Bind(R.id.location)

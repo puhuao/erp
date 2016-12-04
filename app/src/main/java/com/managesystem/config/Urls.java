@@ -37,4 +37,10 @@ public class Urls {
     public static final String GOOD_NEWS = BASE_URL+"weal/query?";//福利列表
     public static final String WEAL_SIGN = BASE_URL +"weal/saveUser?";//福利报名或查看
     public static final String PHONE_NUMBERS = BASE_URL +"department/queryUser?";//获取部门电话博
+    public static final String MY_ACCOUNT =  BASE_URL +"wallet/query?";//我的账户
+    public static final String MY_ACCOUNT_RECORD = BASE_URL+"wallet/queryRecord?";//我的账户记录
+    public static final String GET_PAY_QRCODE = BASE_URL +"wallet/getQd";//生成付款码
+    public static final String SAVE_PAY_RECORD = BASE_URL+"wallet/saveRecord?";//添加消费记录
+    public static final String SAVE_USER = BASE_URL+"user/save?";//修改用户其他信息
+
 }

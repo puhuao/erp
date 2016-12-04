@@ -108,6 +108,7 @@ Bundle bundle;
                 apply();
                 break;
             case R.id.type:
+                if (flag==1)
                 getContext().pushFragmentToBackStack(MaintainResourceTypeFragment.class, null);
                 break;
 

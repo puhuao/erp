@@ -37,7 +37,8 @@ public class MaintainApplyRecordAdapter extends BaseListAdapter<Maintain> {
         if (!StringUtils.isBlank(detail.getCtime())){
             holder.time.setText("时间:"+detail.getCtime().substring(0,16));
         }
-        holder.name.setText(detail.getName());
+        holder.name.setText(detail.getServicetypeName());
+        holder.content.setText(detail.getInfor());
         switch (detail.getStatus()){
             case 0:
                 holder.tag.setText("新增");
@@ -66,6 +67,8 @@ public class MaintainApplyRecordAdapter extends BaseListAdapter<Maintain> {
         TextView name;
         @Bind(R.id.tag)
         TextView tag;
+        @Bind(R.id.content)
+        TextView content;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

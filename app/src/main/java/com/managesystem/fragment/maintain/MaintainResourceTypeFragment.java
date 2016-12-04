@@ -63,7 +63,7 @@ public class MaintainResourceTypeFragment extends CommonFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                if (position!=meetingTypes.size())
                 if (meetingTypes.get(position).getServicetypeName().equals("设备")){
 
                     getContext().pushFragmentToBackStack(MaintainResourcePersonalFragment.class,

@@ -1,9 +1,11 @@
 package com.managesystem.model;
 
+import com.managesystem.widegt.sortView.SortModel;
+
 /**
  * Created by Administrator on 2016/11/6.
  */
-public class PersonalInfo {
+public class PersonalInfo extends SortModel{
 
     /**
      * area : 12
@@ -61,6 +63,15 @@ public class PersonalInfo {
     private String userId;
     private String username;
     private String stationName;
+    private String headPic;
+
+    public String getHeadPic() {
+        return headPic;
+    }
+
+    public void setHeadPic(String headPic) {
+        this.headPic = headPic;
+    }
 
     public String getStationName() {
         return stationName;

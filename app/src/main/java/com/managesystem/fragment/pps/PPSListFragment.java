@@ -69,7 +69,9 @@ public class PPSListFragment extends BaseListRefreshFragment<PPSModel> {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getContext().pushFragmentToBackStack(PPSDetailFragment.class,messages.get(position));
+                if (position != messages.size()) {
+                    getContext().pushFragmentToBackStack(PPSDetailFragment.class, messages.get(position));
+                }
             }
         });
     }

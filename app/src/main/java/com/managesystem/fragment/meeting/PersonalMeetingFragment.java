@@ -45,6 +45,9 @@ public class PersonalMeetingFragment extends CommonFragment {
         final MeetingApplyRecordFragment meetingApplyRecordFragment = new MeetingApplyRecordFragment();
         fragmentList.add(meetingApplyRecordFragment);
         final MeetingAttendRecordFragment meetingAttendRecordFragment = new MeetingAttendRecordFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("tupe",0);
+        meetingAttendRecordFragment.setArguments(bundle);
         fragmentList.add(meetingAttendRecordFragment);
         NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
         viewpager.setAdapter(adapter);
