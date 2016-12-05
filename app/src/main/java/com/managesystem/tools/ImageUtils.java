@@ -58,7 +58,7 @@ public class ImageUtils {
     public static final int REQUEST_CODE_GETIMAGE_BYCROP = 2;
     
     /** 默认下载文件地址. */
-    public static String downPathRootDir = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator + "DigitalCampus_Teacher"
+    public static String downPathRootDir = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator + "erp"
                                             + File.separator;
 
     /** 默认下载图片文件地址. */

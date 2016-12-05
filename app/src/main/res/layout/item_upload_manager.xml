@@ -32,7 +32,7 @@
             app:ppvProgressColor="#DDD"
             app:ppvStrokeColor="#FFF"
             app:ppvStrokeWidth="1dp"
-            android:visibility="gone"/>
+            />
     </FrameLayout>
 
     <TextView
@@ -41,5 +41,5 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="未上传"
-        android:visibility="gone"/>
+        />
 </LinearLayout>

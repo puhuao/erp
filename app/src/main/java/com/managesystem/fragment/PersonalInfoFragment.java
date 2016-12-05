@@ -84,28 +84,28 @@ public class PersonalInfoFragment extends CommonFragment {
     }
 
     private void bindView() {
-        tvName.setText(StringUtils.isBlank(config.getString("name",""))?"无":config.getString("name",""));
-        tvCPhone.setText(StringUtils.isBlank(config.getString("cphone",""))?"未设置":config.getString("cphone",""));
-        tvDepartment.setText(StringUtils.isBlank(config.getString("department",""))?"未设置":config.getString("department",""));
-        tvPersonalSign.setText(StringUtils.isBlank(config.getString("sign",""))?"未设置":config.getString("sign",""));
-        tvAccount.setText(StringUtils.isBlank(config.getString("username",""))?"":config.getString("username",""));
+        tvName.setText(StringUtils.isBlank(config.getString("name", "")) ? "无" : config.getString("name", ""));
+        tvCPhone.setText(StringUtils.isBlank(config.getString("cphone", "")) ? "未设置" : config.getString("cphone", ""));
+        tvDepartment.setText(StringUtils.isBlank(config.getString("department", "")) ? "未设置" : config.getString("department", ""));
+        tvPersonalSign.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" : config.getString("sign", ""));
+        tvAccount.setText(StringUtils.isBlank(config.getString("username", "")) ? "" : config.getString("username", ""));
         Glide.with(getContext())
-                .load(config.getString("headerIcon","")).crossFade()
+                .load(config.getString("headerIcon", "")).crossFade()
                 .placeholder(R.drawable.ic_header_defalt)
                 .error(R.drawable.ic_header_defalt)
                 .thumbnail(0.1f).centerCrop()
                 .into(imHeader);
     }
 
-    @OnClick({R.id.ll_head_pic,R.id.ll_name,R.id.ll_cPhone,R.id.ll_department
-    ,R.id.ll_personal_sign,R.id.ll_account_modify})
+    @OnClick({R.id.ll_head_pic, R.id.ll_name, R.id.ll_cPhone, R.id.ll_department
+            , R.id.ll_personal_sign, R.id.ll_account_modify})
     public void onClick(final View v) {
         final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-        final View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text,null);
+        final View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text, null);
         builder.setContentView(view);
         switch (v.getId()) {
             case R.id.ll_account_modify:
-                                getContext().pushFragmentToBackStack(ModifyAccountFragment.class,null);
+                getContext().pushFragmentToBackStack(ModifyAccountFragment.class, null);
                 break;
             case R.id.ll_personal_sign:
                 builder.setTitle("请输入签名");
@@ -115,8 +115,8 @@ public class PersonalInfoFragment extends CommonFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         sign = ((EditText) view.findViewById(R.id.edit_text)).getText().toString();
-                        if (StringUtils.isBlank(sign)){
-                            ToastUtil.showShortMessage(getContext(),"请输入签名");
+                        if (StringUtils.isBlank(sign)) {
+                            ToastUtil.showShortMessage(getContext(), "请输入签名");
                             return;
                         }
                         modify();
@@ -132,6 +132,7 @@ public class PersonalInfoFragment extends CommonFragment {
                 builder.create().show();
                 break;
             case R.id.ll_head_pic:
+                getContext().pushFragmentToBackStack(PersonalHeadicUploadFragment.class, null);
                 break;
             case R.id.ll_name:
                 builder.setTitle("请输入姓名");
@@ -141,8 +142,8 @@ public class PersonalInfoFragment extends CommonFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         name = ((EditText) view.findViewById(R.id.edit_text)).getText().toString();
-                        if (StringUtils.isBlank(name)){
-                            ToastUtil.showShortMessage(getContext(),"请输入姓名");
+                        if (StringUtils.isBlank(name)) {
+                            ToastUtil.showShortMessage(getContext(), "请输入姓名");
                             return;
                         }
                         modify();
@@ -165,8 +166,8 @@ public class PersonalInfoFragment extends CommonFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         cPhone = ((EditText) view.findViewById(R.id.edit_text)).getText().toString();
-                        if (StringUtils.isBlank(cPhone)){
-                            ToastUtil.showShortMessage(getContext(),"请输入座机号");
+                        if (StringUtils.isBlank(cPhone)) {
+                            ToastUtil.showShortMessage(getContext(), "请输入座机号");
                             return;
                         }
                         modify();
@@ -187,7 +188,7 @@ public class PersonalInfoFragment extends CommonFragment {
     }
 
     @Subscribe
-    public void onEvent( OnDepartmentModifyedEvent event){
+    public void onEvent(OnDepartmentModifyedEvent event) {
         bindView();
     }
 
@@ -197,34 +198,34 @@ public class PersonalInfoFragment extends CommonFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    private void modify(){
+    private void modify() {
         StringBuilder sb = new StringBuilder(Urls.SAVE_USER);
         String s = UrlUtils.getInstance(sb)
-                .praseToUrl("userId",config.getString("userId",""))
-                .praseToUrl("sign", sign).praseToUrl("type","2")
-                .praseToUrl("cphone",cPhone).praseToUrl("ispublish","1")
-                .praseToUrl("name",name)
+                .praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("sign", sign).praseToUrl("type", "2")
+                .praseToUrl("cphone", cPhone).praseToUrl("ispublish", "1")
+                .praseToUrl("name", name)
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<PersonalInfo>(getContext(), PersonalInfo.class) {
 
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, PersonalInfo o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    ToastUtil.showShortMessage(getContext(),"修改成功");
-                    config.setString("roleName",o.getRoleName());
-                    config.setString("name",o.getName());
-                    config.setString("stationName",o.getStationName());
-                    config.setString("department",o.getDepartmentName());
-                    config.setString("cphone",o.getCphone());
-                    config.setString("headerIcon",o.getHeadPic());
-                    config.setBoolean("isLogin",true);
-                    config.setString("sign",o.getSign());
+                if (o != null) {
+                    ToastUtil.showShortMessage(getContext(), "修改成功");
+                    config.setString("roleName", o.getRoleName());
+                    config.setString("name", o.getName());
+                    config.setString("stationName", o.getStationName());
+                    config.setString("department", o.getDepartmentName());
+                    config.setString("cphone", o.getCphone());
+                    config.setString("headerIcon", o.getHeadPic());
+                    config.setBoolean("isLogin", true);
+                    config.setString("sign", o.getSign());
                     bindView();
                 }
             }
@@ -233,7 +234,6 @@ public class PersonalInfoFragment extends CommonFragment {
                 .tag(this)//
                 .execute(callback);
     }
-
 
 
 }

@@ -159,7 +159,7 @@ public class ModifyPersonalInfoSFragment extends CommonFragment {
                 gridImageAdapter.setList(images);
                 gridImageAdapter.setImagePicker(imagePicker);
                 gridView.setAdapter(gridImageAdapter);
-                gridImageAdapter.upload();
+                gridImageAdapter.upload(gridView);
             } else {
                 Toast.makeText(getContext(), "没有数据", Toast.LENGTH_SHORT).show();
             }

@@ -17,16 +17,12 @@ import com.lzy.okhttpserver.listener.UploadListener;
 import com.lzy.okhttpserver.task.ExecutorWithListener;
 import com.lzy.okhttpserver.upload.UploadInfo;
 import com.lzy.okhttpserver.upload.UploadManager;
-import com.lzy.okhttputils.OkHttpUtils;
-import com.lzy.okhttputils.request.PostRequest;
 import com.managesystem.R;
 import com.managesystem.config.Urls;
 import com.managesystem.widegt.ProgressPieView;
 
 import java.io.File;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import okhttp3.Response;
 
 /**
@@ -47,6 +43,7 @@ public class GridImageAdapter extends BaseListAdapter<ImageItem> implements Exec
     public GridImageAdapter(Activity context) {
         super(context);
         uploadManager = UploadManager.getInstance(context);
+        uploadManager.getThreadPool().setCorePoolSize(3);
     }
 
     @Override
@@ -62,7 +59,6 @@ public class GridImageAdapter extends BaseListAdapter<ImageItem> implements Exec
         }
 
         imagePicker.getImageLoader().displayImage(mContext, mList.get(position).path, holder.imageView,150,150);
-//upload(holder);
         return convertView;
     }
 
@@ -117,19 +113,19 @@ public class GridImageAdapter extends BaseListAdapter<ImageItem> implements Exec
 
     private class MyUploadListener extends UploadListener<String> {
 
-//        private ViewHolder holder;
+        private ViewHolder holder;
 
         @Override
         public void onProgress(UploadInfo uploadInfo) {
             Log.e("MyUploadListener", "onProgress:" + uploadInfo.getTotalLength() + " " + uploadInfo.getUploadLength() + " " + uploadInfo.getProgress());
-//            holder = (ViewHolder) ((View) getUserTag()).getTag();
-//            holder.refresh(uploadInfo);
+            holder = (ViewHolder) ((View) getUserTag()).getTag();
+            holder.refresh(uploadInfo);
         }
 
         @Override
         public void onFinish(String s) {
             Log.e("MyUploadListener", "finish:" + s);
-//            holder.finish();
+            holder.finish();
             sb.append(s).append(",");
         }
 
@@ -145,16 +141,10 @@ public class GridImageAdapter extends BaseListAdapter<ImageItem> implements Exec
         }
     }
 
-    public void upload(){
+    public void upload(GridView gridView){
         for (int i = 0; i < mList.size(); i++) {
             MyUploadListener listener = new MyUploadListener();
-//            listener.setUserTag(gridView.getChildAt(i));
-//            PostRequest postRequest = OkHttpUtils.post(Urls.UPLOAD)//
-////                    .headers("headerKey1", "headerValue1")//
-////                    .headers("headerKey2", "headerValue2")//
-////                    .params("paramKey1", "paramValue1")//
-////                    .params("paramKey2", "paramValue2")//
-//                    .params("file" + i, new File(mList.get(i).path));
+            listener.setUserTag(gridView.getChildAt(i));
             uploadManager.addTask(Urls.UPLOAD,new File(mList.get(i).path), "file", listener);
         }
     }

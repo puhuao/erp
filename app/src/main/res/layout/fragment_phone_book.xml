@@ -6,7 +6,7 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="@dimen/dimen_12">
+        android:layout_marginTop="@dimen/dimen_12">
 
         <ListView
             android:id="@+id/country_lvcountry"
@@ -28,8 +28,8 @@
 
         <com.managesystem.widegt.sortView.SideBar
             android:id="@+id/sidrbar"
-            android:layout_width="30.0dip"
-            android:layout_height="fill_parent"
+            android:layout_width="@dimen/dimen_32"
+            android:layout_height="match_parent"
             android:layout_gravity="right|center" />
     </FrameLayout>
 </LinearLayout>

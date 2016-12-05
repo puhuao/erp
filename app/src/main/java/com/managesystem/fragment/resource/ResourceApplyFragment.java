@@ -13,17 +13,13 @@ import android.widget.Toast;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
-import com.lzy.okhttpserver.upload.UploadManager;
 import com.lzy.okhttputils.OkHttpUtils;
-import com.lzy.okhttputils.callback.StringCallback;
-import com.lzy.okhttputils.request.PostRequest;
 import com.managesystem.R;
 import com.managesystem.adapter.GridImageAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.ResNameSelectEvent;
 import com.managesystem.event.ResTypeSelectEvent;
-import com.managesystem.model.MeetingType;
 import com.managesystem.model.ResourceName;
 import com.managesystem.model.ResourceType;
 import com.managesystem.popupwindow.ResourceNameSelectPopupwindow;
@@ -39,9 +35,6 @@ import com.wksc.framwork.util.ToastUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -56,7 +49,7 @@ import okhttp3.Response;
  * 物资申请单
  */
 public class ResourceApplyFragment extends CommonFragment {
-@Bind(R.id.type)
+    @Bind(R.id.type)
     TextView type;
     @Bind(R.id.name)
     TextView name;
@@ -88,25 +81,26 @@ public class ResourceApplyFragment extends CommonFragment {
 
 
     @Subscribe
-    public void onEvent(ResTypeSelectEvent event){
+    public void onEvent(ResTypeSelectEvent event) {
         resourceType = event.getResourceName();
         type.setText(event.getResourceName().getMaterialTypeName());
 
     }
 
     @Subscribe
-    public void onEvent(ResNameSelectEvent event){
+    public void onEvent(ResNameSelectEvent event) {
         resourceName = event.getResourceName();
         name.setText(resourceName.getMaterialName());
 
     }
+
     private void initView() {
         hideTitleBar();
         gridImageAdapter = new GridImageAdapter(getContext());
         gridImageAdapter.excute();
     }
 
-    @OnClick({R.id.type,R.id.name,R.id.img_select,R.id.fab})
+    @OnClick({R.id.type, R.id.name, R.id.img_select, R.id.fab})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
@@ -122,21 +116,21 @@ public class ResourceApplyFragment extends CommonFragment {
                 startActivityForResult(intent, 100);
                 break;
             case R.id.type:
-                if (resourceTypes.size()==0){
+                if (resourceTypes.size() == 0) {
                     getResourceTyps(v);
-                }else{
+                } else {
                     ResourceTypeSelectPopupwindow resourceTypeSelectPopupwindow =
-                            new ResourceTypeSelectPopupwindow(getContext(),resourceTypes);
+                            new ResourceTypeSelectPopupwindow(getContext(), resourceTypes);
                     resourceTypeSelectPopupwindow.showPopupwindow(v);
                 }
                 break;
             case R.id.name:
-                if (resourceType==null){
-                    ToastUtil.showShortMessage(getContext(),"清闲选择物资类型");
+                if (resourceType == null) {
+                    ToastUtil.showShortMessage(getContext(), "清闲选择物资类型");
                     break;
                 }
 //                if (resourceNames.size() == 0){
-                    getResourceName(v);
+                getResourceName(v);
 //                }else{
 //                    ResourceNameSelectPopupwindow resourceNameSelectPopupwindow = new ResourceNameSelectPopupwindow(getContext(),resourceNames);
 //                    resourceNameSelectPopupwindow.showPopupwindow(v);
@@ -145,22 +139,22 @@ public class ResourceApplyFragment extends CommonFragment {
         }
     }
 
-    private void getResourceTyps(final View v){
+    private void getResourceTyps(final View v) {
         StringBuilder sb = new StringBuilder(Urls.RESOURCE_TYPE);
         UrlUtils.getInstance(sb);
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    resourceTypes.addAll(GsonUtil.fromJsonList(o,ResourceType.class));
+                if (o != null) {
+                    resourceTypes.addAll(GsonUtil.fromJsonList(o, ResourceType.class));
                     ResourceTypeSelectPopupwindow resourceTypeSelectPopupwindow =
-                            new ResourceTypeSelectPopupwindow(getContext(),resourceTypes);
+                            new ResourceTypeSelectPopupwindow(getContext(), resourceTypes);
                     resourceTypeSelectPopupwindow.showPopupwindow(v);
                 }
             }
@@ -170,23 +164,23 @@ public class ResourceApplyFragment extends CommonFragment {
                 .execute(callback);
     }
 
-    private void getResourceName(final View v){
+    private void getResourceName(final View v) {
         StringBuilder sb = new StringBuilder(Urls.RESOURCE_NAME);
-        UrlUtils.getInstance(sb).praseToUrl("materialtypeId",resourceType.getMaterialtypeId());
+        UrlUtils.getInstance(sb).praseToUrl("materialtypeId", resourceType.getMaterialtypeId());
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
+                if (o != null) {
                     resourceNames.clear();
-                    resourceNames.addAll(GsonUtil.fromJsonList(o,ResourceName.class));
+                    resourceNames.addAll(GsonUtil.fromJsonList(o, ResourceName.class));
                     ResourceNameSelectPopupwindow resourceNameSelectPopupwindow =
-                            new ResourceNameSelectPopupwindow(getContext(),resourceNames);
+                            new ResourceNameSelectPopupwindow(getContext(), resourceNames);
                     resourceNameSelectPopupwindow.showPopupwindow(v);
                 }
             }
@@ -196,12 +190,12 @@ public class ResourceApplyFragment extends CommonFragment {
                 .execute(callback);
     }
 
-    private void apply(){
+    private void apply() {
         StringBuilder sb = new StringBuilder(Urls.RESOURCE_APPLY);//物资申请
         sb.append("?");
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
-        UrlUtils.getInstance(sb) .praseToUrl("type", "1") .praseToUrl("userId",config.getString("userId", ""))
-                .praseToUrl("remark", "1") .praseToUrl("materialnameId",resourceName.getMaterialnameId())
+        UrlUtils.getInstance(sb).praseToUrl("type", "1").praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("remark", "1").praseToUrl("materialnameId", resourceName.getMaterialnameId())
                 .praseToUrl("materialtypeId", resourceType.getMaterialtypeId())
                 .praseToUrl("picurl", gridImageAdapter.sb.toString())
                 .removeLastWord();
@@ -209,19 +203,19 @@ public class ResourceApplyFragment extends CommonFragment {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    ToastUtil.showShortMessage(getContext(),"物资申请成功");
+                if (o != null) {
+                    ToastUtil.showShortMessage(getContext(), "物资申请成功");
                     getContext().popTopFragment(null);
                 }
             }
         };
-        if (gridImageAdapter.sb.length()>0){
-            gridImageAdapter.sb.deleteCharAt(gridImageAdapter.sb.length()-1);
+        if (gridImageAdapter.sb.length() > 0) {
+            gridImageAdapter.sb.deleteCharAt(gridImageAdapter.sb.length() - 1);
         }
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
@@ -252,13 +246,18 @@ public class ResourceApplyFragment extends CommonFragment {
                 gridImageAdapter.setList(images);
                 gridImageAdapter.setImagePicker(imagePicker);
                 gridView.setAdapter(gridImageAdapter);
-                gridImageAdapter.upload();
+                gridView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        gridImageAdapter.upload(gridView);
+                    }
+                }, 1000);
+
             } else {
                 Toast.makeText(getContext(), "没有数据", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 
 
 }

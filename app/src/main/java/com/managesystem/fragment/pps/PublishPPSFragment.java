@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
@@ -22,28 +21,18 @@ import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.MeetingRoomSelectEvent;
 import com.managesystem.event.PPSListUpdateEvent;
-import com.managesystem.model.MeetingApply;
-import com.managesystem.model.MeetingRoom;
-import com.managesystem.model.MeetingType;
-import com.managesystem.popupwindow.MeetingRoomSelectPopupwindow;
 import com.managesystem.tools.GlideImageLoader;
 import com.managesystem.tools.UrlUtils;
-import com.managesystem.widegt.pickview.TimePickerView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,8 +40,6 @@ import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static com.managesystem.widegt.pickview.view.WheelTime.dateFormat;
 
 /**
  * Created by Administrator on 2016/11/5.
@@ -172,7 +159,7 @@ public class PublishPPSFragment extends CommonFragment {
                 gridImageAdapter.setList(images);
                 gridImageAdapter.setImagePicker(imagePicker);
                 gridView.setAdapter(gridImageAdapter);
-                gridImageAdapter.upload();
+                gridImageAdapter.upload(gridView);
             } else {
                 Toast.makeText(getContext(), "没有数据", Toast.LENGTH_SHORT).show();
             }
