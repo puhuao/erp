@@ -18,6 +18,7 @@ import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 import com.wksc.framwork.zxing.qrcodeModel.QRresourceSend;
 import com.wksc.framwork.zxing.qrcodeModel.QrResourceModel;
@@ -52,6 +53,7 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());
+        resourcePersonAdapter.setIsMyResource(1);
         setData(resourcePersonModels, resourcePersonAdapter);
         getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +97,9 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
 
     private void createQrCode(View v,int type) {//创建交接二维码
         String ms = getStringParam();
+        if (ms ==null){
+            return;
+        }
         QrResourceModel qrResourceModel = new QrResourceModel();
         qrResourceModel.setType("3");
         QRresourceSend qRresourceSend = new QRresourceSend();
@@ -119,6 +124,11 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
         for (ResourcePersonModel r :
                 resourcePersonModels) {
             if (r.isCheck) {
+                if (r.getStatus()==6){
+                    ToastUtil.showShortMessage(getContext(),"物资"+r.getMaterialName()+
+                            "补录未确认，请等待确认后才能交接");
+                    return null;
+                }
                 sb.append("&materials[" + i + "].materialId=" + r.getMaterialId());
                 i++;
             }

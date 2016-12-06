@@ -17,9 +17,12 @@ import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.AddUserParam;
 import com.managesystem.model.MeetingApplyRecord;
+import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.popupwindow.MeetingNoticeNextPersonPopupwindow;
 import com.managesystem.popupwindow.MeetingSignPersonPopupwindow;
 import com.managesystem.popupwindow.QrcodeViewPopupwindow;
+import com.wksc.framwork.BaseApplication;
+import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -27,7 +30,11 @@ import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -119,58 +126,16 @@ public class MeetingDetailFragment extends CommonFragment {
                 }
                 break;
             case R.id.notice_all:
-                noticeAll();
+                getMeetings(1);
                 break;
             case R.id.sign_person:
-                if (meetingApplyRecord.getApplyUsers()!=null){
-                    if (meetingApplyRecord.getApplyUsers().size()>0){
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("list",meetingApplyRecord.getApplyUsers());
-                        bundle.putInt("type",0);
-                        startActivity(PersonListActivity.class,bundle);
-//                        MeetingSignPersonPopupwindow personPopupwindow = new MeetingSignPersonPopupwindow(getContext()
-//                        ,meetingApplyRecord.getSignUsers());
-//                        personPopupwindow.showPopupwindow(sign);
-                    }else{
-                        ToastUtil.showShortMessage(getContext(),"没有报名人员");
-                    }
-                }else{
-                    ToastUtil.showShortMessage(getContext(),"没有报名人员");
-                }
+               getMeetings(2);
                 break;
             case R.id.attend_person:
-                if (meetingApplyRecord.getSignUsers()!=null){
-                    if (meetingApplyRecord.getSignUsers().size()>0){
-
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("list",meetingApplyRecord.getSignUsers());
-                        bundle.putInt("type",1);
-                        startActivity(PersonListActivity.class,bundle);
-
-//                        MeetingSignPersonPopupwindow personPopupwindow = new MeetingSignPersonPopupwindow(getContext()
-//                                ,meetingApplyRecord.getSignUsers());
-//                        personPopupwindow.showPopupwindow(attend);
-                    }else{
-                        ToastUtil.showShortMessage(getContext(),"没有参会人员");
-                    }
-                }else{
-                    ToastUtil.showShortMessage(getContext(),"没有参会人员");
-                }
+               getMeetings(3);
                 break;
             case R.id.select_next_person:
-                if (meetingApplyRecord.getApplyUsers()!=null){
-                    if (meetingApplyRecord.getApplyUsers().size()>0){
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("list",meetingApplyRecord.getApplyUsers());
-                        bundle.putInt("type",2);
-                        bundle.putString("meetingId",meetingApplyRecord.getMeetingId());
-                        startActivity(PersonListActivity.class,bundle);
-                    }else{
-                        ToastUtil.showShortMessage(getContext(),"没有可通知的人");
-                    }
-                }else{
-                    ToastUtil.showShortMessage(getContext(),"没有可通知的人");
-                }
+                getMeetings(4);
                 break;
         }
     }
@@ -207,6 +172,87 @@ public class MeetingDetailFragment extends CommonFragment {
             }
         };
         OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
+    }
+    private void getMeetings(final int i){
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        StringBuilder sb = new StringBuilder(Urls.MEETING_LIST);
+        UrlUtils.getInstance(sb).praseToUrl("pageNo","1")
+                .praseToUrl("userId",config.getString("userId", ""))
+                .praseToUrl("pageSize","20")
+                .praseToUrl("meetingName",meetingApplyRecord.getMeetingName())
+                .praseToUrl("isQueryDetail","1")
+                .praseToUrl("meetingId",meetingApplyRecord.getMeetingId())
+                .removeLastWord();
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(),"网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o!=null){
+                    try {
+                        JSONObject jsonObject = new JSONObject(o);
+                        String list = jsonObject.getString("list");
+                        List<MeetingApplyRecord> list1 = GsonUtil.fromJsonList(list,MeetingApplyRecord.class);
+                        meetingApplyRecord = list1.get(0);
+                        if (i ==1){
+                            noticeAll();
+                        }else if (1==2){
+                            if (meetingApplyRecord.getApplyUsers()!=null){
+                                if (meetingApplyRecord.getApplyUsers().size()>0){
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("list",meetingApplyRecord.getApplyUsers());
+                                    bundle.putInt("type",0);
+                                    startActivity(PersonListActivity.class,bundle);
+                                }else{
+                                    ToastUtil.showShortMessage(getContext(),"没有报名人员");
+                                }
+                            }else{
+                                ToastUtil.showShortMessage(getContext(),"没有报名人员");
+                            }
+                        }else if(i==3){
+                            if (meetingApplyRecord.getSignUsers()!=null){
+                                if (meetingApplyRecord.getSignUsers().size()>0){
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("list",meetingApplyRecord.getSignUsers());
+                                    bundle.putInt("type",1);
+                                    startActivity(PersonListActivity.class,bundle);
+                                }else{
+                                    ToastUtil.showShortMessage(getContext(),"没有参会人员");
+                                }
+                            }else{
+                                ToastUtil.showShortMessage(getContext(),"没有参会人员");
+                            }
+                        }else if(i==4){
+                            if (meetingApplyRecord.getApplyUsers()!=null){
+                                if (meetingApplyRecord.getApplyUsers().size()>0){
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("list",meetingApplyRecord.getApplyUsers());
+                                    bundle.putInt("type",2);
+                                    bundle.putString("meetingId",meetingApplyRecord.getMeetingId());
+                                    startActivity(PersonListActivity.class,bundle);
+                                }else{
+                                    ToastUtil.showShortMessage(getContext(),"没有可通知的人");
+                                }
+                            }else{
+                                ToastUtil.showShortMessage(getContext(),"没有可通知的人");
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);
     }

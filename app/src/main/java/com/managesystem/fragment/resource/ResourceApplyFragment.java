@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,8 @@ public class ResourceApplyFragment extends CommonFragment {
     TextView name;
     @Bind(R.id.gridview)
     GridView gridView;
+    @Bind(R.id.apply_reason)
+    EditText applyReason;
 
     private ArrayList<ResourceName> resourceNames = new ArrayList<>();
     private ArrayList<ResourceType> resourceTypes = new ArrayList<>();
@@ -126,7 +129,7 @@ public class ResourceApplyFragment extends CommonFragment {
                 break;
             case R.id.name:
                 if (resourceType == null) {
-                    ToastUtil.showShortMessage(getContext(), "清闲选择物资类型");
+                    ToastUtil.showShortMessage(getContext(), "请先选择物资类型");
                     break;
                 }
 //                if (resourceNames.size() == 0){
@@ -195,7 +198,7 @@ public class ResourceApplyFragment extends CommonFragment {
         sb.append("?");
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance(sb).praseToUrl("type", "1").praseToUrl("userId", config.getString("userId", ""))
-                .praseToUrl("remark", "1").praseToUrl("materialnameId", resourceName.getMaterialnameId())
+                .praseToUrl("remark", applyReason.getText().toString()).praseToUrl("materialnameId", resourceName.getMaterialnameId())
                 .praseToUrl("materialtypeId", resourceType.getMaterialtypeId())
                 .praseToUrl("picurl", gridImageAdapter.sb.toString())
                 .removeLastWord();

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +53,8 @@ public class ResourceLostApplyFragment extends CommonFragment {
     TextView name;
     @Bind(R.id.gridview)
     GridView gridView;
+    @Bind(R.id.apply_reason)
+    EditText applyReason;
 
     List<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     ResourcePersonModel resourcePersonModel;
@@ -120,7 +123,7 @@ public class ResourceLostApplyFragment extends CommonFragment {
         sb.append("?");
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
        UrlUtils urlUtils =  UrlUtils.getInstance(sb) .praseToUrl("type", "2") .praseToUrl("userId",config.getString("userId", ""))
-                .praseToUrl("remark", "2") ;
+                .praseToUrl("remark", applyReason.getText().toString()) ;
         for (ResourcePersonModel r :
                 resourcePersonModels) {
             urlUtils.praseToUrl("materialIds", r .getMaterialId());
@@ -165,7 +168,12 @@ public class ResourceLostApplyFragment extends CommonFragment {
                 gridImageAdapter.setList(images);
                 gridImageAdapter.setImagePicker(imagePicker);
                 gridView.setAdapter(gridImageAdapter);
-                gridImageAdapter.upload(gridView);
+                gridView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        gridImageAdapter.upload(gridView);
+                    }
+                }, 1000);
             } else {
                 Toast.makeText(getContext(), "没有数据", Toast.LENGTH_SHORT).show();
             }

@@ -80,6 +80,9 @@ public class MaintainResourcePersonalFragment extends BaseListRefreshFragment<Re
         switch (v.getId()) {
             case R.id.send:
                 //确认
+                break;
+            case R.id.fix:
+                //取消
                 StringBuilder sb = new StringBuilder();
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
@@ -92,9 +95,6 @@ public class MaintainResourcePersonalFragment extends BaseListRefreshFragment<Re
                 }
                 EventBus.getDefault().post(new MeetingTypeSelectEvent(meetingType, sb.toString()));
                 getContext().popToRoot(null);
-                break;
-            case R.id.fix:
-                //取消
                 break;
         }
     }

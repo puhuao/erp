@@ -82,6 +82,10 @@ public class MeetingPersonListFragment extends CommonFragment{
                 break;
         }
         listView.setAdapter(adapter);
+        for (Users u :
+                list) {
+            u.isCheck = false;
+        }
         adapter.setList(list);
     }
 

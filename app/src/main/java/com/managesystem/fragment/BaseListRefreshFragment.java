@@ -182,4 +182,60 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
                 .tag(this)//
                 .execute(callback);
     }
+
+    public void excuteWithBack(String s, final Class<T> meetingRoomDetailClass){
+        callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                stopRefresh();
+                ToastUtil.showShortMessage(getContext(),"网络错误");
+            }
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o!=null){
+                    stopRefresh();
+                    notifyWithBak(o,meetingRoomDetailClass);
+                }
+            }
+
+
+        };
+        callback.setDialogHide();
+        OkHttpUtils.get(s)//
+                .tag(this)//
+                .execute(callback);
+    }
+
+    public void notifyWithBak(String o,Class<T> clazz) {
+        listView.onLoadMoreComplete();
+        try {
+            JSONObject jsonObject = new JSONObject(o);
+            String list = jsonObject.getString("list");
+            if (pageNo == 1){
+                models.clear();
+            }
+            List<T> elements = GsonUtil.fromJsonList(list, clazz);
+            if (elements != null && elements.size() > 0) {
+                pageNo++;
+                isFirstLoad = false;
+
+                models.addAll(elements);
+                l.onload(elements);
+                if (elements.size() < pageSize) {
+                    listView.setCanLoadMore(false);
+                }
+            } else {
+                listView.setCanLoadMore(false);
+            }
+            adapter.notifyDataSetChanged();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public OnDataLoadListener l;
+    public interface OnDataLoadListener<T>{
+        public void onload(List<T> elements);
+    }
 }

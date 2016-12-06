@@ -17,6 +17,7 @@ import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.OnDepartmentModifyedEvent;
 import com.managesystem.fragment.modify.ModifyAccountFragment;
+import com.managesystem.fragment.modify.ModifyAccountIsPublishFragment;
 import com.managesystem.model.PersonalInfo;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.CustomDialog;
@@ -53,6 +54,12 @@ public class PersonalInfoFragment extends CommonFragment {
     TextView tvPersonalSign;
     @Bind(R.id.tv_account)
     TextView tvAccount;
+    @Bind(R.id.tv_state)
+    TextView tvState;
+    @Bind(R.id.tv_is_phone_public)
+    TextView tvIsPublicPhone;
+    @Bind(R.id.ll_is_phone_public)
+    View llIsPublicPhone;
 
     private IConfig config;
     private String name;
@@ -84,6 +91,8 @@ public class PersonalInfoFragment extends CommonFragment {
     }
 
     private void bindView() {
+        tvIsPublicPhone.setText(config.getBoolean("ispublish",false)?"是":"否");
+        tvState.setText(StringUtils.isBlank(config.getString("stationName", "")) ? "无" : config.getString("stationName", ""));
         tvName.setText(StringUtils.isBlank(config.getString("name", "")) ? "无" : config.getString("name", ""));
         tvCPhone.setText(StringUtils.isBlank(config.getString("cphone", "")) ? "未设置" : config.getString("cphone", ""));
         tvDepartment.setText(StringUtils.isBlank(config.getString("department", "")) ? "未设置" : config.getString("department", ""));
@@ -98,14 +107,17 @@ public class PersonalInfoFragment extends CommonFragment {
     }
 
     @OnClick({R.id.ll_head_pic, R.id.ll_name, R.id.ll_cPhone, R.id.ll_department
-            , R.id.ll_personal_sign, R.id.ll_account_modify})
+            , R.id.ll_personal_sign, R.id.ll_account_modify,R.id.ll_is_phone_public})
     public void onClick(final View v) {
         final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text, null);
         builder.setContentView(view);
         switch (v.getId()) {
+            case R.id.ll_is_phone_public:
+                getContext().pushFragmentToBackStack(ModifyAccountIsPublishFragment.class, null);
+                break;
             case R.id.ll_account_modify:
-                getContext().pushFragmentToBackStack(ModifyAccountFragment.class, null);
+//                getContext().pushFragmentToBackStack(ModifyAccountFragment.class, null);
                 break;
             case R.id.ll_personal_sign:
                 builder.setTitle("请输入签名");
@@ -135,52 +147,52 @@ public class PersonalInfoFragment extends CommonFragment {
                 getContext().pushFragmentToBackStack(PersonalHeadicUploadFragment.class, null);
                 break;
             case R.id.ll_name:
-                builder.setTitle("请输入姓名");
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        name = ((EditText) view.findViewById(R.id.edit_text)).getText().toString();
-                        if (StringUtils.isBlank(name)) {
-                            ToastUtil.showShortMessage(getContext(), "请输入姓名");
-                            return;
-                        }
-                        modify();
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
+//                builder.setTitle("请输入姓名");
+//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        name = ((EditText) view.findViewById(R.id.edit_text)).getText().toString();
+//                        if (StringUtils.isBlank(name)) {
+//                            ToastUtil.showShortMessage(getContext(), "请输入姓名");
+//                            return;
+//                        }
+//                        modify();
+//                    }
+//                });
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                builder.create().show();
                 break;
             case R.id.ll_cPhone:
-                builder.setTitle("请输入座机号");
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        cPhone = ((EditText) view.findViewById(R.id.edit_text)).getText().toString();
-                        if (StringUtils.isBlank(cPhone)) {
-                            ToastUtil.showShortMessage(getContext(), "请输入座机号");
-                            return;
-                        }
-                        modify();
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
+//                builder.setTitle("请输入座机号");
+//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        cPhone = ((EditText) view.findViewById(R.id.edit_text)).getText().toString();
+//                        if (StringUtils.isBlank(cPhone)) {
+//                            ToastUtil.showShortMessage(getContext(), "请输入座机号");
+//                            return;
+//                        }
+//                        modify();
+//                    }
+//                });
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                builder.create().show();
                 break;
             case R.id.ll_department:
                 break;

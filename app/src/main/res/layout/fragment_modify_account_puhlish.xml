@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_marginTop="42dp"
+        android:layout_weight="3"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@color/white">
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/is_publish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公开"
+                android:textSize="@dimen/text_size_16"
+                android:textColor="@color/text_color"
+                android:drawablePadding="@dimen/dimen_12"/>
+            <RadioButton
+                android:id="@+id/is_un_publish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="不公开"
+                android:textSize="@dimen/text_size_16"
+                android:textColor="@color/text_color"
+                android:drawablePadding="@dimen/dimen_12"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/fab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:gravity="center"
+            android:text="修改"
+            android:textSize="16sp"
+            android:background="@drawable/selector_btn_login"
+            android:textColor="@color/button_text_selector"
+            />
+    </LinearLayout>
+</LinearLayout>

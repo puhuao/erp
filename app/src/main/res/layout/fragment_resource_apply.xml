@@ -70,6 +70,7 @@
             android:layout_margin="@dimen/dimen_12"
             android:textColor="@color/text_color"/>
         <EditText
+            android:id="@+id/apply_reason"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="请输入申请说明"

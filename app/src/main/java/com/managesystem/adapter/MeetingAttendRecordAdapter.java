@@ -9,6 +9,9 @@ import android.widget.TextView;
 import com.managesystem.R;
 import com.managesystem.model.MeetingAttendRecord;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -20,6 +23,7 @@ public class MeetingAttendRecordAdapter extends BaseListAdapter<MeetingAttendRec
     public MeetingAttendRecordAdapter(Activity context) {
         super(context);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
