@@ -50,10 +50,10 @@ public class MaintainApplyRecordAdapter extends BaseListAdapter<Maintain> {
                 holder.tag.setText("已确认");
                 break;
             case 3:
-                holder.tag.setText("已完成");
+                holder.tag.setText("未评价");
                 break;
             case 4:
-                holder.tag.setText("已评价");
+                holder.tag.setText("已完成");
                 break;
         }
 

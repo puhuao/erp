@@ -15,6 +15,7 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.PaySuccessEvent;
 import com.managesystem.fragment.loginAndRegister.FinishPersonalInformationFragment;
 import com.managesystem.model.Account;
 import com.managesystem.popupwindow.QrcodeViewPopupwindow;
@@ -28,6 +29,7 @@ import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -146,6 +148,8 @@ public class AnotherPayFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                     ToastUtil.showShortMessage(getContext(),"消费成功");
+                    EventBus.getDefault().post(new PaySuccessEvent());
+                    getContext().popTopFragment(null);
                 }
             }
         };

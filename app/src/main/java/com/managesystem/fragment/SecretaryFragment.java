@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.ExpectingActivity;
 import com.managesystem.activity.MainTainListActivity;
 import com.managesystem.activity.MyMeetingNoticeActivity;
 import com.managesystem.activity.MyWalletActivity;
@@ -121,9 +122,12 @@ public class SecretaryFragment extends CommonFragment {
                 .into(header);
     }
     @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list
-    ,R.id.ll_setting,R.id.ll_wallet,R.id.ll_meeting_notice,R.id.ll_personal_info})
+    ,R.id.ll_setting,R.id.ll_wallet,R.id.ll_meeting_notice,R.id.ll_personal_info,R.id.ll_door})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_door:
+                startActivity(ExpectingActivity.class);
+                break;
             case R.id.ll_personal_info:
                 startActivity(PersonalInfoActivity.class);
                 break;

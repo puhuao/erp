@@ -105,8 +105,14 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
             case 2:
                 tvGuaranteeProgress.setText("已确认");
                 llComment.setVisibility(View.GONE);
-                fab.setVisibility(View.VISIBLE);
-                fab.setText("完成");
+                if (meetingApplyRecord.getHandleUsers()!=null)
+                for (int i =0 ;i < meetingApplyRecord.getHandleUsers().size();i++){
+                    if (userID.equals(meetingApplyRecord.getHandleUsers().get(i).getUserId())){
+                        fab.setVisibility(View.VISIBLE);
+                        fab.setText("完成");
+                    }
+                }
+
                 responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 3:

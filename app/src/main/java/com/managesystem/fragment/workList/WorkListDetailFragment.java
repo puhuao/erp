@@ -187,11 +187,13 @@ public class WorkListDetailFragment extends CommonFragment {
                 llResult.setVisibility(View.GONE);
                 llResultText.setVisibility(View.VISIBLE);
                 tvResult.setText(workList.getRemark());
+                submit.setVisibility(View.GONE);
                 break;
             case MeetingApplyRecord.STATUS_COMMENT:
                 statu = getStringFromResource(R.string.STATUS_COMMENT);
                 llResult.setVisibility(View.GONE);
                 llResultText.setVisibility(View.VISIBLE);
+                submit.setVisibility(View.GONE);
                 break;
         }
         status.setText(statu);

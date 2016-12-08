@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.managesystem.R;
@@ -55,7 +56,10 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         holder.type.setText(resourcePersonModel.getMaterialName());
         holder.name.setText(resourcePersonModel.getBrand());
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
-
+        if (isMyResource==1)
+        if (resourcePersonModel.getStatus()==6||resourcePersonModel.getStatus()==7){
+            holder.ivRecord.setVisibility(View.VISIBLE);
+        }
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -80,6 +84,10 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
     public void setIsFromCheckAll(boolean isFromCheckAll) {
         this.isFromCheckAll = isFromCheckAll;
     }
+private int isMyResource;
+    public void setIsMyResource(int isMyResource) {
+        this.isMyResource = isMyResource;
+    }
 
     class ViewHolder{
         @Bind(R.id.type)
@@ -88,6 +96,8 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         TextView name;
         @Bind(R.id.checkbox)
         CheckBox checkBox;
+        @Bind(R.id.iv_record)
+        ImageView ivRecord;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

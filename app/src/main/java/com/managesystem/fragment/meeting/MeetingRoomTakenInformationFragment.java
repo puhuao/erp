@@ -130,7 +130,7 @@ public class MeetingRoomTakenInformationFragment extends CommonFragment {
             }
             sb.deleteCharAt(sb.length()-1);
         }
-        tvApplyPerson.setText(sb);
+        tvApplyPerson.setText(meetingApplyRecord.getName());
         tvApplyPersonArea.setText(meetingApplyRecord.getArea());
         tvApplyPersonDepartment.setText(meetingApplyRecord.getDepartmentName());
         tvApplyPersonPhone.setText(meetingApplyRecord.getCphone());

@@ -19,6 +19,15 @@ public class ResourcePersonModel {
     private String materialtypeName;
     private String materialtypeId;
     public Boolean isCheck = false;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getMaterialName() {
         return materialName;

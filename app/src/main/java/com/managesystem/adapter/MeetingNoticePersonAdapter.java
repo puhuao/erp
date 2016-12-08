@@ -49,6 +49,8 @@ private int type;
                         }
                 }
             });
+        }else{
+            holder.checkBox.setVisibility(View.GONE);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             holder.name.setBackground(mContext.getResources().getDrawable(R.drawable.selector_notice_select));

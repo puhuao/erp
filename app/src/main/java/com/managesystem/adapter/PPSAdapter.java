@@ -99,7 +99,7 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
         return convertView;
     }
 
-    private void praise(PPSModel ppsModel, final ViewHolder holder){
+    private void praise(final PPSModel ppsModel, final ViewHolder holder){
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.PPS_ZAN);
         UrlUtils.getInstance(sb) .praseToUrl("topicId", ppsModel.getTopicId())
@@ -120,6 +120,8 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
                     holder.zan.setCompoundDrawables(drawable, null, null, null);
                     holder.zan.setFocusable(false);
+                    ppsModel.setPraise(true);
+                    holder.zan.setText(String.valueOf(ppsModel.getPraiseCount()+1));
                 }
             }
         };

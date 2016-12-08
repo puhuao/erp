@@ -17,6 +17,7 @@ import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -29,6 +30,7 @@ public class MeetingNoticeRecordFragment extends BaseListRefreshFragment<Meeting
 
     ArrayList<MeetingAttendRecord> records = new ArrayList<>();
     private MeetingSelectCondition meetingSelectCondition;
+    ArrayList<MeetingAttendRecord> notStartRecords = new ArrayList<>();
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +46,17 @@ public class MeetingNoticeRecordFragment extends BaseListRefreshFragment<Meeting
         meetingSelectCondition = new MeetingSelectCondition();
         adapter = new MeetingAttendRecordAdapter(getContext());
         adapter.showNotStart();
+        l = new OnDataLoadListener<MeetingAttendRecord>() {
+            @Override
+            public void onload(List<MeetingAttendRecord> elements) {
+                for (int i =0 ;i<elements.size();i ++){
+                    if (elements.get(i).getMeetigStatus()==-1){
+                        notStartRecords.add(elements.get(i));
+                    }
+                }
+                adapter.setList(notStartRecords);
+            }
+        };
         setData(records,adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -52,6 +65,7 @@ public class MeetingNoticeRecordFragment extends BaseListRefreshFragment<Meeting
                 getContext().pushFragmentToBackStack(MeetingAttendDetailFragment.class,meetingSelectCondition);
             }
         });
+
     }
 
     @Override
@@ -65,6 +79,7 @@ public class MeetingNoticeRecordFragment extends BaseListRefreshFragment<Meeting
 //                .praseToUrl("meetingName",meetingSelectCondition.getMeetingName())
 //                .praseToUrl("date",meetingSelectCondition.getDate())
                 .removeLastWord();
-        excute(sb.toString(),MeetingAttendRecord.class);
+        excuteWithBack(sb.toString(),MeetingAttendRecord.class);
+//        excute(sb.toString(),MeetingAttendRecord.class);
     }
 }

@@ -17,7 +17,7 @@ public class Users implements Serializable{
     private String name;
     private String userId;
     private String type;
-    public Boolean isCheck;
+    public Boolean isCheck = false;
     public String getName() {
         return name;
     }

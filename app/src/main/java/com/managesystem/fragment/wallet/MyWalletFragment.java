@@ -22,6 +22,7 @@ import com.managesystem.R;
 import com.managesystem.adapter.GoodNewsAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.PaySuccessEvent;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.fragment.goodnews.GoodNewsDetailFragment;
 import com.managesystem.fragment.goodnews.GoodNewsSingInFragment;
@@ -44,6 +45,8 @@ import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +76,12 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
     ChargeRecordFragment chargeRecordFragment;
     Account account;
     FragmentPagerAdapter fragmentPagerAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -219,6 +228,7 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
                     builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            EventBus.getDefault().post(new PaySuccessEvent());
                             dialog.dismiss();
                         }
                     });
@@ -229,5 +239,17 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
+    }
+
+    @Subscribe
+    public void onEvent(PaySuccessEvent event){
+        getMyAccount();
+        payRecordFragment.handler.sendEmptyMessage(0);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -50,7 +50,6 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
-            android:drawableRight="@drawable/ic_right_small"
             android:drawablePadding="@dimen/dimen_12"/>
     </RelativeLayout>
     <RelativeLayout
@@ -76,7 +75,6 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
-            android:drawableRight="@drawable/ic_right_small"
             android:drawablePadding="@dimen/dimen_12"/>
     </RelativeLayout>
     <RelativeLayout
@@ -102,9 +100,34 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
-            android:drawableRight="@drawable/ic_right_small"
             android:drawablePadding="@dimen/dimen_12"/>
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/ll_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="岗位"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:drawablePadding="@dimen/dimen_12"/>
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/ll_personal_sign"
         android:layout_width="match_parent"
@@ -142,7 +165,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修改账号"
+            android:text="手机号"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
 
@@ -154,7 +177,32 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
-            android:drawableRight="@drawable/ic_right_small"
             android:drawablePadding="@dimen/dimen_12" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/ll_is_phone_public"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="公开手机号"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/tv_is_phone_public"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@drawable/ic_right_small"
+            android:drawablePadding="@dimen/dimen_12"/>
     </RelativeLayout>
 </LinearLayout>

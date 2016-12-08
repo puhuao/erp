@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.managesystem.R;
 import com.managesystem.adapter.GoodNewsAdapter;
 import com.managesystem.config.Urls;
+import com.managesystem.event.GoodeNewsCheckEvent;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.GoodNews;
 import com.managesystem.model.PPSModel;
@@ -20,6 +21,9 @@ import com.managesystem.widegt.NestedListView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -33,6 +37,12 @@ import butterknife.ButterKnife;
 public class GoodNewsFragment extends BaseListRefreshFragment<GoodNews> {
     GoodNewsAdapter goodNewsAdapter;
     ArrayList<GoodNews> goodNewses = new ArrayList<>();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,5 +86,18 @@ public class GoodNewsFragment extends BaseListRefreshFragment<GoodNews> {
                 .praseToUrl("type","1")//所有福利
                 .removeLastWord();
         excute(sb.toString(),GoodNews.class);
+    }
+
+    @Subscribe
+    public void onEvent(GoodeNewsCheckEvent event){
+        pageNo = 1;
+        loadMore(1);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

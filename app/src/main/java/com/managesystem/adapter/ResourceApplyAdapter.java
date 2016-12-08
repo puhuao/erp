@@ -54,12 +54,14 @@ public class ResourceApplyAdapter extends BaseListAdapter<ResourceApplyLost> {
             }else{
                 holder.status.setTextAppearance(mContext,R.style.style_not_verify);
             }
+            holder.status.setText("未审批");
         }else if (resourceApplyLost.getStatus().equals("2")){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.status.setTextAppearance(R.style.style_refuse);
             }else{
                 holder.status.setTextAppearance(mContext,R.style.style_refuse);
             }
+            holder.status.setText("未通过");
         }else if (resourceApplyLost.getStatus().equals("3")){
 //            holder.status.setVisibility(View.GONE);
 //            holder.iamge.setVisibility(View.VISIBLE);

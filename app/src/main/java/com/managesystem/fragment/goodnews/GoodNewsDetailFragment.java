@@ -5,18 +5,22 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.GoodeNewsCheckEvent;
 import com.managesystem.model.GoodNews;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +36,8 @@ import okhttp3.Response;
 public class GoodNewsDetailFragment extends CommonFragment {
     @Bind(R.id.content)
     TextView content;
+    @Bind(R.id.sign_in)
+    Button sign;
 GoodNews goodNew;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +51,11 @@ GoodNews goodNew;
     private void initView() {
         setHeaderTitle(goodNew.getTitle());
         content.setText(goodNew.getInfor());
+        if (goodNew.isIsApply()){
+            sign.setVisibility(View.GONE);
+        }else{
+            check(goodNew.getWealId());
+        }
     }
 
     @OnClick({R.id.sign_in})
@@ -74,6 +85,33 @@ GoodNews goodNew;
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                     ToastUtil.showShortMessage(getContext(),"报名成功");
+                }
+            }
+        };
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
+    }
+
+    private void check(String id){
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        StringBuilder sb = new StringBuilder(Urls.WEAL_SIGN);
+        UrlUtils.getInstance(sb) .praseToUrl("wealId", id)
+                .praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("type","1")//报名
+                .removeLastWord();
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(),"网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o!=null){
+//                    ToastUtil.showShortMessage(getContext(),"报名成功");
+                    EventBus.getDefault().post(new GoodeNewsCheckEvent());
                 }
             }
         };
