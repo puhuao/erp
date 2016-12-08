@@ -1,5 +1,6 @@
 package com.managesystem.fragment.workList;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.managesystem.config.Urls;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.Users;
 import com.managesystem.tools.UrlUtils;
+import com.managesystem.widegt.CustomDialog;
 import com.managesystem.widegt.RatingBar;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -101,17 +103,42 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
                 llComment.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
                 responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
+                if(meetingApplyRecord.getResponsibleUserId().equals(userID)){
+            CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+            builder.setMessage("请确认工单");
+            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    IConfig config = BaseApplication.getInstance().getCurrentConfig();
+                    updateDistribute(config.getString("userId", ""), "3", null, null);
+                }
+            });
+            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+//        }
+                }
                 break;
             case 2:
                 tvGuaranteeProgress.setText("已确认");
                 llComment.setVisibility(View.GONE);
                 if (meetingApplyRecord.getHandleUsers()!=null)
-                for (int i =0 ;i < meetingApplyRecord.getHandleUsers().size();i++){
-                    if (userID.equals(meetingApplyRecord.getHandleUsers().get(i).getUserId())){
+                    if(meetingApplyRecord.getResponsibleUserId().equals(userID)){
                         fab.setVisibility(View.VISIBLE);
                         fab.setText("完成");
                     }
-                }
+//                for (int i =0 ;i < meetingApplyRecord.getHandleUsers().size();i++){
+//                    if (userID.equals(meetingApplyRecord.getHandleUsers().get(i).getUserId())){
+//
+//                    }
+//                }
 
                 responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
