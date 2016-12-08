@@ -1,42 +1,30 @@
 package com.managesystem.fragment.phoneBooke;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bigkoo.quicksidebar.QuickSideBarTipsView;
-import com.bigkoo.quicksidebar.QuickSideBarView;
-import com.bigkoo.quicksidebar.listener.OnQuickSideBarTouchListener;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.fragment.ebook.DividerDecoration;
-import com.managesystem.fragment.ebook.PersonListAdapter;
 import com.managesystem.model.Department;
 import com.managesystem.model.PersonalInfo;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.sortView.CharacterParser;
 import com.managesystem.widegt.sortView.PinyinComparator;
 import com.managesystem.widegt.sortView.SideBar;
-import com.managesystem.widegt.sortView.SortAdapter;
-import com.managesystem.widegt.sortView.SortModel;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -88,6 +76,12 @@ public class FragmentPhonenumberList extends CommonFragment {
                     sortListView.setSelection(position);
                 }
 
+            }
+        });
+        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getContext().pushFragmentToBackStack(PhoneBookDetailDetailFragment.class,departments.get(position));
             }
         });
         getPhoneNumbers();
