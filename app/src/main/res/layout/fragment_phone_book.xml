@@ -20,10 +20,10 @@
             android:layout_width="80.0dip"
             android:layout_height="80.0dip"
             android:layout_gravity="center"
-            android:background="@drawable/show_head_toast_bg"
+            android:background="@drawable/button_background"
             android:gravity="center"
-            android:textColor="#ffffffff"
-            android:textSize="30.0dip"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16"
             android:visibility="invisible" />
 
         <com.managesystem.widegt.sortView.SideBar
