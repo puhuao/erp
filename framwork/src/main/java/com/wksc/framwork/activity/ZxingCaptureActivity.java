@@ -67,7 +67,6 @@ public class ZxingCaptureActivity extends Activity implements QRCodeView.Delegat
     protected void onDestroy() {
         super.onDestroy();
         mQRCodeView.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     private void vibrate() {

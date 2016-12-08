@@ -1,4 +1,4 @@
-package com.managesystem.tools;
+package com.wksc.framwork.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;

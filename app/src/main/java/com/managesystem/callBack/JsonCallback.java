@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.activity.LoginActivity;
 import com.managesystem.activity.MainActivity;
-import com.managesystem.tools.AppManager;
+import com.wksc.framwork.util.AppManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
@@ -17,8 +17,6 @@ import com.wksc.framwork.util.ToastUtil;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

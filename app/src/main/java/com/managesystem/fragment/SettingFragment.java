@@ -4,24 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.managesystem.R;
 import com.managesystem.activity.LoginActivity;
 import com.managesystem.activity.MainActivity;
-import com.managesystem.adapter.GoodNewsAdapter;
-import com.managesystem.fragment.goodnews.GoodNewsDetailFragment;
-import com.managesystem.fragment.goodnews.GoodNewsSingInFragment;
-import com.managesystem.model.GoodNews;
-import com.managesystem.tools.AppManager;
+import com.wksc.framwork.util.AppManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 
-import java.util.ArrayList;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 

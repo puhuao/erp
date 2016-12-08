@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Window;
 
 import com.wksc.framwork.R;
+import com.wksc.framwork.util.AppManager;
 
 public class BaseFragmentActivity extends CubeFragmentActivity {
 
@@ -15,6 +16,7 @@ public class BaseFragmentActivity extends CubeFragmentActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		AppManager.getAppManager().addActivity(this);
 	}
 
 	@Override

@@ -115,7 +115,7 @@ public class LoginFragment extends CommonFragment {
                     config.setString("stationName",o.getStationName());
                     config.setString("department",o.getDepartmentName());
                     config.setString("cphone",o.getCphone());
-                    config.setString("headerIcon",o.getHeadPic());
+                    config.setString("headerIcon",Urls.GETPICS+o.getHeadPic());
                     config.setBoolean("isLogin",true);
                     config.setString("sign",o.getSign());
                     config.setString("phone",o.getPhone());

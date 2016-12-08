@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.managesystem.R;
+import com.managesystem.config.Urls;
 import com.managesystem.model.PersonalInfo;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -73,7 +74,7 @@ public class PhoneBookDetailDetailFragment extends CommonFragment {
 
         tvState.setText(personalInfo.getStationName());
         Glide.with(getContext())
-                .load(config.getString("headerIcon", "")).crossFade()
+                .load(Urls.GETPICS+personalInfo.getHeadPic()).crossFade()
                 .placeholder(R.drawable.ic_header_defalt)
                 .error(R.drawable.ic_header_defalt)
                 .thumbnail(0.1f).centerCrop()

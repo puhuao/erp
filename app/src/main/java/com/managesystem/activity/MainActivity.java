@@ -166,4 +166,14 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         });
         builder.create().show();
     }
+
+    @Override
+    protected void onDestroy() {
+        secretaryFragment.onDestroy();
+        homeFragment.onDestroy();
+        msgFragment.onDestroy();
+        transferFragment.onDestroy();
+        super.onDestroy();
+
+    }
 }
