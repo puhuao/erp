@@ -85,7 +85,10 @@ Bundle bundle;
         if (meetingType.getServicetypeName().equals("电话")) {
             equipmentType = 2;
             remark.setText(config.getString("cphone", ""));
+
         }
+        llEquipment.setVisibility(View.GONE);
+        tvEquipmentName.setText("");
         type.setText(meetingType.getServicetypeName());
     }
 
@@ -93,6 +96,8 @@ Bundle bundle;
         setHeaderTitle("运维服务申请");
         flag= bundle.getInt("type");
         if (flag == 0){
+            type.setCompoundDrawables(null,null,null,null);
+            tvEquipmentName.setCompoundDrawables(null,null,null,null);
             name = bundle.getString("string");
             getMeetingTypes(name);
         }else{

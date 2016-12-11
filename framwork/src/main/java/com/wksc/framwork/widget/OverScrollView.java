@@ -1615,7 +1615,7 @@ public class OverScrollView extends FrameLayout implements OnTouchListener {
                 // Log.d(Definitions.LOG_TAG, "scrollBy=" + scrollBy);
             }
             
-            // fire onOverScroll event, and update scrollBy if a loadingView has
+            // fire onOverScroll event, and com.managesystem.update scrollBy if a loadingView has
             // been added to the scroller.
             scrollBy += onOverScroll(currScrollY);
         }

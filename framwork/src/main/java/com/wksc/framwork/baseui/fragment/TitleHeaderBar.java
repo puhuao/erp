@@ -88,7 +88,7 @@ public class TitleHeaderBar extends RelativeLayout {
     public void setCustomizedLeftView(View view) {
         mLeftReturnImageView.setVisibility(GONE);
         RelativeLayout.LayoutParams lp = makeLayoutParams(view);
-        lp.addRule(CENTER_VERTICAL);
+//        lp.addRule(CENTER_VERTICAL);
         lp.addRule(ALIGN_PARENT_LEFT);
         getLeftViewContainer().addView(view, lp);
     }
@@ -111,7 +111,7 @@ public class TitleHeaderBar extends RelativeLayout {
     public void setCustomizedCenterView(View view) {
         mCenterTitleTextView.setVisibility(GONE);
         RelativeLayout.LayoutParams lp = makeLayoutParams(view);
-        lp.addRule(CENTER_IN_PARENT);
+//        lp.addRule(CENTER_IN_PARENT);
         getCenterViewContainer().addView(view, lp);
     }
 
@@ -132,7 +132,7 @@ public class TitleHeaderBar extends RelativeLayout {
      */
     public void setCustomizedRightView(View view) {
         RelativeLayout.LayoutParams lp = makeLayoutParams(view);
-        lp.addRule(CENTER_VERTICAL);
+//        lp.addRule(CENTER_VERTICAL);
         lp.addRule(ALIGN_PARENT_RIGHT);
 
         getRightViewContainer().addView(view, lp);

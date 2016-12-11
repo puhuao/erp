@@ -62,7 +62,7 @@ public class PersonalMeetingDetailFragment extends CommonFragment {
 
     private void initView() {
         meetingSelectCondition = (MeetingSelectCondition) getmDataIn();
-        setHeaderTitle(getStringFromResource(R.string.meeting_my));
+        setHeaderTitle(getStringFromResource(R.string.meeting_detail));
         mTitleList.add(getStringFromResource(R.string.meeting_detail));
         mTitleList.add(getStringFromResource(R.string.meeting_guarantee_information));
 

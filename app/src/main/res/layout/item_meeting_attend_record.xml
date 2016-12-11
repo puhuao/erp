@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/location"
-        android:textSize="@dimen/text_size_16"
+        android:textSize="@dimen/text_size_12"
         android:text="3楼会议室"
         android:textColor="@color/text_hint"
         android:layout_marginTop="@dimen/dimen_6"/>
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/time"
-        android:textSize="@dimen/text_size_16"
+        android:textSize="@dimen/text_size_12"
         android:text="2016-01-01"
         android:textColor="@color/text_hint"
         android:layout_marginTop="@dimen/dimen_6" />

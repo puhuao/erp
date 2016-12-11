@@ -2,6 +2,7 @@ package com.managesystem.fragment.wallet;
 
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -71,6 +73,10 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
     ViewPager viewpager;
     @Bind(R.id.balance)
     TextView balance;
+    @Bind(R.id.iv_left)
+    ImageView ivLeft;
+    @Bind(R.id.title_bar_title)
+    TextView title;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     PayRecordFragment payRecordFragment;
     ChargeRecordFragment chargeRecordFragment;
@@ -105,7 +111,23 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
     }
 
     private void initView() {
-        setHeaderTitle("我的钱包");
+        hideTitleBar();
+        title.setText("我的钱包");
+        ivLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            int options = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+            getContext().getWindow().getDecorView().setSystemUiVisibility(options);
+
+            getContext().getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+
+        }
         payRecordFragment = new PayRecordFragment();
         fragmentList.add(payRecordFragment);
         chargeRecordFragment = new ChargeRecordFragment();

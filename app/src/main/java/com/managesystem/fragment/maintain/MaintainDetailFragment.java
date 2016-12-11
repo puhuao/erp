@@ -59,7 +59,7 @@ public class MaintainDetailFragment extends CommonFragment {
     @Bind(R.id.start_time)
     TextView tvStartTime;
     @Bind(R.id.location)
-    TextView tvLocation;
+    TextView tvFixDetail;
     @Bind(R.id.guarantee_person)
     TextView tvGuaranteePerson;
     @Bind(R.id.rating_bar)
@@ -77,13 +77,15 @@ public class MaintainDetailFragment extends CommonFragment {
     @Bind(R.id.ll_reason)
             View llReason;
     @Bind(R.id.problem)
-            TextView handlerInfo;
+            TextView problem;
     @Bind(R.id.content)
             TextView tvComment;
     @Bind(R.id.responsible_name)
     TextView responsibleName;
     @Bind(R.id.responsible_phone)
     TextView responsiblePhoneNumber;
+    @Bind(R.id.handler_result)
+            TextView handlerResult;
     String userID;
     private String oderId;
 
@@ -112,16 +114,22 @@ public class MaintainDetailFragment extends CommonFragment {
             if (sb.length()>0)
                 sb.deleteCharAt(sb.length()-1);
         }
-        handlerInfo.setText(maintain.getHandlerInfo());
+        handlerResult.setText(maintain.getHandlerInfo()==null?"暂无":maintain.getHandlerInfo());
+        problem.setText(maintain.getInfor()==null?"暂无":maintain.getInfor());
         tvName.setText(maintain.getServicetypeName());//服务名称
         tvStartTime.setText(maintain.getCtime());//申请实际那
         responsibleName.setText(maintain.getResponsibleUserName()==null?"暂无":maintain.getResponsibleUserName());
         responsiblePhoneNumber.setText(maintain.getResponsibleUserPhone()==null?"暂无":maintain.getResponsibleUserPhone());
-        tvLocation.setText(maintain.getHandlerInfo()==null?"暂无":maintain.getHandlerInfo());//维修详情
+        if (maintain.getServicetypeName().equals("电话")){
+            tvFixDetail.setText(maintain.getCphone());//维修详情
+        }else{
+            tvFixDetail.setText(maintain.getMaterialNames()==null?"暂无":maintain.getMaterialNames());//维修详情
+        }
+
         tvGuaranteePerson.setText(maintain.getResponsibleUserId()==null?"暂无":maintain.getResponsibleUserId());
         switch (maintain.getStatus()){//0：新增 1：已派单2：已确认3：已完成4：已评价
             case 0:
-                setHeaderTitle("新增");
+                setHeaderTitle("派单中");
                 guaranteeProgress.setText("新增");
                 llComment.setVisibility(View.GONE);
                 tvGuaranteePerson.setText("暂无");
@@ -132,17 +140,19 @@ public class MaintainDetailFragment extends CommonFragment {
                 setHeaderTitle("已派单");
                 guaranteeProgress.setText("已派单");
                 llComment.setVisibility(View.GONE);
+                llReason.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 tvGuaranteePerson.setText(sb.toString());
-                setHeaderTitle("已确认");
+                setHeaderTitle("处理中");
                 guaranteeProgress.setText("已确认");
                 llComment.setVisibility(View.GONE);
+                llReason.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 tvGuaranteePerson.setText(sb.toString());
-                setHeaderTitle("已完成");
-                guaranteeProgress.setText("已完成");
+                setHeaderTitle("未评价");
+                guaranteeProgress.setText("未评价");
                 llComment.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.GONE);
                 llReason.setVisibility(View.VISIBLE);
@@ -161,9 +171,9 @@ public class MaintainDetailFragment extends CommonFragment {
                 break;
             case 4:
                 tvGuaranteePerson.setText(sb.toString());
-                setHeaderTitle("已评价");
+                setHeaderTitle("已完成");
                 tvComment.setText(maintain.getContent());
-                guaranteeProgress.setText("已评价");
+                guaranteeProgress.setText("已完成");
                 llComment.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.VISIBLE);
                 llEdit.setVisibility(View.GONE);

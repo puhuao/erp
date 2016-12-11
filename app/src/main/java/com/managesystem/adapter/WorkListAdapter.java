@@ -47,6 +47,11 @@ public class WorkListAdapter extends BaseListAdapter<WorkList> {
         }
 
         WorkList workList = mList.get(position);
+        if (workList.getServicetypeName().equals("会议")){
+            holder.image.setImageResource(R.drawable.img_work_meeting);
+        }else{
+            holder.image.setImageResource(R.drawable.img_work_equipment);
+        }
         holder.time.setText("时间:"+workList.getDate());
         holder.remark.setText("备注:"+workList.getRemark());
         if (type == 1){
@@ -68,6 +73,8 @@ public class WorkListAdapter extends BaseListAdapter<WorkList> {
         TextView remark;
         @Bind(R.id.urgent)
         ImageView urgent;
+        @Bind(R.id.image)
+        ImageView image;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

@@ -31,7 +31,7 @@ private int type;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            convertView = mContext.getLayoutInflater().inflate(R.layout.item_check, parent, false);
+            convertView = mContext.getLayoutInflater().inflate(R.layout.item_person_check, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }

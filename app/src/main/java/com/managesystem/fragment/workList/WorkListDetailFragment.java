@@ -87,11 +87,13 @@ public class WorkListDetailFragment extends CommonFragment {
     private WorkList workList;
     private MeetingSelectCondition meetingSelectCondition;
     private Boolean isImportant = false;
+    IConfig config;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_work_list_detail, null);
         ButterKnife.bind(this, container);
+        config = BaseApplication.getInstance().getCurrentConfig();
         initView();
         return container;
     }
@@ -102,7 +104,7 @@ public class WorkListDetailFragment extends CommonFragment {
             priority.setText(workList.getImportant());
         }
         if (workList.getServicetypeName().equals("设备")){
-            llEquipmentType.setVisibility(View.VISIBLE);
+//            llEquipmentType.setVisibility(View.VISIBLE);
             equipmentType.setText(workList.getMaterialNames());
         }
         setHeaderTitle("工单详情");
@@ -120,10 +122,8 @@ public class WorkListDetailFragment extends CommonFragment {
 
 
     private void bundeDataToView() {
-        if (StringUtils.isBlank(workList.getServicetypeName())) {
-            workListType.setText("会议");
-        } else {
-            workListType.setText(workList.getServicetypeName());
+        if (!StringUtils.isBlank(workList.getServicetypeName())) {
+            workListType.setText(workList.getServicetypeName()+" "+ workList.getMaterialNames());
             lable.setText("运维人员");
         }
         StringBuilder sb = new StringBuilder();
@@ -131,8 +131,11 @@ public class WorkListDetailFragment extends CommonFragment {
         if (workList.getHandleUsers() != null) {
             for (Users u :
                     workList.getHandleUsers()) {
-                sb.append(u.getName() + "、");
-                responsibleName.setText(u.getName());
+
+                sb.append(u.getName()).append("、");
+                if (workList.getResponsibleUserId().equals(u.getUserId())) {
+                    responsibleName.setText(u.getName());
+                }
             }
         }
         if (sb.length() > 0) {
@@ -150,7 +153,7 @@ public class WorkListDetailFragment extends CommonFragment {
         String statu = null;
         switch (workList.getStatus()) {
             case MeetingApplyRecord.STATUS_ADD:
-                statu = getStringFromResource(R.string.STATUS_ADD);
+                statu = "派单中";
                 llResult.setVisibility(View.GONE);
                 llResultText.setVisibility(View.GONE);
                 break;
@@ -158,41 +161,56 @@ public class WorkListDetailFragment extends CommonFragment {
                 statu = getStringFromResource(R.string.STATUS_DISPATCH);
                 llResult.setVisibility(View.GONE);
                 llResultText.setVisibility(View.GONE);
+                submit.setVisibility(View.GONE);
                 CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-                builder.setMessage("请确认工单");
-                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                if (config.getString("userId", "").equals(workList.getResponsibleUserId())){
+                    builder.setMessage("收到新工单请确认");
+                    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        updateDistribute(2);
-                    }
-                });
-                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            updateDistribute(2);
+                        }
+                    });
+                    builder.setCanceldOnOutTouch(false);
+                    builder.create().show();
+                }else {
+                    builder.setMessage("请提醒责任人确认工单");
+                    builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setCanceldOnOutTouch(true);
+                    builder.create().show();
+                }
+
                 break;
             case MeetingApplyRecord.STATUS_CONFIRM:
-                statu = getStringFromResource(R.string.STATUS_CONFIRM);
+                statu = "处理中";
                 llResult.setVisibility(View.VISIBLE);
                 llResultText.setVisibility(View.GONE);
+                if (workList.getResponsibleUserId().equals(config.getString("userId", ""))) {
+                    submit.setVisibility(View.VISIBLE);
+                }else{
+                    submit.setVisibility(View.GONE);
+                }
                 break;
             case MeetingApplyRecord.STATUS_FINISH:
-                statu = getStringFromResource(R.string.STATUS_FINISH);
+                statu = "未评价";
                 llResult.setVisibility(View.GONE);
                 llResultText.setVisibility(View.VISIBLE);
                 tvResult.setText(workList.getRemark());
                 submit.setVisibility(View.GONE);
                 break;
             case MeetingApplyRecord.STATUS_COMMENT:
-                statu = getStringFromResource(R.string.STATUS_COMMENT);
+                statu = "已完成";
                 llResult.setVisibility(View.GONE);
                 llResultText.setVisibility(View.VISIBLE);
+                tvResult.setText(workList.getHandlerInfo());
                 submit.setVisibility(View.GONE);
                 break;
         }
@@ -201,7 +219,7 @@ public class WorkListDetailFragment extends CommonFragment {
     }
 
     private void updateDistribute(final int status) {
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
         UrlUtils.getInstance(sb).praseToUrl("status", String.valueOf(status))
                 .praseToUrl("rid", workList.getOrderId())

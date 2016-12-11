@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/ll_head_pic"
@@ -17,15 +19,15 @@
             android:textColor="@color/text_color"
             android:drawableRight="@drawable/ic_right_small"
             android:layout_centerVertical="true"/>
-        <ImageView
+        <com.lzy.widget.CircleImageView
             android:id="@+id/ic_header"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_header_defalt"
-            android:scaleType="fitXY"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dimen_12"/>
+            android:layout_marginRight="@dimen/dimen_12"
+            app:civ_BorderColor="@color/white"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/ll_name"
@@ -137,6 +139,7 @@
         android:padding="@dimen/dimen_12"
         android:layout_marginTop="@dimen/dimen_1">
         <TextView
+            android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个性签名"
@@ -146,13 +149,17 @@
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/tv_personal_sign"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
             android:drawableRight="@drawable/ic_right_small"
-            android:drawablePadding="@dimen/dimen_12"/>
+            android:drawablePadding="@dimen/dimen_12"
+            android:layout_toRightOf="@id/label"
+            android:maxEms="20"
+            android:ellipsize="end"
+            android:maxLines="1"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/ll_account_modify"
@@ -165,7 +172,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手机号"
+            android:text="账号修改"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
 
@@ -176,6 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
+            android:drawableRight="@drawable/ic_right_small"
             android:layout_alignParentRight="true"
             android:drawablePadding="@dimen/dimen_12" />
     </RelativeLayout>
@@ -186,7 +194,8 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:padding="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_1">
+        android:layout_marginTop="@dimen/dimen_1"
+        android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -204,5 +213,19 @@
             android:layout_alignParentRight="true"
             android:drawableRight="@drawable/ic_right_small"
             android:drawablePadding="@dimen/dimen_12"/>
+
+
     </RelativeLayout>
+    <com.managesystem.widegt.SwitchButton
+        style="@style/switch_item"
+        android:text="是否公开手机号"
+        android:id="@+id/phone_public"
+        android:padding="@dimen/dimen_12"
+        android:checked="true"
+        android:background="@color/white"
+        app:withTextInterval="16dp"
+        app:frameDrawable="@drawable/switch_frame"
+        app:stateDrawable="@drawable/selector_switch_state"
+        app:stateMaskDrawable="@drawable/switch_state_mask"
+        app:sliderDrawable="@drawable/selector_switch_slider"/>
 </LinearLayout>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,14 +17,15 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"/>
 
-        <com.wksc.framwork.widget.CircleImageView
+        <com.lzy.widget.CircleImageView
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_header_defalt"
             android:layout_above="@+id/name"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_12"/>
+            android:layout_marginBottom="@dimen/dimen_12"
+            app:civ_BorderColor="@color/white"/>
 
     </RelativeLayout>
     <RelativeLayout

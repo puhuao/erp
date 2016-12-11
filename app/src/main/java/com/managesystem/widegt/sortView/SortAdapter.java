@@ -5,15 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.managesystem.fragment.phoneBooke.ReturnImages;
 import com.managesystem.model.Department;
 import com.wksc.framwork.R;
 
 import java.util.List;
 
 public class SortAdapter extends BaseAdapter implements SectionIndexer{
+
 	private List<Department> list = null;
 	private Context mContext;
 	
@@ -51,6 +54,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 			view = LayoutInflater.from(mContext).inflate(R.layout.item, null);
 			viewHolder.tvTitle = (TextView) view.findViewById(R.id.title);
 			viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
+			viewHolder.imageView = (ImageView) view.findViewById(R.id.image);
 			view.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
@@ -66,7 +70,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 		}else{
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
-	
+		viewHolder.imageView.setImageResource(ReturnImages.returnImage(mContent.getSortLetters()));
 		viewHolder.tvTitle.setText(this.list.get(position).getDepartmentName());
 		
 		return view;
@@ -78,6 +82,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 	final static class ViewHolder {
 		TextView tvLetter;
 		TextView tvTitle;
+		ImageView imageView;
 	}
 
 

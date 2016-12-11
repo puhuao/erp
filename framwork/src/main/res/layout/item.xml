@@ -7,27 +7,39 @@
 
     <TextView
         android:id="@+id/catalog"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#E0E0E0"
-        android:textColor="#454545"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f8f8f8"
+        android:textColor="#969696"
         android:layout_weight="1.0"
         android:paddingLeft="5dip"
         android:paddingTop="5dip"
         android:paddingBottom="5dip"
         android:text="A"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:layout_margin="12dp"/>
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:layout_weight="1.0"
-        android:textColor="#336598"
+        android:textColor="#414141"
         android:layout_marginLeft="5dip"
         android:paddingTop="10dip"
         android:paddingBottom="10dip"
-        android:text="hhhh"/>
-
+        android:text="hhhh"
+        />
+    </LinearLayout>
 </LinearLayout>

@@ -116,6 +116,7 @@ public class FragmentPhonenumberList extends CommonFragment {
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);

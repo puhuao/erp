@@ -21,6 +21,7 @@ import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.ResNameSelectEvent;
 import com.managesystem.event.ResTypeSelectEvent;
+import com.managesystem.fragment.meeting.MeetingRoomSelectFragment;
 import com.managesystem.model.ResourceName;
 import com.managesystem.model.ResourceType;
 import com.managesystem.popupwindow.ResourceNameSelectPopupwindow;
@@ -122,9 +123,8 @@ public class ResourceApplyFragment extends CommonFragment {
                 if (resourceTypes.size() == 0) {
                     getResourceTyps(v);
                 } else {
-                    ResourceTypeSelectPopupwindow resourceTypeSelectPopupwindow =
-                            new ResourceTypeSelectPopupwindow(getContext(), resourceTypes);
-                    resourceTypeSelectPopupwindow.showPopupwindow(v);
+                    hideSoftInput(v);
+                    getContext().pushFragmentToBackStack(ResourceTypeSelectFragment.class,resourceTypes);
                 }
                 break;
             case R.id.name:
@@ -156,9 +156,8 @@ public class ResourceApplyFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
                     resourceTypes.addAll(GsonUtil.fromJsonList(o, ResourceType.class));
-                    ResourceTypeSelectPopupwindow resourceTypeSelectPopupwindow =
-                            new ResourceTypeSelectPopupwindow(getContext(), resourceTypes);
-                    resourceTypeSelectPopupwindow.showPopupwindow(v);
+                    hideSoftInput(v);
+                    getContext().pushFragmentToBackStack(ResourceTypeSelectFragment.class,resourceTypes);
                 }
             }
         };
@@ -182,9 +181,11 @@ public class ResourceApplyFragment extends CommonFragment {
                 if (o != null) {
                     resourceNames.clear();
                     resourceNames.addAll(GsonUtil.fromJsonList(o, ResourceName.class));
-                    ResourceNameSelectPopupwindow resourceNameSelectPopupwindow =
-                            new ResourceNameSelectPopupwindow(getContext(), resourceNames);
-                    resourceNameSelectPopupwindow.showPopupwindow(v);
+//                    ResourceNameSelectPopupwindow resourceNameSelectPopupwindow =
+//                            new ResourceNameSelectPopupwindow(getContext(), resourceNames);
+//                    resourceNameSelectPopupwindow.showPopupwindow(v);
+                    hideSoftInput(v);
+                    getContext().pushFragmentToBackStack(ResourceNameSelectFragment.class,resourceNames);
                 }
             }
         };

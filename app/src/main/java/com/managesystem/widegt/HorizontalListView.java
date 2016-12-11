@@ -593,7 +593,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         fillList(dx);
         positionChildren(dx);
 
-        // Since the view has now been drawn, update our current position
+        // Since the view has now been drawn, com.managesystem.update our current position
         mCurrentX = mNextX;
 
         // If we have scrolled enough to lay out all views, then determine the maximum scroll position now

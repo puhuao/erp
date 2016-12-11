@@ -1,6 +1,7 @@
 package com.managesystem.adapter;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -41,19 +42,26 @@ public class MaintainApplyRecordAdapter extends BaseListAdapter<Maintain> {
         holder.content.setText(detail.getInfor());
         switch (detail.getStatus()){
             case 0:
-                holder.tag.setText("新增");
+                holder.tag.setText("派单中");
                 break;
             case 1:
-                holder.tag.setText("已受理");
+                holder.tag.setText("已派单");
                 break;
             case 2:
-                holder.tag.setText("已确认");
+                holder.tag.setText("处理中");
                 break;
             case 3:
                 holder.tag.setText("未评价");
                 break;
             case 4:
                 holder.tag.setText("已完成");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    holder.tag.setBackground(mContext.getDrawable(R.drawable.shape_bacgroud_not_valify));
+                }else{
+                    holder.tag.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.shape_bacgroud_not_valify));
+                }
+                holder.tag.setTextColor(mContext.getResources().getColor(R.color.text_hint));
                 break;
         }
 

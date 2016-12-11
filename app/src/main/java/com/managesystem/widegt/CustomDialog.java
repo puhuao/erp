@@ -38,6 +38,15 @@ public class CustomDialog extends Dialog {
 		private boolean cancelable;
 		private OnClickListener positiveButtonClickListener;
 		private OnClickListener negativeButtonClickListener;
+		private boolean canceldOnOutTouch;
+
+		public boolean isCanceldOnOutTouch() {
+			return canceldOnOutTouch;
+		}
+
+		public void setCanceldOnOutTouch(boolean canceldOnOutTouch) {
+			this.canceldOnOutTouch = canceldOnOutTouch;
+		}
 
 		public Builder(Context context) {
 			this.context = context;
@@ -135,6 +144,7 @@ public class CustomDialog extends Dialog {
 			final CustomDialog dialog = new CustomDialog(context,
 					R.style.Dialog);
 			dialog.setCancelable(cancelable);
+			dialog.setCanceledOnTouchOutside(canceldOnOutTouch);
 			View layout = inflater.inflate(R.layout.custom_dialog, null);
 
 			dialog.addContentView(layout, new LinearLayout.LayoutParams(

@@ -1,329 +1,348 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_list_type"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/work_list_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/meeting_description"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_equipment_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设备类型:"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/work_list_equipment_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/dimen_24">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_list_apply_department"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/work_list_apply_department"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_list_apply_department"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_list_apply"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/work_list_apply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_list_apply"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="手机号码:"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/meeting_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/meeting_location"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="申请时间:"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/meeting_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/meeting_time"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_list_status"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/work_list_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="紧急"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_list_status"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/work_list_priority"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="紧急"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="责任人:"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/responsible_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:id="@+id/lable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="运维人员:"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/maintain_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/dimen_24">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="申请原因"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请填写详细描述"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/dimen_24"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="处理结果"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <EditText
-            android:id="@+id/result"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:hint="请填写详细描述"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_result_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/dimen_24"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="处理结果"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/tv_result"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:hint="请填写详细描述"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/fab"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_24"
-        android:layout_marginBottom="@dimen/dimen_24"
-        android:gravity="center"
-        android:text="@string/work_list_finish"
-        android:textSize="16sp"
-        android:background="@drawable/selector_btn_login"
-        android:textColor="@color/button_text_selector"
-        />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@color/main_back_gray"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/work_list_type"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/work_list_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/meeting_description"
+                android:textColor="@color/meet_detail_text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="申请原因"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请填写详细描述"
+                android:padding="@dimen/dimen_6"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="责任人:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/responsible_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="运维人员:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/maintain_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_equipment_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="设备类型:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/work_list_equipment_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:textColor="@color/meet_detail_text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/work_list_apply"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/work_list_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/work_list_apply"
+                android:textColor="@color/meet_detail_text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/work_list_apply_department"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/work_list_apply_department"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/work_list_apply_department"
+                android:textColor="@color/meet_detail_text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="座机号码:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/meeting_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/meeting_location"
+                android:textColor="@color/meet_detail_text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="申请时间:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/meeting_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/meeting_time"
+                android:textColor="@color/meet_detail_text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="@string/work_list_status"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/work_list_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="紧急"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_1"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="类型:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/work_list_priority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="紧急"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="描述"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <EditText
+                android:id="@+id/result"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:hint="请填写详细描述"
+                android:padding="@dimen/dimen_6"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16"
+                android:gravity="top|left"
+                android:background="@drawable/shape_bacgroud_not_valify"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:layout_marginRight="@dimen/dimen_12"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_result_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_6"
+                android:text="描述"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/tv_result"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:padding="@dimen/dimen_6"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/fab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:background="@drawable/selector_btn_login"
+            android:gravity="center"
+            android:text="@string/work_list_finish"
+            android:textColor="@color/button_text_selector"
+            android:textSize="16sp" />
+    </LinearLayout>
 </ScrollView>

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.lzy.okhttputils.OkHttpUtils;
+import com.managesystem.CustomApplication;
 import com.managesystem.R;
 import com.managesystem.activity.MainActivity;
 import com.managesystem.callBack.DialogCallback;
@@ -47,6 +48,7 @@ public class LoginFragment extends CommonFragment {
     private String username;
     private String password;
     private Boolean isAotuLogin = false;
+    public Boolean isSilence = false;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +58,12 @@ public class LoginFragment extends CommonFragment {
         config = BaseApplication.getInstance().getCurrentConfig();
         username = config.getString("username", "");
         password = config.getString("password","");
+        isSilence = config.getBoolean("silence", false);
+        if (isSilence){
+            JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 24, 59);
+        } else {
+            JPushInterface.setSilenceTime(CustomApplication.getContext(),0,0,0,0);
+        }
         userName.setText(username);
         passWord.setText(password);
         isAotuLogin = config.getBoolean("isLogin",false);

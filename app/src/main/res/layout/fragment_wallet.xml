@@ -4,6 +4,37 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/red">
+
+        <ImageView
+            android:id="@+id/iv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:focusable="false"
+            android:src="@drawable/ic_left"
+            android:paddingLeft="@dimen/dimen_24"
+            android:paddingTop="@dimen/dimen_12"
+            android:paddingBottom="@dimen/dimen_12"
+            android:layout_alignParentBottom="true"/>
+
+        <TextView
+            android:id="@+id/title_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:padding="@dimen/dimen_12"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -53,19 +84,19 @@
                 android:gravity="center"
                 android:text="其他支付"
                 android:textSize="16sp"
-                android:background="#f6cf0b"
+                android:background="@drawable/shape_pay_bacgroud"
                 android:textColor="@color/button_text_selector"
                 android:layout_marginLeft="@dimen/dimen_12"
                 android:layout_marginRight="@dimen/dimen_12"/>
             <Button
                 android:id="@+id/dinner_pay"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="用餐支付"
                 android:textSize="16sp"
-                android:background="#f6cf0b"
+                android:background="@drawable/shape_pay_bacgroud"
                 android:textColor="@color/button_text_selector"
                 android:layout_marginLeft="@dimen/dimen_12"
                 android:layout_marginRight="@dimen/dimen_12"/>
@@ -80,39 +111,44 @@
         android:background="@color/white"
         android:orientation="vertical" >
         <RadioGroup
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dimen_12"
-            android:background="@color/red"
-            android:padding="@dimen/dimen_1"
+            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginRight="@dimen/dimen_24"
+            android:background="@drawable/shape_radio_bacgroud"
             android:id="@id/radio_group">
             <RadioButton
                 android:id="@+id/pay_record"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="消费记录"
-                android:background="@drawable/selector_radio_select"
+                android:background="@drawable/selector_radio_left_select"
                 android:checked="true"
                 android:button="@null"
                 android:paddingLeft="@dimen/dimen_12"
                 android:paddingRight="@dimen/dimen_12"
                 android:paddingTop="@dimen/dimen_6"
                 android:paddingBottom="@dimen/dimen_6"
+                android:gravity="center"
                 android:textColor="@color/radiobutton_text_selector"/>
             <RadioButton
                 android:id="@+id/charge_record"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="充值记录"
-                android:background="@drawable/selector_radio_select"
+                android:background="@drawable/selector_radio_right_select"
                 android:checked="false"
                 android:button="@null"
                 android:paddingLeft="@dimen/dimen_12"
                 android:paddingRight="@dimen/dimen_12"
                 android:paddingTop="@dimen/dimen_6"
                 android:paddingBottom="@dimen/dimen_6"
+                android:gravity="center"
                 android:textColor="@color/radiobutton_text_selector"/>
         </RadioGroup>
         <android.support.v4.view.ViewPager

@@ -39,7 +39,7 @@ public class MeetingAttendRecordAdapter extends BaseListAdapter<MeetingAttendRec
         MeetingAttendRecord meetingAttendRecord = mList.get(position);
         holder.name.setText(meetingAttendRecord.getMeetingName());
         holder.location.setText(meetingAttendRecord.getArea());
-        holder.time.setText(meetingAttendRecord.getStartDate()+"-"+meetingAttendRecord.getEndDate());
+        holder.time.setText(meetingAttendRecord.getStartDate());
         String sStatus = null;
         switch (meetingAttendRecord.getMeetigStatus()){
             case -1:

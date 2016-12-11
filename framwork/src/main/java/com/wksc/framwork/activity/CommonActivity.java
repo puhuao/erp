@@ -1,10 +1,12 @@
 package com.wksc.framwork.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.SupportV4App;
 import android.util.Log;
+import android.view.View;
 
 import com.wksc.framwork.R;
 import com.wksc.framwork.baseui.ActivityManager;
@@ -41,6 +43,15 @@ public abstract class CommonActivity extends XActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityManager.getInstance().addActivity(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            int options = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+            getWindow().getDecorView().setSystemUiVisibility(options);
+
+            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+
+        }
     }
 
     /**

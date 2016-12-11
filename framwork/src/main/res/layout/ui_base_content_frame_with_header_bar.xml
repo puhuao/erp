@@ -7,7 +7,7 @@
     <com.wksc.framwork.baseui.fragment.TitleHeaderBar
         android:id="@+id/view_base_frame_title_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ui_header_height" />
+        android:layout_height="64dp" />
 
     <LinearLayout
         android:id="@+id/view_base_frame_content"

@@ -120,6 +120,7 @@ public class MeetingAttendDetailFragment extends CommonFragment {
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);

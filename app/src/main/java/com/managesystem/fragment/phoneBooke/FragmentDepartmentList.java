@@ -13,7 +13,6 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.fragment.ebook.FragmentPhonenumberList;
 import com.managesystem.model.Department;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -105,6 +104,7 @@ public class FragmentDepartmentList extends CommonFragment {
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);

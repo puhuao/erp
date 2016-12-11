@@ -170,6 +170,7 @@ public class MeetingDetailFragment extends CommonFragment {
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
@@ -254,6 +255,7 @@ public class MeetingDetailFragment extends CommonFragment {
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);

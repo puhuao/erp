@@ -63,6 +63,7 @@
         android:layout_marginTop="@dimen/dimen_12"
         android:background="@color/white">
         <TextView
+            android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="申请理由"
@@ -87,7 +88,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dimen_12">
     <com.lzy.widget.ExpandGridView
         android:id="@+id/gridview"
         android:layout_width="0dp"
@@ -99,7 +102,8 @@
             android:id="@+id/img_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_camare"/>
+            android:src="@drawable/ic_camare"
+            android:layout_margin="@dimen/dimen_12"/>
     </LinearLayout>
 
     <Button

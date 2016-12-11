@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.google.zxing.WriterException;
 import com.managesystem.R;
 import com.managesystem.adapter.ResourcePersonAdapter;
+import com.managesystem.adapter.ResourceYardAdapter;
 import com.managesystem.config.Urls;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.ResourcePersonModel;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePersonModel> {
     @Bind(R.id.fab)
     Button fab;
-    ResourcePersonAdapter resourcePersonAdapter;
+    ResourceYardAdapter resourcePersonAdapter;
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     private IConfig config;
     private String userID;
@@ -54,7 +55,7 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
         setHeaderTitle(getStringFromResource(R.string.resource_yard));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
-        resourcePersonAdapter = new ResourcePersonAdapter(getContext());
+        resourcePersonAdapter = new ResourceYardAdapter(getContext());
         resourcePersonAdapter.setNeedSeareaNumber(true);
         setData(resourcePersonModels,resourcePersonAdapter);
         getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {

@@ -308,7 +308,7 @@ public abstract class PriorityAsyncTask<Params, Progress, Result> {
      * {@link #onProgressUpdate} will note be called if the task has been
      * canceled.
      *
-     * @param values The progress values to update the UI with.
+     * @param values The progress values to com.managesystem.update the UI with.
      * @see #onProgressUpdate
      * @see #doInBackground
      */

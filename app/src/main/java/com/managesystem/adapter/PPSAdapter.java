@@ -125,6 +125,7 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);

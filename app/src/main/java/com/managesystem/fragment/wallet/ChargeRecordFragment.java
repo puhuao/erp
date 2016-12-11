@@ -49,10 +49,10 @@ public class ChargeRecordFragment extends BaseListRefreshFragment<AccountRecord>
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position!=accountRecords.size()){
 
-                    Intent i = new Intent(getContext(), MeetingMsgDetailActivity.class);
-                    AccountRecord accountRecord = accountRecords.get(position);
-                    i.putExtra("obj", accountRecord);
-                    getContext().startActivity(i);
+//                    Intent i = new Intent(getContext(), MeetingMsgDetailActivity.class);
+//                    AccountRecord accountRecord = accountRecords.get(position);
+//                    i.putExtra("obj", accountRecord);
+//                    getContext().startActivity(i);
                 }
             }
         });

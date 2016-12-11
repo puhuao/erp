@@ -144,8 +144,7 @@ public class MeetingApplyFragment extends CommonFragment {
             case R.id.tv_location:
                 if (meetingRooms.size()>0){
                     hideSoftInput(v);
-                    MeetingRoomSelectPopupwindow popupwindow = new MeetingRoomSelectPopupwindow(getContext(),meetingRooms);
-                    popupwindow.showPopupwindow(tvMeetingRoom);
+                    getContext().pushFragmentToBackStack(MeetingRoomSelectFragment.class,meetingRooms);
                 }else{
                     getMeetingRooms();
                 }
@@ -194,8 +193,7 @@ public class MeetingApplyFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                     meetingRooms.addAll(GsonUtil.fromJsonList(o, MeetingRoom.class));
-                    MeetingRoomSelectPopupwindow popupwindow = new MeetingRoomSelectPopupwindow(getContext(),meetingRooms);
-                    popupwindow.showPopupwindow(tvMeetingRoom);
+                    getContext().pushFragmentToBackStack(MeetingRoomSelectFragment.class,meetingRooms);
                 }
             }
         };

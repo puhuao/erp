@@ -1,11 +1,13 @@
 package com.managesystem.activity;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
 
@@ -53,6 +55,15 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         getWindow().setBackgroundDrawable(null);
         ActivityManager.getInstance().addActivity(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            int options = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+            getWindow().getDecorView().setSystemUiVisibility(options);
+
+            getWindow().setStatusBarColor(getResources().getColor(com.wksc.framwork.R.color.transparent));
+
+        }
         config = BaseApplication.getInstance().getCurrentConfig();
         initView();
     }

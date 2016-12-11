@@ -28,7 +28,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/dimen_12">
 
@@ -40,9 +39,10 @@
                         app:border_color="@color/transparent" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/dimen_12"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
@@ -64,6 +64,14 @@
                             android:textColor="@color/text_hint"
                             android:textSize="@dimen/text_size_14" />
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="删除"
+                        android:textSize="@dimen/text_size_16"
+                        android:textColor="@color/tab_text_color"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <com.managesystem.widegt.EmojiTextView

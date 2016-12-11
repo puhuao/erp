@@ -61,7 +61,10 @@ public class ResourceApplyAdapter extends BaseListAdapter<ResourceApplyLost> {
             }else{
                 holder.status.setTextAppearance(mContext,R.style.style_refuse);
             }
-            holder.status.setText("未通过");
+            holder.status.setText("退回");
+            holder.status.setVisibility(View.GONE);
+            holder.iamge.setImageResource(R.drawable.img_delay);
+            holder.iamge.setVisibility(View.VISIBLE);
         }else if (resourceApplyLost.getStatus().equals("3")){
 //            holder.status.setVisibility(View.GONE);
 //            holder.iamge.setVisibility(View.VISIBLE);
@@ -72,6 +75,9 @@ public class ResourceApplyAdapter extends BaseListAdapter<ResourceApplyLost> {
                 holder.status.setTextAppearance(mContext,R.style.style_verify);
             }
             holder.status.setText("已审批");
+            holder.status.setVisibility(View.GONE);
+            holder.iamge.setImageResource(R.drawable.img_approval);
+            holder.iamge.setVisibility(View.VISIBLE);
         }
         return convertView;
     }

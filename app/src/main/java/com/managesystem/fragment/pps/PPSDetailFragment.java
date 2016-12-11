@@ -15,6 +15,8 @@ import com.managesystem.adapter.PPSCommentAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.MeetingRoomSelectEvent;
+import com.managesystem.event.PPSDeleteEvent;
+import com.managesystem.event.PPSListUpdateEvent;
 import com.managesystem.fragment.BaseNestListRefreshFragment;
 import com.managesystem.model.PPSComment;
 import com.managesystem.model.PPSModel;
@@ -62,18 +64,23 @@ public class PPSDetailFragment extends BaseNestListRefreshFragment<PPSComment> {
     @Bind(R.id.check)
     TextView check;
     @Bind(R.id.et_react)
-            EditText etReact;
+    EditText etReact;
     @Bind(R.id.react)
-            TextView react;
+    TextView react;
+    @Bind(R.id.delete)
+    TextView delete;
 
-private String reactContent;
+    private String reactContent;
     PPSModel ppsModel;
     ArrayList<PPSComment> ppsComments = new ArrayList<>();
     PPSCommentAdapter ppsCommentAdapter;
+    private String userId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        userId = config.getString("userId", "");
         EventBus.getDefault().register(this);
     }
 
@@ -86,10 +93,10 @@ private String reactContent;
     }
 
     @Subscribe
-    public void onEvent(MeetingRoomSelectEvent event){
+    public void onEvent(MeetingRoomSelectEvent event) {
     }
 
-    @OnClick({R.id.zan,R.id.react})
+    @OnClick({R.id.zan, R.id.react, R.id.delete})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.zan:
@@ -97,11 +104,14 @@ private String reactContent;
                 break;
             case R.id.react:
                 reactContent = etReact.getText().toString();
-                if (StringUtils.isBlank(reactContent)){
-                    ToastUtil.showShortMessage(getContext(),"请输入回复内容");
+                if (StringUtils.isBlank(reactContent)) {
+                    ToastUtil.showShortMessage(getContext(), "请输入回复内容");
                     break;
                 }
                 react();
+                break;
+            case R.id.delete:
+                delete();
                 break;
         }
     }
@@ -110,57 +120,60 @@ private String reactContent;
         isfirstFragment = true;
         ppsModel = (PPSModel) getmDataIn();
         ppsCommentAdapter = new PPSCommentAdapter(getContext());
-        setData(ppsComments,ppsCommentAdapter);
+        setData(ppsComments, ppsCommentAdapter);
+
         detail();
         setHeaderTitle(ppsModel.getTitle());
     }
 
-    private void praise(){
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+    private void praise() {
+
         StringBuilder sb = new StringBuilder(Urls.PPS_ZAN);
-        UrlUtils.getInstance(sb) .praseToUrl("topicId", ppsModel.getTopicId())
-                .praseToUrl("userId", config.getString("userId", ""))
+        UrlUtils.getInstance(sb).praseToUrl("topicId", ppsModel.getTopicId())
+                .praseToUrl("userId", userId)
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-            if (o!=null){
-                ToastUtil.showShortMessage(getContext(),"点赞成功");
-                detail();
-            }
+                if (o != null) {
+                    ToastUtil.showShortMessage(getContext(), "点赞成功");
+                    detail();
+                }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
     }
-    private void react(){
+
+    private void react() {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.PPS_COMMECT);
-        UrlUtils.getInstance(sb) .praseToUrl("topicId", ppsModel.getTopicId())
+        UrlUtils.getInstance(sb).praseToUrl("topicId", ppsModel.getTopicId())
                 .praseToUrl("userId", config.getString("userId", ""))
-                .praseToUrl("content",reactContent)
+                .praseToUrl("content", reactContent)
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                ToastUtil.showShortMessage(getContext(),"回帖成功");
+                ToastUtil.showShortMessage(getContext(), "回帖成功");
                 handler.sendEmptyMessage(0);
             }
         };
-
+        callback.setDialogHide();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
@@ -174,34 +187,62 @@ private String reactContent;
 
     @Override
     public void loadMore(int pageNo) {
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.PPS_COMMENT_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
-                .praseToUrl("topicId",ppsModel.getTopicId())
-                .praseToUrl("pageSize","20")
+        UrlUtils.getInstance(sb).praseToUrl("pageNo", String.valueOf(pageNo))
+                .praseToUrl("topicId", ppsModel.getTopicId())
+                .praseToUrl("pageSize", "20")
                 .removeLastWord();
-        excute(sb.toString(),PPSComment.class);
+        excute(sb.toString(), PPSComment.class);
     }
 
-    private void detail(){
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
-        StringBuilder sb = new StringBuilder(Urls.PPS_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
-                .praseToUrl("userId",config.getString("userId", ""))
-                .praseToUrl("pageSize","20")
-                .praseToUrl("topicId",ppsModel.getTopicId())
+    private void delete() {
+        StringBuilder sb = new StringBuilder(Urls.DELETE_TOPIC);
+        UrlUtils.getInstance(sb)
+                .praseToUrl("userId", userId)
+                .praseToUrl("topicId", ppsModel.getTopicId())
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
-                    ToastUtil.showShortMessage(getContext(),"获取详情成功");
+                if (o != null) {
+                    ToastUtil.showShortMessage(getContext(), "删除动态成功");
+                    EventBus.getDefault().post(new PPSListUpdateEvent());
+                    getContext().popTopFragment(null);
+                }
+            }
+        };
+        callback.setDialogHide();
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
+
+    }
+
+    private void detail() {
+        StringBuilder sb = new StringBuilder(Urls.PPS_LIST);
+        UrlUtils.getInstance(sb).praseToUrl("pageNo", String.valueOf(pageNo))
+                .praseToUrl("userId", userId)
+                .praseToUrl("pageSize", "20")
+                .praseToUrl("topicId", ppsModel.getTopicId())
+                .removeLastWord();
+
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(), "网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    ToastUtil.showShortMessage(getContext(), "获取详情成功");
                     try {
                         JSONObject jsonObject = new JSONObject(o);
                         String list = jsonObject.getString("list");
@@ -210,17 +251,21 @@ private String reactContent;
                         name.setText(ppsModel.getName());
                         time.setText(ppsModel.getCtime());
                         content.setText(ppsModel.getContent());
-
-                        if (ppsModel.getPics()!=null){
+                        if (userId.equals(ppsModel.getUserId())) {
+                            delete.setVisibility(View.VISIBLE);
+                        } else {
+                            delete.setVisibility(View.GONE);
+                        }
+                        if (ppsModel.getPics() != null) {
                             List<String> imgs = new ArrayList<>();
                             for (String s :
                                     ppsModel.getPics()) {
-                                imgs.add(Urls.GETPICS+s);
+                                imgs.add(Urls.GETPICS + s);
                             }
                             multiImageView.setList(imgs);
                         }
                         check.setText(String.valueOf(ppsModel.getScanCount()));
-                        if (ppsModel.getPraise()){
+                        if (ppsModel.getPraise()) {
                             Drawable drawable = getResources().getDrawable(R.drawable.img_zan_select);
                             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
                             zan.setCompoundDrawables(drawable, null, null, null);
@@ -234,7 +279,7 @@ private String reactContent;
                 }
             }
         };
-
+        callback.setDialogHide();
         OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);

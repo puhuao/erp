@@ -62,7 +62,7 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
                 resourcePersonAdapter.setIsFromCheckAll(true);
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
-                    r.isCheck = true;
+                    r.isCheck = !r.isCheck;
                 }
                 resourcePersonAdapter.notifyDataSetChanged();
                 resourcePersonAdapter.setIsFromCheckAll(false);

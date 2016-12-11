@@ -10,7 +10,8 @@
         android:background="@drawable/horizontal_background">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="64dp"
+            >
 
                 <ImageView
                     android:id="@+id/iv_left"
@@ -21,7 +22,8 @@
                     android:src="@drawable/ic_left"
                     android:paddingLeft="@dimen/dimen_24"
                     android:paddingTop="@dimen/dimen_12"
-                    android:paddingBottom="@dimen/dimen_12"/>
+                    android:paddingBottom="@dimen/dimen_12"
+                    android:layout_alignParentBottom="true"/>
 
                     <TextView
                         android:id="@+id/title_bar_title"
@@ -33,6 +35,7 @@
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:padding="@dimen/dimen_12"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>

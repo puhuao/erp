@@ -1,16 +1,21 @@
 package com.managesystem.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
@@ -21,11 +26,13 @@ import com.managesystem.fragment.modify.ModifyAccountIsPublishFragment;
 import com.managesystem.model.PersonalInfo;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.CustomDialog;
+import com.managesystem.widegt.SwitchButton;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
+import com.wksc.framwork.widget.CircleImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,6 +67,8 @@ public class PersonalInfoFragment extends CommonFragment {
     TextView tvIsPublicPhone;
     @Bind(R.id.ll_is_phone_public)
     View llIsPublicPhone;
+    @Bind(R.id.phone_public)
+    SwitchButton switchButton;
 
     private IConfig config;
     private String name;
@@ -67,6 +76,7 @@ public class PersonalInfoFragment extends CommonFragment {
     private String cPhone;
     private String department;
     private String sign;
+    private String ispublish;
 
 
     @Override
@@ -91,19 +101,37 @@ public class PersonalInfoFragment extends CommonFragment {
     }
 
     private void bindView() {
+        switchButton.setChecked(config.getBoolean("ispublish",false)?true:false);
         tvIsPublicPhone.setText(config.getBoolean("ispublish",false)?"是":"否");
         tvState.setText(StringUtils.isBlank(config.getString("stationName", "")) ? "无" : config.getString("stationName", ""));
         tvName.setText(StringUtils.isBlank(config.getString("name", "")) ? "无" : config.getString("name", ""));
         tvCPhone.setText(StringUtils.isBlank(config.getString("cphone", "")) ? "未设置" : config.getString("cphone", ""));
         tvDepartment.setText(StringUtils.isBlank(config.getString("department", "")) ? "未设置" : config.getString("department", ""));
         tvPersonalSign.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" : config.getString("sign", ""));
-        tvAccount.setText(StringUtils.isBlank(config.getString("username", "")) ? "" : config.getString("username", ""));
-        Glide.with(getContext())
-                .load(config.getString("headerIcon", "")).crossFade()
-                .placeholder(R.drawable.ic_header_defalt)
-                .error(R.drawable.ic_header_defalt)
-                .thumbnail(0.1f).centerCrop()
-                .into(imHeader);
+        tvAccount.setText("");
+        Glide.with(getContext()).load(config.getString("headerIcon", ""))
+                .asBitmap().centerCrop().
+                into(new BitmapImageViewTarget(imHeader) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        imHeader.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    ispublish = "1";
+                    modify();
+                }else{
+                    ispublish = "0";
+                    modify();
+                }
+            }
+        });
     }
 
     @OnClick({R.id.ll_head_pic, R.id.ll_name, R.id.ll_cPhone, R.id.ll_department
@@ -114,10 +142,10 @@ public class PersonalInfoFragment extends CommonFragment {
         builder.setContentView(view);
         switch (v.getId()) {
             case R.id.ll_is_phone_public:
-                getContext().pushFragmentToBackStack(ModifyAccountIsPublishFragment.class, null);
+//                getContext().pushFragmentToBackStack(ModifyAccountIsPublishFragment.class, null);
                 break;
             case R.id.ll_account_modify:
-//                getContext().pushFragmentToBackStack(ModifyAccountFragment.class, null);
+                getContext().pushFragmentToBackStack(ModifyAccountFragment.class, null);
                 break;
             case R.id.ll_personal_sign:
                 builder.setTitle("请输入签名");
@@ -126,7 +154,9 @@ public class PersonalInfoFragment extends CommonFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        sign = ((EditText) view.findViewById(R.id.edit_text)).getText().toString();
+                        EditText editText = ((EditText) view.findViewById(R.id.edit_text));
+                        editText.setMaxEms(20);
+                        sign =editText .getText().toString();
                         if (StringUtils.isBlank(sign)) {
                             ToastUtil.showShortMessage(getContext(), "请输入签名");
                             return;
@@ -215,7 +245,7 @@ public class PersonalInfoFragment extends CommonFragment {
         String s = UrlUtils.getInstance(sb)
                 .praseToUrl("userId", config.getString("userId", ""))
                 .praseToUrl("sign", sign).praseToUrl("type", "2")
-                .praseToUrl("cphone", cPhone).praseToUrl("ispublish", "1")
+                .praseToUrl("cphone", cPhone).praseToUrl("ispublish", ispublish)
                 .praseToUrl("name", name)
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<PersonalInfo>(getContext(), PersonalInfo.class) {
@@ -235,9 +265,14 @@ public class PersonalInfoFragment extends CommonFragment {
                     config.setString("stationName", o.getStationName());
                     config.setString("department", o.getDepartmentName());
                     config.setString("cphone", o.getCphone());
-                    config.setString("headerIcon", o.getHeadPic());
+                    config.setString("headerIcon", Urls.GETPICS+o.getHeadPic());
                     config.setBoolean("isLogin", true);
                     config.setString("sign", o.getSign());
+                    if (o.getIspublish()==1){
+                        config.setBoolean("ispublish",true);
+                    }else{
+                        config.setBoolean("ispublish",false);
+                    }
                     bindView();
                 }
             }

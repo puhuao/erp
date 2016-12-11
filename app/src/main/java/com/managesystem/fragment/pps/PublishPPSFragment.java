@@ -159,7 +159,12 @@ public class PublishPPSFragment extends CommonFragment {
                 gridImageAdapter.setList(images);
                 gridImageAdapter.setImagePicker(imagePicker);
                 gridView.setAdapter(gridImageAdapter);
-                gridImageAdapter.upload(gridView);
+                gridView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        gridImageAdapter.upload(gridView);
+                    }
+                }, 1000);
             } else {
                 Toast.makeText(getContext(), "没有数据", Toast.LENGTH_SHORT).show();
             }

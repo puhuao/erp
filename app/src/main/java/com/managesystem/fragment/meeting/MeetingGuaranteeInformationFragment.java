@@ -102,7 +102,7 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
         bundeDataToView();
         switch (meetingApplyRecord.getStatus()) {//0：新增 1：已派单2：已确认3：已完成4：已评价
             case 0:
-                tvGuaranteeProgress.setText("新增");
+                tvGuaranteeProgress.setText("未派单");
                 llComment.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
                 responsibleName.setText("暂无");
@@ -116,7 +116,7 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
                 responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 2:
-                tvGuaranteeProgress.setText("已确认");
+                tvGuaranteeProgress.setText("处理中");
                 llComment.setVisibility(View.GONE);
 //                if (type == 1){
 //                    fab.setVisibility(View.VISIBLE);
@@ -126,7 +126,7 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
                 break;
             case 3:
                 responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
-                    tvGuaranteeProgress.setText("已完成");
+                    tvGuaranteeProgress.setText("未评价");
                     llComment.setVisibility(View.VISIBLE);
                     llText.setVisibility(View.GONE);
                     if (userID.equals(meetingApplyRecord.getUserId())) {
@@ -146,7 +146,7 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
                 responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 ratingBar.setStar(meetingApplyRecord.getStar());
                 tvComment.setText(meetingApplyRecord.getContent());
-                tvGuaranteeProgress.setText("已评价");
+                tvGuaranteeProgress.setText("已完成");
                 llComment.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.VISIBLE);
                 llEdit.setVisibility(View.GONE);

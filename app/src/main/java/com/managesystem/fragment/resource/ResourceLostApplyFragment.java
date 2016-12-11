@@ -69,7 +69,7 @@ public class ResourceLostApplyFragment extends CommonFragment {
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container = (ViewGroup) inflater.inflate(R.layout.fragment_resource_apply, null);
+        container = (ViewGroup) inflater.inflate(R.layout.fragment_resource_lost_apply, null);
         ButterKnife.bind(this, container);
         initView();
         return container;
@@ -81,7 +81,7 @@ public class ResourceLostApplyFragment extends CommonFragment {
         StringBuilder sb = new StringBuilder();
         for (ResourcePersonModel r :
                 resourcePersonModels) {
-            sb.append(r.getMaterialtypeName()+"、");
+            sb.append(r.getMaterialName()+"、");
         }
         if (sb.length()>0){
             sb.deleteCharAt(sb.length()-1);

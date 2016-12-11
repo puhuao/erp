@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 /**
  * Created by hedge_hog on 2015/06/11.
- * update by hedge_hog on 2016/08/06
+ * com.managesystem.update by hedge_hog on 2016/08/06
  */
 public class RatingBar extends LinearLayout {
     private boolean mClickable;

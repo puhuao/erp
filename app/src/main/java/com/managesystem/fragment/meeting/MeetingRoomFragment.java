@@ -54,7 +54,7 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
     ArrayList<MeetingRoomDetail> details = new ArrayList<>();
     private MeetingSelectCondition meetingSelectCondition;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-Boolean isSearch = false;
+    Boolean isSearch = false;
     float x;
 
     @Override
@@ -68,9 +68,10 @@ Boolean isSearch = false;
 
 
     int firstVisialePositon = 0;
+
     private void initView() {
         isfirstFragment = true;
-        int currentPosition=0;
+        int currentPosition = 0;
         Calendar calendar = Calendar.getInstance();
         hideTitleBar();
         title.setText(formatter.format(calendar.getTime()));
@@ -83,13 +84,23 @@ Boolean isSearch = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             getTitleHeaderBar().setBackground(getContext().getResources().getDrawable(R.drawable.horizontal_background));
         }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//            int options = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+//
+//            getContext().getWindow().getDecorView().setSystemUiVisibility(options);
+//
+//            getContext().getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+//
+//        }
+
         String d = formatter.format(calendar.getTime());
         int month = calendar.get(Calendar.MONTH);
         int today = calendar.get(Calendar.DAY_OF_MONTH);
         int wd = calendar.get(Calendar.DAY_OF_WEEK);
         HorizontalCalenderModel model = getMondayOFWeek(calendar);
-        calendar.add(Calendar.DATE,-30);
-        for (int i =0 ;i < 60;i++){
+        calendar.add(Calendar.DATE, -30);
+        for (int i = 0; i < 60; i++) {
             HorizontalCalenderModel horizontalCalenderModel = new HorizontalCalenderModel();
             int m = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -98,12 +109,12 @@ Boolean isSearch = false;
             horizontalCalenderModel.weekDay = weekDay;
             horizontalCalenderModel.calendar = formatter.format(calendar.getTime());
             models.add(horizontalCalenderModel);
-            if (model.month==m&&model.name==day){
+            if (model.month == m && model.name == day) {
                 firstVisialePositon = i;
             }
-            if (m==month&&today==day)
+            if (m == month && today == day)
                 currentPosition = i;
-            calendar.add(Calendar.DATE,1);
+            calendar.add(Calendar.DATE, 1);
         }
         meetingSelectCondition = new MeetingSelectCondition();
 
@@ -119,21 +130,21 @@ Boolean isSearch = false;
 //        recyclerView.postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
-                DisplayMetrics dm = getResources().getDisplayMetrics();
-                x = dm.widthPixels/7;
-                adapter.setX(x);
-                rvManager.smoothScrollToPosition(recyclerView,null, finalCurrentPosition+6);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        x = dm.widthPixels / 7;
+        adapter.setX(x);
+        rvManager.smoothScrollToPosition(recyclerView, null, finalCurrentPosition + 6);
 //            }
 //        },500);
         meetingRoomRecordAdapter = new MeetingRoomRecordAdapter(getContext());
-        setData(details,meetingRoomRecordAdapter);
+        setData(details, meetingRoomRecordAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position!=details.size()){
+                if (position != details.size()) {
 
                     meetingSelectCondition.setMeetingId(details.get(position).getMeetingId());
-                    getContext().pushFragmentToBackStack(MeetingRoomTakenInformationFragment.class,meetingSelectCondition);
+                    getContext().pushFragmentToBackStack(MeetingRoomTakenInformationFragment.class, meetingSelectCondition);
                 }
             }
         });
@@ -146,9 +157,9 @@ Boolean isSearch = false;
                 meetingSelectCondition.setDate(models.get(position).calendar);
                 adapter.currentPositon = position;
                 adapter.notifyDataSetChanged();
-                rvManager.smoothScrollToPosition(recyclerView,null,position);
+                rvManager.smoothScrollToPosition(recyclerView, null, position);
 //                horizontalListView.scrollTo((int) (position*x));
-                pageNo =1;
+                pageNo = 1;
                 loadMore(1);
             }
 
@@ -253,11 +264,11 @@ Boolean isSearch = false;
     @Override
     public void loadMore(int pageNo) {
         StringBuilder sb = new StringBuilder(Urls.MEETING_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo",String.valueOf(pageNo))
-                .praseToUrl("pageSize",meetingSelectCondition.getPageSize())
-                .praseToUrl("meetingName",meetingSelectCondition.getMeetingName())
-                .praseToUrl("date",meetingSelectCondition.getDate())
+        UrlUtils.getInstance(sb).praseToUrl("pageNo", String.valueOf(pageNo))
+                .praseToUrl("pageSize", meetingSelectCondition.getPageSize())
+                .praseToUrl("meetingName", meetingSelectCondition.getMeetingName())
+                .praseToUrl("date", meetingSelectCondition.getDate())
                 .removeLastWord();
-        excute(sb.toString(),MeetingRoomDetail.class);
+        excute(sb.toString(), MeetingRoomDetail.class);
     }
 }

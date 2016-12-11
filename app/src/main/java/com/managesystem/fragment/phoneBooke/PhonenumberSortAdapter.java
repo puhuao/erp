@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class PhonenumberSortAdapter extends BaseAdapter implements SectionIndexe
 			view = LayoutInflater.from(mContext).inflate(R.layout.item, null);
 			viewHolder.tvTitle = (TextView) view.findViewById(R.id.title);
 			viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
+			viewHolder.imageView = (ImageView) view.findViewById(R.id.image);
 			view.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
@@ -67,9 +69,8 @@ public class PhonenumberSortAdapter extends BaseAdapter implements SectionIndexe
 		}else{
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
-	
 		viewHolder.tvTitle.setText(this.list.get(position).getDepartmentName());
-		
+		viewHolder.imageView.setImageResource(ReturnImages.returnImage(mContent.getSortLetters()));
 		return view;
 
 	}
@@ -79,6 +80,7 @@ public class PhonenumberSortAdapter extends BaseAdapter implements SectionIndexe
 	final static class ViewHolder {
 		TextView tvLetter;
 		TextView tvTitle;
+		ImageView imageView;
 	}
 
 

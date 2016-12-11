@@ -15,6 +15,7 @@
             android:layout_margin="@dimen/dimen_12"
             android:layout_alignParentLeft="true"/>
         <TextView
+            android:id="@+id/setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="开启"
@@ -40,6 +41,7 @@
             android:layout_margin="@dimen/dimen_12"
             android:layout_alignParentLeft="true"/>
         <TextView
+            android:id="@+id/check_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="v1.0.0"

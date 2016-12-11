@@ -28,7 +28,7 @@ public class WorkList implements Serializable {
     private String rid;
     private String important;
     private String userId;
-    private Object star;
+    private String star;
     private String servicetypeName;
     private String date;
     private String servicetypeId;
@@ -47,9 +47,9 @@ public class WorkList implements Serializable {
      * orderId : e671bc9db8824de7a3be3089b8dcf523
      */
 
-    private Object materialnameIds;
+    private String materialnameIds;
     private String materialNames;
-    private Object handlerInfo;
+    private String handlerInfo;
     private String responsibleUserId;
     private String ctime;
     private String infor;
@@ -128,11 +128,11 @@ public class WorkList implements Serializable {
         this.userId = userId;
     }
 
-    public Object getStar() {
+    public String getStar() {
         return star;
     }
 
-    public void setStar(Object star) {
+    public void setStar(String star) {
         this.star = star;
     }
 
@@ -168,11 +168,11 @@ public class WorkList implements Serializable {
         this.distributeId = distributeId;
     }
 
-    public Object getMaterialnameIds() {
+    public String getMaterialnameIds() {
         return materialnameIds;
     }
 
-    public void setMaterialnameIds(Object materialnameIds) {
+    public void setMaterialnameIds(String materialnameIds) {
         this.materialnameIds = materialnameIds;
     }
 
@@ -184,11 +184,11 @@ public class WorkList implements Serializable {
         this.materialNames = materialNames;
     }
 
-    public Object getHandlerInfo() {
+    public String getHandlerInfo() {
         return handlerInfo;
     }
 
-    public void setHandlerInfo(Object handlerInfo) {
+    public void setHandlerInfo(String handlerInfo) {
         this.handlerInfo = handlerInfo;
     }
 

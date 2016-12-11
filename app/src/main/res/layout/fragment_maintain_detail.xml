@@ -9,7 +9,8 @@
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/main_back_gray">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
             android:text="保障进度"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -52,7 +53,7 @@
             android:text="服务类型"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
         <TextView
             android:id="@+id/name"
@@ -61,7 +62,7 @@
             android:text="@string/meeting_name"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
     </LinearLayout>
     <LinearLayout
@@ -75,7 +76,7 @@
             android:text="维修详情"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
         <TextView
             android:id="@+id/location"
@@ -84,7 +85,31 @@
             android:text="维修详情"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="故障描述"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_6"
+            />
+        <TextView
+            android:id="@+id/problem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/meet_detail_text_color"
+            android:padding="@dimen/dimen_6"
             />
     </LinearLayout>
     <LinearLayout
@@ -98,7 +123,7 @@
             android:text="申请时间"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
         <TextView
             android:id="@+id/start_time"
@@ -107,45 +132,23 @@
             android:text="@string/meeting_start_time"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
     </LinearLayout>
+
     <LinearLayout
-        android:id="@+id/ll_reason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/white"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="故障原因"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
-            />
-        <TextView
-            android:id="@+id/problem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:layout_marginTop="@dimen/dimen_24">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meeting_guarantee_person"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
         <TextView
             android:id="@+id/guarantee_person"
@@ -154,7 +157,7 @@
             android:text="@string/meeting_guarantee_person"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
     </LinearLayout>
     <LinearLayout
@@ -168,7 +171,7 @@
             android:text="责任人:"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
         <TextView
             android:id="@+id/responsible_name"
@@ -177,7 +180,7 @@
             android:text="@string/meeting_guarantee_person"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
     </LinearLayout>
     <LinearLayout
@@ -191,7 +194,7 @@
             android:text="责任人手机号:"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
             />
         <TextView
             android:id="@+id/responsible_phone"
@@ -199,7 +202,29 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/meet_detail_text_color"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_6"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="处理结果:"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_6"
+            />
+        <TextView
+            android:id="@+id/handler_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/meet_detail_text_color"
+            android:padding="@dimen/dimen_6"
             />
     </LinearLayout>
 
@@ -208,14 +233,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rating"
-            android:padding="@dimen/dimen_12"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/meet_detail_text_color"/>
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/dimen_24">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -224,7 +244,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rating_star"
+                android:text="服务评分:"
                 android:padding="@dimen/dimen_12"
                 android:textSize="@dimen/text_size_16"
                 android:textColor="@color/text_black"
@@ -280,17 +300,21 @@
                 android:padding="@dimen/dimen_12"
                 android:textSize="@dimen/text_size_16"
                 android:textColor="@color/text_black"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:gravity="left|top"/>
             <EditText
                 android:id="@+id/edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
                 android:hint="@string/rating_message"
                 android:padding="@dimen/dimen_12"
                 android:textSize="@dimen/text_size_16"
                 android:textColor="@color/text_black"
                 android:layout_gravity="center_vertical"
-                android:background="@null"/>
+                android:gravity="top|left"
+                android:background="@drawable/shape_bacgroud_not_valify"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:layout_marginRight="@dimen/dimen_12"/>
         </LinearLayout>
         <Button
             android:id="@+id/fab"

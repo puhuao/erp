@@ -56,6 +56,12 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         holder.type.setText(resourcePersonModel.getMaterialName());
         holder.name.setText(resourcePersonModel.getBrand());
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
+        if (!StringUtils.isBlank(resourcePersonModel.getSerialNumber())){
+            holder.serialNumber.setText("序列号:"+resourcePersonModel.getSerialNumber());
+        }else{
+            holder.serialNumber.setText("序列号:无");
+        }
+
         if (isMyResource==1)
         if (resourcePersonModel.getStatus()==6||resourcePersonModel.getStatus()==7){
             holder.ivRecord.setVisibility(View.VISIBLE);
@@ -98,6 +104,8 @@ private int isMyResource;
         CheckBox checkBox;
         @Bind(R.id.iv_record)
         ImageView ivRecord;
+        @Bind(R.id.serial_number)
+        TextView serialNumber;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

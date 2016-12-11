@@ -1,7 +1,10 @@
 package com.managesystem.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.widget.CircleImageView;
 import com.managesystem.R;
 import com.managesystem.activity.ExpectingActivity;
 import com.managesystem.activity.MainTainListActivity;
@@ -63,7 +68,7 @@ public class SecretaryFragment extends CommonFragment {
     @Bind(R.id.phone)
     TextView phoneNumber;
     @Bind(R.id.header)
-    ImageView header;
+    CircleImageView header;
 
     private IConfig config;
     private String roleName;
@@ -95,7 +100,8 @@ public class SecretaryFragment extends CommonFragment {
             workList.setVisibility(View.GONE);
         }
         String phone = config.getString("phone","");
-        if (config.getBoolean("ispublish",false)){
+
+        if (!config.getBoolean("ispublish",false)){
             StringBuilder sb  =new StringBuilder();
             if (!StringUtils.isBlank(phone)&& phone.length() > 6){
                 for (int i = 0; i < phone.length(); i++) {
@@ -112,14 +118,20 @@ public class SecretaryFragment extends CommonFragment {
             phoneNumber.setText(phone);
         }
         userName.setText(config.getString("name", ""));
-        departmentName.setText(config.getString("department", ""));
-        stationName.setText(config.getString("stationName", ""));
-        Glide.with(getContext())
-                .load(config.getString("headerIcon","")).crossFade()
-                .placeholder(R.drawable.ic_header_defalt)
-                .error(R.drawable.ic_header_defalt)
-                .thumbnail(0.1f).centerCrop()
-                .into(header);
+        departmentName.setText(config.getString("department", "")+"/"+config.getString("stationName", ""));
+        stationName.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" : config.getString("sign", ""));
+        Glide.with(getContext()).load(config.getString("headerIcon", ""))
+                .asBitmap().centerCrop().
+                into(new BitmapImageViewTarget(header) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                header.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+
     }
     @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list
     ,R.id.ll_setting,R.id.ll_wallet,R.id.ll_meeting_notice,R.id.ll_personal_info,R.id.ll_door})

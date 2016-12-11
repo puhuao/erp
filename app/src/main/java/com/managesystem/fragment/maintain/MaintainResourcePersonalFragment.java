@@ -16,6 +16,7 @@ import com.managesystem.model.ResourcePersonModel;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -66,7 +67,7 @@ public class MaintainResourcePersonalFragment extends BaseListRefreshFragment<Re
                 resourcePersonAdapter.setIsFromCheckAll(true);
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
-                    r.isCheck = true;
+                    r.isCheck = !r.isCheck;
                 }
                 resourcePersonAdapter.notifyDataSetChanged();
                 resourcePersonAdapter.setIsFromCheckAll(false);
@@ -78,23 +79,27 @@ public class MaintainResourcePersonalFragment extends BaseListRefreshFragment<Re
     @OnClick({R.id.send, R.id.fix})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.send:
-                //确认
-                break;
             case R.id.fix:
-                //取消
+                //确认
                 StringBuilder sb = new StringBuilder();
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
                     if (r.isCheck) {
-                        sb.append(r.getMaterialtypeName() + ",");
+                        sb.append(r.getMaterialName() + ",");
                     }
                 }
                 if (sb.length() > 0) {
                     sb.deleteCharAt(sb.length() - 1);
+                }else{
+                    ToastUtil.showShortMessage(getContext(),"请选择设备");
+                    break;
                 }
                 EventBus.getDefault().post(new MeetingTypeSelectEvent(meetingType, sb.toString()));
                 getContext().popToRoot(null);
+                break;
+            case R.id.send:
+                //取消
+                getContext().popTopFragment(null);
                 break;
         }
     }

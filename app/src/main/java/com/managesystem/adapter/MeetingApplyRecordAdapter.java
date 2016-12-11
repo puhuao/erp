@@ -36,7 +36,7 @@ public class MeetingApplyRecordAdapter extends BaseListAdapter<MeetingRoomDetail
             convertView.setTag(holder);
         }
         MeetingRoomDetail detail = mList.get(position);
-        holder.location.setText("会议地点:"+detail.getMeetingroomName());
+        holder.location.setText("会议地点:"+detail.getArea());
         if (!StringUtils.isBlank(detail.getCtime())){
 
             holder.time.setText("时间:"+detail.getCtime().substring(0,16));
@@ -44,19 +44,19 @@ public class MeetingApplyRecordAdapter extends BaseListAdapter<MeetingRoomDetail
         holder.name.setText(detail.getMeetingName());
         switch (detail.getStatus()){
             case 0:
-                holder.tag.setText("新增");
+                holder.tag.setText("派单中");
                 break;
             case 1:
-                holder.tag.setText("已受理");
+                holder.tag.setText("已派单");
                 break;
             case 2:
-                holder.tag.setText("已确认");
+                holder.tag.setText("处理中");
                 break;
             case 3:
-                holder.tag.setText("已完成");
+                holder.tag.setText("未评价");
                 break;
             case 4:
-                holder.tag.setText("已评价");
+                holder.tag.setText("已完成");
                 break;
         }
 

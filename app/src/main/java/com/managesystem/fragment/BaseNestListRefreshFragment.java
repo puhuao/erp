@@ -162,7 +162,6 @@ public abstract class BaseNestListRefreshFragment<T> extends CommonFragment{
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-//                stopRefresh();
                 ToastUtil.showShortMessage(getContext(),"网络错误");
             }
             @Override

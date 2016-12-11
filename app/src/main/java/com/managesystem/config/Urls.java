@@ -42,5 +42,6 @@ public class Urls {
     public static final String GET_PAY_QRCODE = BASE_URL +"wallet/getQd";//生成付款码
     public static final String SAVE_PAY_RECORD = BASE_URL+"wallet/saveRecord?";//添加消费记录
     public static final String SAVE_USER = BASE_URL+"user/save?";//修改用户其他信息
+    public static final String DELETE_TOPIC = BASE_URL+"topic/delete?";//删除帖子
 
 }
