@@ -109,9 +109,9 @@ public class FragmentPhonenumberList extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                     departments.addAll(GsonUtil.fromJsonList(o, PersonalInfo.class));
-                    List<PersonalInfo> list = filledData(departments);
-                    Collections.sort(list, pinyinComparator);
-                    adapter = new PhonenumberSortAdapter(getContext(), list);
+                    departments = filledData(departments);
+                    Collections.sort(departments, pinyinComparator);
+                    adapter = new PhonenumberSortAdapter(getContext(), departments);
                     sortListView.setAdapter(adapter);
                 }
             }
@@ -126,7 +126,14 @@ public class FragmentPhonenumberList extends CommonFragment {
 
         for(int i=0; i<date.size(); i++){
             PersonalInfo sortModel = new PersonalInfo();
-            sortModel.setDepartmentName(date.get(i).getName());
+            sortModel.setDepartmentName(date.get(i).getDepartmentName());
+            sortModel.setName(date.get(i).getName());
+            sortModel.setArea(date.get(i).getArea());
+            sortModel.setCphone(date.get(i).getCphone());
+            sortModel.setIspublish(date.get(i).getIspublish());
+            sortModel.setStationName(date.get(i).getStationName());
+            sortModel.setPhone(date.get(i).getPhone());
+            sortModel.setHeadPic(date.get(i).getHeadPic());
             //����ת����ƴ��
             String pinyin = characterParser.getSelling(date.get(i).getName());
             String sortString = pinyin.substring(0, 1).toUpperCase();

@@ -43,5 +43,8 @@ public class Urls {
     public static final String SAVE_PAY_RECORD = BASE_URL+"wallet/saveRecord?";//添加消费记录
     public static final String SAVE_USER = BASE_URL+"user/save?";//修改用户其他信息
     public static final String DELETE_TOPIC = BASE_URL+"topic/delete?";//删除帖子
-
+    public static final String MARK_ALL = BASE_URL +"updateMyAllMessageStatus?";//一键阅读
+    public static final String CHECK_NOT_COMMENT = BASE_URL+"distribute/queryNoEvaluate?";//检查是否有未评价的工单
+    public static final String GETAREA = BASE_URL +"getAreas";//获取区域
+    public static final String CHECK_VERSION = BASE_URL +"queryVersion?";
 }

@@ -3,6 +3,7 @@ package com.managesystem.widegt;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -159,10 +160,10 @@ public class CustomDialog extends Dialog {
 			}
 			// set the confirm button
 			if (positiveButtonText != null) {
-				((Button) layout.findViewById(R.id.positiveButton))
+				((TextView) layout.findViewById(R.id.positiveButton))
 						.setText(positiveButtonText);
 				if (positiveButtonClickListener != null) {
-					((Button) layout.findViewById(R.id.positiveButton))
+					((TextView) layout.findViewById(R.id.positiveButton))
 							.setOnClickListener(new View.OnClickListener() {
 								public void onClick(View v) {
 									positiveButtonClickListener.onClick(dialog,
@@ -177,10 +178,10 @@ public class CustomDialog extends Dialog {
 			}
 			// set the cancel button
 			if (negativeButtonText != null) {
-				((Button) layout.findViewById(R.id.negativeButton))
+				((TextView) layout.findViewById(R.id.negativeButton))
 						.setText(negativeButtonText);
 				if (negativeButtonClickListener != null) {
-					((Button) layout.findViewById(R.id.negativeButton))
+					((TextView) layout.findViewById(R.id.negativeButton))
 							.setOnClickListener(new View.OnClickListener() {
 								public void onClick(View v) {
 									negativeButtonClickListener.onClick(dialog,

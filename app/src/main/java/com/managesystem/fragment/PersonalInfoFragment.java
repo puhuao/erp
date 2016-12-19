@@ -21,6 +21,7 @@ import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.OnDepartmentModifyedEvent;
+import com.managesystem.event.OnPhoneStateChangeEvent;
 import com.managesystem.fragment.modify.ModifyAccountFragment;
 import com.managesystem.fragment.modify.ModifyAccountIsPublishFragment;
 import com.managesystem.model.PersonalInfo;
@@ -232,6 +233,7 @@ public class PersonalInfoFragment extends CommonFragment {
     @Subscribe
     public void onEvent(OnDepartmentModifyedEvent event) {
         bindView();
+        EventBus.getDefault().post(new OnPhoneStateChangeEvent());
     }
 
     @Override
@@ -273,10 +275,13 @@ public class PersonalInfoFragment extends CommonFragment {
                     }else{
                         config.setBoolean("ispublish",false);
                     }
+                    if (!StringUtils.isBlank(ispublish))
+                        EventBus.getDefault().post(new OnPhoneStateChangeEvent());
                     bindView();
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.post(s)//
                 .tag(this)//
                 .execute(callback);

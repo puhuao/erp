@@ -60,9 +60,9 @@ public class PhoneBookDetailDetailFragment extends CommonFragment {
         tvDepartment.setText(personalInfo.getDepartmentName());
         tvCPhone.setText(personalInfo.getCphone());
 
-        if (config.getBoolean("ispublish",false)){
+        if (personalInfo.getIspublish()==0){
             StringBuilder sb  =new StringBuilder();
-            if (!StringUtils.isBlank(personalInfo.getPhone())&& personalInfo.getPhone().length() > 6){
+            if (!StringUtils.isBlank(personalInfo.getPhone())&& personalInfo.getPhone().length() >= 6){
                 for (int i = 0; i < personalInfo.getPhone().length(); i++) {
                     char c = personalInfo.getPhone().charAt(i);
                     if (i >= 3 && i <= 6) {
@@ -78,9 +78,15 @@ public class PhoneBookDetailDetailFragment extends CommonFragment {
         }
 
         tvState.setText(personalInfo.getStationName());
-        Glide.with(getContext()).load(Urls.GETPICS+personalInfo.getHeadPic())
-                .asBitmap().centerCrop().
-                into(new BitmapImageViewTarget(header) {
+        String headPic = null;
+        if (!StringUtils.isBlank(personalInfo.getHeadPic())){
+            headPic = Urls.GETPICS+personalInfo.getHeadPic();
+        }
+        Glide.with(getContext()).load(headPic)
+                .asBitmap().centerCrop()
+                .error(R.drawable.ic_header_defalt)
+                .placeholder(R.drawable.ic_header_defalt)
+                .into(new BitmapImageViewTarget(header) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable circularBitmapDrawable =

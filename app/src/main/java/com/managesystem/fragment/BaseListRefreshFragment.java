@@ -207,21 +207,24 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
                 .execute(callback);
     }
 
+    public  int totalCount;
+
     public void notifyWithBak(String o,Class<T> clazz) {
         listView.onLoadMoreComplete();
         try {
             JSONObject jsonObject = new JSONObject(o);
             String list = jsonObject.getString("list");
+            totalCount = jsonObject.getInt("totalCount");
             if (pageNo == 1){
                 models.clear();
             }
             List<T> elements = GsonUtil.fromJsonList(list, clazz);
+            l.onload(elements);
             if (elements != null && elements.size() > 0) {
                 pageNo++;
                 isFirstLoad = false;
-
                 models.addAll(elements);
-                l.onload(elements);
+
                 if (elements.size() < pageSize) {
                     listView.setCanLoadMore(false);
                 }

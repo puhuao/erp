@@ -101,8 +101,22 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dinner_pay:
-                dinnerPay(v);
-
+                CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                builder.setTitle("确定要进行消费");
+                builder.setPositiveButton("确认消费", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dinnerPay();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+                builder.create().show();
                 break;
             case R.id.pay_another:
                 getContext().pushFragmentToBackStack(AnotherPayFragment.class,null);
@@ -224,12 +238,14 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);
     }
 
-    private void dinnerPay(final View v){
+    private void
+    dinnerPay(){
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.SAVE_PAY_RECORD);
         UrlUtils.getInstance(sb).praseToUrl("userId",config.getString("userId", ""))
@@ -247,6 +263,8 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
                 if (o!=null){
                     CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
                     builder.setTitle("用餐消费成功");
+                    builder.setCancelable(true);
+                    builder.setCanceldOnOutTouch(true);
                     builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -258,6 +276,7 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);

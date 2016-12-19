@@ -52,7 +52,9 @@ GoodNews goodNew;
         setHeaderTitle(goodNew.getTitle());
         content.setText(goodNew.getInfor());
         if (goodNew.isIsApply()){
-            sign.setVisibility(View.GONE);
+            sign.setText("已报名");
+            sign.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
+            sign.setClickable(false);
         }else{
             check(goodNew.getWealId());
         }
@@ -85,6 +87,9 @@ GoodNews goodNew;
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                     ToastUtil.showShortMessage(getContext(),"报名成功");
+                    sign.setText("已报名");
+                    sign.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
+                    sign.setClickable(false);
                 }
             }
         };

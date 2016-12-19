@@ -7,11 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.j256.ormlite.stmt.query.In;
 import com.managesystem.R;
+import com.managesystem.event.OnMSGNoticeEvent;
 import com.managesystem.fragment.MainFragment;
 import com.managesystem.fragment.MsgFragment;
 import com.managesystem.fragment.SecretaryFragment;
@@ -22,6 +27,11 @@ import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.baseui.activity.BaseFragmentActivity;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.ToastUtil;
+import com.wksc.framwork.widget.BadgeView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +45,19 @@ import cn.jpush.android.api.JPushInterface;
  *
  * @
  */
-public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
     @Bind(R.id.radio_group)
     RadioGroup radioGroup;
     @Bind(R.id.viewPager_history)
     CustomViewPager mViewPager;
+    @Bind(R.id.btn_msg)
+    RadioButton btnMsg;
+    @Bind(R.id.bt)
+    TextView bt;
+    @Bind(R.id.btn_transfer)
+            RadioButton btnTrnasfer;
+    @Bind(R.id.btn_secretary)
+            RadioButton btnSecretary;
     List<Fragment> fragments = new ArrayList<>();
     IConfig config;
 
@@ -54,6 +72,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawable(null);
         ActivityManager.getInstance().addActivity(this);
+        EventBus.getDefault().register(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -80,9 +99,20 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         JPushInterface.onResume(MainActivity.this);
     }
 
+    @Subscribe
+    public void onEvent(OnMSGNoticeEvent event){
+        badge.setTargetView(bt);
+        badge.setTextColor(getResources().getColor(R.color.white));
+        badge.setBadgeCount(event.number);
+        badge.setBadgeMargin(6);
+        badge.setBadgeGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
+
+    }
+    BadgeView badge;
     private void initView(){
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        badge = new BadgeView(this);
         fragments.add(homeFragment);
         fragments.add(transferFragment);
         fragments.add(msgFragment);
@@ -112,9 +142,20 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
             }
         });
-        radioGroup.setOnCheckedChangeListener(this);
+
         config = BaseApplication.getInstance().getCurrentConfig();
+        status = config.getString("status","0");
+        if (status.equals("0")){
+            btnMsg.setOnClickListener(this);
+            btnSecretary.setOnClickListener(this);
+            btnTrnasfer.setOnClickListener(this);
+        }else{
+            radioGroup.setOnCheckedChangeListener(this);
+        }
+
+
     }
+    String status;
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId){
@@ -132,6 +173,11 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                 break;
         }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        ToastUtil.showShortMessage(MainActivity.this,"该账号还未激活");
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
@@ -180,11 +226,13 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
     @Override
     protected void onDestroy() {
+
         secretaryFragment.onDestroy();
         homeFragment.onDestroy();
         msgFragment.onDestroy();
         transferFragment.onDestroy();
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
 
     }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.OnMainTainUpdata;
 import com.managesystem.model.AddUserParam;
 import com.managesystem.model.Maintain;
 import com.managesystem.model.MeetingApplyRecord;
@@ -33,6 +35,7 @@ import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,6 +95,13 @@ public class MaintainDetailFragment extends CommonFragment {
     private int rating;
     private String comment;
     Maintain maintain;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getContext().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_maintain_detail, null);
@@ -221,6 +231,8 @@ public class MaintainDetailFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
                     ToastUtil.showShortMessage(getContext(), "评价成功");
+                    EventBus.getDefault().post(new OnMainTainUpdata());
+                    getContext().popTopFragment(null);
                 }
             }
         };

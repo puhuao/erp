@@ -48,6 +48,8 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
     TextView title;
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
+    @Bind(R.id.img_search)
+            ImageView imgSearch;
     HorizontalListViewAdapter adapter;
     MeetingRoomRecordAdapter meetingRoomRecordAdapter;
     ArrayList<HorizontalCalenderModel> models = new ArrayList<>();
@@ -84,15 +86,6 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             getTitleHeaderBar().setBackground(getContext().getResources().getDrawable(R.drawable.horizontal_background));
         }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//            int options = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//
-//            getContext().getWindow().getDecorView().setSystemUiVisibility(options);
-//
-//            getContext().getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
-//
-//        }
 
         String d = formatter.format(calendar.getTime());
         int month = calendar.get(Calendar.MONTH);
@@ -127,15 +120,10 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
         adapter.setmList(models);
         recyclerView.setAdapter(adapter);
         final int finalCurrentPosition = currentPosition;
-//        recyclerView.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         x = dm.widthPixels / 7;
         adapter.setX(x);
         rvManager.smoothScrollToPosition(recyclerView, null, finalCurrentPosition + 6);
-//            }
-//        },500);
         meetingRoomRecordAdapter = new MeetingRoomRecordAdapter(getContext());
         setData(details, meetingRoomRecordAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -168,38 +156,11 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
 
             }
         });
-       /* horizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        imgSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });*/
-        /*horizontalListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onClick(View v) {
                 isSearch = true;
-                meetingSelectCondition.setMeetingName(s.toString());
+                meetingSelectCondition.setMeetingName(etSearch.getText().toString());
                 pageNo = 1;
                 loadMore(1);
             }
@@ -207,38 +168,6 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
 
     }
 
-//    private void getMeetings(){
-//
-//        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-//            @Override
-//            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-//                super.onError(isFromCache, call, response, e);
-//                ToastUtil.showShortMessage(getContext(),"网络错误");
-//            }
-//
-//            @Override
-//            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-//                if (o!=null){
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(o);
-//                        String list = jsonObject.getString("list");
-//                        details.clear();
-//                        details.addAll(GsonUtil.fromJsonList(list, MeetingRoomDetail.class));
-//                        meetingRoomRecordAdapter.notifyDataSetChanged();
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }
-//        };
-//        if (isSearch){
-//            callback.setDialogHide();
-//        }
-//        OkHttpUtils.get(sb.toString())//
-//                .tag(this)//
-//                .execute(callback);
-//    }
 
     // 获得今天是一周的第几天，星期日是第一天，星期二是第二天......
     private int getMondayPlus(Calendar cd) {

@@ -4,11 +4,16 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 import com.lzy.okhttputils.OkHttpUtils;
@@ -48,6 +53,14 @@ import okhttp3.Response;
  * 其他支付页面
  */
 public class AnotherPayFragment extends CommonFragment {
+    @Bind(R.id.ll_custom_pay)
+    RelativeLayout llCustomPay;
+    @Bind(R.id.cancel)
+    Button cancel;
+    @Bind(R.id.sure)
+            Button sure;
+    @Bind(R.id.edit_text)
+            EditText editText;
     String QrCodeMessage;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,41 +69,45 @@ public class AnotherPayFragment extends CommonFragment {
         initView();
         return container;
     }
-
-    @OnClick({R.id.make_qrcode,R.id.custom_pay})
+String money;
+    @OnClick({R.id.make_qrcode,R.id.custom_pay,R.id.cancel,R.id.sure})
     public void onClick(final View v) {
         switch (v.getId()) {
+            case R.id.sure:
+                money = editText.getText().toString();
+                if (StringUtils.isBlank(money)){
+                    ToastUtil.showShortMessage(getContext(),"请先输入消费金额");
+                    break;
+                }
+                final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                builder.setTitle("确认消费金额");
+                builder.setMessage("本次消费"+money+"元");
+                builder.setPositiveButton("确认支付", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        customPay(v,money);
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+                break;
+            case R.id.cancel:
+                editText.clearComposingText();
+                llCustomPay.setVisibility(View.GONE);
+                break;
             case R.id.make_qrcode:
                 getQrCode(v);
                 break;
             case R.id.custom_pay:
-                final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-                    builder.setTitle("请输入消费金额");
-                    View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text,null);
-                    builder.setContentView(view);
-                    final EditText editText = (EditText) view.findViewById(R.id.edit_text);
-                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    builder.setPositiveButton("确认支付", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            String money = editText.getText().toString();
-                            if (StringUtils.isBlank(money)){
-                                ToastUtil.showShortMessage(getContext(),"请输入消费金额");
-                                return;
-                            }
-                            customPay(v,money);
-                        }
-                    });
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.create().show();
+                llCustomPay.setVisibility(View.VISIBLE);
                 break;
         }
     }

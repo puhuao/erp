@@ -1,14 +1,20 @@
 package com.managesystem.fragment.pps;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.adapter.PPSCommentAdapter;
@@ -28,6 +34,7 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
+import com.wksc.framwork.widget.CircleImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,6 +76,10 @@ public class PPSDetailFragment extends BaseNestListRefreshFragment<PPSComment> {
     TextView react;
     @Bind(R.id.delete)
     TextView delete;
+    @Bind(R.id.ll_edit_comment)
+    View llEditComment;
+    @Bind(R.id.cirimg_user)
+    CircleImageView header;
 
     private String reactContent;
     PPSModel ppsModel;
@@ -82,6 +93,7 @@ public class PPSDetailFragment extends BaseNestListRefreshFragment<PPSComment> {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         userId = config.getString("userId", "");
         EventBus.getDefault().register(this);
+        getContext().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -121,9 +133,31 @@ public class PPSDetailFragment extends BaseNestListRefreshFragment<PPSComment> {
         ppsModel = (PPSModel) getmDataIn();
         ppsCommentAdapter = new PPSCommentAdapter(getContext());
         setData(ppsComments, ppsCommentAdapter);
-
+        comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llEditComment.setVisibility(View.VISIBLE);
+            }
+        });
         detail();
         setHeaderTitle(ppsModel.getTitle());
+        String pic = null;
+        if (!StringUtils.isBlank(ppsModel.getHeadPic())){
+            pic = Urls.GETPICS+ppsModel.getHeadPic();
+        }
+        Glide.with(getContext()).load(pic)
+                .asBitmap().centerCrop()
+                .error(R.drawable.ic_header_defalt)
+                .placeholder(R.drawable.ic_header_defalt)
+                .into(new BitmapImageViewTarget(header) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getContext().getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                       header.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
     }
 
     private void praise() {
@@ -170,6 +204,7 @@ public class PPSDetailFragment extends BaseNestListRefreshFragment<PPSComment> {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 ToastUtil.showShortMessage(getContext(), "回帖成功");
+                hideSoftInput(etReact);
                 handler.sendEmptyMessage(0);
             }
         };

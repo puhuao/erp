@@ -1,5 +1,6 @@
 package com.managesystem.fragment.maintain;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,11 +11,14 @@ import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.MainTainListActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.GoToComment;
 import com.managesystem.event.MeetingTypeSelectEvent;
 import com.managesystem.model.MeetingType;
 import com.managesystem.tools.UrlUtils;
+import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -103,7 +107,7 @@ Bundle bundle;
         }else{
             llEquipment.setVisibility(View.GONE);
         }
-
+        check();
     }
 
     @OnClick({R.id.type, R.id.fab})
@@ -187,6 +191,52 @@ Bundle bundle;
                 .execute(callback);
     }
 
+    private void check() {
+        StringBuilder sb = new StringBuilder(Urls.CHECK_NOT_COMMENT);
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        UrlUtils.getInstance(sb).praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("type", "2")//工单未评价
+                .removeLastWord();
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(), "网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    if (o.equals("true")) {
+                        final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                        builder.setTitle("消息提示");
+                        builder.setMessage("你还有未评价的工单，请完成评价后，再提交申请！");
+                        builder.setPositiveButton("去评价", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                startActivity(MainTainListActivity.class);
+                            }
+                        });
+                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                getContext().popTopFragment(null);
+                            }
+                        });
+                        builder.create().show();
+                    }
+                }
+            }
+        };
+        callback.setDialogHide();
+        OkHttpUtils.get(sb.toString())//
+                .tag(this)//
+                .execute(callback);
+    }
 
 
 }

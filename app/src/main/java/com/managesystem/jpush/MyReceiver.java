@@ -8,8 +8,11 @@ import android.util.Log;
 
 import com.managesystem.activity.MainActivity;
 import com.managesystem.activity.MeetingMsgDetailActivity;
+import com.managesystem.event.UpdateMsgListEvent;
 import com.managesystem.model.Message;
 import com.wksc.framwork.util.GsonUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -33,6 +36,7 @@ public class MyReceiver extends BroadcastReceiver {
 			// 自定义消息不会展示在通知栏，完全要开发者写代码去处理
 		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
 			System.out.println("收到了通知。消息内容是：" + bundle.getString("cn.jpush.android.ALERT"));
+			EventBus.getDefault().post(new UpdateMsgListEvent());
 		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 			System.out.println("用户点击打开了通知" + bundle.getString("cn.jpush.android.ALERT"));
 			Message message = GsonUtil.fromJson(bundle.getString("cn.jpush.android.ALERT"),Message.class);

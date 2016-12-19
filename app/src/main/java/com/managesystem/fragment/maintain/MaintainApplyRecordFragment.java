@@ -9,11 +9,15 @@ import android.widget.AdapterView;
 import com.managesystem.R;
 import com.managesystem.adapter.MaintainApplyRecordAdapter;
 import com.managesystem.config.Urls;
+import com.managesystem.event.OnMainTainUpdata;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.Maintain;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -26,6 +30,12 @@ import butterknife.ButterKnife;
 public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintain> {
     MaintainApplyRecordAdapter adapter;
     ArrayList<Maintain> records = new ArrayList<>();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,5 +68,17 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
                 .praseToUrl("pageSize","20")
                 .removeLastWord();
         excute(sb.toString(),Maintain.class);
+    }
+
+    @Subscribe
+    public void onEvent(OnMainTainUpdata e){
+        pageNo = 1;
+        loadMore(1);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

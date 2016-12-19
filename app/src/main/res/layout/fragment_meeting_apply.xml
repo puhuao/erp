@@ -80,7 +80,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="8"
                     android:background="@null"
-                    android:drawableRight="@drawable/ic_right"
+                    android:drawableRight="@drawable/ic_right_small"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:padding="5dp"
@@ -187,7 +187,6 @@
                     android:layout_weight="2.5"
                     android:gravity="left|top"
                     android:includeFontPadding="true"
-                    android:paddingTop="5dp"
                     android:text="@string/meeting_description"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_16" />

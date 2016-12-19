@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.lzy.okhttputils.OkHttpUtils;
@@ -44,6 +45,8 @@ public class LoginFragment extends CommonFragment {
     EditText userName;
     @Bind(R.id.et_password)
     EditText passWord;
+    @Bind(R.id.checkbox)
+    CheckBox checkBox;
     private IConfig config;
     private String username;
     private String password;
@@ -57,32 +60,41 @@ public class LoginFragment extends CommonFragment {
         ButterKnife.bind(this, view);
         config = BaseApplication.getInstance().getCurrentConfig();
         username = config.getString("username", "");
-        password = config.getString("password","");
+        password = config.getString("password", "");
         isSilence = config.getBoolean("silence", false);
-        if (isSilence){
+        if (isSilence) {
             JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 24, 59);
         } else {
-            JPushInterface.setSilenceTime(CustomApplication.getContext(),0,0,0,0);
+            JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 0, 0);
         }
         userName.setText(username);
-        passWord.setText(password);
-        isAotuLogin = config.getBoolean("isLogin",false);
-        if (isAotuLogin){
+
+
+        if (config.getBoolean("remember", false)) {
+            checkBox.setChecked(true);
+            passWord.setText(password);
+            if (config.getBoolean("isLogin", false)){
+                isAotuLogin = true;
+            }
+        }
+        if (isAotuLogin) {
             doLogin();
         }
+
         return view;
     }
-    @OnClick({R.id.fab,R.id.register_new_user,R.id.tv_forgot_password})
+
+    @OnClick({R.id.fab, R.id.register_new_user, R.id.tv_forgot_password})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
                 doLogin();
                 break;
             case R.id.register_new_user:
-                getContext().pushFragmentToBackStack(RegisterFragment.class,null);
+                getContext().pushFragmentToBackStack(RegisterFragment.class, null);
                 break;
             case R.id.tv_forgot_password:
-                getContext().pushFragmentToBackStack(ForgetPasswordFragment.class,null);
+                getContext().pushFragmentToBackStack(ForgetPasswordFragment.class, null);
                 break;
 
         }
@@ -104,39 +116,42 @@ public class LoginFragment extends CommonFragment {
         StringBuilder sb = new StringBuilder(Urls.LOGIN);
         UrlUtils.getInstance(sb).praseToUrl("phone", username).praseToUrl("password", MD5Utils.encode(password))
                 .removeLastWord();
-        DialogCallback callback = new DialogCallback<PersonalInfo>(getContext(), PersonalInfo.class) {
+        final DialogCallback callback = new DialogCallback<PersonalInfo>(getContext(), PersonalInfo.class) {
 
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, PersonalInfo o, Request request, @Nullable Response response) {
-                if (o!=null){
+                if (o != null) {
                     config.setString("username", username);
-                    config.setString("userId",o.getUserId());
+                    config.setString("userId", o.getUserId());
                     config.setString("password", password);
-                    config.setString("roleName",o.getRoleName());
-                    config.setString("name",o.getName());
-                    config.setString("stationName",o.getStationName());
-                    config.setString("department",o.getDepartmentName());
-                    config.setString("cphone",o.getCphone());
-                    config.setString("headerIcon",Urls.GETPICS+o.getHeadPic());
-                    config.setBoolean("isLogin",true);
-                    config.setString("sign",o.getSign());
-                    config.setString("phone",o.getPhone());
-                    if (o.getIspublish()==1){
-                        config.setBoolean("ispublish",true);
-                    }else{
-                        config.setBoolean("ispublish",false);
+                    config.setString("roleName", o.getRoleName());
+                    config.setString("name", o.getName());
+                    config.setString("stationName", o.getStationName());
+                    config.setString("department", o.getDepartmentName());
+                    config.setString("cphone", o.getCphone());
+                    config.setString("headerIcon", Urls.GETPICS + o.getHeadPic());
+                    config.setBoolean("isLogin", true);
+                    config.setString("sign", o.getSign());
+                    config.setString("phone", o.getPhone());
+                    config.setString("status",o.getStatus());
+                    if (o.getIspublish() == 1) {
+                        config.setBoolean("ispublish", true);
+                    } else {
+                        config.setBoolean("ispublish", false);
                     }
-
+                    if (checkBox.isChecked()) {
+                        config.setBoolean("remember", true);
+                    }
                     JPushInterface.setAlias(getContext(), o.getUserId(), new TagAliasCallback() {
                         @Override
                         public void gotResult(int i, String s, Set<String> set) {
-                            Log.i("TAG","jpush:设置别名成功");
+                            Log.i("TAG", "jpush:设置别名成功");
                         }
                     });
 

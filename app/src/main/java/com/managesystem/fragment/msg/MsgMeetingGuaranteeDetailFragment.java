@@ -51,6 +51,10 @@ public class MsgMeetingGuaranteeDetailFragment extends CommonFragment {
         setHeaderTitle("会议保障通知");
         content.setText(message.content);
         fab.setText("确认");
+        if (message.status==1){
+            fab.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
+            fab.setEnabled(false);
+        }
 //        if (message.status == 0){
 //            CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
 //            builder.setMessage("请确认工单");
@@ -100,6 +104,13 @@ public class MsgMeetingGuaranteeDetailFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
                     ToastUtil.showShortMessage(getContext(), "确认成功");
+                    fab.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getContext().finish();
+                        }
+                    },1000);
+
                 }
             }
         };

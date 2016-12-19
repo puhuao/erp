@@ -48,6 +48,8 @@ public class MsgFragment extends CommonFragment {
 
     private void initView() {
         enableDefaultBack(false);
+        getTitleHeaderBar().setRightText("一键阅读");
+        getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         setHeaderTitle(getStringFromResource(R.string.msg));
         mTitleList.add(getStringFromResource(R.string.msg_read_not));
         mTitleList.add(getStringFromResource(R.string.msg_read));
@@ -59,6 +61,12 @@ public class MsgFragment extends CommonFragment {
         viewpager.setAdapter(adapter);
         tabCursor.setupWithViewPager(viewpager);
         viewpager.setCurrentItem(0);
+        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                msgNotReadFragment.markAllRead();
+            }
+        });
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -68,10 +76,12 @@ public class MsgFragment extends CommonFragment {
             @Override
             public void onPageSelected(int position) {
                 if (position==0){
+                    getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
                     if (msgNotReadFragment.isFirstLoad){
                         msgNotReadFragment.handler.sendEmptyMessage(0);
                     }
                 }else if(position == 1){
+                    getTitleHeaderBar().getRightViewContainer().setVisibility(View.GONE);
                     if (msgReadFragment.isFirstLoad){
                         msgReadFragment.handler.sendEmptyMessage(0);
                     }

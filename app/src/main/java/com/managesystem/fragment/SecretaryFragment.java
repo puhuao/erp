@@ -1,5 +1,6 @@
 package com.managesystem.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +29,10 @@ import com.managesystem.activity.SettingActivity;
 import com.managesystem.activity.WorkListsActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.OnPhoneStateChangeEvent;
+import com.managesystem.model.PersonalInfo;
 import com.managesystem.tools.UrlUtils;
+import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.zxing.QRResourceSendEvent;
@@ -73,6 +78,7 @@ public class SecretaryFragment extends CommonFragment {
     private IConfig config;
     private String roleName;
     private String userId;
+    private String sign;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,6 +105,15 @@ public class SecretaryFragment extends CommonFragment {
         }else{
             workList.setVisibility(View.GONE);
         }
+
+        bindPhone();
+
+        userName.setText(config.getString("name", ""));
+        departmentName.setText(config.getString("department", "")+"/"+config.getString("stationName", ""));
+        stationName.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" : config.getString("sign", ""));
+    }
+
+    private void bindPhone() {
         String phone = config.getString("phone","");
 
         if (!config.getBoolean("ispublish",false)){
@@ -117,26 +132,53 @@ public class SecretaryFragment extends CommonFragment {
         }else{
             phoneNumber.setText(phone);
         }
-        userName.setText(config.getString("name", ""));
-        departmentName.setText(config.getString("department", "")+"/"+config.getString("stationName", ""));
-        stationName.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" : config.getString("sign", ""));
         Glide.with(getContext()).load(config.getString("headerIcon", ""))
                 .asBitmap().centerCrop().
                 into(new BitmapImageViewTarget(header) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                RoundedBitmapDrawable circularBitmapDrawable =
-                        RoundedBitmapDrawableFactory.create(getResources(), resource);
-                circularBitmapDrawable.setCircular(true);
-                header.setImageDrawable(circularBitmapDrawable);
-            }
-        });
-
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        header.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
     }
+
     @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list
-    ,R.id.ll_setting,R.id.ll_wallet,R.id.ll_meeting_notice,R.id.ll_personal_info,R.id.ll_door})
+    ,R.id.ll_setting,R.id.ll_wallet,R.id.ll_meeting_notice,R.id.ll_personal_info,R.id.ll_door
+    ,R.id.sign_ll})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.sign_ll:
+                final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                final View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text, null);
+                builder.setContentView(view);
+                builder.setTitle("请输入签名");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        EditText editText = ((EditText) view.findViewById(R.id.edit_text));
+                        editText.setMaxEms(20);
+                        sign =editText .getText().toString();
+                        if (StringUtils.isBlank(sign)) {
+                            ToastUtil.showShortMessage(getContext(), "请输入签名");
+                            return;
+                        }
+                        modify();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+                break;
             case R.id.ll_door:
                 startActivity(ExpectingActivity.class);
                 break;
@@ -231,10 +273,44 @@ public class SecretaryFragment extends CommonFragment {
                 .execute(callback);
     }
 
+    @Subscribe
+    public void onEvent(OnPhoneStateChangeEvent event){
+        bindPhone();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void modify() {
+        StringBuilder sb = new StringBuilder(Urls.SAVE_USER);
+        String s = UrlUtils.getInstance(sb)
+                .praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("sign", sign).praseToUrl("type", "2")
+                .removeLastWord();
+        DialogCallback callback = new DialogCallback<PersonalInfo>(getContext(), PersonalInfo.class) {
+
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(), "网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, PersonalInfo o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    ToastUtil.showShortMessage(getContext(), "修改成功");
+                    config.setString("sign", o.getSign());
+                    stationName.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" : config.getString("sign", ""));
+                }
+            }
+        };
+        callback.setDialogHide();
+        OkHttpUtils.post(s)//
+                .tag(this)//
+                .execute(callback);
     }
 
 }

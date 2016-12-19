@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -88,6 +89,12 @@ public class WorkListDetailFragment extends CommonFragment {
     private MeetingSelectCondition meetingSelectCondition;
     private Boolean isImportant = false;
     IConfig config;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getContext().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -278,8 +285,10 @@ public class WorkListDetailFragment extends CommonFragment {
                         String list = jsonObject.getString("list");
                         ArrayList<WorkList> applyRecords = new ArrayList<>();
                         applyRecords.addAll(GsonUtil.fromJsonList(list, WorkList.class));
-                        workList = applyRecords.get(0);
-                        bundeDataToView();
+                        if (applyRecords.size()>0){
+                            workList = applyRecords.get(0);
+                            bundeDataToView();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();

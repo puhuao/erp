@@ -161,6 +161,7 @@ public class ResourceApplyFragment extends CommonFragment {
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);
@@ -189,6 +190,7 @@ public class ResourceApplyFragment extends CommonFragment {
                 }
             }
         };
+        callback.setDialogHide();
         OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);

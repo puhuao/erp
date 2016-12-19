@@ -29,7 +29,7 @@
     <string name="hint_text_department">请选择部门(必选)</string>
     <string name="hint_input_door_number">请输入办公室门牌号</string>
     <string name="hint_input_telephone_number">请输入座机号</string>
-    <string name="hint_input_area">请输入区域(必填)</string>
+    <string name="hint_input_area">请选择区域(必填)</string>
     <string name="hint_input_floor_number">请输入楼层(必填)</string>
     <string name="error_valid_code_increct">验证码错误</string>
 

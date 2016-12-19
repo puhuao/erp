@@ -37,10 +37,10 @@ public class GoodNewsAdapter extends BaseListAdapter<GoodNews> {
         GoodNews goodNew = mList.get(position);
         holder.name.setText(goodNew.getTitle());
         holder.description.setText(goodNew.getInfor());
-        if (goodNew.isIsApply()){
-            holder.image.setVisibility(View.GONE);
-        }else{
+        if (goodNew.isIsNew()){
             holder.image.setVisibility(View.VISIBLE);
+        }else{
+            holder.image.setVisibility(View.GONE);
         }
         return convertView;
     }

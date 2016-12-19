@@ -40,7 +40,7 @@ public class FragmentDepartmentList extends CommonFragment {
     SideBar sideBar;
     @Bind(R.id.dialog)
     TextView dialog;
-    private SortAdapter adapter;
+    private DepartmentSortAdapter adapter;
     private List<Department> departments = new ArrayList<>();
     private CharacterParser characterParser;
 
@@ -97,9 +97,9 @@ public class FragmentDepartmentList extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                     departments.addAll(GsonUtil.fromJsonList(o, Department.class));
-                    List<Department> list = filledData(departments);
-                    Collections.sort(list, pinyinComparator);
-                    adapter = new SortAdapter(getContext(), list);
+                    departments = filledData(departments);
+                    Collections.sort(departments, pinyinComparator);
+                    adapter = new DepartmentSortAdapter(getContext(), departments);
                     sortListView.setAdapter(adapter);
                 }
             }

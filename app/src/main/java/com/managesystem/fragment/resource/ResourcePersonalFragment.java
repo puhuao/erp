@@ -97,7 +97,8 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
 
     private void createQrCode(View v,int type) {//创建交接二维码
         String ms = getStringParam();
-        if (ms ==null){
+        if (ms.length()==0){
+            ToastUtil.showShortMessage(getContext(),"没有可交接的物资");
             return;
         }
         QrResourceModel qrResourceModel = new QrResourceModel();

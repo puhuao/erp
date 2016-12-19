@@ -12,10 +12,12 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.AreaSelectEvent;
 import com.managesystem.event.DepartmentSelectEvent;
 import com.managesystem.model.Department;
 import com.managesystem.model.PersonalInfo;
 import com.managesystem.model.RegisterInfo;
+import com.managesystem.popupwindow.AreaSelectPopupwindow;
 import com.managesystem.popupwindow.DepartmentSelectPopupwindow;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -25,6 +27,8 @@ import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +52,14 @@ public class FinishPersonalInformationFragment extends CommonFragment {
     EditText editTextDoorNumber;
     @Bind(R.id.et_telephone_number)
     EditText editTextTelephoneNumber;
-    @Bind(R.id.et_area)
-    EditText editTextArea;
+    @Bind(R.id.tv_area)
+    TextView tvArea;
     @Bind(R.id.et_floor_number)
     EditText editTextFloorNumber;
     RegisterInfo registerInfo;
     private Department selectedDepartment;
     private List<Department> departments;
+    private List<String> areas;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,7 @@ public class FinishPersonalInformationFragment extends CommonFragment {
 
     private void initView() {
         departments = new ArrayList<>();
+        areas = new ArrayList<>();
         registerInfo = new RegisterInfo();
         Bundle bundle = (Bundle) getmDataIn();
         registerInfo.setPhone(bundle.getString("phoneNumber"));
@@ -104,7 +110,7 @@ public class FinishPersonalInformationFragment extends CommonFragment {
                 .execute(callback);
     }
 
-    @OnClick({R.id.fab,R.id.tv_department})
+    @OnClick({R.id.fab,R.id.tv_department,R.id.tv_area})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
@@ -118,17 +124,18 @@ public class FinishPersonalInformationFragment extends CommonFragment {
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_text_department));
                     break;
                 }
-                registerInfo.setArea(editTextArea.getText().toString());
+                registerInfo.setArea(tvArea.getText().toString());
                 if (StringUtils.isBlank(registerInfo.getArea())){
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_input_area));
                     break;
                 }
-                registerInfo.setFloor(editTextFloorNumber.getText().toString());
-                if (StringUtils.isBlank(registerInfo.getFloor())){
-                    ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_input_floor_number));
-                    break;
-                }
-                registerInfo.setFloor(editTextTelephoneNumber.getText().toString());
+
+//                registerInfo.setFloor(editTextFloorNumber.getText().toString());
+//                if (StringUtils.isBlank(registerInfo.getFloor())){
+//                    ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_input_floor_number));
+//                    break;
+//                }
+//                registerInfo.setFloor(editTextTelephoneNumber.getText().toString());
                 register();
                 break;
             case R.id.tv_department:
@@ -139,6 +146,14 @@ public class FinishPersonalInformationFragment extends CommonFragment {
                     getDepartMents();
                 }
                 break;
+            case R.id.tv_area:
+                if (areas.size()>0){
+                    AreaSelectPopupwindow popupwindow = new AreaSelectPopupwindow(getContext(),areas);
+                    popupwindow.showPopupwindow(tvArea);
+                }else{
+                    getAreas();
+                }
+                break;
         }
     }
 
@@ -146,6 +161,13 @@ public class FinishPersonalInformationFragment extends CommonFragment {
     public void onEvent(DepartmentSelectEvent event){
         selectedDepartment = event.getDepartment();
         textViewDepartment.setText(event.getDepartment().getDepartmentName());
+    }
+    String selectArea;
+    @Subscribe
+    public void onEvent(AreaSelectEvent event){
+        selectArea = event.getArea();
+        tvArea.setText(event.getArea());
+
     }
 
     private void register(){
@@ -169,7 +191,7 @@ public class FinishPersonalInformationFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, PersonalInfo personalInfo, Request request, @Nullable Response response) {
                 if (personalInfo!=null){
                     ToastUtil.showShortMessage(getContext(),"注册成功，等待后台验证");
-                    getContext().popToRoot(null);
+                    getContext().popTopFragment(null);
                 }
             }
         };
@@ -183,4 +205,39 @@ public class FinishPersonalInformationFragment extends CommonFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+
+    private void getAreas(){
+        StringBuilder sb = new StringBuilder(Urls.GETAREA);
+        UrlUtils.getInstance(sb);
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(),"网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o!=null){
+                    try {
+                        JSONArray jsonArray = new JSONArray(o);
+                        for (int i =0 ;i <jsonArray.length();i++){
+
+                            String s = (String) jsonArray.get(i);
+                            areas.add(s);
+                        }
+                        AreaSelectPopupwindow popupwindow = new AreaSelectPopupwindow(getContext(),areas);
+                        popupwindow.showPopupwindow(tvArea);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
+    }
+
 }

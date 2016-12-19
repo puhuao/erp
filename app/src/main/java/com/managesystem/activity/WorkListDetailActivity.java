@@ -2,6 +2,7 @@ package com.managesystem.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.WindowManager;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
@@ -36,6 +37,7 @@ public class WorkListDetailActivity extends CommonActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main_container);
         int type=  getIntent().getExtras().getInt("type");
         WorkList workList = (WorkList) getIntent().getExtras().getSerializable("obj");
@@ -76,8 +78,13 @@ public class WorkListDetailActivity extends CommonActivity {
                         String list = jsonObject.getString("list");
                         List<MeetingApplyRecord> applyRecords = new ArrayList<>();
                         applyRecords.addAll(GsonUtil.fromJsonList(list,MeetingApplyRecord.class));
-                        MeetingApplyRecord  meetingApplyRecord = applyRecords.get(0);
-                        pushFragmentToBackStack(MeetingGuaranteeWorkFragment.class,meetingApplyRecord);
+                        if (applyRecords.size()>0){
+                            MeetingApplyRecord  meetingApplyRecord = applyRecords.get(0);
+                            pushFragmentToBackStack(MeetingGuaranteeWorkFragment.class,meetingApplyRecord);
+                        }else{
+                            ToastUtil.showShortMessage(WorkListDetailActivity.this,"网络错误");
+                            finish();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

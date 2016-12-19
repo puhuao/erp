@@ -88,6 +88,19 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
                 }
             }
         });
+        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //check_all
+                resourcePersonAdapter.setIsFromCheckAll(true);
+                for (ResourcePersonModel r :
+                        resourcePersonModels) {
+                    r.isCheck = !r.isCheck;
+                }
+                resourcePersonAdapter.notifyDataSetChanged();
+                resourcePersonAdapter.setIsFromCheckAll(false);
+            }
+        });
     }
     private StringBuilder ids = new StringBuilder();//id
     private StringBuilder serialNumbers = new StringBuilder();//序列号

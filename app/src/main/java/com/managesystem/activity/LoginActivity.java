@@ -5,12 +5,16 @@ import android.os.Bundle;
 
 import com.managesystem.R;
 import com.managesystem.fragment.loginAndRegister.LoginFragment;
+import com.managesystem.fragment.loginAndRegister.StartFragment;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.CommonActivity;
 import com.wksc.framwork.platform.config.IConfig;
 
 public class LoginActivity extends CommonActivity {
 
     IConfig config;
+    private boolean isAotuLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +30,19 @@ public class LoginActivity extends CommonActivity {
             }
         }
         setContentView(R.layout.activity_main_container);
-        pushFragmentToBackStack(LoginFragment.class, null);
+        config = BaseApplication.getInstance().getCurrentConfig();
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            Boolean isFromSetting = bundle.getBoolean("isFromSetting",false);
+            if (isFromSetting){
+                pushFragmentToBackStack(LoginFragment.class, null);
+                return;
+            }
+        }
+//        pushFragmentToBackStack(LoginFragment.class, null);
+        isAotuLogin = config.getBoolean("isLogin",false);
+        pushFragmentToBackStack(StartFragment.class, null);
+
     }
 
     @Override

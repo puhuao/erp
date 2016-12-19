@@ -2,6 +2,7 @@ package com.managesystem.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.WindowManager;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
@@ -35,6 +36,7 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main_container);
         message = (Message) getIntent().getSerializableExtra("obj");
         if (!StringUtils.isBlank(message.type)){

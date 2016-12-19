@@ -1,6 +1,7 @@
 package com.managesystem.activity;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.managesystem.R;
 import com.managesystem.fragment.goodnews.GoodNewsFragment;
@@ -14,6 +15,7 @@ public class MainTainApplyActivity extends CommonActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main_container);
         pushFragmentToBackStack(MainTainApplyFragment.class, getIntent().getExtras());
     }

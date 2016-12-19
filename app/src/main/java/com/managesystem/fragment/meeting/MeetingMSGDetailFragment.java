@@ -48,6 +48,10 @@ public class MeetingMSGDetailFragment extends CommonFragment {
     private void initView() {
         setHeaderTitle("会议消息通知");
         content.setText(message.content);
+        if (message.status==1){
+            fab.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
+            fab.setEnabled(false);
+        }
     }
 
     @OnClick({R.id.fab,})
@@ -73,6 +77,12 @@ public class MeetingMSGDetailFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
                         ToastUtil.showShortMessage(getContext(),"会议报名成功");
+                    fab.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getContext().finish();
+                        }
+                    },1000);
                 }
             }
         };

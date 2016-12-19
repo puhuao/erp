@@ -107,6 +107,14 @@
                 android:layout_height="1dp"
                 android:background="@color/devider"/>
         </LinearLayout>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox"
+            android:text="记住密码"
+            android:layout_gravity="fill"
+            android:layout_margin="@dimen/dimen_12"/>
+
         <Button
             android:id="@+id/fab"
             android:layout_width="match_parent"

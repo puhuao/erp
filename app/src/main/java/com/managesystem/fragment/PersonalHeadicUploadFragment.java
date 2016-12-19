@@ -71,6 +71,12 @@ public class PersonalHeadicUploadFragment extends CommonFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
+                if (gridImageAdapter.sb.length()>0){
+                    gridImageAdapter.sb.deleteCharAt(gridImageAdapter.sb.length()-1);
+                }else{
+                    ToastUtil.showShortMessage(getContext(),"请先上传图片");
+                    break;
+                }
                 modify(gridImageAdapter.sb.toString());
                 break;
             case R.id.img_select:

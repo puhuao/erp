@@ -24,12 +24,13 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <com.managesystem.widegt.sortView.SideBar
             android:id="@+id/sidrbar"
             android:layout_width="@dimen/dimen_32"
             android:layout_height="match_parent"
-            android:layout_gravity="right|center" />
+            android:layout_gravity="right|center"
+            android:visibility="gone"/>
     </FrameLayout>
 </LinearLayout>

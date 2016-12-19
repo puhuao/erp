@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.managesystem.R;
+import com.managesystem.model.RemoteVersion;
 import com.managesystem.tools.LogUtil;
 import com.wksc.framwork.util.ToastUtil;
 
@@ -125,7 +126,7 @@ public class UpdateManager {
 
 	public int curVersionCode;
 
-	private UpdateInfo mUpdate;
+	private RemoteVersion.NewVersionBean mUpdate;
 
 	private Boolean isInterceptable;
 
@@ -277,7 +278,7 @@ public class UpdateManager {
 		}
 	}
 
-	public void setUpdateInfo(UpdateInfo info){
+	public void setUpdateInfo(RemoteVersion.NewVersionBean info){
 		this.mUpdate = info;
 	}
 
@@ -287,7 +288,7 @@ public class UpdateManager {
 	public void showNoticeDialog() {
 		final Builder builder = new Builder(mContext);
 		builder.setTitle("软件版本更新");
-		builder.setMessage(mUpdate.desc);
+		builder.setMessage(mUpdate.getVersionName());
 		builder.setPositiveButton("立即更新", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -427,13 +428,13 @@ public class UpdateManager {
 		@Override
 		public void run() {
 			try {
-				String apkName = "Counting_" + mUpdate.version + ".apk";
-				String tmpApk = "Counting_" + mUpdate.version + ".tmp";
+				String apkName = "ERP_" + mUpdate.getVersionCode() + ".apk";
+				String tmpApk = "ERP_" + mUpdate.getVersionCode() + ".tmp";
 				// 判断是否挂载了SD卡
 				String storageState = Environment.getExternalStorageState();
 				if (storageState.equals(Environment.MEDIA_MOUNTED)) {
 					savePath = Environment.getExternalStorageDirectory()
-							.getAbsolutePath() + File.separator+"counting"+File.separator
+							.getAbsolutePath() + File.separator+"erp"+File.separator
 					+ "com/managesystem/update" +File.separator;
 					File file = new File(savePath);
 					if (!file.exists()) {
@@ -465,7 +466,7 @@ public class UpdateManager {
 				if (!tmpFile.exists())
 					tmpFile.createNewFile();
 				FileOutputStream fos = new FileOutputStream(tmpFile);
-				apkUrl = mUpdate.url;
+				apkUrl = mUpdate.getDownloadUrl();
 				URL url = new URL(apkUrl);
 				HttpURLConnection conn = (HttpURLConnection) url
 						.openConnection();

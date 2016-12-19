@@ -2,13 +2,18 @@ package com.managesystem.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.activity.ImageActivity;
@@ -20,7 +25,9 @@ import com.managesystem.widegt.EmojiTextView;
 import com.managesystem.widegt.multiImageView.MultiImageView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
+import com.wksc.framwork.widget.CircleImageView;
 
 import java.util.ArrayList;
 
@@ -80,7 +87,23 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
             }
             holder.multiImageView.setList(imgs);
         }
-
+        String pic = null;
+        if (!StringUtils.isBlank(ppsModel.getHeadPic())){
+            pic = Urls.GETPICS+ppsModel.getHeadPic();
+        }
+        Glide.with(mContext).load(pic)
+                .asBitmap().centerCrop()
+                .error(R.drawable.ic_header_defalt)
+                .placeholder(R.drawable.ic_header_defalt).
+                into(new BitmapImageViewTarget(holder.header) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        holder.header.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
         holder.check.setText(String.valueOf(ppsModel.getScanCount()));
         holder.multiImageView.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
             @Override
@@ -147,7 +170,8 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
         TextView comment;
         @Bind(R.id.check)
         TextView check;
-
+        @Bind(R.id.cirimg_user)
+        CircleImageView header;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this, convertView);
         }

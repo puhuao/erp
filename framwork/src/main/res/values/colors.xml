@@ -73,5 +73,8 @@
     <color name="pop_black">#888888</color>
     <color name="title_bar_right">#61c3f9</color>
 
+    <color name="half_white">#3fffffff</color>
+    <color name="dialog_button">#338ff5</color>
+
 
 </resources>

@@ -69,7 +69,7 @@ public class PhonenumberSortAdapter extends BaseAdapter implements SectionIndexe
 		}else{
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
-		viewHolder.tvTitle.setText(this.list.get(position).getDepartmentName());
+		viewHolder.tvTitle.setText(this.list.get(position).getName());
 		viewHolder.imageView.setImageResource(ReturnImages.returnImage(mContent.getSortLetters()));
 		return view;
 

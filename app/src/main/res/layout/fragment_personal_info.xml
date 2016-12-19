@@ -154,12 +154,15 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:drawableRight="@drawable/ic_right_small"
             android:drawablePadding="@dimen/dimen_12"
             android:layout_toRightOf="@id/label"
             android:maxEms="20"
             android:ellipsize="end"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:layout_marginLeft="@dimen/dimen_6"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/ll_account_modify"

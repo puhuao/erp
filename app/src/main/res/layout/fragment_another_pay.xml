@@ -1,27 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <Button
         android:id="@+id/make_qrcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp"
+        android:background="@drawable/selector_btn_login"
         android:gravity="center"
         android:text="支付二维码"
-        android:textSize="16sp"
-        android:background="@drawable/selector_btn_login"
         android:textColor="@color/button_text_selector"
-        />
+        android:textSize="16sp" />
+
     <Button
         android:id="@+id/custom_pay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp"
+        android:background="@drawable/selector_btn_login"
         android:gravity="center"
         android:text="自定义支付"
-        android:textSize="16sp"
-        android:background="@drawable/selector_btn_login"
         android:textColor="@color/button_text_selector"
-        />
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/ll_custom_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@color/main_back_gray">
+
+        <EditText
+            android:id="@+id/edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:background="@color/white"
+            android:hint="请输入支付金额"
+            android:inputType="number"
+            android:maxEms="20"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:padding="@dimen/dimen_12"
+            android:textSize="@dimen/text_size_14" />
+
+        <Button
+            android:id="@+id/sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_text"
+            android:layout_margin="@dimen/dimen_12"
+            android:background="@drawable/selector_btn_login"
+            android:text="确认支付"
+            android:textColor="@color/button_text_selector"
+            android:textSize="16sp"
+            />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_btn_login"
+            android:text="取消"
+            android:textColor="@color/button_text_selector"
+            android:textSize="16sp"
+            android:layout_alignTop="@+id/sure"
+            android:layout_alignRight="@+id/edit_text"
+            android:layout_alignEnd="@+id/edit_text" />
+    </RelativeLayout>
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -81,6 +82,12 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
     private String comment;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getContext().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_meeting_guarantee_work, null);
         ButterKnife.bind(this, container);
@@ -119,7 +126,7 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             IConfig config = BaseApplication.getInstance().getCurrentConfig();
-                            updateDistribute(config.getString("userId", ""), "3", null, null);
+                            updateDistribute(config.getString("userId", ""), "2", null, null);
                         }
                     });
                     builder.setCanceldOnOutTouch(false);
@@ -145,12 +152,6 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
                         fab.setVisibility(View.VISIBLE);
                         fab.setText("完成");
                     }
-//                for (int i =0 ;i < meetingApplyRecord.getHandleUsers().size();i++){
-//                    if (userID.equals(meetingApplyRecord.getHandleUsers().get(i).getUserId())){
-//
-//                    }
-//                }
-
                 responsiblePhoneNumber.setText(meetingApplyRecord.getCphone());
                 break;
             case 3:
@@ -174,8 +175,13 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IConfig config = BaseApplication.getInstance().getCurrentConfig();
-                updateDistribute(config.getString("userId", ""), "3", null, null);
+                if (fab.getText().toString().equals("确认")){
+                    IConfig config = BaseApplication.getInstance().getCurrentConfig();
+                    updateDistribute(config.getString("userId", ""), "2", null, null);
+                }else{
+                    IConfig config = BaseApplication.getInstance().getCurrentConfig();
+                    updateDistribute(config.getString("userId", ""), "3", null, null);
+                }
             }
         });
     }
@@ -224,8 +230,14 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
-                    ToastUtil.showShortMessage(getContext(), "会议工单完成");
-                    fab.setVisibility(View.GONE);
+                    if (fab.getText().toString().equals("确认")){
+
+                        ToastUtil.showShortMessage(getContext(), "会议工单确认成功");
+                        fab.setVisibility(View.GONE);
+                    }else{
+                        ToastUtil.showShortMessage(getContext(), "会议工单完成");
+                        fab.setVisibility(View.GONE);
+                    }
                 }
             }
         };

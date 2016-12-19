@@ -17,6 +17,7 @@ import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 import com.wksc.framwork.zxing.qrcodeModel.QRresourceSend;
 import com.wksc.framwork.zxing.qrcodeModel.QrResourceModel;
@@ -64,6 +65,10 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
             @Override
             public void onClick(View v) {
                 String ms = getStringParam();
+                if (ms.length()==0){
+                    ToastUtil.showShortMessage(getContext(),"请选择交接的物资");
+                    return;
+                }
                 QrResourceModel qrResourceModel = new QrResourceModel();
                 qrResourceModel.setType("3");
                 QRresourceSend qRresourceSend = new QRresourceSend();
@@ -80,6 +85,19 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //check_all
+                resourcePersonAdapter.setIsFromCheckAll(true);
+                for (ResourcePersonModel r :
+                        resourcePersonModels) {
+                    r.isCheck = !r.isCheck;
+                }
+                resourcePersonAdapter.notifyDataSetChanged();
+                resourcePersonAdapter.setIsFromCheckAll(false);
             }
         });
     }

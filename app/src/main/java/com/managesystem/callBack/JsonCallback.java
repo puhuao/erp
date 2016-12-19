@@ -1,19 +1,27 @@
 package com.managesystem.callBack;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.managesystem.R;
 import com.managesystem.activity.LoginActivity;
 import com.managesystem.activity.MainActivity;
+import com.managesystem.event.GoToComment;
+import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.util.AppManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;

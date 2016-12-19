@@ -13,6 +13,7 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.fragment.maintain.MaintainApplyRecordFragment;
 import com.managesystem.fragment.meeting.MeetingDetailFragment;
 import com.managesystem.fragment.meeting.MeetingGuaranteeInformationFragment;
 import com.managesystem.model.MeetingApplyRecord;
@@ -48,6 +49,7 @@ public class MsgMeetingFinishFragment extends CommonFragment {
     @Bind(R.id.fab)
     Button fab;
     Message message;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_msg_detail, null);
@@ -61,49 +63,55 @@ public class MsgMeetingFinishFragment extends CommonFragment {
         setHeaderTitle("会议保障完成通知");
         content.setText(message.content);
         fab.setText("去评价");
+        if (message.status == 1) {
+            fab.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
+            fab.setEnabled(false);
+        }
     }
 
     @OnClick({R.id.fab,})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                getMeetings();
+//                getMeetings();
+                getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class, null);
                 break;
         }
     }
 
     private MeetingApplyRecord meetingApplyRecord;
     ArrayList<MeetingApplyRecord> applyRecords = new ArrayList<>();
-    private void getMeetings(){
+
+    private void getMeetings() {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.MEETING_LIST);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo","1")
-                .praseToUrl("userId",config.getString("userId", ""))
-                .praseToUrl("pageSize","20")
-                .praseToUrl("isQueryDetail","1")
-                .praseToUrl("meetingId",message.rid)
+        UrlUtils.getInstance(sb).praseToUrl("pageNo", "1")
+                .praseToUrl("userId", config.getString("userId", ""))
+                .praseToUrl("pageSize", "20")
+                .praseToUrl("isQueryDetail", "1")
+                .praseToUrl("meetingId", message.rid)
                 .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"网络错误");
+                ToastUtil.showShortMessage(getContext(), "网络错误");
             }
 
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o!=null){
+                if (o != null) {
                     try {
                         JSONObject jsonObject = new JSONObject(o);
                         String list = jsonObject.getString("list");
-                        applyRecords.addAll(GsonUtil.fromJsonList(list,MeetingApplyRecord.class));
-                        meetingApplyRecord = applyRecords.get(0);
-
+                        applyRecords.addAll(GsonUtil.fromJsonList(list, MeetingApplyRecord.class));
+                        if (applyRecords.size() > 0)
+                            meetingApplyRecord = applyRecords.get(0);
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable("key",meetingApplyRecord);
+                        bundle.putParcelable("key", meetingApplyRecord);
                         MeetingGuaranteeInformationFragment guaranteeInformationFragment = new MeetingGuaranteeInformationFragment();
                         guaranteeInformationFragment.setArguments(bundle);
-                        getContext().pushFragmentToBackStack(MeetingGuaranteeInformationFragment.class,meetingApplyRecord);
+                        getContext().pushFragmentToBackStack(MeetingGuaranteeInformationFragment.class, meetingApplyRecord);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

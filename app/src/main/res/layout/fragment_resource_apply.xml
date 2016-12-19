@@ -25,7 +25,7 @@
             android:layout_margin="@dimen/dimen_12"
             android:padding="@dimen/dimen_12"
             android:textColor="@color/text_color"
-            android:drawableRight="@drawable/ic_right"
+            android:drawableRight="@drawable/ic_right_small"
             android:gravity="right|center_vertical"
             android:drawablePadding="@dimen/dimen_12"/>
     </LinearLayout>
@@ -51,7 +51,7 @@
             android:layout_margin="@dimen/dimen_12"
             android:padding="@dimen/dimen_12"
             android:textColor="@color/text_color"
-            android:drawableRight="@drawable/ic_right"
+            android:drawableRight="@drawable/ic_right_small"
             android:gravity="right|center_vertical"
             android:drawablePadding="@dimen/dimen_12"/>
     </LinearLayout>
