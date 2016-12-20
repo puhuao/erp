@@ -83,6 +83,8 @@ public class PPSAdapter extends BaseListAdapter<PPSModel> {
 
             for (String s :
                     ppsModel.getPics()) {
+                String path = s;
+
                 imgs.add(Urls.GETPICS+s);
             }
             holder.multiImageView.setList(imgs);

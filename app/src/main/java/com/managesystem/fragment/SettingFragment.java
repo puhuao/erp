@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
@@ -20,6 +21,7 @@ import com.managesystem.fragment.modify.ModifySilenceFragment;
 import com.managesystem.model.RemoteVersion;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.update.UpdateManager;
+import com.managesystem.widegt.SwitchButton;
 import com.wksc.framwork.util.AppManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -39,10 +41,10 @@ import okhttp3.Response;
  * 设置页面
  */
 public class SettingFragment extends CommonFragment {
-    @Bind(R.id.setting)
-    TextView silence;
     @Bind(R.id.check_version)
     TextView checkVersion;
+    @Bind(R.id.phone_public)
+    SwitchButton switchButton;
     int currentVersionCode;
     private IConfig config;
     private boolean isSilence;
@@ -59,11 +61,7 @@ public class SettingFragment extends CommonFragment {
         setHeaderTitle("设置");
         config = BaseApplication.getInstance().getCurrentConfig();
         isSilence = config.getBoolean("silence", false);
-        if (isSilence) {
-            silence.setText("开启");
-        } else {
-            silence.setText("关闭");
-        }
+        switchButton.setChecked(isSilence?true:false);
         PackageManager manager = getActivity().getPackageManager();
         try {
 
@@ -74,9 +72,29 @@ public class SettingFragment extends CommonFragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    modify(1);
+                }else{
+                    modify(0);
+                }
+            }
+        });
+    }
+    private void modify(int pub) {
+        if (pub == 1) {
+            config.setBoolean("silence", true);
+            JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 24, 59);
+        } else {
+            config.setBoolean("silence", false);
+            JPushInterface.setSilenceTime(CustomApplication.getContext(),0,0,0,0);
+        }
     }
 
-    @OnClick({R.id.logout, R.id.check_version, R.id.setting})
+    @OnClick({R.id.logout, R.id.check_version})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.logout:
@@ -84,12 +102,7 @@ public class SettingFragment extends CommonFragment {
                 config.setBoolean("isLogin", false);
                 getContext().finish();
                 AppManager.getAppManager().finishActivity(MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("isFromSetting", true);
-                startActivity(LoginActivity.class, bundle);
-                break;
-            case R.id.setting:
-                getContext().pushFragmentToBackStack(ModifySilenceFragment.class, null);
+                startActivity(LoginActivity.class);
                 break;
             case R.id.check_version:
                 checkVersion(String.valueOf(currentVersionCode));

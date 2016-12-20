@@ -205,6 +205,7 @@ public class PPSDetailFragment extends BaseNestListRefreshFragment<PPSComment> {
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 ToastUtil.showShortMessage(getContext(), "回帖成功");
                 hideSoftInput(etReact);
+                etReact.setText("");
                 handler.sendEmptyMessage(0);
             }
         };

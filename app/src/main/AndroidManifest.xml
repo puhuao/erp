@@ -104,6 +104,8 @@
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activity.ExpectingActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Required SDK核心功能-->
         <activity

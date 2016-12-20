@@ -24,6 +24,7 @@ import com.managesystem.event.OnDepartmentModifyedEvent;
 import com.managesystem.event.OnPhoneStateChangeEvent;
 import com.managesystem.fragment.modify.ModifyAccountFragment;
 import com.managesystem.fragment.modify.ModifyAccountIsPublishFragment;
+import com.managesystem.fragment.modify.ModifyPasswordFragment;
 import com.managesystem.model.PersonalInfo;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.CustomDialog;
@@ -136,12 +137,15 @@ public class PersonalInfoFragment extends CommonFragment {
     }
 
     @OnClick({R.id.ll_head_pic, R.id.ll_name, R.id.ll_cPhone, R.id.ll_department
-            , R.id.ll_personal_sign, R.id.ll_account_modify,R.id.ll_is_phone_public})
+            , R.id.ll_personal_sign, R.id.ll_account_modify,R.id.ll_is_phone_public,R.id.ll_password_modify})
     public void onClick(final View v) {
         final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text, null);
         builder.setContentView(view);
         switch (v.getId()) {
+            case R.id.ll_password_modify:
+                getContext().pushFragmentToBackStack(ModifyPasswordFragment.class, null);
+                break;
             case R.id.ll_is_phone_public:
 //                getContext().pushFragmentToBackStack(ModifyAccountIsPublishFragment.class, null);
                 break;

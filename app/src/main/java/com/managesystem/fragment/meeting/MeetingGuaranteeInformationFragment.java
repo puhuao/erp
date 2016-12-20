@@ -14,6 +14,7 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.OnMeetingGuaranteeCommented;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.Users;
 import com.managesystem.tools.UrlUtils;
@@ -24,6 +25,7 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -226,6 +228,7 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
                         llEdit.setVisibility(View.GONE);
                         llText.setVisibility(View.VISIBLE);
                         tvComment.setText(comment);
+                    EventBus.getDefault().post(new OnMeetingGuaranteeCommented());
                 }
             }
         };

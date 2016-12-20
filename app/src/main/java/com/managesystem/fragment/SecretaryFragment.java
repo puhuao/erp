@@ -109,7 +109,7 @@ public class SecretaryFragment extends CommonFragment {
         bindPhone();
 
         userName.setText(config.getString("name", ""));
-        departmentName.setText(config.getString("department", "")+"/"+config.getString("stationName", ""));
+        departmentName.setText("部门:"+config.getString("department", "")+"  岗位:"+config.getString("stationName", ""));
         stationName.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" : config.getString("sign", ""));
     }
 
@@ -147,38 +147,38 @@ public class SecretaryFragment extends CommonFragment {
 
     @OnClick({R.id.layout_scan,R.id.ll_work_list,R.id.ll_maintain_list,R.id.ll_pps_list
     ,R.id.ll_setting,R.id.ll_wallet,R.id.ll_meeting_notice,R.id.ll_personal_info,R.id.ll_door
-    ,R.id.sign_ll})
+    })
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_ll:
-                final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-                final View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text, null);
-                builder.setContentView(view);
-                builder.setTitle("请输入签名");
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        EditText editText = ((EditText) view.findViewById(R.id.edit_text));
-                        editText.setMaxEms(20);
-                        sign =editText .getText().toString();
-                        if (StringUtils.isBlank(sign)) {
-                            ToastUtil.showShortMessage(getContext(), "请输入签名");
-                            return;
-                        }
-                        modify();
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
-                break;
+//            case R.id.sign_ll:
+//                final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+//                final View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text, null);
+//                builder.setContentView(view);
+//                builder.setTitle("请输入签名");
+//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        EditText editText = ((EditText) view.findViewById(R.id.edit_text));
+//                        editText.setMaxEms(20);
+//                        sign =editText .getText().toString();
+//                        if (StringUtils.isBlank(sign)) {
+//                            ToastUtil.showShortMessage(getContext(), "请输入签名");
+//                            return;
+//                        }
+//                        modify();
+//                    }
+//                });
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                builder.create().show();
+//                break;
             case R.id.ll_door:
                 startActivity(ExpectingActivity.class);
                 break;

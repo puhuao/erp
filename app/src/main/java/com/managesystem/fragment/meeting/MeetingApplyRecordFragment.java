@@ -71,4 +71,13 @@ public class MeetingApplyRecordFragment extends BaseListRefreshFragment<MeetingR
     }
 
 
+    public int getnotComment() {
+        int count = 0;
+        for (int i = 0 ;i <records.size();i++){
+            if (records.get(i).getStatus()==3){
+                count++;
+            }
+        }
+        return count;
+    }
 }

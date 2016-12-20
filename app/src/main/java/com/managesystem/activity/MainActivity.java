@@ -1,8 +1,11 @@
 package com.managesystem.activity;
 
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,12 +18,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.j256.ormlite.stmt.query.In;
+import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.callBack.DialogCallback;
+import com.managesystem.config.Urls;
 import com.managesystem.event.OnMSGNoticeEvent;
 import com.managesystem.fragment.MainFragment;
 import com.managesystem.fragment.MsgFragment;
 import com.managesystem.fragment.SecretaryFragment;
 import com.managesystem.fragment.TransferFragment;
+import com.managesystem.model.RemoteVersion;
+import com.managesystem.tools.UrlUtils;
+import com.managesystem.update.UpdateManager;
 import com.managesystem.widegt.CustomDialog;
 import com.managesystem.widegt.CustomViewPager;
 import com.wksc.framwork.BaseApplication;
@@ -39,6 +48,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by puhua on 2016/5/26.
@@ -109,9 +121,18 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
     }
     BadgeView badge;
+    private int currentVersionCode;
     private void initView(){
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        PackageManager manager = getPackageManager();
+        try {
+            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+            currentVersionCode = info.versionCode;
+            checkVersion(String.valueOf(currentVersionCode));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         badge = new BadgeView(this);
         fragments.add(homeFragment);
         fragments.add(transferFragment);
@@ -234,5 +255,37 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         super.onDestroy();
         EventBus.getDefault().unregister(this);
 
+    }
+
+
+    private void checkVersion(String versionCode) {
+        StringBuilder sb = new StringBuilder(Urls.CHECK_VERSION);
+        UrlUtils.getInstance(sb).praseToUrl("versionCode", versionCode)
+                .praseToUrl("type", "1")
+                .removeLastWord();
+        DialogCallback callback = new DialogCallback<RemoteVersion>(MainActivity.this, RemoteVersion.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(MainActivity.this, "网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, RemoteVersion o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    Boolean isNew = o.isIsNew();
+                    if (!isNew){
+                        RemoteVersion.NewVersionBean newVersionBean =  o.getNewVersion();
+                        UpdateManager.getUpdateManager().setContext(MainActivity.this);
+                        UpdateManager.getUpdateManager().setUpdateInfo(newVersionBean);
+                        UpdateManager.getUpdateManager().showNoticeDialog();
+                    }
+                }
+            }
+        };
+        callback.setDialogHide();
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
     }
 }

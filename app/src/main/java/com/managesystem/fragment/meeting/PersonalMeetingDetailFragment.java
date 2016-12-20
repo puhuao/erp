@@ -15,6 +15,8 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.OnMeetingGuaranteeCommented;
+import com.managesystem.event.UpdateMyMeetingList;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.MeetingRoomDetail;
 import com.managesystem.model.MeetingSelectCondition;
@@ -25,6 +27,8 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,6 +55,12 @@ public class PersonalMeetingDetailFragment extends CommonFragment {
 
     private MeetingApplyRecord meetingApplyRecord;
     ArrayList<MeetingApplyRecord> applyRecords = new ArrayList<>();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -142,4 +152,15 @@ public class PersonalMeetingDetailFragment extends CommonFragment {
                 .execute(callback);
     }
 
+    @Subscribe
+    public void onEvent(OnMeetingGuaranteeCommented event){
+        EventBus.getDefault().post(new UpdateMyMeetingList());
+        getContext().popTopFragment(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

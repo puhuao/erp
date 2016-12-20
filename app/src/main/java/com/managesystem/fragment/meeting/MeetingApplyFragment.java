@@ -102,10 +102,12 @@ public class MeetingApplyFragment extends CommonFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.et_start_time:
+                hideSoftInput(etName);
                 timePickerView.show();
                 viewId = R.id.et_start_time;
                 break;
             case R.id.et_end_time:
+                hideSoftInput(etName);
                 viewId = R.id.et_end_time;
                 timePickerView.show();
                 break;
@@ -152,6 +154,7 @@ public class MeetingApplyFragment extends CommonFragment {
                     hideSoftInput(v);
                     getContext().pushFragmentToBackStack(MeetingRoomSelectFragment.class, meetingRooms);
                 } else {
+                    hideSoftInput(v);
                     getMeetingRooms();
                 }
                 break;
@@ -268,7 +271,7 @@ public class MeetingApplyFragment extends CommonFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                getContext().pushFragmentToBackStack(PersonalMeetingFragment.class, null);
+                                getContext().pushFragmentToBackStack(PersonalMeetingFragment.class, 1);
                             }
                         });
                         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

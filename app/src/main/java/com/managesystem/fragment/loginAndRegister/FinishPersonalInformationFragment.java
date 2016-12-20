@@ -129,6 +129,11 @@ public class FinishPersonalInformationFragment extends CommonFragment {
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_input_area));
                     break;
                 }
+                registerInfo.setCphone(editTextTelephoneNumber.getText().toString());
+//                if (StringUtils.isBlank(registerInfo.getCphone())){
+//                    ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_input_area));
+//                    break;
+//                }
 
 //                registerInfo.setFloor(editTextFloorNumber.getText().toString());
 //                if (StringUtils.isBlank(registerInfo.getFloor())){
@@ -139,6 +144,9 @@ public class FinishPersonalInformationFragment extends CommonFragment {
                 register();
                 break;
             case R.id.tv_department:
+                hideSoftInput(editTextDoorNumber);
+                hideSoftInput(editTextTelephoneNumber);
+                hideSoftInput(editTextName);
                 if (departments.size()>0){
                     DepartmentSelectPopupwindow popupwindow = new DepartmentSelectPopupwindow(getContext(),departments);
                     popupwindow.showPopupwindow(textViewDepartment);
@@ -147,7 +155,11 @@ public class FinishPersonalInformationFragment extends CommonFragment {
                 }
                 break;
             case R.id.tv_area:
+                hideSoftInput(editTextDoorNumber);
+                hideSoftInput(editTextTelephoneNumber);
+                hideSoftInput(editTextName);
                 if (areas.size()>0){
+
                     AreaSelectPopupwindow popupwindow = new AreaSelectPopupwindow(getContext(),areas);
                     popupwindow.showPopupwindow(tvArea);
                 }else{
@@ -191,7 +203,7 @@ public class FinishPersonalInformationFragment extends CommonFragment {
             public void onResponse(boolean isFromCache, PersonalInfo personalInfo, Request request, @Nullable Response response) {
                 if (personalInfo!=null){
                     ToastUtil.showShortMessage(getContext(),"注册成功，等待后台验证");
-                    getContext().popTopFragment(null);
+                    getContext().popToRoot(null);
                 }
             }
         };

@@ -1,5 +1,7 @@
 package com.managesystem.fragment.loginAndRegister;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -16,8 +18,10 @@ import com.managesystem.activity.MainActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.PersonalInfo;
+import com.managesystem.model.RemoteVersion;
 import com.managesystem.tools.MD5Utils;
 import com.managesystem.tools.UrlUtils;
+import com.managesystem.update.UpdateManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -53,6 +57,7 @@ public class LoginFragment extends CommonFragment {
     private Boolean isAotuLogin = false;
     public Boolean isSilence = false;
 
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mTitleHeaderBar.setVisibility(View.GONE);
@@ -68,6 +73,8 @@ public class LoginFragment extends CommonFragment {
             JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 0, 0);
         }
         userName.setText(username);
+
+
 
 
         if (config.getBoolean("remember", false)) {
@@ -148,6 +155,10 @@ public class LoginFragment extends CommonFragment {
                     if (checkBox.isChecked()) {
                         config.setBoolean("remember", true);
                     }
+
+                    if (o.getStatus().equals("0")){
+                        ToastUtil.showShortMessage(getContext(),"账号未激活!");
+                    }
                     JPushInterface.setAlias(getContext(), o.getUserId(), new TagAliasCallback() {
                         @Override
                         public void gotResult(int i, String s, Set<String> set) {
@@ -165,4 +176,5 @@ public class LoginFragment extends CommonFragment {
                 .tag(this)//
                 .execute(callback);
     }
+
 }

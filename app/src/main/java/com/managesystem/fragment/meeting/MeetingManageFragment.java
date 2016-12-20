@@ -41,7 +41,7 @@ public class MeetingManageFragment extends CommonFragment {
                 break;
             case R.id.layout_meeting_my:
                 //我的会议
-                getContext().pushFragmentToBackStack(PersonalMeetingFragment.class,null);
+                getContext().pushFragmentToBackStack(PersonalMeetingFragment.class,0);
                 break;
 
         }

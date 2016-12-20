@@ -216,7 +216,8 @@ Bundle bundle;
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                startActivity(MainTainListActivity.class);
+//                                startActivity(MainTainListActivity.class);
+                                getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class,null);
                             }
                         });
                         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -224,7 +225,7 @@ Bundle bundle;
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                getContext().popTopFragment(null);
+                                getContext().finish();
                             }
                         });
                         builder.create().show();

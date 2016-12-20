@@ -48,6 +48,16 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
     private void initView() {
         isfirstFragment = true;
         setHeaderTitle("我的运维服务");
+        getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    if (getnotComment()>0){
+                        getContext().finish();
+                    }else{
+                        getContext().popTopFragment(null);
+                    }
+            }
+        });
         adapter = new MaintainApplyRecordAdapter(getContext());
         setData(records,adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,6 +67,16 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
                 getContext().pushFragmentToBackStack(MaintainDetailFragment.class,records.get(position).getOrderId());
             }
         });
+    }
+
+    private int getnotComment() {
+        int count = 0;
+        for (int i = 0 ;i <records.size();i++){
+            if (records.get(i).getStatus()==3){
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override

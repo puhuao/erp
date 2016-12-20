@@ -11,7 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.managesystem.R;
+import com.managesystem.event.UpdateMyMeetingList;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -29,6 +33,14 @@ public class PersonalMeetingFragment extends CommonFragment {
     ViewPager viewpager;
     private ArrayList<String> mTitleList = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
+    MeetingApplyRecordFragment meetingApplyRecordFragment;
+    int flagType = 0;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,10 +51,25 @@ public class PersonalMeetingFragment extends CommonFragment {
     }
 
     private void initView() {
+        flagType = (int) getmDataIn();
         setHeaderTitle(getStringFromResource(R.string.meeting_my));
+        getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagType == 1){
+                    if (meetingApplyRecordFragment.getnotComment()>0){
+                        getContext().popToRoot(null);
+                    }else{
+                        getContext().popTopFragment(null);
+                    }
+                }else{
+                    getContext().onBackPressed();
+                }
+            }
+        });
         mTitleList.add(getStringFromResource(R.string.meeting_apply_record));
         mTitleList.add(getStringFromResource(R.string.meeting_attend_record));
-        final MeetingApplyRecordFragment meetingApplyRecordFragment = new MeetingApplyRecordFragment();
+        meetingApplyRecordFragment  = new MeetingApplyRecordFragment();
         fragmentList.add(meetingApplyRecordFragment);
         final MeetingAttendRecordFragment meetingAttendRecordFragment = new MeetingAttendRecordFragment();
         Bundle bundle = new Bundle();
@@ -96,5 +123,15 @@ public class PersonalMeetingFragment extends CommonFragment {
         public CharSequence getPageTitle(int position) {
             return mTitleList.get(position);
         }
+    }
+    @Subscribe
+    public void onEvent(UpdateMyMeetingList event){
+        meetingApplyRecordFragment.handler.sendEmptyMessage(0);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
