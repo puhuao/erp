@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.managesystem.activity.MainActivity;
 import com.managesystem.activity.MeetingMsgDetailActivity;
 import com.managesystem.event.UpdateMsgListEvent;
 import com.managesystem.model.Message;
 import com.wksc.framwork.util.GsonUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -39,7 +40,19 @@ public class MyReceiver extends BroadcastReceiver {
 			EventBus.getDefault().post(new UpdateMsgListEvent());
 		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 			System.out.println("用户点击打开了通知" + bundle.getString("cn.jpush.android.ALERT"));
-			Message message = GsonUtil.fromJson(bundle.getString("cn.jpush.android.ALERT"),Message.class);
+			String s = bundle.getString("cn.jpush.android.EXTRA");
+			try {
+				JSONObject jsonObject = new JSONObject(s);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			String alert = bundle.getString("cn.jpush.android.ALERT");
+			try {
+				JSONObject object = new JSONObject(alert);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			Message message = GsonUtil.fromJson(s,Message.class);
 			Intent i = new Intent(context, MeetingMsgDetailActivity.class);
 			i.putExtra("obj",message);
 			i.putExtra("flag",0);

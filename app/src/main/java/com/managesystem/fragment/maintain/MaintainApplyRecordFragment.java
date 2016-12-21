@@ -54,7 +54,7 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
                     if (getnotComment()>0){
                         getContext().finish();
                     }else{
-                        getContext().popTopFragment(null);
+                        getContext().finish();
                     }
             }
         });
