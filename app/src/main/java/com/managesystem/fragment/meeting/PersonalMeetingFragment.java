@@ -57,11 +57,12 @@ public class PersonalMeetingFragment extends CommonFragment {
             @Override
             public void onClick(View v) {
                 if (flagType == 1){
-                    if (meetingApplyRecordFragment.getnotComment()>0){
-                        getContext().popToRoot(null);
-                    }else{
-                        getContext().popTopFragment(null);
-                    }
+                    getContext().popToRoot(null);
+//                    if (meetingApplyRecordFragment.getnotComment()>0){
+//                        getContext().popToRoot(null);
+//                    }else{
+//                        getContext().popTopFragment(null);
+//                    }
                 }else{
                     getContext().onBackPressed();
                 }

@@ -154,6 +154,8 @@ public class LoginFragment extends CommonFragment {
                     }
                     if (checkBox.isChecked()) {
                         config.setBoolean("remember", true);
+                    }else{
+                        config.setBoolean("remember", false);
                     }
 
                     if (o.getStatus().equals("0")){

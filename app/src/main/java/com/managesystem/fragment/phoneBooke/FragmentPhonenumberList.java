@@ -61,6 +61,14 @@ public class FragmentPhonenumberList extends CommonFragment {
 
         department = (Department) getmDataIn();
         setHeaderTitle(department.departmentName);
+        getTitleHeaderBar().setRightImageResource(R.drawable.img_search);
+        getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
+        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().pushFragmentToBackStack(FragmentPhonenumberListSearch.class,null);
+            }
+        });
         characterParser = CharacterParser.getInstance();
 
         pinyinComparator = new PinyinComparator();

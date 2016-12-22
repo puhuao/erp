@@ -55,26 +55,6 @@ public class MsgMeetingGuaranteeDetailFragment extends CommonFragment {
             fab.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
             fab.setEnabled(false);
         }
-//        if (message.status == 0){
-//            CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-//            builder.setMessage("请确认工单");
-//            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-//
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                    updateDistribute();
-//                }
-//            });
-//            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-//
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            builder.create().show();
-//        }
     }
 
     @OnClick({R.id.fab,})

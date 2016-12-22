@@ -2,6 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/dimen_10"
+        android:gravity="center_vertical"
+        android:background="@color/main_back_gray">
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全部"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_6"
+            android:drawableRight="@drawable/ic_right_small"
+            android:drawablePadding="@dimen/dimen_6"
+           android:background="@color/white" />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全部"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_6"
+            android:drawableRight="@drawable/ic_right_small"
+            android:drawablePadding="@dimen/dimen_6"
+            android:background="@color/white"
+            android:layout_marginLeft="@dimen/dimen_6"/>
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_6"
+                android:background="@color/search_background"
+                android:drawablePadding="@dimen/dimen_6"
+                android:hint="请输入关键字搜索"
+                android:textSize="@dimen/text_size_12"
+                android:padding="@dimen/dimen_6"
+                 />
+            <ImageView
+                android:id="@+id/img_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_search"
+                android:layout_gravity="center"
+                android:padding="@dimen/dimen_6"
+                android:layout_marginRight="@dimen/dimen_6"/>
+        </LinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -21,7 +73,6 @@
         android:id="@+id/fab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
         android:gravity="center"
         android:text="生成二维码"
         android:textSize="16sp"

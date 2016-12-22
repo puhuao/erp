@@ -90,7 +90,11 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
                     sb.deleteCharAt(sb.length() - 1);
                 }
                 bundle.putString("string",sb.toString());
-                startActivity(MainTainApplyActivity.class,bundle);
+                if(sb.length()>0){
+                    startActivity(MainTainApplyActivity.class,bundle);
+                }else{
+                    ToastUtil.showShortMessage(getContext(),"请选择保修的物资");
+                }
                 break;
         }
     }

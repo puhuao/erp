@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/main_back_gray"
+    android:clickable="false">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp">
@@ -28,7 +30,7 @@
             app:civ_BorderColor="@color/white"/>
 
     </RelativeLayout>
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/ll_department"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,24 +38,23 @@
         android:orientation="horizontal"
         android:padding="@dimen/dimen_12"
         android:layout_marginTop="@dimen/dimen_1">
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="部门"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/text_color"
-
+        android:src="@drawable/ic_department"
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/tv_department"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:scaleType="centerCrop"
-            android:layout_alignParentRight="true"
-            android:drawablePadding="@dimen/dimen_12"/>
-    </RelativeLayout>
-    <RelativeLayout
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size_16"/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/ll_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,19 +67,18 @@
             android:layout_height="wrap_content"
             android:text="岗位"
             android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
-
+            android:textColor="@color/text_hint"
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:scaleType="centerCrop"
-            android:layout_alignParentRight="true"
-            android:drawablePadding="@dimen/dimen_12"/>
-    </RelativeLayout>
-    <RelativeLayout
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size_16"/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/ll_cPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:text="座机号"
             android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
+            android:textColor="@color/text_hint"
 
             android:layout_centerVertical="true"/>
         <TextView
@@ -99,11 +99,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:scaleType="centerCrop"
-            android:layout_alignParentRight="true"
-            android:drawablePadding="@dimen/dimen_12"/>
-    </RelativeLayout>
-    <RelativeLayout
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size_16"/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/ll_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text="手机号"
             android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color"
+            android:textColor="@color/text_hint"
 
             android:layout_centerVertical="true"/>
         <TextView
@@ -124,9 +124,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:scaleType="centerCrop"
-            android:layout_alignParentRight="true"
-            android:drawablePadding="@dimen/dimen_12"/>
-    </RelativeLayout>
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size_16"/>
+    </LinearLayout>
 
 </LinearLayout>

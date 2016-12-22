@@ -15,6 +15,7 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.WorkListFinishEvent;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.Users;
 import com.managesystem.tools.UrlUtils;
@@ -25,6 +26,8 @@ import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -175,7 +178,7 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (fab.getText().toString().equals("确认")){
+                if (meetingApplyRecord.getStatus()==1){
                     IConfig config = BaseApplication.getInstance().getCurrentConfig();
                     updateDistribute(config.getString("userId", ""), "2", null, null);
                 }else{
@@ -211,7 +214,7 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
     }
 
 
-    private void updateDistribute(String userId, String status, String comments, String rating) {//评价4完成3
+    private void updateDistribute(String userId, final String status, String comments, String rating) {//评价4完成3
 
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
         UrlUtils.getInstance(sb).praseToUrl("status", status)
@@ -230,13 +233,16 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
-                    if (fab.getText().toString().equals("确认")){
-
+                    getContext().finish();
+                    EventBus.getDefault().post(new WorkListFinishEvent());
+                    if (status.equals("2")){
                         ToastUtil.showShortMessage(getContext(), "会议工单确认成功");
+                        tvGuaranteeProgress.setText("处理中");
                         fab.setVisibility(View.GONE);
                     }else{
                         ToastUtil.showShortMessage(getContext(), "会议工单完成");
                         fab.setVisibility(View.GONE);
+
                     }
                 }
             }

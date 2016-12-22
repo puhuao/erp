@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,14 +16,17 @@ import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.Department;
+import com.managesystem.model.PersonalInfo;
 import com.managesystem.tools.UrlUtils;
-import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.util.GsonUtil;
-import com.wksc.framwork.util.ToastUtil;
 import com.managesystem.widegt.sortView.CharacterParser;
 import com.managesystem.widegt.sortView.PinyinComparator;
 import com.managesystem.widegt.sortView.SideBar;
-import com.managesystem.widegt.sortView.SortAdapter;
+import com.wksc.framwork.BaseApplication;
+import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.StringUtils;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,37 +38,34 @@ import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FragmentDepartmentList extends CommonFragment {
+public class FragmentPhonenumberListSearch extends CommonFragment {
     @Bind(R.id.country_lvcountry)
     ListView sortListView;
     @Bind(R.id.sidrbar)
     SideBar sideBar;
     @Bind(R.id.dialog)
     TextView dialog;
-    private DepartmentSortAdapter adapter;
-    private List<Department> departments = new ArrayList<>();
+    @Bind(R.id.search)
+    EditText search;
+    @Bind(R.id.img_search)
+    ImageView imgSearch;
+    private PhonenumberSortAdapter adapter;
+    private List<PersonalInfo> departments = new ArrayList<>();
     private CharacterParser characterParser;
 
     private PinyinComparator pinyinComparator;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container = (ViewGroup) inflater.inflate(R.layout.fragment_phone_book, null);
+        container = (ViewGroup) inflater.inflate(R.layout.fragment_phone_book_search, null);
         ButterKnife.bind(this, container);
         initView();
         return container;
     }
 
     private void initView() {
-    setHeaderTitle("部门");
-        // Add the sticky headers decoration
-        getTitleHeaderBar().setRightImageResource(R.drawable.img_search);
-        getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
-        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContext().pushFragmentToBackStack(FragmentPhonenumberListSearch.class,null);
-            }
-        });
+
+        setHeaderTitle("搜索联系人");
         characterParser = CharacterParser.getInstance();
 
         pinyinComparator = new PinyinComparator();
@@ -81,19 +83,33 @@ public class FragmentDepartmentList extends CommonFragment {
 
             }
         });
-        getDepartMents();
-        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                getContext().pushFragmentToBackStack(com.managesystem.fragment.phoneBooke.FragmentPhonenumberList.class,departments.get(position));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getContext().pushFragmentToBackStack(PhoneBookDetailDetailFragment.class,departments.get(position));
+            }
+        });
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String param = search.getText().toString();
+                if (!StringUtils.isBlank(param)){
+                    getPhoneNumbers(param);
+                }
             }
         });
     }
-    private void getDepartMents(){
-        StringBuilder sb = new StringBuilder(Urls.GET_DEPARTMENT);
-        UrlUtils.getInstance(sb);
+
+    private void getPhoneNumbers(String param){
+        StringBuilder sb = new StringBuilder(Urls.PHONE_NUMBERS);
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        String userid = null;
+        userid = config.getString("userId", "");
+        UrlUtils.getInstance(sb)
+                .praseToUrl("userId",userid)
+                .praseToUrl("keyword",param)
+                .removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -104,10 +120,10 @@ public class FragmentDepartmentList extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
-                    departments.addAll(GsonUtil.fromJsonList(o, Department.class));
+                    departments.addAll(GsonUtil.fromJsonList(o, PersonalInfo.class));
                     departments = filledData(departments);
                     Collections.sort(departments, pinyinComparator);
-                    adapter = new DepartmentSortAdapter(getContext(), departments);
+                    adapter = new PhonenumberSortAdapter(getContext(), departments);
                     sortListView.setAdapter(adapter);
                 }
             }
@@ -117,16 +133,21 @@ public class FragmentDepartmentList extends CommonFragment {
                 .tag(this)//
                 .execute(callback);
     }
-
-    private List<Department> filledData(List<Department> date){
-        List<Department> mSortList = new ArrayList<Department>();
+    private List<PersonalInfo> filledData(List<PersonalInfo> date){
+        List<PersonalInfo> mSortList = new ArrayList<PersonalInfo>();
 
         for(int i=0; i<date.size(); i++){
-            Department sortModel = new Department();
-            sortModel.setDepartmentName(date.get(i).departmentName);
-            sortModel.setDepartmentId(date.get(i).departmentId);
+            PersonalInfo sortModel = new PersonalInfo();
+            sortModel.setDepartmentName(date.get(i).getDepartmentName());
+            sortModel.setName(date.get(i).getName());
+            sortModel.setArea(date.get(i).getArea());
+            sortModel.setCphone(date.get(i).getCphone());
+            sortModel.setIspublish(date.get(i).getIspublish());
+            sortModel.setStationName(date.get(i).getStationName());
+            sortModel.setPhone(date.get(i).getPhone());
+            sortModel.setHeadPic(date.get(i).getHeadPic());
             //����ת����ƴ��
-            String pinyin = characterParser.getSelling(date.get(i).departmentName);
+            String pinyin = characterParser.getSelling(date.get(i).getName());
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
             // ������ʽ���ж�����ĸ�Ƿ���Ӣ����ĸ

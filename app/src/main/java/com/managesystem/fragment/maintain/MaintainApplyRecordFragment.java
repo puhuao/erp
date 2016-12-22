@@ -51,11 +51,7 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
         getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (getnotComment()>0){
-                        getContext().finish();
-                    }else{
-                        getContext().finish();
-                    }
+                getContext().finish();
             }
         });
         adapter = new MaintainApplyRecordAdapter(getContext());

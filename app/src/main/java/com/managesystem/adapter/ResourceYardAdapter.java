@@ -126,6 +126,10 @@ private int isMyResource;
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    isFromCheckAll = true;
+                    holder.checkBox.setChecked(false);
+                    resourcePersonModel.isCheck = false;
+                    isFromCheckAll = false;
                     dialog.dismiss();
                 }
             });

@@ -243,11 +243,12 @@ public class WorkListDetailFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
+                    getContext().finish();
+                    EventBus.getDefault().post(new WorkListFinishEvent());
                     if (status == 2) {
                         ToastUtil.showShortMessage(getContext(), "确认工单成功");
                     } else {
                         ToastUtil.showShortMessage(getContext(), "完成工单成功");
-                        EventBus.getDefault().post(new WorkListFinishEvent());
                     }
 
                 }
