@@ -97,4 +97,10 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void onBack() {
+        super.onBack();
+        getContext().finish();
+    }
 }

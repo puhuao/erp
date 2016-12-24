@@ -95,6 +95,6 @@ public class RecycleZxingCaptureActivity extends Activity implements QRCodeView.
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-        ToastUtil.showShortMessage(this, "打开相机出错");
+        ToastUtil.showShortMessage(this, "请允许相机权限");
     }
 }

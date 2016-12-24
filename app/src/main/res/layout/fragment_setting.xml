@@ -19,6 +19,25 @@
 
 
     <RelativeLayout
+        android:id="@+id/ll_reback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dimen_24"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提交反馈"
+            android:padding="@dimen/dimen_12"
+            android:id="@+id/re_back"
+            android:drawableRight="@drawable/ic_right_small"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_16"
+            android:drawablePadding="@dimen/dimen_12"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/ll_check_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

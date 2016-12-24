@@ -122,7 +122,7 @@ public class ForgetPasswordFragment extends CommonFragment {
                 .praseToUrl("code", code)
                 .praseToUrl("type","1")
                 .removeLastWord();
-        DialogCallback callback = new DialogCallback<PersonalInfo>(getContext(), PersonalInfo.class) {
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
 
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -131,7 +131,7 @@ public class ForgetPasswordFragment extends CommonFragment {
             }
 
             @Override
-            public void onResponse(boolean isFromCache, PersonalInfo personalInfo, Request request, @Nullable Response response) {
+            public void onResponse(boolean isFromCache, String personalInfo, Request request, @Nullable Response response) {
                 if (personalInfo!=null){
                     ToastUtil.showShortMessage(getContext(),"修改密码成功\n请重新登录");
                     getContext().popToRoot(null);

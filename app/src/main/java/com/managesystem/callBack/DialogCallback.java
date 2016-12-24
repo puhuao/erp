@@ -85,7 +85,16 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
-private Boolean show = true;
+
+    @Override
+    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+        super.onError(isFromCache, call, response, e);
+        if (mSwipeRefreshLayout!=null){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private Boolean show = true;
     public void setDialogHide() {
         show = false;
     }

@@ -13,6 +13,7 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.activity.LoginActivity;
 import com.managesystem.activity.MainActivity;
+import com.managesystem.activity.MyWalletActivity;
 import com.managesystem.event.GoToComment;
 import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.util.AppManager;
@@ -60,7 +61,7 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
     public T parseNetworkResponse(Response response) throws Exception {
 
         Headers headers = response.headers();
-       String cookie = headers.get("set-cookie");
+       final String cookie = headers.get("set-cookie");
         Map<String,List<String>> map =headers.toMultimap();
         List<String> list = map.get("set-cookie");
         String responseData = response.body().string();
@@ -105,13 +106,16 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
                 }
                 if (type != null) return new Gson().fromJson(data, type);
                 break;
-            case -2:
-                mConext.startActivity(new Intent(mConext, LoginActivity.class));
+            case 10:
+//                IConfig config = BaseApplication.getInstance().getCurrentConfig();
+                config.setBoolean("isLogin", false);
+                AppManager.getAppManager().finishActivity(MyWalletActivity.class);
                 AppManager.getAppManager().finishActivity(MainActivity.class);
+                mConext.startActivity(new Intent(mConext, LoginActivity.class));
                 OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
                     @Override
                     public void run() {
-
+                        ToastUtil.showShortMessage(mConext,"用户信息过期,请重新登录");
                     }
                 });
                 break;

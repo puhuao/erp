@@ -5,6 +5,7 @@ package com.managesystem.config;
  */
 public class Urls {
     public static final String BASE_URL = "http://101.200.172.229:8081/";
+//public static final String BASE_URL = "http://192.168.1.178:8081/";
     public static final String LOGIN = BASE_URL+"user/login?";//登录
     public static final String GET_VALIDCODE = BASE_URL+"getCode?";//获取验证码
     public static final String GET_DEPARTMENT = BASE_URL+"department/query";//获取所有部门
@@ -47,4 +48,5 @@ public class Urls {
     public static final String CHECK_NOT_COMMENT = BASE_URL+"distribute/queryNoEvaluate?";//检查是否有未评价的工单
     public static final String GETAREA = BASE_URL +"getAreas";//获取区域
     public static final String CHECK_VERSION = BASE_URL +"queryVersion?";
+    public static final String REBACK = BASE_URL +"insertFeedback?";
 }

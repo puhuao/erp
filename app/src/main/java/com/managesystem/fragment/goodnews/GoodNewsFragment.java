@@ -13,6 +13,7 @@ import com.managesystem.R;
 import com.managesystem.adapter.GoodNewsAdapter;
 import com.managesystem.config.Urls;
 import com.managesystem.event.GoodeNewsCheckEvent;
+import com.managesystem.event.OnGoodNewsSignIn;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.GoodNews;
 import com.managesystem.model.PPSModel;
@@ -93,6 +94,11 @@ public class GoodNewsFragment extends BaseListRefreshFragment<GoodNews> {
         pageNo = 1;
         loadMore(1);
 
+    }
+    @Subscribe
+    public void onEvent(OnGoodNewsSignIn event){
+        pageNo = 1;
+        loadMore(1);
     }
 
     @Override

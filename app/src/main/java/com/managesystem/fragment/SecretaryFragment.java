@@ -74,7 +74,8 @@ public class SecretaryFragment extends CommonFragment {
     TextView phoneNumber;
     @Bind(R.id.header)
     CircleImageView header;
-
+@Bind(R.id.sign)
+TextView tvSign;
     private IConfig config;
     private String roleName;
     private String userId;
@@ -109,13 +110,14 @@ public class SecretaryFragment extends CommonFragment {
         bindPhone();
 
         userName.setText(config.getString("name", ""));
-        departmentName.setText("部门:"+config.getString("department", "")+"  岗位:"+config.getString("stationName", ""));
-        stationName.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" : config.getString("sign", ""));
+        departmentName.setText(config.getString("department", ""));
+//        tvSign.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" :config.getString("sign", ""));
+        stationName.setText(config.getString("stationName", ""));
     }
 
     private void bindPhone() {
         String phone = config.getString("phone","");
-
+        tvSign.setText(StringUtils.isBlank(config.getString("sign", "")) ? "未设置" :config.getString("sign", ""));
         if (!config.getBoolean("ispublish",false)){
             StringBuilder sb  =new StringBuilder();
             if (!StringUtils.isBlank(phone)&& phone.length() > 6){
@@ -150,35 +152,6 @@ public class SecretaryFragment extends CommonFragment {
     })
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.sign_ll:
-//                final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-//                final View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_edit_text, null);
-//                builder.setContentView(view);
-//                builder.setTitle("请输入签名");
-//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                        EditText editText = ((EditText) view.findViewById(R.id.edit_text));
-//                        editText.setMaxEms(20);
-//                        sign =editText .getText().toString();
-//                        if (StringUtils.isBlank(sign)) {
-//                            ToastUtil.showShortMessage(getContext(), "请输入签名");
-//                            return;
-//                        }
-//                        modify();
-//                    }
-//                });
-//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                builder.create().show();
-//                break;
             case R.id.ll_door:
                 startActivity(ExpectingActivity.class);
                 break;

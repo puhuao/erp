@@ -119,6 +119,6 @@ public class ZxingCaptureActivity extends Activity implements QRCodeView.Delegat
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-        ToastUtil.showShortMessage(this, "打开相机出错");
+        ToastUtil.showShortMessage(this, "请允许相机权限");
     }
 }

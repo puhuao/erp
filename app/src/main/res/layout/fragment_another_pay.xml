@@ -43,7 +43,7 @@
             android:layout_marginRight="@dimen/dimen_12"
             android:background="@color/white"
             android:hint="请输入支付金额"
-            android:inputType="number"
+            android:inputType="number|numberDecimal"
             android:maxEms="20"
             android:maxLength="20"
             android:maxLines="1"

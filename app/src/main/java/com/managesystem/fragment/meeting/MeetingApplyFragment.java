@@ -301,4 +301,10 @@ public class MeetingApplyFragment extends CommonFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void onBack() {
+        super.onBack();
+        getContext().popTopFragment(null);
+    }
 }

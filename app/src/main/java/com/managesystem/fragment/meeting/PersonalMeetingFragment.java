@@ -135,4 +135,14 @@ public class PersonalMeetingFragment extends CommonFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void onBack() {
+        if (flagType == 1){
+            getContext().popToRoot(null);
+        }else{
+            getContext().onBackPressed();
+            super.onBack();
+        }
+    }
 }

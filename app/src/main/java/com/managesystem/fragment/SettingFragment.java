@@ -94,9 +94,12 @@ public class SettingFragment extends CommonFragment {
         }
     }
 
-    @OnClick({R.id.logout, R.id.check_version})
+    @OnClick({R.id.logout, R.id.check_version,R.id.re_back})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.re_back:
+                getContext().pushFragmentToBackStack(ReBackFragment.class,null);
+                break;
             case R.id.logout:
                 IConfig config = BaseApplication.getInstance().getCurrentConfig();
                 config.setBoolean("isLogin", false);

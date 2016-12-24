@@ -239,5 +239,9 @@ Bundle bundle;
                 .execute(callback);
     }
 
-
+    @Override
+    public void onBack() {
+        super.onBack();
+        getContext().finish();
+    }
 }

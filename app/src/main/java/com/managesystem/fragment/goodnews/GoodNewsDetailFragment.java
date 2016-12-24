@@ -13,6 +13,7 @@ import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.GoodeNewsCheckEvent;
+import com.managesystem.event.OnGoodNewsSignIn;
 import com.managesystem.model.GoodNews;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
@@ -90,6 +91,7 @@ GoodNews goodNew;
                     sign.setText("已报名");
                     sign.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
                     sign.setClickable(false);
+                    EventBus.getDefault().post(new OnGoodNewsSignIn());
                 }
             }
         };
