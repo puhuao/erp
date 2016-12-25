@@ -1,11 +1,9 @@
 package com.managesystem.fragment.wallet;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,45 +11,29 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.zxing.WriterException;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
-import com.managesystem.adapter.GoodNewsAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.PaySuccessEvent;
-import com.managesystem.fragment.BaseListRefreshFragment;
-import com.managesystem.fragment.goodnews.GoodNewsDetailFragment;
-import com.managesystem.fragment.goodnews.GoodNewsSingInFragment;
-import com.managesystem.fragment.loginAndRegister.ForgetPasswordFragment;
-import com.managesystem.fragment.loginAndRegister.RegisterFragment;
-import com.managesystem.fragment.meeting.MeetingDetailFragment;
-import com.managesystem.fragment.meeting.MeetingGuaranteeInformationFragment;
-import com.managesystem.fragment.msg.MsgNotReadFragment;
-import com.managesystem.fragment.msg.MsgReadFragment;
 import com.managesystem.model.Account;
-import com.managesystem.model.GoodNews;
-import com.managesystem.model.MeetingApplyRecord;
-import com.managesystem.popupwindow.QrcodeViewPopupwindow;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.BaseApplication;
+import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
-import com.wksc.framwork.zxing.CreateQrCode;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -87,6 +69,16 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        ActivityManager.getInstance().addActivity(getContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            int options = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+            getContext().getWindow().getDecorView().setSystemUiVisibility(options);
+
+            getContext().getWindow().setStatusBarColor(getResources().getColor(com.wksc.framwork.R.color.transparent));
+
+        }
     }
 
     @Override

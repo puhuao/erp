@@ -17,7 +17,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.j256.ormlite.stmt.query.In;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
@@ -92,7 +91,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
             getWindow().getDecorView().setSystemUiVisibility(options);
 
-            getWindow().setStatusBarColor(getResources().getColor(com.wksc.framwork.R.color.transparent));
+            getWindow().setStatusBarColor(getResources().getColor(com.wksc.framwork.R.color.black));
 
         }
         config = BaseApplication.getInstance().getCurrentConfig();

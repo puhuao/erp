@@ -4,8 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +23,7 @@ import com.managesystem.model.MeetingRoomDetail;
 import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.recycler.OnRecyclerItemClickListener;
+import com.wksc.framwork.baseui.ActivityManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,6 +60,16 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ActivityManager.getInstance().addActivity(getContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            int options = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+            getContext().getWindow().getDecorView().setSystemUiVisibility(options);
+
+            getContext().getWindow().setStatusBarColor(getResources().getColor(com.wksc.framwork.R.color.transparent));
+
+        }
         container = (ViewGroup) inflater.inflate(R.layout.fragment_meeting_room, null);
         ButterKnife.bind(this, container);
         initView();

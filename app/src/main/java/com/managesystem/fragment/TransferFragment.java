@@ -33,6 +33,8 @@ import butterknife.ButterKnife;
 public class TransferFragment extends BaseListRefreshFragment<ResourcePersonModel> {
     @Bind(R.id.fab)
     Button fab;
+    @Bind(R.id.ll_condition)
+            View llCondition;
     ResourcePersonAdapter resourcePersonAdapter;
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     private IConfig config;
@@ -53,6 +55,7 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
         setHeaderTitle(getStringFromResource(R.string.resource_transfer));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
+        llCondition.setVisibility(View.GONE);
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());
         setData(resourcePersonModels,resourcePersonAdapter);
         getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {

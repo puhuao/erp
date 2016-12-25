@@ -49,7 +49,7 @@ public abstract class CommonActivity extends XActivity {
 
             getWindow().getDecorView().setSystemUiVisibility(options);
 
-            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+            getWindow().setStatusBarColor(getResources().getColor(R.color.black));
 
         }
     }
