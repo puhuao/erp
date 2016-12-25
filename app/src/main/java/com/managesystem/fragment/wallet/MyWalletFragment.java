@@ -285,4 +285,18 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void onLeave() {
+        super.onLeave();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            int options = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+            getContext().getWindow().getDecorView().setSystemUiVisibility(options);
+
+            getContext().getWindow().setStatusBarColor(getResources().getColor(com.wksc.framwork.R.color.black));
+
+        }
+    }
 }

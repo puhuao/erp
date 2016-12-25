@@ -279,7 +279,7 @@ public class PersonalInfoFragment extends CommonFragment {
                     }else{
                         config.setBoolean("ispublish",false);
                     }
-                    if (!StringUtils.isBlank(ispublish))
+//                    if (!StringUtils.isBlank(ispublish))
                         EventBus.getDefault().post(new OnPhoneStateChangeEvent());
                     bindView();
                 }

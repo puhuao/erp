@@ -8,8 +8,8 @@ android {
         applicationId "com.managesystem"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName "V6.0"
+        versionCode 7
+        versionName "V1.7"
     }
     buildTypes {
         release {

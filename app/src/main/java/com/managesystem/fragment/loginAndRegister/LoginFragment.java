@@ -28,6 +28,8 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -67,8 +69,11 @@ public class LoginFragment extends CommonFragment {
         username = config.getString("username", "");
         password = config.getString("password", "");
         isSilence = config.getBoolean("silence", false);
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+       int minute = c.get(Calendar.MINUTE);
         if (isSilence) {
-            JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 24, 59);
+            JPushInterface.setSilenceTime(CustomApplication.getContext(), hour-1, minute, hour-1, minute);
         } else {
             JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 0, 0);
         }
