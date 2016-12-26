@@ -99,7 +99,7 @@ public class ResourceApplyFragment extends CommonFragment {
         resourceName = event.getResourceName();
         name.setText(resourceName.getMaterialName());
         fab.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.selector_btn_login));
-        fab.setEnabled(false);
+        fab.setEnabled(true);
     }
 
     private void initView() {

@@ -92,8 +92,7 @@ public class ResourceLostApplyFragment extends CommonFragment {
         }
         name.setText(sb);
         fab.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.selector_btn_login));
-        fab.setEnabled(false);
-
+        fab.setEnabled(true);
     }
 
     private void initView() {
