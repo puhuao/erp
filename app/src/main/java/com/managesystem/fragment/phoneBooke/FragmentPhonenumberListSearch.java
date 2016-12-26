@@ -120,11 +120,13 @@ public class FragmentPhonenumberListSearch extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o!=null){
+                    departments.clear();
                     departments.addAll(GsonUtil.fromJsonList(o, PersonalInfo.class));
                     departments = filledData(departments);
                     Collections.sort(departments, pinyinComparator);
                     adapter = new PhonenumberSortAdapter(getContext(), departments);
                     sortListView.setAdapter(adapter);
+                    hideSoftInput(search);
                 }
             }
         };

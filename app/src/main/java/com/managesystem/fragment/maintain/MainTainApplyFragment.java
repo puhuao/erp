@@ -11,10 +11,8 @@ import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
-import com.managesystem.activity.MainTainListActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.event.GoToComment;
 import com.managesystem.event.MeetingTypeSelectEvent;
 import com.managesystem.model.MeetingType;
 import com.managesystem.tools.UrlUtils;
@@ -217,7 +215,7 @@ Bundle bundle;
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
 //                                startActivity(MainTainListActivity.class);
-                                getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class,null);
+                                getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class,1);
                             }
                         });
                         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

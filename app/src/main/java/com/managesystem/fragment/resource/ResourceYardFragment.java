@@ -79,6 +79,7 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
     private ArrayList<Status> statuses = new ArrayList<>();
     private Status status;
     private String keyword;
+    private boolean checkAll = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,8 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
         setHeaderTitle(getStringFromResource(R.string.resource_yard));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
+        getTitleHeaderBar().getRightTextView().setTextColor(
+                getContext().getResources().getColor(R.color.text_hint));
         resourcePersonAdapter = new ResourceYardAdapter(getContext());
         resourcePersonAdapter.setNeedSeareaNumber(true);
         setData(resourcePersonModels,resourcePersonAdapter);
@@ -113,16 +116,22 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
             @Override
             public void onClick(View v) {
                 //check_all
-            }
-        });
-        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //check_all
+                checkAll = !checkAll;
+                if (checkAll){
+                    getTitleHeaderBar().getRightTextView().setTextColor(
+                            getContext().getResources().getColor(R.color.title_bar_right));
+                }else{
+                    getTitleHeaderBar().getRightTextView().setTextColor(
+                            getContext().getResources().getColor(R.color.text_hint));
+                }
                 resourcePersonAdapter.setIsFromCheckAll(true);
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
-                    r.isCheck = !r.isCheck;
+                    if (checkAll){
+                        r.isCheck = true;
+                    }else{
+                        r.isCheck = false;
+                    }
                 }
                 resourcePersonAdapter.notifyDataSetChanged();
                 resourcePersonAdapter.setIsFromCheckAll(false);

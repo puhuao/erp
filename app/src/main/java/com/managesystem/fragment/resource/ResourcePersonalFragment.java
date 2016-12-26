@@ -36,6 +36,7 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
     ResourcePersonAdapter resourcePersonAdapter;
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     String userID;
+    private boolean checkAll = false;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +53,8 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
         setHeaderTitle(getStringFromResource(R.string.resource_my));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
+        getTitleHeaderBar().getRightTextView().setTextColor(
+                getContext().getResources().getColor(R.color.text_hint));
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());
         resourcePersonAdapter.setIsMyResource(1);
         setData(resourcePersonModels, resourcePersonAdapter);
@@ -59,10 +62,22 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
             @Override
             public void onClick(View v) {
                 //check_all
+                checkAll = !checkAll;
+                if (checkAll){
+                    getTitleHeaderBar().getRightTextView().setTextColor(
+                            getContext().getResources().getColor(R.color.title_bar_right));
+                }else{
+                    getTitleHeaderBar().getRightTextView().setTextColor(
+                            getContext().getResources().getColor(R.color.text_hint));
+                }
                 resourcePersonAdapter.setIsFromCheckAll(true);
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
-                    r.isCheck = !r.isCheck;
+                    if (checkAll){
+                        r.isCheck = true;
+                    }else{
+                        r.isCheck = false;
+                    }
                 }
                 resourcePersonAdapter.notifyDataSetChanged();
                 resourcePersonAdapter.setIsFromCheckAll(false);

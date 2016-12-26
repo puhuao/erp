@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintain> {
     MaintainApplyRecordAdapter adapter;
     ArrayList<Maintain> records = new ArrayList<>();
+    int type = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
 
     private void initView() {
         isfirstFragment = true;
+        type = (int) getmDataIn();
         setHeaderTitle("我的运维服务");
         getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +103,8 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
     @Override
     public void onBack() {
         super.onBack();
-        getContext().finish();
+        if (type ==1){
+            getContext().finish();
+        }
     }
 }

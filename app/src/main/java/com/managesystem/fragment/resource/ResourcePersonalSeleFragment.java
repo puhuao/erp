@@ -99,6 +99,7 @@ public class ResourcePersonalSeleFragment extends BaseListRefreshFragment<Resour
                 break;
             case R.id.fix:
                 //取消
+                getContext().popTopFragment(null);
                 break;
         }
     }

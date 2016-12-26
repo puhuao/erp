@@ -39,6 +39,7 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     private IConfig config;
     private String userID;
+    private boolean checkAll = false;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
         setHeaderTitle(getStringFromResource(R.string.resource_transfer));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
+        getTitleHeaderBar().getRightTextView().setTextColor(
+                getContext().getResources().getColor(R.color.text_hint));
         llCondition.setVisibility(View.GONE);
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());
         setData(resourcePersonModels,resourcePersonAdapter);
@@ -94,50 +97,28 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
             @Override
             public void onClick(View v) {
                 //check_all
+                checkAll = !checkAll;
+                if (checkAll){
+                    getTitleHeaderBar().getRightTextView().setTextColor(
+                            getContext().getResources().getColor(R.color.title_bar_right));
+                }else{
+                    getTitleHeaderBar().getRightTextView().setTextColor(
+                            getContext().getResources().getColor(R.color.text_hint));
+                }
                 resourcePersonAdapter.setIsFromCheckAll(true);
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
-                    r.isCheck = !r.isCheck;
+                    if (checkAll){
+                        r.isCheck = true;
+                    }else{
+                        r.isCheck = false;
+                    }
                 }
                 resourcePersonAdapter.notifyDataSetChanged();
                 resourcePersonAdapter.setIsFromCheckAll(false);
             }
         });
     }
-
-
-//    private void getResource(){
-////        IConfig config = BaseApplication.getInstance().getCurrentConfig();
-////        StringBuilder sb = new StringBuilder(Urls.RESOURCE_LIST);
-////        UrlUtils.getInstance(sb).praseToUrl("pageNo","1")
-////                .praseToUrl("pageSize","20")
-////                .praseToUrl("keyword","")
-////                .removeLastWord();
-//        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-//            @Override
-//            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-//                super.onError(isFromCache, call, response, e);
-//                ToastUtil.showShortMessage(getContext(),"网络错误");
-//            }
-//            @Override
-//            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-//                if (o!=null){
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(o);
-//                        String list = jsonObject.getString("list");
-//                        resourcePersonModels.addAll(GsonUtil.fromJsonList(list, ResourcePersonModel.class));
-//                        resourcePersonAdapter.notifyDataSetChanged();
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }
-//        };
-//        OkHttpUtils.get(sb.toString())//
-//                .tag(this)//
-//                .execute(callback);
-//    }
 
     private String getStringParam(){
         StringBuilder sb = new StringBuilder();

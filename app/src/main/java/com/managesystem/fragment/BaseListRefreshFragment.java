@@ -111,6 +111,7 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
         try {
             JSONObject jsonObject = new JSONObject(o);
             String list = jsonObject.getString("list");
+            int totalCount = jsonObject.getInt("totalCount");
             if (pageNo == 1){
                 models.clear();
             }
@@ -119,7 +120,7 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
                 pageNo++;
                 isFirstLoad = false;
                 models.addAll(elements);
-                if (elements.size() < pageSize) {
+                if (models.size() == totalCount) {
                     listView.setCanLoadMore(false);
                 }
             } else {

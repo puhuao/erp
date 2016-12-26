@@ -17,7 +17,7 @@ public class MainTainListActivity extends CommonActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main_container);
-        pushFragmentToBackStack(MaintainApplyRecordFragment.class, null);
+        pushFragmentToBackStack(MaintainApplyRecordFragment.class, 0);
     }
 
     @Override

@@ -120,8 +120,13 @@ public class FinishPersonalInformationFragment extends CommonFragment {
                     return;
                 }
                 registerInfo.setOfficeNo(editTextDoorNumber.getText().toString());
+
                 if (selectedDepartment==null){
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_text_department));
+                    break;
+                }
+                if (StringUtils.isBlank(registerInfo.getOfficeNo())){
+                    ToastUtil.showShortMessage(getContext(),"请输入门牌号");
                     break;
                 }
                 registerInfo.setArea(tvArea.getText().toString());
