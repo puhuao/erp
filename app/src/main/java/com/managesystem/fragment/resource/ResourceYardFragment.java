@@ -106,7 +106,7 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
         userID = config.getString("userId", "");
         setHeaderTitle(getStringFromResource(R.string.resource_yard));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
-        getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
+//        getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         getTitleHeaderBar().getRightTextView().setTextColor(
                 getContext().getResources().getColor(R.color.text_hint));
         resourcePersonAdapter = new ResourceYardAdapter(getContext());

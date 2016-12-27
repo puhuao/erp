@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.managesystem.R;
+import com.managesystem.adapter.PopMeetingConditionRoomAdapter;
 import com.managesystem.adapter.PopMeetingRoomAdapter;
 import com.managesystem.event.MeetingRoomConditionSelectEvent;
 import com.managesystem.model.MeetingRoom;
@@ -30,7 +31,7 @@ public class MeetingRoomConditionSelectFragment extends CommonFragment{
     ListView listView ;
     @Bind(R.id.fab)
     Button fab;
-    PopMeetingRoomAdapter adapter;
+    PopMeetingConditionRoomAdapter adapter;
     private List<MeetingRoom> list;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MeetingRoomConditionSelectFragment extends CommonFragment{
     }
 
     private void initView() {
-        adapter = new PopMeetingRoomAdapter(getContext());
+        adapter = new PopMeetingConditionRoomAdapter(getContext());
         setHeaderTitle("会议室选择");
         listView.setAdapter(adapter);
         adapter.setList(list);

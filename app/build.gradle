@@ -8,8 +8,8 @@ android {
         applicationId "com.managesystem"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
-        versionName "V1.8"
+        versionCode 9
+        versionName "V1.9"
     }
     buildTypes {
         release {
@@ -32,5 +32,6 @@ dependencies {
     compile 'com.lzy.widget:view-core:0.2.1'
     compile files('libs/jpush-android-2.0.5.jar')
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
+    compile 'com.tencent.bugly:crashreport:latest.release'
     compile project(':quicksidebar')
 }

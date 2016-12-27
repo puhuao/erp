@@ -154,7 +154,7 @@
                     android:textColor="@color/black"
                     android:textColorHint="@color/text_hint"
                     android:layout_gravity="center_vertical"
-                    />
+                    android:inputType="phone"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"

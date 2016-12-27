@@ -20,6 +20,7 @@ public class TitleHeaderBar extends RelativeLayout {
      private RelativeLayout mLeftViewContainer;
      private RelativeLayout mRightViewContainer;
      private RelativeLayout mCenterViewContainer;
+    private ImageView mLeftTextView;
 
      private String mTitle;
 
@@ -42,6 +43,7 @@ public class TitleHeaderBar extends RelativeLayout {
      mRightImageView = (ImageView) findViewById(R.id.btn_right);
      mRightTextView = (TextView) findViewById(R.id.tv_right);
      mCenterViewContainer = (RelativeLayout) findViewById(R.id.ly_title_bar_center);
+         mLeftTextView = (ImageView) findViewById(R.id.tv_left);
      }
 
      protected int getHeaderViewLayoutId() {
@@ -164,6 +166,7 @@ public class TitleHeaderBar extends RelativeLayout {
 
     public void setLeftOnClickListener(OnClickListener l) {
         mLeftViewContainer.setOnClickListener(l);
+        mLeftTextView.setOnClickListener(l);
     }
 
     public void setCenterOnClickListener(OnClickListener l) {
@@ -197,5 +200,16 @@ public class TitleHeaderBar extends RelativeLayout {
 
     public TextView getRightTextView() {
         return mRightTextView;
+    }
+
+    public void setmLeftTextView(int id){
+        mLeftTextView.setImageResource(id);
+        mLeftTextView.setVisibility(VISIBLE);
+        mLeftReturnImageView.setVisibility(GONE);
+    }
+
+    public void setRightBothShow() {
+        mRightImageView.setVisibility(VISIBLE);
+        mRightTextView.setVisibility(VISIBLE);
     }
 }

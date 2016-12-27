@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.google.zxing.WriterException;
 import com.managesystem.R;
+import com.managesystem.activity.TransferZxingCaptureActivity;
 import com.managesystem.adapter.ResourcePersonAdapter;
 import com.managesystem.config.Urls;
 import com.managesystem.model.ResourcePersonModel;
@@ -50,9 +51,15 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
     }
 
     private void initView() {
-        enableDefaultBack(false);
         config = BaseApplication.getInstance().getCurrentConfig();
         userID = config.getString("userId", "");
+        getTitleHeaderBar().setmLeftTextView(R.drawable.img_s_scan);
+        getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(TransferZxingCaptureActivity.class);
+            }
+        });
         setHeaderTitle(getStringFromResource(R.string.resource_transfer));
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);

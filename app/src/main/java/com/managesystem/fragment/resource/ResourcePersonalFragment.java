@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.google.zxing.WriterException;
 import com.managesystem.R;
 import com.managesystem.activity.MainTainApplyActivity;
+import com.managesystem.activity.TransferZxingCaptureActivity;
 import com.managesystem.adapter.ResourcePersonAdapter;
 import com.managesystem.config.Urls;
 import com.managesystem.fragment.BaseListRefreshFragment;
@@ -51,14 +52,22 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
     private void initView() {
         isfirstFragment = true;
         setHeaderTitle(getStringFromResource(R.string.resource_my));
+        getTitleHeaderBar().setRightImageResource(R.drawable.img_s_scan);
+        getTitleHeaderBar().getRightImageView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(TransferZxingCaptureActivity.class);
+            }
+        });
         getTitleHeaderBar().setRightText(getStringFromResource(R.string.check_all));
+        getTitleHeaderBar().setRightBothShow();
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
         getTitleHeaderBar().getRightTextView().setTextColor(
                 getContext().getResources().getColor(R.color.text_hint));
         resourcePersonAdapter = new ResourcePersonAdapter(getContext());
         resourcePersonAdapter.setIsMyResource(1);
         setData(resourcePersonModels, resourcePersonAdapter);
-        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
+        getTitleHeaderBar().getRightTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //check_all

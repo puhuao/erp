@@ -31,6 +31,7 @@ import com.managesystem.tools.UrlUtils;
 import com.managesystem.update.UpdateManager;
 import com.managesystem.widegt.CustomDialog;
 import com.managesystem.widegt.CustomViewPager;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.baseui.activity.BaseFragmentActivity;
@@ -84,6 +85,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         getWindow().setBackgroundDrawable(null);
         ActivityManager.getInstance().addActivity(this);
         EventBus.getDefault().register(this);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -183,6 +185,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                 mViewPager.setCurrentItem(0);
                 break;
             case R.id.btn_transfer:
+                CrashReport.testJavaCrash();
                 mViewPager.setCurrentItem(1);
                 break;
             case R.id.btn_msg:

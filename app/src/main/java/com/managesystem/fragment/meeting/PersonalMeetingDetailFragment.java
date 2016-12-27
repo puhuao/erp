@@ -71,8 +71,15 @@ public class PersonalMeetingDetailFragment extends CommonFragment {
     }
 
     private void initView() {
+        enableDefaultBack(true);
         meetingSelectCondition = (MeetingSelectCondition) getmDataIn();
         setHeaderTitle(getStringFromResource(R.string.meeting_detail));
+        getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().popTopFragment(null);
+            }
+        });
         mTitleList.add(getStringFromResource(R.string.meeting_detail));
         mTitleList.add(getStringFromResource(R.string.meeting_guarantee_information));
 
@@ -162,5 +169,12 @@ public class PersonalMeetingDetailFragment extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+
+    @Override
+    public boolean processBackPressed() {
+        getContext().popTopFragment(null);
+        return true;
     }
 }

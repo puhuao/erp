@@ -172,8 +172,8 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
             }
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                stopRefresh();
                 if (o!=null){
-                    stopRefresh();
                     notifyData(o,meetingRoomDetailClass);
                 }
             }
@@ -194,8 +194,8 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
             }
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                stopRefresh();
                 if (o!=null){
-                    stopRefresh();
                     notifyWithBak(o,meetingRoomDetailClass);
                 }
             }

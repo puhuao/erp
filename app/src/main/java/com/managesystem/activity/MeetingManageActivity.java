@@ -21,4 +21,9 @@ public class MeetingManageActivity extends CommonActivity {
     protected int getFragmentContainerId() {
         return R.id.id_fragment;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

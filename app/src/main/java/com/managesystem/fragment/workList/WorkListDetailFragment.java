@@ -125,7 +125,13 @@ public class WorkListDetailFragment extends CommonFragment {
 
     private void bundeDataToView() {
         if (!StringUtils.isBlank(workList.getServicetypeName())) {
-            workListType.setText(workList.getServicetypeName()+" "+ workList.getMaterialNames());
+            String materialNames = workList.getMaterialNames();
+            if (StringUtils.isBlank(materialNames)){
+
+                workListType.setText(workList.getServicetypeName());
+            }else{
+                workListType.setText(workList.getServicetypeName()+" "+workList.getMaterialNames());
+            }
             lable.setText("运维人员");
         }
         StringBuilder sb = new StringBuilder();

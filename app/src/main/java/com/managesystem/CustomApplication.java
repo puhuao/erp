@@ -1,5 +1,6 @@
 package com.managesystem;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.wksc.framwork.BaseApplication;
 
 import java.util.HashSet;
@@ -15,6 +16,7 @@ public class CustomApplication extends BaseApplication{
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashReport.initCrashReport(getApplicationContext(), "e1738fbf7f", false);
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         //设置别名指定向某个手机发送

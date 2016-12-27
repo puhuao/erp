@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="70dp"
     android:background="#f8f8f8">
 
     <RelativeLayout
@@ -22,6 +22,14 @@
             android:layout_marginLeft="10dp"
             android:focusable="false"
             android:src="@drawable/ic_left"
+            android:layout_alignParentBottom="true"/>
+        <ImageView
+            android:id="@+id/tv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
@@ -55,15 +63,6 @@
         android:visibility="gone">
 
 
-        <ImageView
-            android:id="@+id/btn_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:src="@drawable/ic_search"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
 
         <TextView
             android:id="@+id/tv_right"
@@ -75,7 +74,17 @@
             android:textColor="@color/title_bar_right"
             android:visibility="gone"
             android:textSize="14sp"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            />
+        <ImageView
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/ic_search"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/tv_right"
+            android:layout_marginRight="12dp"/>
 
 
     </RelativeLayout>

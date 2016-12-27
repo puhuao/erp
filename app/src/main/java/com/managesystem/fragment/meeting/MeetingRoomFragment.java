@@ -30,6 +30,7 @@ import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.recycler.OnRecyclerItemClickListener;
 import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -200,13 +201,13 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
         roomSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (meetingRooms.size() > 0) {
-                    hideSoftInput(v);
-                    getContext().pushFragmentToBackStack(MeetingRoomConditionSelectFragment.class, meetingRooms);
-                } else {
+//                if (meetingRooms.size() > 0) {
+//                    hideSoftInput(v);
+//                    getContext().pushFragmentToBackStack(MeetingRoomConditionSelectFragment.class, meetingRooms);
+//                } else {
                     hideSoftInput(v);
                     getMeetingRooms();
-                }
+//                }
             }
         });
 
@@ -263,9 +264,13 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
     @Subscribe
     public void onEvent(MeetingRoomConditionSelectEvent event) {
         meetingRoom = event.getDepartment();
-        roomSelect.setText(meetingRoom.getArea());
+        roomSelect.setText(meetingRoom.getMeetingroomName());
         isSearch = true;
-        meetingSelectCondition.setMeetingName(meetingRoom.getMeetingroomName());
+        if (StringUtils.isBlank(meetingRoom.getMeetingroomId())){
+            meetingSelectCondition.setMeetingName("");
+        }else{
+            meetingSelectCondition.setMeetingName(meetingRoom.getMeetingroomName());
+        }
         pageNo = 1;
         loadMore(1);
     }
@@ -283,8 +288,12 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
+                    meetingRooms.clear();
                     meetingRooms.addAll(GsonUtil.fromJsonList(o, MeetingRoom.class));
-                    getContext().pushFragmentToBackStack(MeetingRoomSelectFragment.class, meetingRooms);
+                    MeetingRoom room = new MeetingRoom();
+                    room.setMeetingroomName("全部");
+                    meetingRooms.add(room);
+                    getContext().pushFragmentToBackStack(MeetingRoomConditionSelectFragment.class, meetingRooms);
                 }
             }
         };
