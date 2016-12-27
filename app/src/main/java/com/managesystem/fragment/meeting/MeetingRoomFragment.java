@@ -2,6 +2,7 @@ package com.managesystem.fragment.meeting;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -13,17 +14,26 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.adapter.HorizontalListViewAdapter;
 import com.managesystem.adapter.MeetingRoomRecordAdapter;
+import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
+import com.managesystem.event.MeetingRoomConditionSelectEvent;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.HorizontalCalenderModel;
+import com.managesystem.model.MeetingRoom;
 import com.managesystem.model.MeetingRoomDetail;
 import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.recycler.OnRecyclerItemClickListener;
 import com.wksc.framwork.baseui.ActivityManager;
+import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +42,9 @@ import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/5.
@@ -49,6 +62,8 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
     RecyclerView recyclerView;
     @Bind(R.id.img_search)
             ImageView imgSearch;
+    @Bind(R.id.room_select)
+            TextView roomSelect;
     HorizontalListViewAdapter adapter;
     MeetingRoomRecordAdapter meetingRoomRecordAdapter;
     ArrayList<HorizontalCalenderModel> models = new ArrayList<>();
@@ -57,6 +72,13 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Boolean isSearch = false;
     float x;
+    private ArrayList<MeetingRoom> meetingRooms = new ArrayList<>();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -175,6 +197,18 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
                 loadMore(1);
             }
         });
+        roomSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (meetingRooms.size() > 0) {
+                    hideSoftInput(v);
+                    getContext().pushFragmentToBackStack(MeetingRoomConditionSelectFragment.class, meetingRooms);
+                } else {
+                    hideSoftInput(v);
+                    getMeetingRooms();
+                }
+            }
+        });
 
     }
 
@@ -224,5 +258,45 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
             getContext().getWindow().setStatusBarColor(getResources().getColor(com.wksc.framwork.R.color.black));
 
         }
+    }
+    private MeetingRoom meetingRoom;
+    @Subscribe
+    public void onEvent(MeetingRoomConditionSelectEvent event) {
+        meetingRoom = event.getDepartment();
+        roomSelect.setText(meetingRoom.getArea());
+        isSearch = true;
+        meetingSelectCondition.setMeetingName(meetingRoom.getMeetingroomName());
+        pageNo = 1;
+        loadMore(1);
+    }
+
+    private void getMeetingRooms() {
+        StringBuilder sb = new StringBuilder(Urls.MEETING_ROOM);
+        UrlUtils.getInstance(sb);
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(), "网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    meetingRooms.addAll(GsonUtil.fromJsonList(o, MeetingRoom.class));
+                    getContext().pushFragmentToBackStack(MeetingRoomSelectFragment.class, meetingRooms);
+                }
+            }
+        };
+        callback.setDialogHide();
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(callback);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -31,6 +31,7 @@ import okhttp3.Response;
 
 public class JPushWorkListDetailActivity extends CommonActivity {
 
+
     IConfig config;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +41,54 @@ public class JPushWorkListDetailActivity extends CommonActivity {
         int type=  getIntent().getExtras().getInt("type");
         WorkList workList = (WorkList) getIntent().getExtras().getSerializable("obj");
         if (type == 0){
-            getMeetings(workList.getRid());
+            getMeetingWorkList(workList.getRid());
         }else{
-            pushFragmentToBackStack(WorkListDetailFragment.class,workList);
+            getEquipmentWorklist(workList.getRid());
         }
 
+    }
+
+    private void getEquipmentWorklist(String rid) {
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        StringBuilder sb = new StringBuilder(Urls.MAINTAIN_LIST_DETAIL);
+        UrlUtils.getInstance(sb).praseToUrl("pageNo", "1")
+                .praseToUrl("pageSize", "20")
+                .praseToUrl("isQueryDetail", "1")
+                .praseToUrl("orderId", rid)
+                .removeLastWord();
+        DialogCallback callback = new DialogCallback<String>(JPushWorkListDetailActivity.this, String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(JPushWorkListDetailActivity.this, "网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(o);
+                        String list = jsonObject.getString("list");
+                        ArrayList<WorkList> applyRecords = new ArrayList<>();
+                        applyRecords.addAll(GsonUtil.fromJsonList(list, WorkList.class));
+                        if (applyRecords.size()>0){
+                            WorkList workList = applyRecords.get(0);
+                            pushFragmentToBackStack(WorkListDetailFragment.class,workList);
+                        }else{
+                            ToastUtil.showShortMessage(JPushWorkListDetailActivity.this,"网络错误");
+                            finish();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        OkHttpUtils.get(sb.toString())//
+                .tag(this)//
+                .execute(callback);
     }
 
     @Override
@@ -53,7 +97,7 @@ public class JPushWorkListDetailActivity extends CommonActivity {
     }
 
 
-    private void getMeetings(String id){
+    private void getMeetingWorkList(String id){
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.MEETING_LIST);
         UrlUtils.getInstance(sb).praseToUrl("pageNo","1")
@@ -94,6 +138,7 @@ public class JPushWorkListDetailActivity extends CommonActivity {
                 .tag(this)//
                 .execute(callback);
     }
+
 
 
 }

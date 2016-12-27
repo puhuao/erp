@@ -116,7 +116,7 @@ public class MultiImageView extends LinearLayout {
         int wrap = LayoutParams.WRAP_CONTENT;
         int match = LayoutParams.MATCH_PARENT;
 
-        onePicPara = new LayoutParams(match, wrap);
+        onePicPara = new LayoutParams(pxMoreWandH, pxMoreWandH);
 
         moreParaColumnFirst = new LayoutParams(pxMoreWandH, pxMoreWandH);
         morePara = new LayoutParams(pxMoreWandH, pxMoreWandH);

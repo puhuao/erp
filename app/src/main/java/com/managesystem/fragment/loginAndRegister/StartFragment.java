@@ -8,15 +8,12 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
-import com.managesystem.CustomApplication;
 import com.managesystem.R;
 import com.managesystem.activity.LoginActivity;
-import com.managesystem.activity.MainActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2016/11/8.
@@ -43,6 +40,7 @@ public class StartFragment extends CommonFragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                getContext().finish();
                 startActivity(LoginActivity.class);
             }
 
@@ -56,19 +54,5 @@ public class StartFragment extends CommonFragment {
     }
 
     private void initView() {
-//        username = config.getString("username", "");
-//        password = config.getString("password","");
-//        isSilence = config.getBoolean("silence", false);
-//        if (isSilence){
-//            JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 24, 59);
-//        } else {
-//            JPushInterface.setSilenceTime(CustomApplication.getContext(),0,0,0,0);
-//        }
-//        userName.setText(username);
-//        passWord.setText(password);
-//        isAotuLogin = config.getBoolean("isLogin",false);
-//        if (isAotuLogin){
-//            doLogin();
-//        }
     }
 }

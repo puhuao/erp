@@ -48,11 +48,11 @@
                  />
             <ImageView
                 android:id="@+id/img_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="@dimen/dimen_6"
                 android:src="@drawable/img_search"
                 android:layout_gravity="center"
-                android:padding="@dimen/dimen_6"
                 android:layout_marginRight="@dimen/dimen_6"/>
         </LinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout

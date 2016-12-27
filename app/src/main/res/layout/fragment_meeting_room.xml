@@ -56,7 +56,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
+    <TextView
+        android:id="@+id/room_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="点击选择会议室查询"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size_16"
+        android:padding="@dimen/dimen_6"
+        android:layout_gravity="center_vertical"
+        android:background="@color/main_back_gray"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:drawableRight="@drawable/ic_right_small"
+        android:drawablePadding="@dimen/dimen_6"
+        android:gravity="center"/>
     <EditText
         android:id="@+id/search"
         android:layout_width="0dp"
@@ -67,14 +80,17 @@
         android:drawableLeft="@drawable/ic_search"
         android:drawablePadding="@dimen/dimen_6"
         android:hint="请输入关键字搜索"
-        android:padding="@dimen/dimen_12" />
+        android:padding="@dimen/dimen_12"
+        android:visibility="gone"/>
         <ImageView
             android:id="@+id/img_search"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:padding="@dimen/dimen_6"
             android:src="@drawable/img_search"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/dimen_12"/>
+            android:layout_marginRight="@dimen/dimen_12"
+            android:visibility="gone"/>
     </LinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"

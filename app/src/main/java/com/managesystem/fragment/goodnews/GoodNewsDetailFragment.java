@@ -1,20 +1,17 @@
 package com.managesystem.fragment.goodnews;
 
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.ImageActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.GoodeNewsCheckEvent;
@@ -25,13 +22,11 @@ import com.managesystem.widegt.multiImageView.MultiImageView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +47,7 @@ public class GoodNewsDetailFragment extends CommonFragment {
     @Bind(R.id.multi_imageView)
     MultiImageView multiImageView;
 GoodNews goodNew;
+    ArrayList<String> imgs = new ArrayList<>();
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_good_new_detail, null);
@@ -73,7 +69,7 @@ GoodNews goodNew;
         }
 
         if (goodNew.getPics() != null) {
-            List<String> imgs = new ArrayList<>();
+
             for (String s :
                     goodNew.getPics()) {
                 imgs.add(Urls.GETPICS + s);
@@ -81,6 +77,20 @@ GoodNews goodNew;
             multiImageView.setVisibility(View.VISIBLE);
             multiImageView.setList(imgs);
         }
+        multiImageView.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getContext(), ImageActivity.class);
+                Bundle bd = null;
+                if (bd == null) {
+                    bd = new Bundle();
+                }
+                bd.putStringArrayList("list", imgs);
+                bd.putInt("position", position);
+                intent.putExtras(bd);
+                getContext().startActivity(intent);
+            }
+        });
     }
 
     @OnClick({R.id.sign_in})

@@ -1,6 +1,5 @@
 package com.managesystem.fragment.msg;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,11 +10,11 @@ import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.WorkListsActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.Message;
 import com.managesystem.tools.UrlUtils;
-import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -61,7 +60,9 @@ public class MsgMeetingGuaranteeDetailFragment extends CommonFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                updateDistribute();
+                getContext().finish();
+                startActivity(WorkListsActivity.class);
+//                updateDistribute();
                 break;
         }
     }

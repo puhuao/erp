@@ -253,6 +253,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         transferFragment.onDestroy();
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        JPushInterface.clearAllNotifications(this);
 
     }
 

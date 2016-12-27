@@ -22,6 +22,7 @@
             android:id="@+id/img_search"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:padding="@dimen/dimen_6"
             android:src="@drawable/img_search"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/dimen_12"/>

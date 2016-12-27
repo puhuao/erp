@@ -26,15 +26,10 @@ import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -115,7 +110,7 @@ public class WorkListDetailFragment extends CommonFragment {
             equipmentType.setText(workList.getMaterialNames());
         }
         setHeaderTitle("工单详情");
-        getMeetings();
+        bundeDataToView();
     }
 
     @OnClick({R.id.fab})
@@ -255,50 +250,6 @@ public class WorkListDetailFragment extends CommonFragment {
             }
         };
         OkHttpUtils.post(sb.toString())//
-                .tag(this)//
-                .execute(callback);
-    }
-
-
-    private void getMeetings() {
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
-        meetingSelectCondition = new MeetingSelectCondition();
-        StringBuilder sb = new StringBuilder(Urls.MAINTAIN_LIST_DETAIL);
-        UrlUtils.getInstance(sb).praseToUrl("pageNo", meetingSelectCondition.getPageNo())
-                .praseToUrl("pageSize", meetingSelectCondition.getPageSize())
-                .praseToUrl("meetingName", meetingSelectCondition.getMeetingName())
-                .praseToUrl("date", meetingSelectCondition.getDate())
-                .praseToUrl("isQueryDetail", "1")
-                .praseToUrl("orderId", workList.getRid())
-                .removeLastWord();
-        DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
-            @Override
-            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(), "网络错误");
-            }
-
-            @Override
-            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
-                if (o != null) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(o);
-                        String list = jsonObject.getString("list");
-                        ArrayList<WorkList> applyRecords = new ArrayList<>();
-                        applyRecords.addAll(GsonUtil.fromJsonList(list, WorkList.class));
-                        if (applyRecords.size()>0){
-                            workList = applyRecords.get(0);
-                            bundeDataToView();
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        };
-        OkHttpUtils.get(sb.toString())//
                 .tag(this)//
                 .execute(callback);
     }

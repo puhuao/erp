@@ -57,8 +57,8 @@ public class ForgetPasswordFragment extends CommonFragment {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         editTextPassword.setHint(getStringFromResource(R.string.hint_input_new_password));
         editTextPhoneNumber.setText(config.getString("username", ""));
-        editTextPhoneNumber.setEnabled(false);
-        editTextPhoneNumber.setFocusable(false);
+//        editTextPhoneNumber.setEnabled(false);
+//        editTextPhoneNumber.setFocusable(false);
     }
 
     @OnClick({R.id.fab,R.id.tv_get_valid_code})

@@ -59,6 +59,7 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
 //                pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }else if(message.type.equals(Message.DESPATCH_NOTICE)){
                 //派单通知（确认）
+
                 pushFragmentToBackStack(MsgMeetingGuaranteeDetailFragment.class, message);
             }else if(message.type.equals(Message.MEETING_FINISH)){
                 //会议工单完成，去评价
