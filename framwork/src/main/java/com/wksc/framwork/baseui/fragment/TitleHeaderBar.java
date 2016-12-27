@@ -194,4 +194,8 @@ public class TitleHeaderBar extends RelativeLayout {
     public void setLeftImageResource(int resId){
         mLeftReturnImageView.setImageResource(resId);
     }
+
+    public TextView getRightTextView() {
+        return mRightTextView;
+    }
 }

@@ -19,6 +19,9 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -51,7 +54,11 @@ public class ForgetPasswordFragment extends CommonFragment {
     private void initView() {
         setHeaderTitle(getStringFromResource(R.string.page_name_forget_password));
         fab.setText(getStringFromResource(R.string.confirm));
+        IConfig config = BaseApplication.getInstance().getCurrentConfig();
         editTextPassword.setHint(getStringFromResource(R.string.hint_input_new_password));
+        editTextPhoneNumber.setText(config.getString("username", ""));
+        editTextPhoneNumber.setEnabled(false);
+        editTextPhoneNumber.setFocusable(false);
     }
 
     @OnClick({R.id.fab,R.id.tv_get_valid_code})
@@ -88,6 +95,12 @@ public class ForgetPasswordFragment extends CommonFragment {
 
     /*获取验证码*/
     private void getValidCode(String phoneNumber){
+        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9])|(17[6,7,8]))\\d{8}$");
+        Matcher m = p.matcher(phoneNumber);
+        if (!m.matches()) {
+            ToastUtil.showShortMessage(getContext(), "请输入正确的手机号");
+            return;
+        }
         StringBuilder sb = new StringBuilder(Urls.GET_VALIDCODE);
         UrlUtils.getInstance(sb).praseToUrl("phoneNum", phoneNumber).praseToUrl("type","1").removeLastWord();
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
@@ -113,7 +126,7 @@ public class ForgetPasswordFragment extends CommonFragment {
 
 
     private void setNewPassword(String phoneNumber, String password, String code){
-        IConfig config = BaseApplication.getInstance().getCurrentConfig();
+
 
         StringBuilder sb = new StringBuilder(Urls.REGISTER);
         String s = UrlUtils.getInstance(sb).praseToUrl("phone", phoneNumber)

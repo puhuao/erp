@@ -115,6 +115,7 @@ public class MaintainDetailFragment extends CommonFragment {
     }
 
     private void initView() {
+
         StringBuilder sb = new StringBuilder();
         if (maintain.getHandleUsers()!=null){
             for (Users u :

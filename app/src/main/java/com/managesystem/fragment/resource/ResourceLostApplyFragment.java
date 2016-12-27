@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,6 +57,8 @@ public class ResourceLostApplyFragment extends CommonFragment {
     GridView gridView;
     @Bind(R.id.apply_reason)
     EditText applyReason;
+    @Bind(R.id.fab)
+    Button fab;
 
     List<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     ResourcePersonModel resourcePersonModel;
@@ -87,7 +91,8 @@ public class ResourceLostApplyFragment extends CommonFragment {
             sb.deleteCharAt(sb.length()-1);
         }
         name.setText(sb);
-
+        fab.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.selector_btn_login));
+        fab.setEnabled(true);
     }
 
     private void initView() {
@@ -95,6 +100,8 @@ public class ResourceLostApplyFragment extends CommonFragment {
         ll.setVisibility(View.GONE);
         gridImageAdapter = new GridImageAdapter(getContext());
         gridImageAdapter.excute();
+        fab.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
+        fab.setEnabled(false);
     }
 
     @OnClick({R.id.name,R.id.fab,R.id.img_select})
@@ -104,6 +111,14 @@ public class ResourceLostApplyFragment extends CommonFragment {
                 getContext().pushFragmentToBackStack(ResourcePersonalSeleFragment.class,null);
                 break;
             case R.id.fab:
+                if (StringUtils.isBlank(applyReason.getText().toString())){
+                    ToastUtil.showShortMessage(getContext(),"请输入申请理由");
+                    break;
+                }
+                if (gridImageAdapter.sb.length()==0){
+                    ToastUtil.showShortMessage(getContext(),"请选择相应的图片上传");
+                    break;
+                }
                 apply();
                 break;
             case R.id.img_select:

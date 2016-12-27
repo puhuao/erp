@@ -1,13 +1,18 @@
 package com.managesystem.fragment.goodnews;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
@@ -16,12 +21,17 @@ import com.managesystem.event.GoodeNewsCheckEvent;
 import com.managesystem.event.OnGoodNewsSignIn;
 import com.managesystem.model.GoodNews;
 import com.managesystem.tools.UrlUtils;
+import com.managesystem.widegt.multiImageView.MultiImageView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +49,8 @@ public class GoodNewsDetailFragment extends CommonFragment {
     TextView content;
     @Bind(R.id.sign_in)
     Button sign;
+    @Bind(R.id.multi_imageView)
+    MultiImageView multiImageView;
 GoodNews goodNew;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +70,16 @@ GoodNews goodNew;
             sign.setClickable(false);
         }else{
             check(goodNew.getWealId());
+        }
+
+        if (goodNew.getPics() != null) {
+            List<String> imgs = new ArrayList<>();
+            for (String s :
+                    goodNew.getPics()) {
+                imgs.add(Urls.GETPICS + s);
+            }
+            multiImageView.setVisibility(View.VISIBLE);
+            multiImageView.setList(imgs);
         }
     }
 

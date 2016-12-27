@@ -1,5 +1,7 @@
 package com.managesystem.model;
 
+import java.util.List;
+
 /**
  * Created by puhua on 2016/11/11.
  *
@@ -25,6 +27,15 @@ public class GoodNews {
     private String wealId;
     private boolean isApply;
     private String ctime;
+    private List<String> pics;
+
+    public List<String> getPics() {
+        return pics;
+    }
+
+    public void setPics(List<String> pics) {
+        this.pics = pics;
+    }
 
     public String getTitle() {
         return title;

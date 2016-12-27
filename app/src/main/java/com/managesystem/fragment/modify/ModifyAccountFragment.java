@@ -30,6 +30,7 @@ import com.managesystem.model.Message;
 import com.managesystem.model.PersonalInfo;
 import com.managesystem.popupwindow.MeetingRoomSelectPopupwindow;
 import com.managesystem.tools.UrlUtils;
+import com.managesystem.widegt.JustifyTextView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -62,6 +63,8 @@ public class ModifyAccountFragment extends CommonFragment {
     EditText editTextValidCode;
     @Bind(R.id.tv_get_valid_code)
     TextView tvGetValidCode;
+    @Bind(R.id.label)
+    JustifyTextView label;
     @Bind(R.id.fab)
     Button fab;
 
@@ -81,8 +84,15 @@ public class ModifyAccountFragment extends CommonFragment {
     private void initView() {
         if (step==0){
             setHeaderTitle("验证原手机号");
+            editTextPhoneNumber.setText(config.getString("username", ""));
+            editTextPhoneNumber.setEnabled(false);
+//            editTextPhoneNumber.setFocusable(false);
         }else{
             setHeaderTitle("验证新手机号");
+            label.setText("新手机号码");
+            editTextPhoneNumber.requestFocus();
+            editTextPhoneNumber.setEnabled(true);
+            editTextPhoneNumber.setFocusable(true);
         }
 
     }
