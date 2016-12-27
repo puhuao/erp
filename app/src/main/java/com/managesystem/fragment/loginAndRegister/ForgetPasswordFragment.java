@@ -12,7 +12,6 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.model.PersonalInfo;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -117,7 +116,7 @@ public class ForgetPasswordFragment extends CommonFragment {
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
 
         StringBuilder sb = new StringBuilder(Urls.REGISTER);
-        String s = UrlUtils.getInstance(sb).praseToUrl("userId", config.getString("userId", ""))
+        String s = UrlUtils.getInstance(sb).praseToUrl("phone", phoneNumber)
                 .praseToUrl("password",password)
                 .praseToUrl("code", code)
                 .praseToUrl("type","1")
