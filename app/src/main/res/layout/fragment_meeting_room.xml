@@ -63,13 +63,15 @@
         android:text="点击选择会议室查询"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_size_16"
-        android:padding="@dimen/dimen_6"
+        android:padding="@dimen/dimen_12"
         android:layout_gravity="center_vertical"
         android:background="@color/main_back_gray"
         android:layout_marginLeft="@dimen/dimen_12"
         android:drawableRight="@drawable/ic_right_small"
         android:drawablePadding="@dimen/dimen_6"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_margin="@dimen/dimen_6"
+        android:layout_marginRight="@dimen/dimen_12"/>
     <EditText
         android:id="@+id/search"
         android:layout_width="0dp"

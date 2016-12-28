@@ -226,10 +226,10 @@ public class WorkListDetailFragment extends CommonFragment {
         description.setText(workList.getInfor());
     }
 
-    private void updateDistribute(final int status) {
+    private void updateDistribute(final int sstatus) {
 
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
-        UrlUtils.getInstance(sb).praseToUrl("status", String.valueOf(status))
+        UrlUtils.getInstance(sb).praseToUrl("status", String.valueOf(sstatus))
                 .praseToUrl("rid", workList.getOrderId())
                 .praseToUrl("userId", config.getString("userId", ""))
                 .praseToUrl("remark",result.getText().toString())
@@ -246,8 +246,19 @@ public class WorkListDetailFragment extends CommonFragment {
                 if (o != null) {
                     getContext().finish();
                     EventBus.getDefault().post(new WorkListFinishEvent());
-                    if (status == 2) {
+                    if (sstatus == 2) {
                         ToastUtil.showShortMessage(getContext(), "确认工单成功");
+                        status.setText("处理中");
+//                        fab.setVisibility(View.GONE);
+                        submit.setText("完成");
+                        workList.setStatus(2);
+                        llResult.setVisibility(View.VISIBLE);
+                        llResultText.setVisibility(View.GONE);
+                        if (workList.getResponsibleUserId().equals(config.getString("userId", ""))) {
+                            submit.setVisibility(View.VISIBLE);
+                        }else{
+                            submit.setVisibility(View.GONE);
+                        }
                     } else {
                         ToastUtil.showShortMessage(getContext(), "完成工单成功");
                     }

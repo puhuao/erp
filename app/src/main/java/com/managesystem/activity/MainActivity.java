@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -43,10 +44,12 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -102,13 +105,13 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     @Override
     protected void onPause() {
         super.onPause();
-        JPushInterface.onPause(MainActivity.this);
+        JPushInterface.onPause(getApplicationContext());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        JPushInterface.onResume(MainActivity.this);
+        JPushInterface.onResume(getApplicationContext());
     }
 
     @Subscribe
@@ -254,8 +257,14 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         transferFragment.onDestroy();
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        JPushInterface.clearAllNotifications(this);
-
+        JPushInterface.clearAllNotifications(getApplicationContext());
+        JPushInterface.onKillProcess(getApplicationContext());
+        JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+                Log.i("TAG", "jpush:设置别名成功");
+            }
+        });
     }
 
 

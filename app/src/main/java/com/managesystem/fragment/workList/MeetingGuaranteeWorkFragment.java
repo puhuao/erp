@@ -233,12 +233,14 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
-                    getContext().finish();
+//                    getContext().finish();
                     EventBus.getDefault().post(new WorkListFinishEvent());
                     if (status.equals("2")){
                         ToastUtil.showShortMessage(getContext(), "会议工单确认成功");
                         tvGuaranteeProgress.setText("处理中");
-                        fab.setVisibility(View.GONE);
+//                        fab.setVisibility(View.GONE);
+                        fab.setText("完成");
+                        meetingApplyRecord.setStatus(2);
                     }else{
                         ToastUtil.showShortMessage(getContext(), "会议工单完成");
                         fab.setVisibility(View.GONE);

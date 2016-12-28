@@ -1,5 +1,6 @@
 package com.managesystem.fragment;
 
+import android.app.Notification;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.wksc.framwork.util.ToastUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 import okhttp3.Request;

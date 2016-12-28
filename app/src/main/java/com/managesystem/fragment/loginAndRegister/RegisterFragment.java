@@ -2,6 +2,8 @@ package com.managesystem.fragment.loginAndRegister;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +68,11 @@ public class RegisterFragment extends CommonFragment {
                 String password = editTextPassword.getText().toString();
                 if (StringUtils.isBlank(password)){
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_input_password));
+                    break;
+                }
+
+                if (!(password.length()>=6&&password.length()<=15)){
+                    ToastUtil.showShortMessage(getContext(),"请输入6到15位密码");
                     break;
                 }
                 Bundle bundle = new Bundle();

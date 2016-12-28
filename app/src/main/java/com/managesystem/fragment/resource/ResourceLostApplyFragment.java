@@ -115,10 +115,10 @@ public class ResourceLostApplyFragment extends CommonFragment {
                     ToastUtil.showShortMessage(getContext(),"请输入申请理由");
                     break;
                 }
-                if (gridImageAdapter.sb.length()==0){
-                    ToastUtil.showShortMessage(getContext(),"请选择相应的图片上传");
-                    break;
-                }
+//                if (gridImageAdapter.sb.length()==0){
+//                    ToastUtil.showShortMessage(getContext(),"请选择相应的图片上传");
+//                    break;
+//                }
                 apply();
                 break;
             case R.id.img_select:

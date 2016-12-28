@@ -52,6 +52,12 @@ public class MaintainApplyRecordAdapter extends BaseListAdapter<Maintain> {
                 break;
             case 3:
                 holder.tag.setText("未评价");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    holder.tag.setBackground(mContext.getDrawable(R.drawable.shape_bacgroud_refuse));
+                }else{
+                    holder.tag.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.shape_bacgroud_refuse));
+                }
+//                holder.tag.setTextColor(mContext.getResources().getColor(R.color.refuse));
                 break;
             case 4:
                 holder.tag.setText("已完成");

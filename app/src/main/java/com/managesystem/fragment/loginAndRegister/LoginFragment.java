@@ -1,5 +1,6 @@
 package com.managesystem.fragment.loginAndRegister;
 
+import android.app.Notification;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.Call;
@@ -74,14 +76,15 @@ public class LoginFragment extends CommonFragment {
        int minute = c.get(Calendar.MINUTE);
         if (isSilence) {
             JPushInterface.setSilenceTime(CustomApplication.getContext(), hour-1, minute, hour-1, minute);
+            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
+            builder.statusBarDrawable = R.mipmap.ic_launcher;
+            builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
+            builder.notificationDefaults = Notification.DEFAULT_VIBRATE;  //设置为铃声
+            JPushInterface.setPushNotificationBuilder(1, builder);
         } else {
             JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 0, 0);
         }
         userName.setText(username);
-
-
-
-
         if (config.getBoolean("remember", false)) {
             checkBox.setChecked(true);
             passWord.setText(password);
@@ -166,7 +169,7 @@ public class LoginFragment extends CommonFragment {
                     if (o.getStatus().equals("0")){
                         ToastUtil.showShortMessage(getContext(),"账号未激活!");
                     }
-                    JPushInterface.setAlias(getContext(), o.getUserId(), new TagAliasCallback() {
+                    JPushInterface.setAlias(getContext().getApplicationContext(), o.getUserId(), new TagAliasCallback() {
                         @Override
                         public void gotResult(int i, String s, Set<String> set) {
                             Log.i("TAG", "jpush:设置别名成功");

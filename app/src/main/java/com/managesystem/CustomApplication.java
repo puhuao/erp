@@ -12,7 +12,7 @@ public class CustomApplication extends BaseApplication{
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashReport.initCrashReport(getApplicationContext(), "e1738fbf7f", true);
+//        CrashReport.initCrashReport(getApplicationContext(), "e1738fbf7f", true);
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
     }

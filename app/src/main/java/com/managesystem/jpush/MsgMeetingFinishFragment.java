@@ -13,6 +13,7 @@ import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.fragment.maintain.MaintainApplyRecordFragment;
+import com.managesystem.fragment.maintain.MaintainDetailFragment;
 import com.managesystem.fragment.meeting.MeetingGuaranteeInformationFragment;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.Message;
@@ -69,8 +70,13 @@ public class MsgMeetingFinishFragment extends CommonFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-//                getMeetings();
-                getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class, 0);
+                if (message.type.equals(Message.MEETING_FINISH)){
+                    getMeetings();
+                }else{
+//                    getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class, 0);
+                    getContext().popTopFragment(null);
+                    getContext().pushFragmentToBackStack(MaintainDetailFragment.class,message.rid);
+                }
                 break;
         }
     }

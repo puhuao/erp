@@ -84,6 +84,11 @@ public class ForgetPasswordFragment extends CommonFragment {
                     ToastUtil.showShortMessage(getContext(),getStringFromResource(R.string.hint_input_password));
                     break;
                 }
+
+                if (!(password.length()>=6&&password.length()<=15)){
+                    ToastUtil.showShortMessage(getContext(),"请输入6到15位密码");
+                    break;
+                }
                 setNewPassword(phoneNumber,password,validCode);
                 break;
             case R.id.tv_get_valid_code:

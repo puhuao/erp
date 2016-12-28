@@ -86,7 +86,7 @@ public class TransferZxingCaptureActivity extends Activity implements QRCodeView
         try {
             JSONObject jsonObject = new JSONObject(result);
             String type = jsonObject.getString("type");
-            if ("4".equals(type)) {
+            if ("3".equals(type)) {
                 String s = jsonObject.getString("param");
                 QRresourceSend q = GsonUtil.fromJson(s, QRresourceSend.class);
                 String url = Urls.RESOURCE_SEND_TRANSFER + q.getPStr();

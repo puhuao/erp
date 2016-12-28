@@ -49,6 +49,10 @@ public class MsgNoticeFragment extends CommonFragment {
         setHeaderTitle("会议保障通知");
         content.setText(message.content);
         fab.setText("确认");
+        if (message.status==1){
+            fab.setBackgroundColor(getContext().getResources().getColor(R.color.text_hint));
+            fab.setEnabled(false);
+        }
     }
 
     @OnClick({R.id.fab,})
