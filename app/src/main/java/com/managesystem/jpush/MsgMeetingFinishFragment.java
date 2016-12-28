@@ -1,6 +1,5 @@
 package com.managesystem.jpush;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,13 +13,10 @@ import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.fragment.maintain.MaintainApplyRecordFragment;
-import com.managesystem.fragment.meeting.MeetingDetailFragment;
 import com.managesystem.fragment.meeting.MeetingGuaranteeInformationFragment;
 import com.managesystem.model.MeetingApplyRecord;
-import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.model.Message;
 import com.managesystem.tools.UrlUtils;
-import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -74,7 +70,7 @@ public class MsgMeetingFinishFragment extends CommonFragment {
         switch (v.getId()) {
             case R.id.fab:
 //                getMeetings();
-                getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class, null);
+                getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class, 0);
                 break;
         }
     }

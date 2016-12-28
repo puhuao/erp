@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,7 +19,7 @@ public class TitleHeaderBar extends RelativeLayout {
      private ImageView mRightImageView;
      private TextView mRightTextView;
      private RelativeLayout mLeftViewContainer;
-     private RelativeLayout mRightViewContainer;
+     private LinearLayout mRightViewContainer;
      private RelativeLayout mCenterViewContainer;
     private ImageView mLeftTextView;
 
@@ -37,7 +38,7 @@ public class TitleHeaderBar extends RelativeLayout {
 
      LayoutInflater.from(context).inflate(getHeaderViewLayoutId(), this);
      mLeftViewContainer = (RelativeLayout) findViewById(R.id.ly_title_bar_left);
-     mRightViewContainer = (RelativeLayout) findViewById(R.id.ly_title_bar_right);
+     mRightViewContainer = (LinearLayout) findViewById(R.id.ly_title_bar_right);
      mLeftReturnImageView = (ImageView) findViewById(R.id.iv_title_bar_left);
      mCenterTitleTextView = (TextView) findViewById(R.id.tv_title_bar_title);
      mRightImageView = (ImageView) findViewById(R.id.btn_right);
@@ -160,7 +161,7 @@ public class TitleHeaderBar extends RelativeLayout {
         return mCenterViewContainer;
     }
 
-    public RelativeLayout getRightViewContainer() {
+    public LinearLayout getRightViewContainer() {
         return mRightViewContainer;
     }
 

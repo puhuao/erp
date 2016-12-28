@@ -53,40 +53,39 @@
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/ly_title_bar_right"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
         android:padding="12dp"
         android:visibility="gone">
-
-
-
-        <TextView
-            android:id="@+id/tv_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:singleLine="true"
-            android:textColor="@color/title_bar_right"
-            android:visibility="gone"
-            android:textSize="14sp"
-            android:layout_alignParentBottom="true"
-            />
         <ImageView
             android:id="@+id/btn_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:src="@drawable/ic_search"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@id/tv_right"
-            android:layout_marginRight="12dp"/>
+            android:layout_marginRight="12dp"
+            android:layout_gravity="bottom|right"
+            />
 
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/title_bar_right"
+            android:visibility="gone"
+            android:textSize="14sp"
+            android:layout_gravity="bottom|right"
+            />
+
+
+
+    </LinearLayout>
 
 </RelativeLayout>

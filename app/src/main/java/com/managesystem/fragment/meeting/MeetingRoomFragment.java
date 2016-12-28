@@ -180,6 +180,7 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
                 adapter.notifyDataSetChanged();
                 rvManager.smoothScrollToPosition(recyclerView, null, position);
 //                horizontalListView.scrollTo((int) (position*x));
+                roomSelect.setText("");
                 pageNo = 1;
                 loadMore(1);
             }

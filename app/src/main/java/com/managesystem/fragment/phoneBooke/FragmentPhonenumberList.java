@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -63,7 +62,7 @@ public class FragmentPhonenumberList extends CommonFragment {
         setHeaderTitle(department.departmentName);
         getTitleHeaderBar().setRightImageResource(R.drawable.img_search);
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
-        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
+        getTitleHeaderBar().setRightImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getContext().pushFragmentToBackStack(FragmentPhonenumberListSearch.class,null);
@@ -86,12 +85,11 @@ public class FragmentPhonenumberList extends CommonFragment {
 
             }
         });
-        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getContext().pushFragmentToBackStack(PhoneBookDetailDetailFragment.class,departments.get(position));
-            }
-        });
+//        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                }
+//        });
         getPhoneNumbers();
     }
 

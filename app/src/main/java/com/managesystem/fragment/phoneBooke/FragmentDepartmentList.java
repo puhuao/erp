@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,13 +14,12 @@ import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.Department;
 import com.managesystem.tools.UrlUtils;
-import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.util.GsonUtil;
-import com.wksc.framwork.util.ToastUtil;
 import com.managesystem.widegt.sortView.CharacterParser;
 import com.managesystem.widegt.sortView.PinyinComparator;
 import com.managesystem.widegt.sortView.SideBar;
-import com.managesystem.widegt.sortView.SortAdapter;
+import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +56,7 @@ public class FragmentDepartmentList extends CommonFragment {
         // Add the sticky headers decoration
         getTitleHeaderBar().setRightImageResource(R.drawable.img_search);
         getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
-        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
+        getTitleHeaderBar().setRightImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getContext().pushFragmentToBackStack(FragmentPhonenumberListSearch.class,null);
@@ -82,14 +80,15 @@ public class FragmentDepartmentList extends CommonFragment {
             }
         });
         getDepartMents();
-        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                getContext().pushFragmentToBackStack(com.managesystem.fragment.phoneBooke.FragmentPhonenumberList.class,departments.get(position));
-            }
-        });
+//        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+////                getContext().pushFragmentToBackStack(FragmentPhonenumberList.class,
+////                        departments.get(position));
+//            }
+//        });
     }
     private void getDepartMents(){
         StringBuilder sb = new StringBuilder(Urls.GET_DEPARTMENT);

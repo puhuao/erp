@@ -8,10 +8,6 @@ import android.widget.TextView;
 import com.managesystem.R;
 import com.managesystem.model.MeetingRoomDetail;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -37,7 +33,7 @@ public class MeetingRoomRecordAdapter extends BaseListAdapter<MeetingRoomDetail>
         }
         MeetingRoomDetail detail = mList.get(position);
         holder.location.setText(detail.getMeetingroomName());
-        holder.time.setText(detail.getStartDate().substring(5,16)+"~"+detail.getEndDate().substring(5,16));
+        holder.time.setText(detail.getStartDate().substring(0,16)+"~"+detail.getEndDate().substring(0,16));
         holder.name.setText(detail.getMeetingName());
         return convertView;
     }

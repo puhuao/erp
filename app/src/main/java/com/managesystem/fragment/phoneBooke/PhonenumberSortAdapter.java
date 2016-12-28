@@ -1,6 +1,5 @@
 package com.managesystem.fragment.phoneBooke;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +8,17 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.managesystem.model.Department;
 import com.managesystem.model.PersonalInfo;
 import com.wksc.framwork.R;
+import com.wksc.framwork.baseui.activity.CubeFragmentActivity;
 
 import java.util.List;
 
 public class PhonenumberSortAdapter extends BaseAdapter implements SectionIndexer{
 	private List<PersonalInfo> list = null;
-	private Context mContext;
+	private CubeFragmentActivity mContext;
 
-	public PhonenumberSortAdapter(Context mContext, List<PersonalInfo> list) {
+	public PhonenumberSortAdapter(CubeFragmentActivity mContext, List<PersonalInfo> list) {
 		this.mContext = mContext;
 		this.list = list;
 	}
@@ -71,6 +70,13 @@ public class PhonenumberSortAdapter extends BaseAdapter implements SectionIndexe
 		}
 		viewHolder.tvTitle.setText(this.list.get(position).getName());
 		viewHolder.imageView.setImageResource(ReturnImages.returnImage(mContent.getSortLetters()));
+		viewHolder.tvTitle.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mContext.pushFragmentToBackStack(PhoneBookDetailDetailFragment.class,list.get(position));
+
+			}
+		});
 		return view;
 
 	}
