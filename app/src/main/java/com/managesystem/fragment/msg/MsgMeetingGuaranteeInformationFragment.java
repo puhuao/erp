@@ -1,6 +1,5 @@
-package com.managesystem.fragment.workList;
+package com.managesystem.fragment.msg;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,11 +14,11 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.event.WorkListFinishEvent;
+import com.managesystem.event.OnMeetingGuaranteeCommented;
+import com.managesystem.fragment.MsgFragment;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.Users;
 import com.managesystem.tools.UrlUtils;
-import com.managesystem.widegt.CustomDialog;
 import com.managesystem.widegt.RatingBar;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -39,9 +38,9 @@ import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/5.
- * 会议保障工单
+ * 保障信息
  */
-public class MeetingGuaranteeWorkFragment extends CommonFragment {
+public class MsgMeetingGuaranteeInformationFragment extends CommonFragment {
     @Bind(R.id.name)
     TextView tvName;
     @Bind(R.id.start_time)
@@ -72,17 +71,13 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
     TextView responsibleName;
     @Bind(R.id.responsible_phone)
     TextView responsiblePhoneNumber;
-    @Bind(R.id.work_list_type)
-    TextView workListType;
-    @Bind(R.id.work_list_apply_department)
-    TextView applyDepartment;
-    @Bind(R.id.work_list_apply)
-    TextView applyPerson;
     private MeetingApplyRecord meetingApplyRecord;
     String userID;
 
     private int rating;
     private String comment;
+    Bundle bundle;
+    private int type=0;//0会议保障详情1会议工单详情
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,12 +87,27 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container = (ViewGroup) inflater.inflate(R.layout.fragment_meeting_guarantee_work, null);
+        container = (ViewGroup) inflater.inflate(R.layout.fragment_meeting_guarantee, null);
         ButterKnife.bind(this, container);
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
         userID = config.getString("userId", "");
-        meetingApplyRecord = (MeetingApplyRecord) getmDataIn();
-        setHeaderTitle("会议工单详情");
+        meetingApplyRecord= (MeetingApplyRecord) getmDataIn();
+        if (meetingApplyRecord==null){
+            meetingApplyRecord = getArguments().getParcelable("key");
+            hideTitleBar();
+            type = 0;
+        }
+        else{
+            setHeaderTitle("会议保障详情");
+            type = 1;
+//            getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+////                    getContext().popToRoot(null);
+////                    getContext().pushFragmentToBackStack(MsgFragment.class,null);
+//                }
+//            });
+        }
         initView();
         return container;
     }
@@ -107,7 +117,7 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
         bundeDataToView();
         switch (meetingApplyRecord.getStatus()) {//0：新增 1：已派单2：已确认3：已完成4：已评价
             case 0:
-                tvGuaranteeProgress.setText("派单中");
+                tvGuaranteeProgress.setText("未派单");
                 llComment.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
                 responsibleName.setText("暂无");
@@ -118,52 +128,37 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
                 tvGuaranteeProgress.setText("已派单");
                 llComment.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
-                responsiblePhoneNumber.setText(meetingApplyRecord.getCphone());
-                CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-                if (meetingApplyRecord.getResponsibleUserId().equals(userID)) {
-
-                    builder.setMessage("收到新工单请确认");
-                    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            IConfig config = BaseApplication.getInstance().getCurrentConfig();
-                            updateDistribute(config.getString("userId", ""), "2", null, null);
-                        }
-                    });
-                    builder.setCanceldOnOutTouch(false);
-                    builder.create().show();
-                }else{
-                    builder.setMessage("请提醒责任人确认工单");
-                    builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setCanceldOnOutTouch(true);
-                    builder.create().show();
-                }
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 2:
                 tvGuaranteeProgress.setText("处理中");
                 llComment.setVisibility(View.GONE);
-                if (meetingApplyRecord.getHandleUsers() != null)
-                    if (meetingApplyRecord.getResponsibleUserId().equals(userID)) {
-                        fab.setVisibility(View.VISIBLE);
-                        fab.setText("完成");
-                    }
-                responsiblePhoneNumber.setText(meetingApplyRecord.getCphone());
+//                if (type == 1){
+//                    fab.setVisibility(View.VISIBLE);
+//                    fab.setText("完成");
+//                }
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
             case 3:
-                tvGuaranteeProgress.setText("未评价");
-                llComment.setVisibility(View.GONE);
-                fab.setVisibility(View.GONE);
-                responsiblePhoneNumber.setText(meetingApplyRecord.getCphone());
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
+                    tvGuaranteeProgress.setText("未评价");
+                    llComment.setVisibility(View.VISIBLE);
+                    llText.setVisibility(View.GONE);
+                    if (userID.equals(meetingApplyRecord.getUserId())) {
+                        llEdit.setVisibility(View.VISIBLE);
+                        fab.setVisibility(View.VISIBLE);
+                        ratingBar.setClickable(true);
+                        ratingBar.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
+                            @Override
+                            public void onRatingChange(float RatingCount) {
+                                rating = (int) RatingCount;
+                            }
+                        });
+                    }
+
                 break;
             case 4:
+                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 ratingBar.setStar(meetingApplyRecord.getStar());
                 tvComment.setText(meetingApplyRecord.getContent());
                 tvGuaranteeProgress.setText("已完成");
@@ -172,39 +167,40 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
                 llEdit.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
                 ratingBar.setClickable(false);
-                responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                 break;
         }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (meetingApplyRecord.getStatus()==1){
-                    IConfig config = BaseApplication.getInstance().getCurrentConfig();
-                    updateDistribute(config.getString("userId", ""), "2", null, null);
-                }else{
-                    IConfig config = BaseApplication.getInstance().getCurrentConfig();
-                    updateDistribute(config.getString("userId", ""), "3", null, null);
-                }
+                IConfig config = BaseApplication.getInstance().getCurrentConfig();
+                    comment = content.getText().toString();
+                    if (rating == 0) {
+                        ToastUtil.showShortMessage(getContext(), "请选择评星等级");
+                        return;
+                    }
+                    if (StringUtils.isBlank(comment)) {
+                        ToastUtil.showShortMessage(getContext(), "请输入评价内容");
+                        return;
+                    }
+
+                    updateDistribute(null,"4",comment,String.valueOf(rating));
             }
         });
     }
 
     private void bundeDataToView() {
-        workListType.setText("会议");
+//        ratingBar.setStar(3f);
         tvName.setText(meetingApplyRecord.getMeetingName());
-        tvStartTime.setText(meetingApplyRecord.getCtime());
+        tvStartTime.setText(meetingApplyRecord.getStartDate());
         tvLocation.setText(meetingApplyRecord.getArea());
         tvEndTime.setText(meetingApplyRecord.getEndDate());
-        applyDepartment.setText(meetingApplyRecord.getDepartmentName());
-        applyPerson.setText(meetingApplyRecord.getName());
         ArrayList<Users> handleUsers = meetingApplyRecord.getHandleUsers();
-
         StringBuilder sb = new StringBuilder();
         if (handleUsers != null && handleUsers.size() > 0) {
             for (Users user :
                     handleUsers) {
                 sb.append(user.getName()).append("、");
-                if (meetingApplyRecord.getResponsibleUserId().equals(user.getUserId())) {
+                if (meetingApplyRecord.getResponsibleUserId().equals(user.getUserId())){
                     responsibleName.setText(user.getName());
                 }
             }
@@ -214,7 +210,7 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
     }
 
 
-    private void updateDistribute(String userId, final String status, String comments, String rating) {//评价4完成3
+    private void updateDistribute(String userId,String status,String comments,String rating) {//评价4完成3
 
         StringBuilder sb = new StringBuilder(Urls.MEETING_GUARANTEE_RATING);
         UrlUtils.getInstance(sb).praseToUrl("status", status)
@@ -233,19 +229,13 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (o != null) {
-//                    getContext().finish();
-                    EventBus.getDefault().post(new WorkListFinishEvent());
-                    if (status.equals("2")){
-                        ToastUtil.showShortMessage(getContext(), "会议工单确认成功");
-                        tvGuaranteeProgress.setText("处理中");
-                        fab.setVisibility(View.VISIBLE);
-                        fab.setText("完成");
-                        meetingApplyRecord.setStatus(2);
-                    }else{
-                        ToastUtil.showShortMessage(getContext(), "会议工单完成");
-                        fab.setVisibility(View.GONE);
-                        getContext().onBackPressed();
-                    }
+                        ToastUtil.showShortMessage(getContext(), "会议保障评价成功");
+                        ratingBar.setClickable(false);
+                        llEdit.setVisibility(View.GONE);
+                        llText.setVisibility(View.VISIBLE);
+                        tvComment.setText(comment);
+                    EventBus.getDefault().post(new OnMeetingGuaranteeCommented());
+                    getContext().onBackPressed();
                 }
             }
         };
@@ -253,4 +243,11 @@ public class MeetingGuaranteeWorkFragment extends CommonFragment {
                 .tag(this)//
                 .execute(callback);
     }
+
+//    @Override
+//    public boolean processBackPressed() {
+////        getContext().popToRoot(null);
+////        getContext().pushFragmentToBackStack(MsgFragment.class,null);
+//        return true;
+//    }
 }

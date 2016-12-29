@@ -2,10 +2,12 @@ package com.managesystem.model;
 
 import com.managesystem.widegt.sortView.SortModel;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/11/6.
  */
-public class PersonalInfo extends SortModel{
+public class PersonalInfo extends SortModel implements Serializable {
 
     /**
      * area : 12

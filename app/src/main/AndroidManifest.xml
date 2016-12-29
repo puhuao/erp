@@ -107,6 +107,12 @@
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activity.TransferZxingCaptureActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PhoneBookDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PhoneBookListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PhoneBookListSearchActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>

@@ -2,10 +2,12 @@ package com.managesystem.model;
 
 import com.managesystem.widegt.sortView.SortModel;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/11/6.
  */
-public class Department extends SortModel{
+public class Department extends SortModel implements Serializable {
 
     /**
      * departmentName : 业务部

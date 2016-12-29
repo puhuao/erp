@@ -1,5 +1,9 @@
 package com.managesystem.fragment.phoneBooke;
 
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.managesystem.activity.PhoneBookListActivity;
 import com.managesystem.model.Department;
 import com.wksc.framwork.R;
 import com.wksc.framwork.baseui.activity.CubeFragmentActivity;
@@ -71,10 +76,16 @@ public class DepartmentSortAdapter extends BaseAdapter implements SectionIndexer
 		viewHolder.tvTitle.setText(this.list.get(position).getDepartmentName());
 		viewHolder.imageView.setImageResource(ReturnImages.returnImage(mContent.getSortLetters()));
 		viewHolder.tvTitle.setOnClickListener(new View.OnClickListener() {
+			@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 			@Override
 			public void onClick(View v) {
-				mContext.pushFragmentToBackStack(com.managesystem.fragment.phoneBooke.FragmentPhonenumberList.class,
-						list.get(position));
+//				mContext.pushFragmentToBackStack(FragmentPhonenumberList.class,
+//						list.get(position));
+				Intent intent = new Intent(mContext,PhoneBookListActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("bundle",list.get(position));
+				intent.putExtras(bundle);
+				mContext.startActivity(intent);
 			}
 		});
 		return view;

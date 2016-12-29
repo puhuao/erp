@@ -15,6 +15,8 @@ import com.managesystem.config.Urls;
 import com.managesystem.fragment.maintain.MaintainApplyRecordFragment;
 import com.managesystem.fragment.maintain.MaintainDetailFragment;
 import com.managesystem.fragment.meeting.MeetingGuaranteeInformationFragment;
+import com.managesystem.fragment.msg.MSGMaintainDetailFragment;
+import com.managesystem.fragment.msg.MsgMeetingGuaranteeInformationFragment;
 import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.Message;
 import com.managesystem.tools.UrlUtils;
@@ -70,12 +72,12 @@ public class MsgMeetingFinishFragment extends CommonFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
+                getContext().popTopFragment(null);
                 if (message.type.equals(Message.MEETING_FINISH)){
                     getMeetings();
                 }else{
 //                    getContext().pushFragmentToBackStack(MaintainApplyRecordFragment.class, 0);
-                    getContext().popTopFragment(null);
-                    getContext().pushFragmentToBackStack(MaintainDetailFragment.class,message.rid);
+                    getContext().pushFragmentToBackStack(MSGMaintainDetailFragment.class,message.rid);
                 }
                 break;
         }
@@ -113,7 +115,7 @@ public class MsgMeetingFinishFragment extends CommonFragment {
                         bundle.putParcelable("key", meetingApplyRecord);
                         MeetingGuaranteeInformationFragment guaranteeInformationFragment = new MeetingGuaranteeInformationFragment();
                         guaranteeInformationFragment.setArguments(bundle);
-                        getContext().pushFragmentToBackStack(MeetingGuaranteeInformationFragment.class, meetingApplyRecord);
+                        getContext().pushFragmentToBackStack(MsgMeetingGuaranteeInformationFragment.class, meetingApplyRecord);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

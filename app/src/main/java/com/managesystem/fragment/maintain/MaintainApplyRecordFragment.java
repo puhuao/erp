@@ -102,9 +102,9 @@ public class MaintainApplyRecordFragment extends BaseListRefreshFragment<Maintai
 
     @Override
     public boolean processBackPressed() {
-        if (type ==1){
+//        if (type ==1){
             getContext().finish();
-        }
+//        }
         return true;
     }
 }

@@ -1,6 +1,5 @@
-package com.managesystem.fragment.maintain;
+package com.managesystem.fragment.msg;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,19 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.zxing.WriterException;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.OnMainTainUpdata;
-import com.managesystem.model.AddUserParam;
+import com.managesystem.fragment.MsgFragment;
 import com.managesystem.model.Maintain;
-import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.Users;
-import com.managesystem.popupwindow.MeetingNoticeNextPersonPopupwindow;
-import com.managesystem.popupwindow.MeetingSignPersonPopupwindow;
-import com.managesystem.popupwindow.QrcodeViewPopupwindow;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.RatingBar;
 import com.wksc.framwork.BaseApplication;
@@ -32,29 +26,24 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
-import com.wksc.framwork.zxing.CreateQrCode;
-import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import model.QRCodeModel;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/5.
- * 会议详情
+ * 专门用来展示消息里工单去评价后的跳转到消息列表
  */
-public class MaintainDetailFragment extends CommonFragment {
+public class MSGMaintainDetailFragment extends CommonFragment {
     @Bind(R.id.guarantee_progress)
     TextView guaranteeProgress;
     @Bind(R.id.name)
@@ -115,7 +104,6 @@ public class MaintainDetailFragment extends CommonFragment {
     }
 
     private void initView() {
-
         StringBuilder sb = new StringBuilder();
         if (maintain.getHandleUsers()!=null){
             for (Users u :
@@ -278,4 +266,11 @@ public class MaintainDetailFragment extends CommonFragment {
                 .tag(this)//
                 .execute(callback);
     }
+
+//    @Override
+//    public boolean processBackPressed() {
+//        getContext().popToRoot(null);
+//        getContext().pushFragmentToBackStack(MsgFragment.class,null);
+//        return true;
+//    }
 }

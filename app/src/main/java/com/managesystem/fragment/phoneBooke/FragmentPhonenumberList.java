@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.PhoneBookListSearchActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.Department;
@@ -65,7 +66,7 @@ public class FragmentPhonenumberList extends CommonFragment {
         getTitleHeaderBar().setRightImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContext().pushFragmentToBackStack(FragmentPhonenumberListSearch.class,null);
+                startActivity(PhoneBookListSearchActivity.class);
             }
         });
         characterParser = CharacterParser.getInstance();

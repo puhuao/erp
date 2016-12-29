@@ -1,5 +1,8 @@
 package com.managesystem.fragment.phoneBooke;
 
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.managesystem.activity.PhoneBookDetailActivity;
+import com.managesystem.activity.PhoneBookListActivity;
 import com.managesystem.model.PersonalInfo;
 import com.wksc.framwork.R;
 import com.wksc.framwork.baseui.activity.CubeFragmentActivity;
@@ -73,7 +78,12 @@ public class PhonenumberSortAdapter extends BaseAdapter implements SectionIndexe
 		viewHolder.tvTitle.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mContext.pushFragmentToBackStack(PhoneBookDetailDetailFragment.class,list.get(position));
+				Intent intent = new Intent(mContext,PhoneBookDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("bundle",list.get(position));
+				intent.putExtras(bundle);
+				mContext.startActivity(intent);
+//				mContext.pushFragmentToBackStack(PhoneBookDetailDetailFragment.class,list.get(position));
 
 			}
 		});

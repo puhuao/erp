@@ -84,12 +84,12 @@ public class FragmentPhonenumberListSearch extends CommonFragment {
             }
         });
 
-        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getContext().pushFragmentToBackStack(PhoneBookDetailDetailFragment.class,departments.get(position));
-            }
-        });
+//        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                getContext().pushFragmentToBackStack(PhoneBookDetailDetailFragment.class,departments.get(position));
+//            }
+//        });
         imgSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

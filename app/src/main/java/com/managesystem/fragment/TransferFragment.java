@@ -83,7 +83,7 @@ public class TransferFragment extends BaseListRefreshFragment<ResourcePersonMode
                     return;
                 }
                 QrResourceModel qrResourceModel = new QrResourceModel();
-                qrResourceModel.setType("3");
+                qrResourceModel.setType("4");
                 QRresourceSend qRresourceSend = new QRresourceSend();
                 StringBuilder sb = new StringBuilder("?");
                 UrlUtils.getInstance(sb).praseToUrl("type","1")//1：交接2：发放
