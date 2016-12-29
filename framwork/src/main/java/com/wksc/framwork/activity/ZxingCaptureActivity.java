@@ -1,13 +1,19 @@
 package com.wksc.framwork.activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
 
 import com.wksc.framwork.R;
 import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.ToastUtil;
-import com.wksc.framwork.zxing.QRResourceRecycleEvent;
+import com.wksc.framwork.widget.CustomDialog;
 import com.wksc.framwork.zxing.QRResourceSendEvent;
 import com.wksc.framwork.zxing.SignInOrUpEvent;
 import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
@@ -39,6 +45,10 @@ public class ZxingCaptureActivity extends Activity implements QRCodeView.Delegat
         Bundle bd = getIntent().getExtras();
         setContentView(R.layout.layout_zxing);
         initView();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        }else{
+            mayRequestContacts();
+        }
     }
 
     @Override
@@ -120,5 +130,45 @@ public class ZxingCaptureActivity extends Activity implements QRCodeView.Delegat
     @Override
     public void onScanQRCodeOpenCameraError() {
         ToastUtil.showShortMessage(this, "请允许相机权限");
+    }
+
+    private static final int REQUEST_READ_CONTACTS = 0;
+    private boolean mayRequestContacts() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+
+            CustomDialog.Builder builder = new CustomDialog.Builder(this);
+            builder.setTitle("请提供相机权限");
+            builder.setMessage("请提供相机权限");
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                @TargetApi(Build.VERSION_CODES.M)
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_READ_CONTACTS);
+                }
+            });
+        } else {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_READ_CONTACTS);
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_CONTACTS) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                setContentView(R.layout.layout_zxing);
+                initView();
+            }else{
+                finish();
+                ToastUtil.showShortMessage(this,"没有授权");
+            }
+        }
     }
 }

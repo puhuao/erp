@@ -1,6 +1,5 @@
 package com.managesystem;
 
-import com.tencent.bugly.crashreport.CrashReport;
 import com.wksc.framwork.BaseApplication;
 
 import cn.jpush.android.api.JPushInterface;
@@ -16,6 +15,5 @@ public class CustomApplication extends BaseApplication{
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
     }
-
 
 }

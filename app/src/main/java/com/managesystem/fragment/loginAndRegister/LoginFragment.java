@@ -1,8 +1,6 @@
 package com.managesystem.fragment.loginAndRegister;
 
 import android.app.Notification;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,10 +17,8 @@ import com.managesystem.activity.MainActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.PersonalInfo;
-import com.managesystem.model.RemoteVersion;
 import com.managesystem.tools.MD5Utils;
 import com.managesystem.tools.UrlUtils;
-import com.managesystem.update.UpdateManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -30,7 +26,6 @@ import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -79,10 +74,15 @@ public class LoginFragment extends CommonFragment {
             BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
             builder.statusBarDrawable = R.mipmap.ic_launcher;
             builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
-            builder.notificationDefaults = Notification.DEFAULT_VIBRATE;  //设置为铃声
-            JPushInterface.setPushNotificationBuilder(1, builder);
+            builder.notificationDefaults = Notification.DEFAULT_LIGHTS;  //设置为呼吸灯
+            JPushInterface.setDefaultPushNotificationBuilder(builder);
         } else {
             JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 0, 0);
+            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
+            builder.statusBarDrawable = R.mipmap.ic_launcher;
+            builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
+            builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为呼吸灯
+            JPushInterface.setDefaultPushNotificationBuilder(builder);
         }
         userName.setText(username);
         if (config.getBoolean("remember", false)) {

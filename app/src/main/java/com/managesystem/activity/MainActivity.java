@@ -255,16 +255,16 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         homeFragment.onDestroy();
         msgFragment.onDestroy();
         transferFragment.onDestroy();
-        super.onDestroy();
         EventBus.getDefault().unregister(this);
         JPushInterface.clearAllNotifications(getApplicationContext());
-        JPushInterface.onKillProcess(getApplicationContext());
         JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
                 Log.i("TAG", "jpush:设置别名成功");
             }
         });
+        JPushInterface.onKillProcess(getApplicationContext());
+        super.onDestroy();
     }
 
 

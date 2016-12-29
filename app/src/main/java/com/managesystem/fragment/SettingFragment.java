@@ -18,15 +18,14 @@ import com.managesystem.activity.LoginActivity;
 import com.managesystem.activity.MainActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.fragment.modify.ModifySilenceFragment;
 import com.managesystem.model.RemoteVersion;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.update.UpdateManager;
 import com.managesystem.widegt.SwitchButton;
-import com.wksc.framwork.util.AppManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.AppManager;
 import com.wksc.framwork.util.ToastUtil;
 
 import butterknife.Bind;
@@ -88,11 +87,21 @@ public class SettingFragment extends CommonFragment {
     }
     private void modify(int pub) {
         if (pub == 1) {
+            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
+            builder.statusBarDrawable = R.mipmap.ic_launcher;
+            builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
+            builder.notificationDefaults = Notification.DEFAULT_LIGHTS;  //设置为呼吸灯
+            JPushInterface.setDefaultPushNotificationBuilder(builder);
             config.setBoolean("silence", true);
             JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 24, 59);
         } else {
             config.setBoolean("silence", false);
             JPushInterface.setSilenceTime(CustomApplication.getContext(),0,0,0,0);
+            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
+            builder.statusBarDrawable = R.mipmap.ic_launcher;
+            builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
+            builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为呼吸灯
+            JPushInterface.setDefaultPushNotificationBuilder(builder);
         }
     }
 
