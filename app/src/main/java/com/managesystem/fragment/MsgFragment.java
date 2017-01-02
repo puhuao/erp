@@ -32,12 +32,60 @@ public class MsgFragment extends CommonFragment {
     private ArrayList<String> mTitleList = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     MsgNotReadFragment msgNotReadFragment;
+     MsgReadFragment msgReadFragment;
+    NetFragmentAdapter adapter;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.layout_tab_layout_view_pager, null);
         ButterKnife.bind(this, container);
         initView();
         return container;
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter==null){
+
+            adapter = new NetFragmentAdapter(getChildFragmentManager());
+            viewpager.setAdapter(adapter);
+            tabCursor.setupWithViewPager(viewpager);
+            viewpager.setCurrentItem(0);
+            getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    msgNotReadFragment.markAllRead();
+                }
+            });
+            viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (position==0){
+                        getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
+                        if (msgNotReadFragment.isFirstLoad){
+                            msgNotReadFragment.handler.sendEmptyMessage(0);
+                        }
+                    }else if(position == 1){
+                        getTitleHeaderBar().getRightViewContainer().setVisibility(View.GONE);
+                        if (msgReadFragment.isFirstLoad){
+                            msgReadFragment.handler.sendEmptyMessage(0);
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
     }
 
     public void postToLoadData(){
@@ -55,45 +103,9 @@ public class MsgFragment extends CommonFragment {
         mTitleList.add(getStringFromResource(R.string.msg_read));
         msgNotReadFragment = new MsgNotReadFragment();
         fragmentList.add(msgNotReadFragment);
-        final MsgReadFragment msgReadFragment = new MsgReadFragment();
+        msgReadFragment = new MsgReadFragment();
         fragmentList.add(msgReadFragment);
-        NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
-        viewpager.setAdapter(adapter);
-        tabCursor.setupWithViewPager(viewpager);
-        viewpager.setCurrentItem(0);
-        getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                msgNotReadFragment.markAllRead();
-            }
-        });
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position==0){
-                    getTitleHeaderBar().getRightViewContainer().setVisibility(View.VISIBLE);
-                    if (msgNotReadFragment.isFirstLoad){
-                        msgNotReadFragment.handler.sendEmptyMessage(0);
-                    }
-                }else if(position == 1){
-                    getTitleHeaderBar().getRightViewContainer().setVisibility(View.GONE);
-                    if (msgReadFragment.isFirstLoad){
-                        msgReadFragment.handler.sendEmptyMessage(0);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     public class NetFragmentAdapter extends FragmentPagerAdapter {

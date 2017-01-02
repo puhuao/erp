@@ -2,6 +2,7 @@ package com.managesystem.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.managesystem.R;
 import com.managesystem.fragment.loginAndRegister.LoginFragment;
@@ -9,6 +10,11 @@ import com.managesystem.fragment.loginAndRegister.StartFragment;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.CommonActivity;
 import com.wksc.framwork.platform.config.IConfig;
+
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginActivity extends CommonActivity {
 
@@ -31,6 +37,7 @@ public class LoginActivity extends CommonActivity {
         }
         setContentView(R.layout.activity_main_container);
         config = BaseApplication.getInstance().getCurrentConfig();
+
         pushFragmentToBackStack(LoginFragment.class, null);
     }
 

@@ -109,13 +109,17 @@ public class MsgMeetingFinishFragment extends CommonFragment {
                         JSONObject jsonObject = new JSONObject(o);
                         String list = jsonObject.getString("list");
                         applyRecords.addAll(GsonUtil.fromJsonList(list, MeetingApplyRecord.class));
-                        if (applyRecords.size() > 0)
+                        if (applyRecords.size() > 0){
                             meetingApplyRecord = applyRecords.get(0);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("key", meetingApplyRecord);
-                        MeetingGuaranteeInformationFragment guaranteeInformationFragment = new MeetingGuaranteeInformationFragment();
-                        guaranteeInformationFragment.setArguments(bundle);
-                        getContext().pushFragmentToBackStack(MsgMeetingGuaranteeInformationFragment.class, meetingApplyRecord);
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("key", meetingApplyRecord);
+                            MeetingGuaranteeInformationFragment guaranteeInformationFragment = new MeetingGuaranteeInformationFragment();
+                            guaranteeInformationFragment.setArguments(bundle);
+                            getContext().pushFragmentToBackStack(MsgMeetingGuaranteeInformationFragment.class, meetingApplyRecord);
+                        }else{
+                            getContext().finish();
+                            ToastUtil.showShortMessage(getContext(),"网络错误");
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

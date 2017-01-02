@@ -59,7 +59,6 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
     @Subscribe
     public void onEvent(UpdateMsgListEvent event){
         pageNo=1;
-        callback.setDialogHide();
         loadMore(1);
     }
 

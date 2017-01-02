@@ -199,8 +199,6 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
                     notifyWithBak(o,meetingRoomDetailClass);
                 }
             }
-
-
         };
         callback.setDialogHide();
         OkHttpUtils.get(s)//

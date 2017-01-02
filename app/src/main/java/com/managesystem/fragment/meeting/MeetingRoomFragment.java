@@ -175,7 +175,7 @@ public class MeetingRoomFragment extends BaseListRefreshFragment<MeetingRoomDeta
                 int position = vh.getAdapterPosition();
                 title.setText(models.get(position).calendar);
                 meetingSelectCondition.setDate(models.get(position).calendar);
-                meetingSelectCondition.setMeetingName("点击选择会议室查询");
+                meetingSelectCondition.setMeetingName("");
                 adapter.currentPositon = position;
                 adapter.notifyDataSetChanged();
                 rvManager.smoothScrollToPosition(recyclerView, null, position);

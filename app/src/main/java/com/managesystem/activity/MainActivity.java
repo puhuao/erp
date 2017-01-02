@@ -257,13 +257,13 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         transferFragment.onDestroy();
         EventBus.getDefault().unregister(this);
         JPushInterface.clearAllNotifications(getApplicationContext());
-        JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
+        JPushInterface.setAlias(MainActivity.this, "", new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
-                Log.i("TAG", "jpush:设置别名成功");
+                Log.i("TAG", "别名设置为空");
             }
         });
-        JPushInterface.onKillProcess(getApplicationContext());
+        JPushInterface.stopPush(getApplicationContext());
         super.onDestroy();
     }
 

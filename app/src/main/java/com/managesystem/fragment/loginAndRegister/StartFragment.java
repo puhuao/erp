@@ -1,6 +1,7 @@
 package com.managesystem.fragment.loginAndRegister;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,12 @@ import com.managesystem.R;
 import com.managesystem.activity.LoginActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
+import java.util.Set;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * Created by Administrator on 2016/11/8.
@@ -47,6 +52,16 @@ public class StartFragment extends CommonFragment {
             @Override
             public void onAnimationRepeat(Animation animation) {
 
+            }
+        });
+        if (JPushInterface.isPushStopped(getContext().getApplicationContext())){
+            JPushInterface.resumePush(getContext().getApplicationContext());
+        }
+        JPushInterface.setAlias(getContext().getApplicationContext(), "", new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+                Log.i("TAG", "别名设置为空");
+                JPushInterface.stopPush(getContext().getApplicationContext());
             }
         });
         imgStart.startAnimation(alphaAnimation);

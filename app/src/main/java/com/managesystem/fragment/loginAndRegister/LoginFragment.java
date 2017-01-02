@@ -169,10 +169,15 @@ public class LoginFragment extends CommonFragment {
                     if (o.getStatus().equals("0")){
                         ToastUtil.showShortMessage(getContext(),"账号未激活!");
                     }
+
+                    if (JPushInterface.isPushStopped(getContext().getApplicationContext())){
+                        JPushInterface.resumePush(getContext().getApplicationContext());
+                    }
                     JPushInterface.setAlias(getContext().getApplicationContext(), o.getUserId(), new TagAliasCallback() {
                         @Override
                         public void gotResult(int i, String s, Set<String> set) {
                             Log.i("TAG", "jpush:设置别名成功");
+
                         }
                     });
 

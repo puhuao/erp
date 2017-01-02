@@ -1,9 +1,12 @@
 package com.managesystem.jpush;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 
 import com.managesystem.activity.MeetingMsgDetailActivity;
@@ -14,6 +17,8 @@ import com.wksc.framwork.util.GsonUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -38,20 +43,24 @@ public class MyReceiver extends BroadcastReceiver {
 		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
 			System.out.println("收到了通知。消息内容是：" + bundle.getString("cn.jpush.android.ALERT"));
 			EventBus.getDefault().post(new UpdateMsgListEvent());
+			if(isApplicationBroughtToBackground(context)){
+				JPushInterface.clearAllNotifications(context);
+			}
 		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 			System.out.println("用户点击打开了通知" + bundle.getString("cn.jpush.android.ALERT"));
+			JPushInterface.clearAllNotifications(context);
 			String s = bundle.getString("cn.jpush.android.EXTRA");
 			try {
 				JSONObject jsonObject = new JSONObject(s);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			String alert = bundle.getString("cn.jpush.android.ALERT");
-			try {
-				JSONObject object = new JSONObject(alert);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+//			String alert = bundle.getString("cn.jpush.android.ALERT");
+//			try {
+//				JSONObject object = new JSONObject(alert);
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//			}
 			Message message = GsonUtil.fromJson(s,Message.class);
 			Intent i = new Intent(context, MeetingMsgDetailActivity.class);
 			i.putExtra("obj",message);
@@ -62,5 +71,20 @@ public class MyReceiver extends BroadcastReceiver {
 		} else {
 			Log.d(TAG, "Unhandled intent - " + intent.getAction());
 		}
+	}
+
+	public boolean isApplicationBroughtToBackground(Context context) {
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+		if (tasks != null && !tasks.isEmpty()) {
+			ComponentName topActivity = tasks.get(0).topActivity;
+//			Debug.i(TAG, "topActivity:" + topActivity.flattenToString());
+//			Debug.f(TAG, "topActivity:" + topActivity.flattenToString());
+			if (!topActivity.getPackageName().equals(context.getPackageName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -34,7 +34,9 @@ public class PersonalMeetingFragment extends CommonFragment {
     private ArrayList<String> mTitleList = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     MeetingApplyRecordFragment meetingApplyRecordFragment;
+    MeetingAttendRecordFragment meetingAttendRecordFragment;
     int flagType = 0;
+    NetFragmentAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,38 @@ public class PersonalMeetingFragment extends CommonFragment {
         ButterKnife.bind(this, container);
         initView();
         return container;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter==null){
+            adapter = new NetFragmentAdapter(getChildFragmentManager());
+            viewpager.setAdapter(adapter);
+            tabCursor.setupWithViewPager(viewpager);
+            viewpager.setCurrentItem(0);
+            viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+                @Override
+                public void onPageSelected(int position) {
+                    if (position ==0){
+                        if (meetingApplyRecordFragment.isFirstLoad)
+                            meetingApplyRecordFragment.handler.sendEmptyMessage(0);
+                    }else if(position ==1){
+                        if (meetingAttendRecordFragment.isFirstLoad)
+                            meetingAttendRecordFragment.handler.sendEmptyMessage(0);
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
     }
 
     private void initView() {
@@ -72,36 +106,11 @@ public class PersonalMeetingFragment extends CommonFragment {
         mTitleList.add(getStringFromResource(R.string.meeting_attend_record));
         meetingApplyRecordFragment  = new MeetingApplyRecordFragment();
         fragmentList.add(meetingApplyRecordFragment);
-        final MeetingAttendRecordFragment meetingAttendRecordFragment = new MeetingAttendRecordFragment();
+        meetingAttendRecordFragment = new MeetingAttendRecordFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("tupe",0);
         meetingAttendRecordFragment.setArguments(bundle);
         fragmentList.add(meetingAttendRecordFragment);
-        NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
-        viewpager.setAdapter(adapter);
-        tabCursor.setupWithViewPager(viewpager);
-        viewpager.setCurrentItem(0);
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-            @Override
-            public void onPageSelected(int position) {
-                if (position ==0){
-                    if (meetingApplyRecordFragment.isFirstLoad)
-                    meetingApplyRecordFragment.handler.sendEmptyMessage(0);
-                }else if(position ==1){
-                    if (meetingAttendRecordFragment.isFirstLoad)
-                        meetingAttendRecordFragment.handler.sendEmptyMessage(0);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     public class NetFragmentAdapter extends FragmentPagerAdapter {
