@@ -138,36 +138,44 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
         fragmentList.add(payRecordFragment);
         chargeRecordFragment = new ChargeRecordFragment();
         fragmentList.add(chargeRecordFragment);
-        fragmentPagerAdapter = new MyPagerAdapter(getChildFragmentManager(), fragmentList);
-        viewpager.setAdapter(fragmentPagerAdapter);
-        viewpager.setCurrentItem(0);
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position==0){
-                    if (payRecordFragment.isFirstLoad){
-                        payRecordFragment.handler.sendEmptyMessage(0);
-                    }
-                }else if(position == 1){
-                    if (chargeRecordFragment.isFirstLoad){
-                        chargeRecordFragment.handler.sendEmptyMessage(0);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         radioGroup.setOnCheckedChangeListener(this);
         getMyAccount();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (fragmentPagerAdapter == null){
+            fragmentPagerAdapter = new MyPagerAdapter(getChildFragmentManager(), fragmentList);
+            viewpager.setAdapter(fragmentPagerAdapter);
+            viewpager.setCurrentItem(0);
+            viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (position==0){
+                        if (payRecordFragment.isFirstLoad){
+                            payRecordFragment.handler.sendEmptyMessage(0);
+                        }
+                    }else if(position == 1){
+                        if (chargeRecordFragment.isFirstLoad){
+                            chargeRecordFragment.handler.sendEmptyMessage(0);
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
     }
 
     @Override

@@ -31,6 +31,8 @@ public class PersonalResourceLostFragment extends CommonFragment {
     ViewPager viewpager;
     private ArrayList<String> mTitleList = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
+    ResourceLostApplyListFragment resourceLostApplyListFragment;
+    NetFragmentAdapter adapter;
     private MeetingSelectCondition meetingSelectCondition;
 
     private MeetingApplyRecord meetingApplyRecord;
@@ -51,30 +53,38 @@ public class PersonalResourceLostFragment extends CommonFragment {
         mTitleList.add(getStringFromResource(R.string.resource_lost_list));
         ResourceLostApplyFragment resourceLostApplyFragment = new ResourceLostApplyFragment();
         fragmentList.add(resourceLostApplyFragment);
-        final ResourceLostApplyListFragment resourceLostApplyListFragment = new ResourceLostApplyListFragment();
+        resourceLostApplyListFragment = new ResourceLostApplyListFragment();
         fragmentList.add(resourceLostApplyListFragment);
-        NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
-        viewpager.setAdapter(adapter);
-        tabCursor.setupWithViewPager(viewpager);
-        viewpager.setCurrentItem(0);
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
+    }
 
-            @Override
-            public void onPageSelected(int position) {
-                if (resourceLostApplyListFragment.isFirstLoad){
-                    resourceLostApplyListFragment.handler.sendEmptyMessage(0);
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter==null){
+            adapter = new NetFragmentAdapter(getChildFragmentManager());
+            viewpager.setAdapter(adapter);
+            tabCursor.setupWithViewPager(viewpager);
+            viewpager.setCurrentItem(0);
+            viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
                 }
-            }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+                @Override
+                public void onPageSelected(int position) {
+                    if (resourceLostApplyListFragment.isFirstLoad){
+                        resourceLostApplyListFragment.handler.sendEmptyMessage(0);
+                    }
+                }
 
-            }
-        });
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
     }
 
     public class NetFragmentAdapter extends FragmentPagerAdapter {

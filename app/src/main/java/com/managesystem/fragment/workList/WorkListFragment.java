@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.managesystem.R;
-import com.managesystem.fragment.meeting.MeetingApplyRecordFragment;
-import com.managesystem.fragment.meeting.MeetingAttendRecordFragment;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import java.util.ArrayList;
@@ -31,6 +29,9 @@ public class WorkListFragment extends CommonFragment {
     ViewPager viewpager;
     private ArrayList<String> mTitleList = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
+    WorkListUnfinishFragment workListUnfinishFragment;
+    WorkListfinishFragment workListfinishFragment;
+    NetFragmentAdapter adapter;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,36 +41,44 @@ public class WorkListFragment extends CommonFragment {
         return container;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter==null){
+            adapter = new NetFragmentAdapter(getChildFragmentManager());
+            viewpager.setAdapter(adapter);
+            tabCursor.setupWithViewPager(viewpager);
+            viewpager.setCurrentItem(0);
+            viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (position == 1){
+                        workListfinishFragment.handler.sendEmptyMessage(0);
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+    }
+
     private void initView() {
         setHeaderTitle(getStringFromResource(R.string.work_list_my));
         mTitleList.add(getStringFromResource(R.string.work_list_unfinished));
         mTitleList.add(getStringFromResource(R.string.work_list_finished));
-        WorkListUnfinishFragment workListUnfinishFragment = new WorkListUnfinishFragment();
+        workListUnfinishFragment = new WorkListUnfinishFragment();
         fragmentList.add(workListUnfinishFragment);
-        final WorkListfinishFragment workListfinishFragment = new WorkListfinishFragment();
+        workListfinishFragment = new WorkListfinishFragment();
         fragmentList.add(workListfinishFragment);
-        NetFragmentAdapter adapter = new NetFragmentAdapter(getChildFragmentManager());
-        viewpager.setAdapter(adapter);
-        tabCursor.setupWithViewPager(viewpager);
-        viewpager.setCurrentItem(0);
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 1){
-                    workListfinishFragment.handler.sendEmptyMessage(0);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     public class NetFragmentAdapter extends FragmentPagerAdapter {
