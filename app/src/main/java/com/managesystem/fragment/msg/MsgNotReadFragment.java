@@ -1,5 +1,8 @@
 package com.managesystem.fragment.msg;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -60,6 +64,9 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
     public void onEvent(UpdateMsgListEvent event){
         pageNo=1;
         loadMore(1);
+        if(!isApplicationBroughtToBackground(getContext().getApplicationContext())){
+            JPushInterface.clearAllNotifications(getContext().getApplicationContext());
+        }
     }
 
     private void initView() {
@@ -135,5 +142,18 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(callback);
+    }
+
+    public boolean isApplicationBroughtToBackground(Context context) {
+        ActivityManager am = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (tasks != null && !tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

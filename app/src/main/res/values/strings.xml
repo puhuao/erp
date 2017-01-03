@@ -131,6 +131,6 @@
     <string name="STATUS_COMMENT">已评价</string>
     <string name="resource_yard">仓库物资交接</string>
     <string name="resource_transfer">物资交接</string>
-
+    <string name="comments_label">您的评价对提高保障运维工作和改善服务很重要。请您真实及时地对为您提供服务的人员进行评价(一星表示最差，五星表示最好)</string>
 
 </resources>

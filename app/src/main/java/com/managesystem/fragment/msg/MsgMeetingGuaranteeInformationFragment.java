@@ -71,6 +71,8 @@ public class MsgMeetingGuaranteeInformationFragment extends CommonFragment {
     TextView responsibleName;
     @Bind(R.id.responsible_phone)
     TextView responsiblePhoneNumber;
+    @Bind(R.id.comments_label)
+    TextView comments_label;
     private MeetingApplyRecord meetingApplyRecord;
     String userID;
 
@@ -143,6 +145,7 @@ public class MsgMeetingGuaranteeInformationFragment extends CommonFragment {
                 responsiblePhoneNumber.setText(meetingApplyRecord.getResponsibleUserPhone());
                     tvGuaranteeProgress.setText("未评价");
                     llComment.setVisibility(View.VISIBLE);
+                comments_label.setVisibility(View.VISIBLE);
                     llText.setVisibility(View.GONE);
                     if (userID.equals(meetingApplyRecord.getUserId())) {
                         llEdit.setVisibility(View.VISIBLE);
@@ -164,6 +167,7 @@ public class MsgMeetingGuaranteeInformationFragment extends CommonFragment {
                 tvGuaranteeProgress.setText("已完成");
                 llComment.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.VISIBLE);
+                comments_label.setVisibility(View.GONE);
                 llEdit.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
                 ratingBar.setClickable(false);

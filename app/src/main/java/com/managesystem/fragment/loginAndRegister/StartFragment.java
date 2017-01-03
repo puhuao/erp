@@ -45,8 +45,7 @@ public class StartFragment extends CommonFragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                getContext().finish();
-                startActivity(LoginActivity.class);
+
             }
 
             @Override
@@ -62,6 +61,8 @@ public class StartFragment extends CommonFragment {
             public void gotResult(int i, String s, Set<String> set) {
                 Log.i("TAG", "别名设置为空");
                 JPushInterface.stopPush(getContext().getApplicationContext());
+                getContext().finish();
+                startActivity(LoginActivity.class);
             }
         });
         imgStart.startAnimation(alphaAnimation);

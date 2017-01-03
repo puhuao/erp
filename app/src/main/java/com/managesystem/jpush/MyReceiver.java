@@ -43,9 +43,7 @@ public class MyReceiver extends BroadcastReceiver {
 		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
 			System.out.println("收到了通知。消息内容是：" + bundle.getString("cn.jpush.android.ALERT"));
 			EventBus.getDefault().post(new UpdateMsgListEvent());
-			if(isApplicationBroughtToBackground(context)){
-				JPushInterface.clearAllNotifications(context);
-			}
+
 		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 			System.out.println("用户点击打开了通知" + bundle.getString("cn.jpush.android.ALERT"));
 			JPushInterface.clearAllNotifications(context);
@@ -73,18 +71,4 @@ public class MyReceiver extends BroadcastReceiver {
 		}
 	}
 
-	public boolean isApplicationBroughtToBackground(Context context) {
-		ActivityManager am = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
-		if (tasks != null && !tasks.isEmpty()) {
-			ComponentName topActivity = tasks.get(0).topActivity;
-//			Debug.i(TAG, "topActivity:" + topActivity.flattenToString());
-//			Debug.f(TAG, "topActivity:" + topActivity.flattenToString());
-			if (!topActivity.getPackageName().equals(context.getPackageName())) {
-				return true;
-			}
-		}
-		return false;
-	}
 }

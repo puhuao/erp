@@ -208,12 +208,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
-
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/dimen_24">
+            <TextView
+                android:id="@+id/comments_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_12"
+                android:text="@string/comments_label"
+                android:padding="@dimen/dimen_6"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_24"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -287,13 +294,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@null"
-                    android:hint="您的评价对提高保障运维工作和改善服务很重要。请您真实及时地对为您提供服务的人员进行评价（一星表示最差，五星表示最好）"
+                    android:hint="请输入评价(2-50字以内)"
                     android:padding="@dimen/dimen_12"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_16"
                     android:maxLines="2"
                     android:minLines="2"
-                    android:gravity="top|left"/>
+                    android:gravity="top|left"
+                    android:maxEms="50"/>
             </LinearLayout>
 
         </LinearLayout>

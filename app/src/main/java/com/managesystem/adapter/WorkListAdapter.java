@@ -53,14 +53,15 @@ public class WorkListAdapter extends BaseListAdapter<WorkList> {
             holder.image.setImageResource(R.drawable.img_work_equipment);
         }
         holder.time.setText("时间:"+workList.getDate());
-        holder.remark.setText("备注:"+workList.getRemark());
         if (type == 1){
+            holder.remark.setText("备注:"+workList.getRemark());
             if (workList.getImportant().equals("加急")){
                 holder.urgent.setVisibility(View.VISIBLE);
             }else{
                 holder.urgent.setVisibility(View.GONE);
             }
         }else{
+            holder.remark.setText("描述:"+workList.getRemark());
             holder.urgent.setVisibility(View.GONE);
         }
         return convertView;

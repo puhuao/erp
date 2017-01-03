@@ -89,6 +89,8 @@ public class MaintainDetailFragment extends CommonFragment {
     TextView responsiblePhoneNumber;
     @Bind(R.id.handler_result)
             TextView handlerResult;
+    @Bind(R.id.comments_label)
+            TextView comments_label;
     String userID;
     private String oderId;
 
@@ -165,6 +167,7 @@ public class MaintainDetailFragment extends CommonFragment {
                 setHeaderTitle("未评价");
                 guaranteeProgress.setText("未评价");
                 llComment.setVisibility(View.VISIBLE);
+                comments_label.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.GONE);
                 llReason.setVisibility(View.VISIBLE);
 
@@ -187,6 +190,7 @@ public class MaintainDetailFragment extends CommonFragment {
                 guaranteeProgress.setText("已完成");
                 llComment.setVisibility(View.VISIBLE);
                 llText.setVisibility(View.VISIBLE);
+                comments_label.setVisibility(View.GONE);
                 llEdit.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
                 llReason.setVisibility(View.VISIBLE);

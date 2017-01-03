@@ -69,22 +69,21 @@ public class LoginFragment extends CommonFragment {
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
        int minute = c.get(Calendar.MINUTE);
+        userName.setText(username);
         if (isSilence) {
-            JPushInterface.setSilenceTime(CustomApplication.getContext(), hour-1, minute, hour-1, minute);
+//            JPushInterface.setSilenceTime(CustomApplication.getContext(), hour-1, minute, hour-1, minute);
             BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
             builder.statusBarDrawable = R.mipmap.ic_launcher;
             builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
-            builder.notificationDefaults = Notification.DEFAULT_LIGHTS;  //设置为呼吸灯
-            JPushInterface.setDefaultPushNotificationBuilder(builder);
+            builder.notificationDefaults = Notification.DEFAULT_VIBRATE;  //设置为呼吸灯
+            JPushInterface.setPushNotificationBuilder(1,builder);
         } else {
-            JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 0, 0);
             BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
             builder.statusBarDrawable = R.mipmap.ic_launcher;
             builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
             builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为呼吸灯
-            JPushInterface.setDefaultPushNotificationBuilder(builder);
+            JPushInterface.setPushNotificationBuilder(1,builder);
         }
-        userName.setText(username);
         if (config.getBoolean("remember", false)) {
             checkBox.setChecked(true);
             passWord.setText(password);
@@ -181,6 +180,20 @@ public class LoginFragment extends CommonFragment {
                         }
                     });
 
+                    if (isSilence) {
+//            JPushInterface.setSilenceTime(CustomApplication.getContext(), hour-1, minute, hour-1, minute);
+                        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
+                        builder.statusBarDrawable = R.mipmap.ic_launcher;
+                        builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
+                        builder.notificationDefaults = Notification.DEFAULT_VIBRATE;  //设置为呼吸灯
+                        JPushInterface.setPushNotificationBuilder(1,builder);
+                    } else {
+                        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
+                        builder.statusBarDrawable = R.mipmap.ic_launcher;
+                        builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
+                        builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为呼吸灯
+                        JPushInterface.setPushNotificationBuilder(1,builder);
+                    }
                     startActivity(MainActivity.class);
                     getActivity().finish();
                 }

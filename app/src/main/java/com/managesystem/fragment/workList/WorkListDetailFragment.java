@@ -104,6 +104,8 @@ public class WorkListDetailFragment extends CommonFragment {
         workList = (WorkList) getmDataIn();
         if (!StringUtils.isBlank(workList.getImportant())){
             priority.setText(workList.getImportant());
+        }else{
+            priority.setText("普通");
         }
         if (workList.getServicetypeName().equals("设备")){
 //            llEquipmentType.setVisibility(View.VISIBLE);
