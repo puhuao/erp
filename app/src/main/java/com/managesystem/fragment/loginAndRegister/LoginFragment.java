@@ -1,6 +1,8 @@
 package com.managesystem.fragment.loginAndRegister;
 
 import android.app.Notification;
+import android.app.Service;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -172,15 +174,16 @@ public class LoginFragment extends CommonFragment {
                     if (JPushInterface.isPushStopped(getContext().getApplicationContext())){
                         JPushInterface.resumePush(getContext().getApplicationContext());
                     }
-                    JPushInterface.setAlias(getContext().getApplicationContext(), o.getUserId(), new TagAliasCallback() {
+                    JPushInterface.setAlias(CustomApplication.getContext(), o.getUserId(), new TagAliasCallback() {
                         @Override
                         public void gotResult(int i, String s, Set<String> set) {
                             Log.i("TAG", "jpush:设置别名成功");
 
                         }
                     });
-
+                    AudioManager audioManager = (AudioManager) getContext().getSystemService(Service.AUDIO_SERVICE);
                     if (isSilence) {
+                        audioManager.setStreamMute(AudioManager.STREAM_MUSIC , false);
 //            JPushInterface.setSilenceTime(CustomApplication.getContext(), hour-1, minute, hour-1, minute);
                         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
                         builder.statusBarDrawable = R.mipmap.ic_launcher;
@@ -188,6 +191,7 @@ public class LoginFragment extends CommonFragment {
                         builder.notificationDefaults = Notification.DEFAULT_VIBRATE;  //设置为呼吸灯
                         JPushInterface.setPushNotificationBuilder(1,builder);
                     } else {
+                        audioManager.setStreamMute(AudioManager.STREAM_MUSIC , true);
                         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
                         builder.statusBarDrawable = R.mipmap.ic_launcher;
                         builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失

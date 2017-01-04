@@ -9,6 +9,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
+import com.managesystem.CustomApplication;
 import com.managesystem.R;
 import com.managesystem.activity.LoginActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -45,7 +46,8 @@ public class StartFragment extends CommonFragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
+                getContext().finish();
+                startActivity(LoginActivity.class);
             }
 
             @Override
@@ -53,16 +55,14 @@ public class StartFragment extends CommonFragment {
 
             }
         });
-        if (JPushInterface.isPushStopped(getContext().getApplicationContext())){
-            JPushInterface.resumePush(getContext().getApplicationContext());
+        if (JPushInterface.isPushStopped(CustomApplication.getContext())){
+            JPushInterface.resumePush(CustomApplication.getContext());
         }
         JPushInterface.setAlias(getContext().getApplicationContext(), "", new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
                 Log.i("TAG", "别名设置为空");
-                JPushInterface.stopPush(getContext().getApplicationContext());
-                getContext().finish();
-                startActivity(LoginActivity.class);
+                JPushInterface.stopPush(CustomApplication.getContext());
             }
         });
         imgStart.startAnimation(alphaAnimation);

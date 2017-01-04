@@ -1,5 +1,6 @@
 package com.managesystem;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.wksc.framwork.BaseApplication;
 
 import cn.jpush.android.api.JPushInterface;
@@ -11,7 +12,7 @@ public class CustomApplication extends BaseApplication{
     @Override
     public void onCreate() {
         super.onCreate();
-//        CrashReport.initCrashReport(getApplicationContext(), "e1738fbf7f", true);
+        CrashReport.initCrashReport(getApplicationContext(), "e1738fbf7f", false);
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
     }

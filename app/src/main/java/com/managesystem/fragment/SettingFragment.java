@@ -1,8 +1,10 @@
 package com.managesystem.fragment;
 
 import android.app.Notification;
+import android.app.Service;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -86,7 +88,9 @@ public class SettingFragment extends CommonFragment {
         });
     }
     private void modify(int pub) {
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(Service.AUDIO_SERVICE);
         if (pub == 1) {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC , false);
             BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
             builder.statusBarDrawable = R.mipmap.ic_launcher;
             builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
@@ -95,6 +99,7 @@ public class SettingFragment extends CommonFragment {
             config.setBoolean("silence", true);
 //            JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 24, 59);
         } else {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC , true);
             config.setBoolean("silence", false);
             BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
             builder.statusBarDrawable = R.mipmap.ic_launcher;
