@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.managesystem.R;
-import com.managesystem.fragment.loginAndRegister.LoginFragment;
 import com.managesystem.fragment.loginAndRegister.StartFragment;
-import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.activity.CommonActivity;
 import com.wksc.framwork.platform.config.IConfig;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class SplashActivity extends CommonActivity {
 
@@ -37,5 +37,17 @@ public class SplashActivity extends CommonActivity {
     @Override
     protected int getFragmentContainerId() {
         return R.id.id_fragment;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 }

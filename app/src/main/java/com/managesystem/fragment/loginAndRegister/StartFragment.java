@@ -36,7 +36,7 @@ public class StartFragment extends CommonFragment {
         //初始化
         initView();
         Animation alphaAnimation = new AlphaAnimation(0.1f, 1.0f);
-        alphaAnimation.setDuration(3000);
+        alphaAnimation.setDuration(2000);
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

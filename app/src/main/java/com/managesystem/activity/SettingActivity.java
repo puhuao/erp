@@ -7,6 +7,8 @@ import com.managesystem.fragment.SettingFragment;
 import com.wksc.framwork.activity.CommonActivity;
 import com.wksc.framwork.platform.config.IConfig;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class SettingActivity extends CommonActivity {
 
     IConfig config;
@@ -20,5 +22,17 @@ public class SettingActivity extends CommonActivity {
     @Override
     protected int getFragmentContainerId() {
         return R.id.id_fragment;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 }
