@@ -1,6 +1,5 @@
 package com.managesystem.fragment.resource;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,17 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.zxing.WriterException;
-import com.lzy.imagepicker.ImagePicker;
-import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
-import com.managesystem.adapter.PopResourceTypeAdapter;
-import com.managesystem.adapter.ResourcePersonAdapter;
 import com.managesystem.adapter.ResourceYardAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.ResStatusSelectEvent;
-import com.managesystem.event.ResTypeSelectEvent;
 import com.managesystem.event.ResYardTypeSelectEvent;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.ResourcePersonModel;
@@ -31,7 +25,6 @@ import com.managesystem.model.ResourceType;
 import com.managesystem.model.Status;
 import com.managesystem.popupwindow.QrcodeViewPopupwindow;
 import com.managesystem.popupwindow.ResourceStatusSelectPopupwindow;
-import com.managesystem.tools.GlideImageLoader;
 import com.managesystem.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
@@ -46,7 +39,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -143,8 +135,8 @@ public class ResourceYardFragment extends BaseListRefreshFragment<ResourcePerson
     private void getStringParam(){
         int i =0 ;
         if (ids.length()>0){
-            ids.delete(0,ids.length()-1);
-            serialNumbers.delete(0,serialNumbers.length()-1);
+            ids.delete(0,ids.length());
+            serialNumbers.delete(0,serialNumbers.length());
         }
         for (ResourcePersonModel r :
                 resourcePersonModels) {
