@@ -132,5 +132,6 @@
     <string name="resource_yard">仓库物资交接</string>
     <string name="resource_transfer">物资交接</string>
     <string name="comments_label">您的评价对提高保障运维工作和改善服务很重要。请您真实及时地对为您提供服务的人员进行评价(一星表示最差，五星表示最好)</string>
-
+    <string name="about_us">成都市金网安科技有限公司   版权所有</string>
+    <string name="qq">QQ: 22268607@qq.com</string>
 </resources>

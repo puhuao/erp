@@ -101,7 +101,7 @@ TextView tvSign;
         setHeaderTitle(getStringFromResource(R.string.secretary));
         enableDefaultBack(false);
         roleName = config.getString("roleName","");
-        if (!StringUtils.isBlank(roleName)&&roleName.equals(getStringFromResource(R.string.role_name_fix))){
+        if (!StringUtils.isBlank(roleName)&&roleName.contains(getStringFromResource(R.string.role_name_fix))){
             workList.setVisibility(View.VISIBLE);
         }else{
             workList.setVisibility(View.GONE);

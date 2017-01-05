@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.CustomApplication;
 import com.managesystem.R;
+import com.managesystem.activity.AboutUsActivity;
 import com.managesystem.activity.LoginActivity;
 import com.managesystem.activity.MainActivity;
 import com.managesystem.callBack.DialogCallback;
@@ -109,9 +110,12 @@ public class SettingFragment extends CommonFragment {
         }
     }
 
-    @OnClick({R.id.logout, R.id.check_version,R.id.re_back})
+    @OnClick({R.id.logout, R.id.check_version,R.id.re_back,R.id.rl_about_us})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rl_about_us:
+                startActivity(AboutUsActivity.class);
+                break;
             case R.id.re_back:
                 getContext().pushFragmentToBackStack(ReBackFragment.class,null);
                 break;
