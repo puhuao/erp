@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.managesystem">
 
     <permission
@@ -39,7 +40,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
         <activity android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
@@ -52,7 +54,8 @@
         </activity>
         <activity android:name=".activity.MeetingManageActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="keyboardHidden|orientation"/>
         <activity android:name=".activity.GoodNewsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"/>
@@ -113,6 +116,8 @@
         <activity android:name=".activity.PhoneBookListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PhoneBookListSearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PersonalMeetingActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">

@@ -1,8 +1,6 @@
 package com.managesystem.fragment.loginAndRegister;
 
 import android.app.Notification;
-import android.app.Service;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -27,7 +25,6 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
-import java.util.Calendar;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -68,12 +65,8 @@ public class LoginFragment extends CommonFragment {
         username = config.getString("username", "");
         password = config.getString("password", "");
         isSilence = config.getBoolean("silence", false);
-        Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-       int minute = c.get(Calendar.MINUTE);
         userName.setText(username);
         if (isSilence) {
-//            JPushInterface.setSilenceTime(CustomApplication.getContext(), hour-1, minute, hour-1, minute);
             BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
             builder.statusBarDrawable = R.mipmap.ic_launcher;
             builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
@@ -181,23 +174,6 @@ public class LoginFragment extends CommonFragment {
 
                         }
                     });
-                    AudioManager audioManager = (AudioManager) getContext().getSystemService(Service.AUDIO_SERVICE);
-                    if (isSilence) {
-                        audioManager.setStreamMute(AudioManager.STREAM_MUSIC , false);
-//            JPushInterface.setSilenceTime(CustomApplication.getContext(), hour-1, minute, hour-1, minute);
-                        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
-                        builder.statusBarDrawable = R.mipmap.ic_launcher;
-                        builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
-                        builder.notificationDefaults = Notification.DEFAULT_VIBRATE;  //设置为呼吸灯
-                        JPushInterface.setPushNotificationBuilder(1,builder);
-                    } else {
-                        audioManager.setStreamMute(AudioManager.STREAM_MUSIC , true);
-                        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
-                        builder.statusBarDrawable = R.mipmap.ic_launcher;
-                        builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
-                        builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为呼吸灯
-                        JPushInterface.setPushNotificationBuilder(1,builder);
-                    }
                     startActivity(MainActivity.class);
                     getActivity().finish();
                 }

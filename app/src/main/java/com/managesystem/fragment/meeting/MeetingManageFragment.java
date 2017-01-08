@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.managesystem.R;
+import com.managesystem.activity.PersonalMeetingActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import butterknife.ButterKnife;
@@ -41,7 +42,7 @@ public class MeetingManageFragment extends CommonFragment {
                 break;
             case R.id.layout_meeting_my:
                 //我的会议
-                getContext().pushFragmentToBackStack(PersonalMeetingFragment.class,0);
+                startActivity(PersonalMeetingActivity.class);
                 break;
 
         }

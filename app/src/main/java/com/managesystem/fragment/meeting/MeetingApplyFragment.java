@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.PersonalMeetingActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.GoToComment;
@@ -18,7 +19,6 @@ import com.managesystem.event.MeetingRoomSelectEvent;
 import com.managesystem.model.MeetingApply;
 import com.managesystem.model.MeetingRoom;
 import com.managesystem.model.MeetingType;
-import com.managesystem.popupwindow.MeetingRoomSelectPopupwindow;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.CustomDialog;
 import com.managesystem.widegt.pickview.TimePickerView;
@@ -271,7 +271,7 @@ public class MeetingApplyFragment extends CommonFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                getContext().pushFragmentToBackStack(PersonalMeetingFragment.class, 1);
+                                startActivity(PersonalMeetingActivity.class);
                             }
                         });
                         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

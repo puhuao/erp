@@ -35,7 +35,6 @@ public class PersonalMeetingFragment extends CommonFragment {
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     MeetingApplyRecordFragment meetingApplyRecordFragment;
     MeetingAttendRecordFragment meetingAttendRecordFragment;
-    int flagType = 0;
     NetFragmentAdapter adapter;
 
     @Override
@@ -59,47 +58,15 @@ public class PersonalMeetingFragment extends CommonFragment {
             adapter = new NetFragmentAdapter(getChildFragmentManager());
             viewpager.setAdapter(adapter);
             tabCursor.setupWithViewPager(viewpager);
-            viewpager.setCurrentItem(0);
-            viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-                @Override
-                public void onPageSelected(int position) {
-                    if (position ==0){
-                        if (meetingApplyRecordFragment.isFirstLoad)
-                            meetingApplyRecordFragment.handler.sendEmptyMessage(0);
-                    }else if(position ==1){
-                        if (meetingAttendRecordFragment.isFirstLoad)
-                            meetingAttendRecordFragment.handler.sendEmptyMessage(0);
-                    }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
         }
     }
 
     private void initView() {
-        flagType = (int) getmDataIn();
         setHeaderTitle(getStringFromResource(R.string.meeting_my));
         getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (flagType == 1){
-                    getContext().popToRoot(null);
-//                    if (meetingApplyRecordFragment.getnotComment()>0){
-//                        getContext().popToRoot(null);
-//                    }else{
-//                        getContext().popTopFragment(null);
-//                    }
-                }else{
-                    getContext().onBackPressed();
-                }
+                getContext().finish();
             }
         });
         mTitleList.add(getStringFromResource(R.string.meeting_apply_record));
@@ -111,6 +78,28 @@ public class PersonalMeetingFragment extends CommonFragment {
         bundle.putInt("tupe",0);
         meetingAttendRecordFragment.setArguments(bundle);
         fragmentList.add(meetingAttendRecordFragment);
+        viewpager.setCurrentItem(0);
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+                if (position ==0){
+                    if (meetingApplyRecordFragment.isFirstLoad)
+                        meetingApplyRecordFragment.handler.sendEmptyMessage(0);
+                }else if(position ==1){
+                    if (meetingAttendRecordFragment.isFirstLoad)
+                        meetingAttendRecordFragment.handler.sendEmptyMessage(0);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public class NetFragmentAdapter extends FragmentPagerAdapter {
@@ -143,15 +132,5 @@ public class PersonalMeetingFragment extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onBack() {
-        if (flagType == 1){
-            getContext().popToRoot(null);
-        }else{
-            getContext().onBackPressed();
-            super.onBack();
-        }
     }
 }

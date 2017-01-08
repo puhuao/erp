@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.managesystem"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 12
         versionName "V1.12"
@@ -22,7 +22,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
     compile project(':framwork')
     compile 'com.jakewharton:butterknife:7.0.1'
     provided 'io.realm:realm-android:0.87.3'
@@ -30,8 +29,9 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.lzy.widget:ninegridview:0.2.0'
     compile 'com.lzy.widget:view-core:0.2.1'
-    compile files('libs/jpush-android-2.0.5.jar')
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile project(':quicksidebar')
+    compile files('libs/jcore-android_v1.1.0.jar')
+    compile files('libs/jpush-android_v3.0.1.jar')
 }
