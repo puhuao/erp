@@ -157,7 +157,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                     if (transferFragment.isFirstLoad)
                         transferFragment.handler.sendEmptyMessage(0);
                 }else if(position ==2){
-//                    msgFragment.postToLoadData();
+                    msgFragment.postToLoadData();
                 }
              }
 

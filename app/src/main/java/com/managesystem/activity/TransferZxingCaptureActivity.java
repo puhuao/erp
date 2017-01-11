@@ -125,6 +125,33 @@ public class TransferZxingCaptureActivity extends Activity implements QRCodeView
                 OkHttpUtils.post(sb.toString())//
                         .tag(this)//
                         .execute(callback);
+            }else if("3".equals(type)){
+                String s = jsonObject.getString("param");
+                QRresourceSend q = GsonUtil.fromJson(s, QRresourceSend.class);
+                String url = Urls.RESOURCE_SEND_TRANSFER + q.getPStr();
+                DialogCallback callback = new DialogCallback<String>(TransferZxingCaptureActivity.this, String.class) {
+                    @Override
+                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                        super.onError(isFromCache, call, response, e);
+                        ToastUtil.showShortMessage(TransferZxingCaptureActivity.this, "网络错误");
+                    }
+
+                    @Override
+                    public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                        if (o != null) {
+                            ToastUtil.showShortMessage(TransferZxingCaptureActivity.this, "物资发放成功");
+                        }
+                    }
+                };
+                IConfig config = BaseApplication.getInstance().getCurrentConfig();
+                StringBuilder sb = new StringBuilder(url);
+                sb.append("&");
+                UrlUtils.getInstance(sb)
+                        .praseToUrl("toUserId", config.getString("userId", ""))
+                        .removeLastWord();
+                OkHttpUtils.post(sb.toString())//
+                        .tag(this)//
+                        .execute(callback);
             }
         } catch (JSONException e) {
             e.printStackTrace();

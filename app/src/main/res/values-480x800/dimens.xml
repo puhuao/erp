@@ -13,6 +13,6 @@
     <dimen name="dimen_6">6dp</dimen>
     <dimen name="dimen_12">12dp</dimen>
     <dimen name="text_size_12">10sp</dimen>
-    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_14">12sp</dimen>
     <dimen name="text_size_16">16sp</dimen>
 </resources>

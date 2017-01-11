@@ -34,7 +34,8 @@
             android:drawableTop="@drawable/img_maintain"
             android:drawablePadding="@dimen/dimen_10"
             android:layout_centerInParent="true"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="@dimen/text_size_14"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/layout_communication"
@@ -51,7 +52,8 @@
                 android:text="@string/communication"
                 android:drawableTop="@drawable/img_communication"
                 android:drawablePadding="@dimen/dimen_10"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_14"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/layout_telephone_book"
@@ -68,7 +70,8 @@
                 android:text="@string/telephone_book"
                 android:drawableTop="@drawable/img_telephone_book"
                 android:drawablePadding="@dimen/dimen_10"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_14"/>
         </RelativeLayout>
     </LinearLayout>
         <LinearLayout
@@ -92,7 +95,8 @@
                     android:text="@string/resource_apply"
                     android:drawableTop="@drawable/img_resource_apply"
                     android:drawablePadding="@dimen/dimen_10"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_size_14"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/layout_meet_apply"
@@ -110,7 +114,8 @@
                     android:text="@string/meeting_apply"
                     android:drawableTop="@drawable/img_meeting_apply"
                     android:drawablePadding="@dimen/dimen_10"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_size_14"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/layout_good_news"
@@ -128,7 +133,8 @@
                     android:text="@string/good_news"
                     android:drawableTop="@drawable/img_good_news"
                     android:drawablePadding="@dimen/dimen_10"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_size_14"/>
             </RelativeLayout>
         </LinearLayout>
 

@@ -89,8 +89,7 @@ public class MsgFragment extends CommonFragment {
     }
 
     public void postToLoadData(){
-        if (msgNotReadFragment.isFirstLoad)
-            msgNotReadFragment.handler.sendEmptyMessage(0);
+            msgNotReadFragment.stopRefresh();
     }
 
 

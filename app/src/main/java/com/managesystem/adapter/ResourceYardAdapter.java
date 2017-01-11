@@ -57,7 +57,11 @@ public class ResourceYardAdapter extends BaseListAdapter<ResourcePersonModel> {
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
 
         if (!StringUtils.isBlank(resourcePersonModel.getSerialNumber())){
-            holder.serialNumber.setText("序列号:"+resourcePersonModel.getSerialNumber());
+            if (resourcePersonModel.getSerialNumber().equals("null")){
+                holder.serialNumber.setText("序列号:无");
+            }else{
+                holder.serialNumber.setText("序列号:"+resourcePersonModel.getSerialNumber());
+            }
         }else{
             holder.serialNumber.setText("序列号:无");
         }

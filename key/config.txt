@@ -1,3 +1,0 @@
-key store password manage
-alias manage
-key password manage
