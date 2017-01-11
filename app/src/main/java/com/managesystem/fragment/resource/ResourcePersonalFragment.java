@@ -104,16 +104,23 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
                 Bundle bundle = new Bundle();
                 bundle.putInt("type",0);
                 StringBuilder sb = new StringBuilder();
+                StringBuilder ids = new StringBuilder();
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
                     if (r.isCheck) {
                         sb.append(r.getMaterialName() + ",");
+                        ids.append(r.getMaterialnameId()+",");
                     }
                 }
                 if (sb.length() > 0) {
                     sb.deleteCharAt(sb.length() - 1);
                 }
+
+                if (ids.length()>0){
+                    ids.deleteCharAt(ids.length()-1);
+                }
                 bundle.putString("string",sb.toString());
+                bundle.putString("ids",ids.toString());
                 if(sb.length()>0){
                     startActivity(MainTainApplyActivity.class,bundle);
                 }else{

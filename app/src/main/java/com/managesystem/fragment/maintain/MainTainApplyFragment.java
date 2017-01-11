@@ -26,7 +26,6 @@ import com.wksc.framwork.util.ToastUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -57,6 +56,7 @@ public class MainTainApplyFragment extends CommonFragment {
     private int flag = 0;//1从运维服务进来，0从我的物资保修进来
 Bundle bundle;
     String name;
+    String ids;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +101,7 @@ Bundle bundle;
             type.setCompoundDrawables(null,null,null,null);
             tvEquipmentName.setCompoundDrawables(null,null,null,null);
             name = bundle.getString("string");
+            ids = bundle.getString("ids");
             getMeetingTypes(name);
         }else{
             llEquipment.setVisibility(View.GONE);
@@ -129,6 +130,7 @@ Bundle bundle;
             UrlUtils.getInstance(sb).praseToUrl("userId", config.getString("userId", ""))
                     .praseToUrl("infor", remark.getText().toString()).praseToUrl("servicetypeId", meetingType.getServicetypeId())
                     .praseToUrl("materialNames", equipmentNames)
+                    .praseToUrl("materianameIds",ids)
                     .removeLastWord();
             DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
                 @Override
