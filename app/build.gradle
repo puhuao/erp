@@ -8,8 +8,8 @@ android {
         applicationId "com.managesystem"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 14
-        versionName "V1.14"
+        versionCode 18
+        versionName "V1.18"
     }
     buildTypes {
         release {
@@ -32,6 +32,5 @@ dependencies {
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile project(':quicksidebar')
-    compile files('libs/jcore-android_v1.1.0.jar')
-    compile files('libs/jpush-android_v3.0.1.jar')
+    compile files('libs/jpush-android-2.2.0.jar')
 }
