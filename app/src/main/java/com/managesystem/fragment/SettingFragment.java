@@ -91,23 +91,11 @@ public class SettingFragment extends CommonFragment {
     private void modify(int pub) {
         AudioManager audioManager = (AudioManager) getContext().getSystemService(Service.AUDIO_SERVICE);
         if (pub == 1) {
-            audioManager.setStreamMute(AudioManager.STREAM_MUSIC , false);
-            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
-            builder.statusBarDrawable = R.mipmap.ic_launcher;
-            builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
-            builder.notificationDefaults = Notification.DEFAULT_VIBRATE;  //设置为呼吸灯
-            JPushInterface.setPushNotificationBuilder(1,builder);
             config.setBoolean("silence", true);
-//            JPushInterface.setSilenceTime(CustomApplication.getContext(), 0, 0, 24, 59);
         } else {
-            audioManager.setStreamMute(AudioManager.STREAM_MUSIC , true);
             config.setBoolean("silence", false);
-            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
-            builder.statusBarDrawable = R.mipmap.ic_launcher;
-            builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
-            builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为呼吸灯
-            JPushInterface.setPushNotificationBuilder(1,builder);
         }
+        CustomApplication.setSounds(getContext().getApplicationContext());
     }
 
     @OnClick({R.id.logout, R.id.check_version,R.id.re_back,R.id.rl_about_us})

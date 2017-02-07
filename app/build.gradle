@@ -32,5 +32,5 @@ dependencies {
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile project(':quicksidebar')
-    compile files('libs/jpush-android-2.2.0.jar')
+    compile files('libs/jpush-android-2.1.7.jar')
 }

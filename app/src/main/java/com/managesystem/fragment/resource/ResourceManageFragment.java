@@ -65,7 +65,7 @@ View yard;
         setHeaderTitle(getStringFromResource(R.string.resource_manage));
         roleName = config.getString("roleName","");
         if (!StringUtils.isBlank(roleName)&&
-                roleName.equals(getStringFromResource(R.string.role_name_resource_manage))){
+                roleName.contains(getStringFromResource(R.string.role_name_resource_manage))){
             yard.setVisibility(View.VISIBLE);
             recycle.setVisibility(View.VISIBLE);
         }else{

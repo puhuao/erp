@@ -66,19 +66,7 @@ public class LoginFragment extends CommonFragment {
         password = config.getString("password", "");
         isSilence = config.getBoolean("silence", false);
         userName.setText(username);
-        if (isSilence) {
-            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
-            builder.statusBarDrawable = R.mipmap.ic_launcher;
-            builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
-            builder.notificationDefaults = Notification.DEFAULT_VIBRATE;  //设置为呼吸灯
-            JPushInterface.setPushNotificationBuilder(1,builder);
-        } else {
-            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(getContext());
-            builder.statusBarDrawable = R.mipmap.ic_launcher;
-            builder.notificationFlags = Notification.FLAG_INSISTENT;  //设置为点击后自动消失
-            builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为呼吸灯
-            JPushInterface.setPushNotificationBuilder(1,builder);
-        }
+
         if (config.getBoolean("remember", false)) {
             checkBox.setChecked(true);
             passWord.setText(password);

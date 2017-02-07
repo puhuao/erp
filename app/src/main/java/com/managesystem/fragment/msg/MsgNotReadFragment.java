@@ -69,19 +69,20 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
         pageNo=1;
         loadMore(1);
         if(!isApplicationBroughtToBackground(getContext().getApplicationContext())){
-            CountDownTimer timer = new CountDownTimer(3000,1000) {
+            final Timer timer = new Timer();
+            TimerTask task = new TimerTask() {
                 @Override
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                @Override
-                public void onFinish() {
-                    JPushInterface.clearAllNotifications(getContext().getApplicationContext());
+                public void run() {
+                   getContext().runOnUiThread(new Runnable() {   // UI thread
+                        @Override
+                        public void run() {
+                            timer.cancel();
+                            JPushInterface.clearAllNotifications(getContext().getApplicationContext());
+                        }
+                    });
                 }
             };
-            timer.start();
-
+            timer.schedule(task, 1000);
         }
     }
 
