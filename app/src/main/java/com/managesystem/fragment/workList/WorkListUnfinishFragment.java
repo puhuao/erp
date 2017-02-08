@@ -100,4 +100,7 @@ public class WorkListUnfinishFragment extends BaseListRefreshFragment<WorkList> 
     }
 
 
+    public void stop() {
+        stopRefresh();
+    }
 }

@@ -1,6 +1,5 @@
 package com.managesystem.fragment.maintain;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,41 +10,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.zxing.WriterException;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.OnMainTainUpdata;
-import com.managesystem.model.AddUserParam;
 import com.managesystem.model.Maintain;
-import com.managesystem.model.MeetingApplyRecord;
 import com.managesystem.model.Users;
-import com.managesystem.popupwindow.MeetingNoticeNextPersonPopupwindow;
-import com.managesystem.popupwindow.MeetingSignPersonPopupwindow;
-import com.managesystem.popupwindow.QrcodeViewPopupwindow;
 import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.RatingBar;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
-import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
-import com.wksc.framwork.zxing.CreateQrCode;
-import com.wksc.framwork.zxing.qrcodeModel.QRChecInModel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import model.QRCodeModel;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -206,10 +193,10 @@ public class MaintainDetailFragment extends CommonFragment {
                     ToastUtil.showShortMessage(getContext(),"请选择评星等级");
                     return;
                 }
-                if (StringUtils.isBlank(comment)){
-                    ToastUtil.showShortMessage(getContext(),"请输入评价内容");
-                    return;
-                }
+//                if (StringUtils.isBlank(comment)){
+//                    ToastUtil.showShortMessage(getContext(),"请输入评价内容");
+//                    return;
+//                }
                 updateDistribute();
             }
         });

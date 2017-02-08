@@ -294,7 +294,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@null"
-                    android:hint="请输入评价(2-50字以内)"
+                    android:hint="请输入评价(50字以内)"
                     android:padding="@dimen/dimen_12"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_16"

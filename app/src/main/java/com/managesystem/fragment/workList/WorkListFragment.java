@@ -58,7 +58,10 @@ public class WorkListFragment extends CommonFragment {
                 @Override
                 public void onPageSelected(int position) {
                     if (position == 1){
+                        if(workListfinishFragment.isFirstLoad)
                         workListfinishFragment.handler.sendEmptyMessage(0);
+                    }else if (position==0){
+                        workListUnfinishFragment.stop();
                     }
                 }
 

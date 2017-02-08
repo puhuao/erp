@@ -22,11 +22,9 @@ import com.managesystem.widegt.RatingBar;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -176,10 +174,10 @@ public class MeetingGuaranteeInformationFragment extends CommonFragment {
                         ToastUtil.showShortMessage(getContext(), "请选择评星等级");
                         return;
                     }
-                    if (StringUtils.isBlank(comment)) {
-                        ToastUtil.showShortMessage(getContext(), "请输入评价内容");
-                        return;
-                    }
+//                    if (StringUtils.isBlank(comment)) {
+//                        ToastUtil.showShortMessage(getContext(), "请输入评价内容");
+//                        return;
+//                    }
 
                     updateDistribute(null,"4",comment,String.valueOf(rating));
             }
