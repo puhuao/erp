@@ -149,7 +149,6 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
         if (fragmentPagerAdapter == null){
             fragmentPagerAdapter = new MyPagerAdapter(getChildFragmentManager(), fragmentList);
             viewpager.setAdapter(fragmentPagerAdapter);
-            viewpager.setCurrentItem(0);
             viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -160,7 +159,7 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
                 public void onPageSelected(int position) {
                     if (position==0){
 //                        if (payRecordFragment.isFirstLoad){
-//                            payRecordFragment.handler.sendEmptyMessage(0);
+                            payRecordFragment.stopAnimation();
 //                        }
                     }else if(position == 1){
                         if (chargeRecordFragment.isFirstLoad){
@@ -175,6 +174,7 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
 
                 }
             });
+            viewpager.setCurrentItem(0);
         }
     }
 

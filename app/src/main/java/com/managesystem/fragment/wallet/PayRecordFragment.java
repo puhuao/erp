@@ -70,4 +70,8 @@ public class PayRecordFragment extends BaseListRefreshFragment<AccountRecord> {
                 .removeLastWord();
         excute(sb.toString(),AccountRecord.class);
     }
+
+    public void stopAnimation(){
+        stopRefresh();
+    }
 }
