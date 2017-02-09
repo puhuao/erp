@@ -6,6 +6,7 @@ package com.managesystem.config;
 public class Urls {
 //    public static final String BASE_URL = "http://101.200.172.229:8081/";
 public static final String BASE_URL = "http://119.6.84.165:7071/";
+    public static final String PIC_BASE_URL = "http://119.6.84.165:7070/";
     public static final String LOGIN = BASE_URL+"user/login?";//登录
     public static final String GET_VALIDCODE = BASE_URL+"getCode?";//获取验证码
     public static final String GET_DEPARTMENT = BASE_URL+"department/query";//获取所有部门
@@ -23,7 +24,7 @@ public static final String BASE_URL = "http://119.6.84.165:7071/";
     public static final String RESOURCE_APPLY = BASE_URL +"material/saveOrder";//物资申请(挂失)
     public static final String RESOURCE_APPLY_LIST = BASE_URL + "material/queryOrder?";//物资申请列表(挂失)
     public static final String RESOURCE_LIST = BASE_URL+"material/query?";//物资列表
-    public static final String UPLOAD = "http://101.200.172.229:8080/ERP/appuser/savePic";//上传文件
+    public static final String UPLOAD = PIC_BASE_URL+"ERP/appuser/savePic";//上传文件
     public static final String MSG_LIST = BASE_URL+"getMessages?";//获取消息列表
     public static final String UPDATE_MSG_STATUS = BASE_URL +"updateMessageStatus?";//修改消息状态
     public static final String RESOURCE_SEND_TRANSFER = BASE_URL+"material/saveRecord";//物资发放和交接
@@ -34,7 +35,7 @@ public static final String BASE_URL = "http://119.6.84.165:7071/";
     public static final String PPS_COMMECT = BASE_URL +"topic/saveReply?";//回帖
     public static final String PPS_COMMENT_LIST = BASE_URL +"topic/queryReplys?";//回帖列表
     public static final String PPS_ZAN = BASE_URL +"topic/praise?";//点赞
-    public static final String GETPICS = "http://101.200.172.229:8080/ERP/appuser/getPic?path=";//获取图片
+    public static final String GETPICS = PIC_BASE_URL+"ERP/appuser/getPic?path=";//获取图片
     public static final String GOOD_NEWS = BASE_URL+"weal/query?";//福利列表
     public static final String WEAL_SIGN = BASE_URL +"weal/saveUser?";//福利报名或查看
     public static final String PHONE_NUMBERS = BASE_URL +"department/queryUser?";//获取部门电话博

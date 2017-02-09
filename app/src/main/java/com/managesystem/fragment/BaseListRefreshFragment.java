@@ -154,8 +154,15 @@ public abstract class BaseListRefreshFragment<T> extends CommonFragment{
      */
     protected void stopRefresh() {
         if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setRefreshing(false);
+//            swipeRefreshLayout.setRefreshing(false);
+//            swipeRefreshLayout.setEnabled(true);
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
             swipeRefreshLayout.setEnabled(true);
+                }
+            });
         }
     }
 

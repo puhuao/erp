@@ -175,6 +175,7 @@ public class MyWalletFragment extends CommonFragment implements RadioGroup.OnChe
                 }
             });
             viewpager.setCurrentItem(0);
+            payRecordFragment.stopAnimation();
         }
     }
 
