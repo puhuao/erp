@@ -9,10 +9,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.managesystem.R;
-import com.managesystem.model.GoodNews;
 import com.managesystem.model.ResourcePersonModel;
 import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.util.StringUtils;
@@ -67,8 +67,22 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         }
 
         if (isMyResource==1)
-        if (resourcePersonModel.getStatus()==6||resourcePersonModel.getStatus()==7){
+        if (resourcePersonModel.getStatus()==7){
             holder.ivRecord.setVisibility(View.VISIBLE);
+        }
+        if(resourcePersonModel.getStatus()==6){
+            holder.ivRecord.setVisibility(View.VISIBLE);
+            holder.typeLabel.setTextColor(mContext.getResources().getColor(R.color.text_hint));
+            holder.brandLabel.setTextColor(mContext.getResources().getColor(R.color.text_hint));
+            holder.type.setTextColor(mContext.getResources().getColor(R.color.text_hint));
+            holder.serialNumber.setTextColor(mContext.getResources().getColor(R.color.text_hint));
+            holder.name.setTextColor(mContext.getResources().getColor(R.color.text_hint));
+            holder.container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showComfirmDialog(resourcePersonModel);
+                }
+            });
         }
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -110,8 +124,36 @@ private int isMyResource;
         ImageView ivRecord;
         @Bind(R.id.serial_number)
         TextView serialNumber;
+        @Bind(R.id.container)
+        LinearLayout container;
+        @Bind(R.id.type_label)
+        TextView typeLabel;
+        @Bind(R.id.brand_label)
+        TextView brandLabel;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
+        }
+    }
+
+    public void showComfirmDialog(final ResourcePersonModel resourcePersonModel){
+        final CustomDialog.Builder builder = new CustomDialog.Builder(mContext);
+        if (resourcePersonModel.getIsNeedSerial()==1){
+            builder.setTitle("确认补录");
+            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
         }
     }
 

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.managesystem.R;
@@ -52,7 +51,11 @@ public class ResourceYardAdapter extends BaseListAdapter<ResourcePersonModel> {
             convertView.setTag(holder);
         }
         final ResourcePersonModel resourcePersonModel = mList.get(position);
-        holder.type.setText(resourcePersonModel.getMaterialName());
+        if (resourcePersonModel.getStatus()==1){
+            holder.type.setText(resourcePersonModel.getMaterialName()+"("+"旧设备"+")");
+        }else if (resourcePersonModel.getStatus()==0){
+            holder.type.setText(resourcePersonModel.getMaterialName()+"("+"新设备"+")");
+        }
         holder.name.setText(resourcePersonModel.getBrand());
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
 
