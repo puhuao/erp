@@ -97,6 +97,9 @@ public class ReBackFragment extends CommonFragment {
     private void apply() {
         StringBuilder sb = new StringBuilder(Urls.REBACK);//反馈
         IConfig config = BaseApplication.getInstance().getCurrentConfig();
+        if (gridImageAdapter.sb.length() > 0) {
+            gridImageAdapter.sb.deleteCharAt(gridImageAdapter.sb.length() - 1);
+        }
         UrlUtils.getInstance(sb).praseToUrl("type", "1").praseToUrl("userId", config.getString("userId", ""))
                 .praseToUrl("info", applyReason.getText().toString())
                 .praseToUrl("pic", gridImageAdapter.sb.toString())

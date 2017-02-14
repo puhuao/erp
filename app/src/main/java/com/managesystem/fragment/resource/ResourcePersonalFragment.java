@@ -12,6 +12,7 @@ import com.managesystem.activity.MainTainApplyActivity;
 import com.managesystem.activity.TransferZxingCaptureActivity;
 import com.managesystem.adapter.ResourcePersonAdapter;
 import com.managesystem.config.Urls;
+import com.managesystem.event.PersonalResourceUpdate;
 import com.managesystem.fragment.BaseListRefreshFragment;
 import com.managesystem.model.ResourcePersonModel;
 import com.managesystem.popupwindow.QrcodeViewPopupwindow;
@@ -23,6 +24,9 @@ import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.zxing.CreateQrCode;
 import com.wksc.framwork.zxing.qrcodeModel.QRresourceSend;
 import com.wksc.framwork.zxing.qrcodeModel.QrResourceModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -38,6 +42,12 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
     ArrayList<ResourcePersonModel> resourcePersonModels = new ArrayList<>();
     String userID;
     private boolean checkAll = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -182,5 +192,18 @@ public class ResourcePersonalFragment extends BaseListRefreshFragment<ResourcePe
                 .praseToUrl("keyword", "")
                 .removeLastWord();
         excute(sb.toString(), ResourcePersonModel.class);
+    }
+
+    @Subscribe
+    public void onEvent(PersonalResourceUpdate personalResourceUpdate){
+        resourcePersonAdapter.getList().clear();
+        pageNo=1;
+        loadMore(1);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

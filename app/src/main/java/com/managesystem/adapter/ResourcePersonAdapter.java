@@ -2,6 +2,7 @@ package com.managesystem.adapter;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.callBack.DialogCallback;
+import com.managesystem.config.Urls;
+import com.managesystem.event.PPSListUpdateEvent;
+import com.managesystem.event.PersonalResourceUpdate;
 import com.managesystem.model.ResourcePersonModel;
+import com.managesystem.tools.UrlUtils;
 import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.util.StringUtils;
+import com.wksc.framwork.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/5/29.
@@ -56,6 +69,8 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         holder.type.setText(resourcePersonModel.getMaterialName());
         holder.name.setText(resourcePersonModel.getBrand());
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
+        holder.typeNumber.setText("型号:"+resourcePersonModel.getModel());
+        holder.param.setText("参数:"+resourcePersonModel.getParam());
         if (!StringUtils.isBlank(resourcePersonModel.getSerialNumber())){
             if (resourcePersonModel.getSerialNumber().equals("null")){
                 holder.serialNumber.setText("序列号:无");
@@ -130,6 +145,10 @@ private int isMyResource;
         TextView typeLabel;
         @Bind(R.id.brand_label)
         TextView brandLabel;
+        @Bind(R.id.type_number)
+        TextView typeNumber;
+        @Bind(R.id.param)
+        TextView param;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }
@@ -143,6 +162,7 @@ private int isMyResource;
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    comfirm(resourcePersonModel.getMaterialId());
                     dialog.dismiss();
                 }
             });
@@ -183,6 +203,32 @@ private int isMyResource;
             });
             builder.create().show();
         }
+    }
+
+    private void comfirm(String marterialId){
+        StringBuilder sb = new StringBuilder(Urls.MATERIALOK);
+        UrlUtils.getInstance(sb).praseToUrl("marterialId", marterialId)
+                .removeLastWord();
+        DialogCallback callback = new DialogCallback<String>(mContext, String.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(mContext, "网络错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    mList.clear();
+                    notifyDataSetChanged();
+                    ToastUtil.showShortMessage(mContext, "物资补录确认成功");
+                    EventBus.getDefault().post(new PersonalResourceUpdate());
+                }
+            }
+        };
+        OkHttpUtils.get(sb.toString())//
+                .tag(this)//
+                .execute(callback);
     }
 
 }

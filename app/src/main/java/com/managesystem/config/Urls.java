@@ -51,4 +51,5 @@ public static final String BASE_URL = "http://119.6.84.165:7071/";
     public static final String GETAREA = BASE_URL +"getAreas";//获取区域
     public static final String CHECK_VERSION = BASE_URL +"queryVersion?";
     public static final String REBACK = BASE_URL +"insertFeedback?";
+    public static final String MATERIALOK = BASE_URL +"material/ok?";
 }
