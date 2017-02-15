@@ -17,7 +17,6 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.event.PPSListUpdateEvent;
 import com.managesystem.event.PersonalResourceUpdate;
 import com.managesystem.model.ResourcePersonModel;
 import com.managesystem.tools.UrlUtils;
@@ -67,7 +66,7 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         }
         final ResourcePersonModel resourcePersonModel = mList.get(position);
         holder.type.setText(resourcePersonModel.getMaterialName());
-        holder.name.setText(resourcePersonModel.getBrand());
+        holder.name.setText("品牌:"+resourcePersonModel.getBrand());
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
         holder.typeNumber.setText("型号:"+resourcePersonModel.getModel());
         holder.param.setText("参数:"+resourcePersonModel.getParam());
@@ -88,10 +87,11 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         if(resourcePersonModel.getStatus()==6){
             holder.ivRecord.setVisibility(View.VISIBLE);
             holder.typeLabel.setTextColor(mContext.getResources().getColor(R.color.text_hint));
-            holder.brandLabel.setTextColor(mContext.getResources().getColor(R.color.text_hint));
             holder.type.setTextColor(mContext.getResources().getColor(R.color.text_hint));
             holder.serialNumber.setTextColor(mContext.getResources().getColor(R.color.text_hint));
             holder.name.setTextColor(mContext.getResources().getColor(R.color.text_hint));
+            holder.typeNumber.setTextColor(mContext.getResources().getColor(R.color.text_hint));
+            holder.param.setTextColor(mContext.getResources().getColor(R.color.text_hint));
             holder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -143,8 +143,6 @@ private int isMyResource;
         LinearLayout container;
         @Bind(R.id.type_label)
         TextView typeLabel;
-        @Bind(R.id.brand_label)
-        TextView brandLabel;
         @Bind(R.id.type_number)
         TextView typeNumber;
         @Bind(R.id.param)
