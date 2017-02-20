@@ -56,9 +56,10 @@ public class ResourceYardAdapter extends BaseListAdapter<ResourcePersonModel> {
         }else if (resourcePersonModel.getStatus()==0){
             holder.type.setText(resourcePersonModel.getMaterialName()+"("+"新设备"+")");
         }
-        holder.name.setText(resourcePersonModel.getBrand());
+        holder.name.setText("品牌:"+resourcePersonModel.getBrand());
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
-
+        holder.typeNumber.setText("型号:"+resourcePersonModel.getModel());
+        holder.param.setText("参数:"+resourcePersonModel.getParam());
         if (!StringUtils.isBlank(resourcePersonModel.getSerialNumber())){
             if (resourcePersonModel.getSerialNumber().equals("null")){
                 holder.serialNumber.setText("序列号:无");
@@ -106,6 +107,10 @@ private int isMyResource;
         CheckBox checkBox;
         @Bind(R.id.serialNumber)
         TextView serialNumber;
+        @Bind(R.id.type_number)
+        TextView typeNumber;
+        @Bind(R.id.param)
+        TextView param;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }
