@@ -41,6 +41,8 @@ public class PhoneBookDetailDetailFragment extends CommonFragment {
     TextView tvPhone;
     @Bind(R.id.header)
     ImageView header;
+    @Bind(R.id.tv_office)
+            TextView tvOffice;
     PersonalInfo personalInfo;
     private IConfig config;
 
@@ -59,7 +61,7 @@ public class PhoneBookDetailDetailFragment extends CommonFragment {
         tvName.setText(personalInfo.getName());
         tvDepartment.setText(personalInfo.getDepartmentName());
         tvCPhone.setText(personalInfo.getCphone());
-
+        tvOffice.setText(personalInfo.getOfficeNo());
         if (personalInfo.getIspublish()==0){
             StringBuilder sb  =new StringBuilder();
             if (!StringUtils.isBlank(personalInfo.getPhone())&& personalInfo.getPhone().length() >= 6){

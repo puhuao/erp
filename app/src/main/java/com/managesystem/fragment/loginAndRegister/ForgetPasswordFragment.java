@@ -1,12 +1,14 @@
 package com.managesystem.fragment.loginAndRegister;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
@@ -42,7 +44,8 @@ public class ForgetPasswordFragment extends CommonFragment {
     private String saveValidCode;
     @Bind(R.id.fab)
     Button fab;
-
+    @Bind(R.id.tv_get_valid_code)
+    TextView textView;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container = (ViewGroup) inflater.inflate(R.layout.fragment_register, null);
@@ -119,6 +122,7 @@ public class ForgetPasswordFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (!StringUtils.isBlank(o)){
+                    countdown(textView);
                     saveValidCode = o;
                     ToastUtil.showShortMessage(getContext(),"验证码已用短信的方式发送到你手机\n请注意查收");
                 }
@@ -158,5 +162,21 @@ public class ForgetPasswordFragment extends CommonFragment {
         OkHttpUtils.post(s)//
                 .tag(this)//
                 .execute(callback);
+    }
+    private void countdown(final TextView button){
+        new CountDownTimer(120*1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                button.setText(String.valueOf(millisUntilFinished/1000));
+                button.setClickable(false);
+                button.setEnabled(false);
+            }
+
+            public void onFinish() {
+                button.setText("获取验证码");
+                button.setClickable(true);
+                button.setEnabled(true);
+            }
+
+        }.start();
     }
 }

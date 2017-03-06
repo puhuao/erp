@@ -148,6 +148,7 @@ public class FragmentPhonenumberListSearch extends CommonFragment {
             sortModel.setStationName(date.get(i).getStationName());
             sortModel.setPhone(date.get(i).getPhone());
             sortModel.setHeadPic(date.get(i).getHeadPic());
+            sortModel.setOfficeNo(date.get(i).getOfficeNo());
             //����ת����ƴ��
             String pinyin = characterParser.getSelling(date.get(i).getName());
             String sortString = pinyin.substring(0, 1).toUpperCase();

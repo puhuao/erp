@@ -1,13 +1,16 @@
 package com.managesystem.fragment.loginAndRegister;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
@@ -18,6 +21,7 @@ import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import java.util.logging.Handler;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +42,8 @@ public class RegisterFragment extends CommonFragment {
     EditText editTextValidCode;
     @Bind(R.id.et_password)
     EditText editTextPassword;
+    @Bind(R.id.tv_get_valid_code)
+    TextView textView;
     private String saveValidCode;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,8 +95,27 @@ public class RegisterFragment extends CommonFragment {
                     break;
                 }
                 getVailidCode(phoneNumber);
+
+
                 break;
         }
+    }
+
+    private void countdown(final TextView button){
+        new CountDownTimer(120*1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                button.setText(String.valueOf(millisUntilFinished/1000));
+                button.setClickable(false);
+                button.setEnabled(false);
+            }
+
+            public void onFinish() {
+                button.setText("获取验证码");
+                button.setClickable(true);
+                button.setEnabled(true);
+            }
+
+        }.start();
     }
 
     private void initView() {
@@ -112,6 +137,7 @@ public class RegisterFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                 if (!StringUtils.isBlank(o)){
+                    countdown(textView);
                     saveValidCode = o;
                     ToastUtil.showShortMessage(getContext(),"验证码已用短信的方式发送到你手机\n请注意查收");
                 }
