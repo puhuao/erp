@@ -8,9 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.managesystem.R;
-import com.managesystem.model.GoodNews;
 import com.managesystem.model.ResourceApplyLost;
-import com.managesystem.model.ResourcePersonModel;
 import com.wksc.framwork.util.StringUtils;
 
 import butterknife.Bind;
@@ -40,7 +38,7 @@ public class ResourceApplyAdapter extends BaseListAdapter<ResourceApplyLost> {
         ResourceApplyLost resourceApplyLost = mList.get(position);
 
         holder.name.setText(resourceApplyLost.getMaterialTypeName()+"/"+resourceApplyLost.getMaterialName());
-        holder.time.setText("领取时间:"+resourceApplyLost.getUtime());
+        holder.time.setText("申请时间:"+resourceApplyLost.getUtime());
         if (!StringUtils.isBlank(resourceApplyLost.getHandleName()))
         holder.manager.setText("管理员:"+resourceApplyLost.getHandleName());
         else{

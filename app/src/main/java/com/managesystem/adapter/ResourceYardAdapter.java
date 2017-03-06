@@ -56,8 +56,11 @@ public class ResourceYardAdapter extends BaseListAdapter<ResourcePersonModel> {
         }else if (resourcePersonModel.getStatus()==0){
             holder.type.setText(resourcePersonModel.getMaterialName()+"("+"新设备"+")");
         }
+        holder.name.setText(resourcePersonModel.getBrand());
         holder.name.setText("品牌:"+resourcePersonModel.getBrand());
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
+
+
         if (resourcePersonModel.getModel().equals("null")||
                 StringUtils.isBlank(resourcePersonModel.getModel())){
             holder.typeNumber.setText("型号:无");
