@@ -68,8 +68,18 @@ public class ResourcePersonAdapter extends BaseListAdapter<ResourcePersonModel> 
         holder.type.setText(resourcePersonModel.getMaterialName());
         holder.name.setText("品牌:"+resourcePersonModel.getBrand());
         holder.checkBox.setChecked(resourcePersonModel.isCheck);
-        holder.typeNumber.setText("型号:"+resourcePersonModel.getModel());
-        holder.param.setText("参数:"+resourcePersonModel.getParam());
+        if (resourcePersonModel.getModel().equals("null")||
+                StringUtils.isBlank(resourcePersonModel.getModel())){
+            holder.typeNumber.setText("型号:无");
+        }else{
+            holder.typeNumber.setText("型号:"+resourcePersonModel.getModel());
+        }
+        if (resourcePersonModel.getParam().equals("null")||
+                StringUtils.isBlank(resourcePersonModel.getParam())){
+            holder.param.setText("参数:无");
+        }else{
+            holder.param.setText("参数:"+resourcePersonModel.getParam());
+        }
         if (!StringUtils.isBlank(resourcePersonModel.getSerialNumber())){
             if (resourcePersonModel.getSerialNumber().equals("null")){
                 holder.serialNumber.setText("序列号:无");
