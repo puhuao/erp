@@ -47,7 +47,7 @@ public class MsgMeetingGuaranteeDetailFragment extends CommonFragment {
     }
 
     private void initView() {
-        setHeaderTitle("会议保障通知");
+        setHeaderTitle("工单确认消息");
         content.setText(message.content);
         fab.setText("确认");
         if (message.status==1){
