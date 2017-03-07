@@ -1,5 +1,6 @@
 package com.managesystem.fragment.pps;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
+import com.managesystem.activity.ImageActivity;
 import com.managesystem.adapter.PPSCommentAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
@@ -293,12 +295,26 @@ public class PPSDetailFragment extends BaseNestListRefreshFragment<PPSComment> {
                             delete.setVisibility(View.GONE);
                         }
                         if (ppsModel.getPics() != null) {
-                            List<String> imgs = new ArrayList<>();
+                            final List<String> imgs = new ArrayList<>();
                             for (String s :
                                     ppsModel.getPics()) {
                                 imgs.add(Urls.GETPICS + s);
                             }
                             multiImageView.setList(imgs);
+                            multiImageView.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    Intent intent = new Intent(getContext(), ImageActivity.class);
+                                    Bundle bd = null;
+                                    if (bd == null) {
+                                        bd = new Bundle();
+                                    }
+                                    bd.putStringArrayList("list", (ArrayList<String>) imgs);
+                                    bd.putInt("position", position);
+                                    intent.putExtras(bd);
+                                    getContext().startActivity(intent);
+                                }
+                            });
                         }
                         check.setText(String.valueOf(ppsModel.getScanCount()));
                         if (ppsModel.getPraise()) {

@@ -58,7 +58,9 @@
         android:padding="@dimen/dimen_12"
         android:text="dgafggdf"
         android:background="@color/white"
-        android:textSize="@dimen/text_size_16"/>
+        android:textSize="@dimen/text_size_16"
+        android:maxEms="60"
+        android:ellipsize="end"/>
 
 
     <com.managesystem.widegt.multiImageView.MultiImageView
@@ -66,7 +68,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dimen_12"
+        android:paddingBottom="@dimen/dimen_12"/>
 
     <LinearLayout
         android:id="@+id/layout_comment"

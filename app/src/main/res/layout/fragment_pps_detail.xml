@@ -80,7 +80,6 @@
                     android:layout_gravity="center_vertical"
                     android:background="@color/white"
                     android:lineSpacingExtra="@dimen/dimen_2"
-                    android:maxLines="3"
                     android:padding="@dimen/dimen_12"
                     android:text="dgafggdf"
                     android:textSize="@dimen/text_size_16" />
@@ -90,7 +89,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:paddingLeft="@dimen/dimen_12"
+                    android:paddingBottom="@dimen/dimen_12"/>
 
                 <LinearLayout
                     android:id="@+id/layout_comment"
