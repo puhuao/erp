@@ -15,7 +15,6 @@ import com.managesystem.R;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.event.OnMainTainUpdata;
-import com.managesystem.fragment.MsgFragment;
 import com.managesystem.model.Maintain;
 import com.managesystem.model.Users;
 import com.managesystem.tools.UrlUtils;
@@ -24,7 +23,6 @@ import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
-import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -194,10 +192,10 @@ public class MSGMaintainDetailFragment extends CommonFragment {
                     ToastUtil.showShortMessage(getContext(),"请选择评星等级");
                     return;
                 }
-                if (StringUtils.isBlank(comment)){
-                    ToastUtil.showShortMessage(getContext(),"请输入评价内容");
-                    return;
-                }
+//                if (StringUtils.isBlank(comment)){
+//                    ToastUtil.showShortMessage(getContext(),"请输入评价内容");
+//                    return;
+//                }
                 updateDistribute();
             }
         });

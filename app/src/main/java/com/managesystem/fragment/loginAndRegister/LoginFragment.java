@@ -1,6 +1,5 @@
 package com.managesystem.fragment.loginAndRegister;
 
-import android.app.Notification;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,7 +12,9 @@ import android.widget.EditText;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.CustomApplication;
 import com.managesystem.R;
+import com.managesystem.activity.ForgetPasswordActivity;
 import com.managesystem.activity.MainActivity;
+import com.managesystem.activity.RegisterActivity;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
 import com.managesystem.model.PersonalInfo;
@@ -30,7 +31,6 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.Call;
@@ -88,10 +88,10 @@ public class LoginFragment extends CommonFragment {
                 doLogin();
                 break;
             case R.id.register_new_user:
-                getContext().pushFragmentToBackStack(RegisterFragment.class, null);
+                startActivity(RegisterActivity.class);
                 break;
             case R.id.tv_forgot_password:
-                getContext().pushFragmentToBackStack(ForgetPasswordFragment.class, null);
+                startActivity(ForgetPasswordActivity.class);
                 break;
 
         }

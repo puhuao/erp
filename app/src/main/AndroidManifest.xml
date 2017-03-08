@@ -119,6 +119,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PersonalMeetingActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ForgetPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
