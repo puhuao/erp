@@ -1,5 +1,6 @@
 package com.managesystem.callBack;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import com.managesystem.R;
 import com.managesystem.activity.LoginActivity;
 import com.managesystem.activity.MainActivity;
 import com.managesystem.activity.MyWalletActivity;
+import com.managesystem.activity.TransferZxingCaptureActivity;
 import com.managesystem.event.GoToComment;
 import com.managesystem.widegt.CustomDialog;
 import com.wksc.framwork.util.AppManager;
@@ -46,8 +48,17 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
     private Class<T> clazz;
     private Type type;
     private Context mConext;
+    private Activity activity;
+    private TransferZxingCaptureActivity transferZxingCaptureActivity;
 
-    public JsonCallback(Context context,Class<T> clazz) {
+    public JsonCallback(TransferZxingCaptureActivity activity, Context context, Class<T> clazz) {
+        this.transferZxingCaptureActivity = activity;
+        this.clazz = clazz;
+        this.mConext = context;
+    }
+
+    public JsonCallback(Activity activity,Context context, Class<T> clazz) {
+        this.activity = activity;
         this.clazz = clazz;
         this.mConext = context;
     }
@@ -86,6 +97,9 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
                 OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
                     @Override
                     public void run() {
+                        if (transferZxingCaptureActivity!=null){
+                            transferZxingCaptureActivity.finish();
+                        }
                         ToastUtil.showShortMessage(OkHttpUtils.getContext(),msg);
                     }
                 });

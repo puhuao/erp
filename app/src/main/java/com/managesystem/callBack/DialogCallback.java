@@ -9,6 +9,7 @@ import android.view.Window;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.request.BaseRequest;
+import com.managesystem.activity.TransferZxingCaptureActivity;
 
 import java.lang.reflect.Type;
 
@@ -43,12 +44,17 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
         });
     }
 
+    public DialogCallback(TransferZxingCaptureActivity activity, Class<T> clazz) {
+        super(activity,activity,clazz);
+        initDialog(activity);
+    }
+
     public DialogCallback(Activity activity, Class<T> clazz) {
-        super(activity,clazz);
+        super(activity,activity,clazz);
         initDialog(activity);
     }
     public DialogCallback(Activity activity, Class<T> clazz,SwipeRefreshLayout refreshLayout) {
-        super(activity,clazz);
+        super(activity,activity,clazz);
         mSwipeRefreshLayout = refreshLayout;
         show = false;
         initDialog(activity);

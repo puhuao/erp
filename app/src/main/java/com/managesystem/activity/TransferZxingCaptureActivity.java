@@ -83,7 +83,6 @@ public class TransferZxingCaptureActivity extends Activity implements QRCodeView
     protected void onDestroy() {
         super.onDestroy();
         mQRCodeView.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     private void vibrate() {
@@ -107,12 +106,14 @@ public class TransferZxingCaptureActivity extends Activity implements QRCodeView
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                         super.onError(isFromCache, call, response, e);
                         ToastUtil.showShortMessage(TransferZxingCaptureActivity.this, "网络错误");
+                        finish();
                     }
 
                     @Override
                     public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                         if (o != null) {
                             ToastUtil.showShortMessage(TransferZxingCaptureActivity.this, "物资交接成功");
+                            finish();
                         }
                     }
                 };
@@ -134,11 +135,13 @@ public class TransferZxingCaptureActivity extends Activity implements QRCodeView
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                         super.onError(isFromCache, call, response, e);
                         ToastUtil.showShortMessage(TransferZxingCaptureActivity.this, "网络错误");
+                        finish();
                     }
 
                     @Override
                     public void onResponse(boolean isFromCache, String o, Request request, @Nullable Response response) {
                         if (o != null) {
+                            finish();
                             ToastUtil.showShortMessage(TransferZxingCaptureActivity.this, "物资发放成功");
                         }
                     }
@@ -156,7 +159,7 @@ public class TransferZxingCaptureActivity extends Activity implements QRCodeView
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        finish();
+
     }
 
     @Override
