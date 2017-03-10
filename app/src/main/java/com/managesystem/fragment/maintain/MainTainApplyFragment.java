@@ -82,6 +82,7 @@ Bundle bundle;
             llEquipment.setVisibility(View.VISIBLE);
             tvEquipmentName.setText(event.getEquipmentName());
             type.setText(meetingType.getServicetypeName());
+            ids = event.getEquipmentIds();
             return;
         }
         if (meetingType.getServicetypeName().equals("电话")) {
@@ -102,7 +103,7 @@ Bundle bundle;
             tvEquipmentName.setCompoundDrawables(null,null,null,null);
             name = bundle.getString("string");
             ids = bundle.getString("ids");
-            getMeetingTypes(name);
+            getMeetingTypes(name,ids);
         }else{
             llEquipment.setVisibility(View.GONE);
         }
@@ -163,7 +164,7 @@ Bundle bundle;
         EventBus.getDefault().unregister(this);
     }
 
-    private void getMeetingTypes(final String name){
+    private void getMeetingTypes(final String name,final  String ids){
         StringBuilder sb = new StringBuilder(Urls.METTING_TYPES);
         UrlUtils.getInstance(sb);
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
@@ -180,7 +181,7 @@ Bundle bundle;
                     for (MeetingType t :
                             list) {
                         if (t.getServicetypeName().equals("设备")){
-                            EventBus.getDefault().post(new MeetingTypeSelectEvent(t,name) );
+                            EventBus.getDefault().post(new MeetingTypeSelectEvent(t,name,ids) );
                         }
                     }
                 }

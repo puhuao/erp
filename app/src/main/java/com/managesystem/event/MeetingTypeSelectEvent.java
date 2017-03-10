@@ -1,6 +1,5 @@
 package com.managesystem.event;
 
-import com.managesystem.model.MeetingRoom;
 import com.managesystem.model.MeetingType;
 
 /**
@@ -10,10 +9,20 @@ public class MeetingTypeSelectEvent {
 
     private MeetingType meetingType;
     private String equipmentName;
+    private String equipmentIds;
 
-    public MeetingTypeSelectEvent(MeetingType meetingType, String equipmentName) {
+    public String getEquipmentIds() {
+        return equipmentIds;
+    }
+
+    public void setEquipmentIds(String equipmentIds) {
+        this.equipmentIds = equipmentIds;
+    }
+
+    public MeetingTypeSelectEvent(MeetingType meetingType, String equipmentName, String id) {
         this.meetingType = meetingType;
         this.equipmentName = equipmentName;
+        this.equipmentIds = id;
     }
 
     public MeetingType getMeetingType() {

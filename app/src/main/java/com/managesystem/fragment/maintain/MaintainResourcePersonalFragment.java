@@ -97,19 +97,22 @@ public class MaintainResourcePersonalFragment extends BaseListRefreshFragment<Re
             case R.id.fix:
                 //确认
                 StringBuilder sb = new StringBuilder();
+                StringBuilder ids = new StringBuilder();
                 for (ResourcePersonModel r :
                         resourcePersonModels) {
                     if (r.isCheck) {
                         sb.append(r.getMaterialName() + ",");
+                        ids.append(r.getMaterialnameId()+",");
                     }
                 }
                 if (sb.length() > 0) {
                     sb.deleteCharAt(sb.length() - 1);
+                    ids.deleteCharAt(ids.length()-1);
                 }else{
                     ToastUtil.showShortMessage(getContext(),"请选择设备");
                     break;
                 }
-                EventBus.getDefault().post(new MeetingTypeSelectEvent(meetingType, sb.toString()));
+                EventBus.getDefault().post(new MeetingTypeSelectEvent(meetingType, sb.toString(),ids.toString()));
                 getContext().popToRoot(null);
                 break;
             case R.id.send:

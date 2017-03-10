@@ -1,34 +1,24 @@
 package com.managesystem.fragment.meeting;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.managesystem.R;
-import com.managesystem.adapter.MeetingApplyRecordAdapter;
 import com.managesystem.adapter.MeetingNoticePersonAdapter;
 import com.managesystem.callBack.DialogCallback;
 import com.managesystem.config.Urls;
-import com.managesystem.fragment.BaseListRefreshFragment;
-import com.managesystem.model.AddUserParam;
-import com.managesystem.model.MeetingRoomDetail;
-import com.managesystem.model.MeetingSelectCondition;
 import com.managesystem.model.Users;
 import com.managesystem.tools.UrlUtils;
-import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -93,6 +83,7 @@ public class MeetingPersonListFragment extends CommonFragment{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
+                users.clear();
                 for (Users u :
                         list) {
                     if (u.isCheck){

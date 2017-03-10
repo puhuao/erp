@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +31,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Handler;
 
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
@@ -77,7 +73,7 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
 //                        @Override
 //                        public void run() {
 //                            timer.cancel();
-//                            JPushInterface.clearAllNotifications(getContext().getApplicationContext());
+                            JPushInterface.clearAllNotifications(getContext().getApplicationContext());
 //                        }
 //                    });
 //                }

@@ -70,7 +70,7 @@ public class MaintainResourceTypeFragment extends CommonFragment {
                             meetingTypes.get(position));
                 }else{
                     String name = meetingTypes.get(position).getServicetypeName();
-                    EventBus.getDefault().post(new MeetingTypeSelectEvent(meetingTypes.get(position),null));
+                    EventBus.getDefault().post(new MeetingTypeSelectEvent(meetingTypes.get(position),null,null));
                     getContext().popTopFragment(null);
                 }
 
