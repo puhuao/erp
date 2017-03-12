@@ -102,7 +102,7 @@ public class MaintainResourcePersonalFragment extends BaseListRefreshFragment<Re
                         resourcePersonModels) {
                     if (r.isCheck) {
                         sb.append(r.getMaterialName() + ",");
-                        ids.append(r.getMaterialnameId()+",");
+                        ids.append(r.getMaterialId()+",");
                     }
                 }
                 if (sb.length() > 0) {

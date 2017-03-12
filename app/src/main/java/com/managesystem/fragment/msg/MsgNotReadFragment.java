@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.lzy.okhttputils.OkHttpUtils;
+import com.managesystem.CustomApplication;
 import com.managesystem.R;
 import com.managesystem.activity.MeetingMsgDetailActivity;
 import com.managesystem.adapter.MsgReadAdapter;
@@ -56,6 +57,7 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
         container = (ViewGroup) inflater.inflate(R.layout.layout_swipe_refresh_list, null);
         ButterKnife.bind(this, container);
         initView();
+        CustomApplication.isMSGPageShow = true;
         return container;
     }
 

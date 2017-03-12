@@ -14,6 +14,8 @@ import cn.jpush.android.api.JPushInterface;
  * Created by Administrator on 2016/11/12.
  */
 public class CustomApplication extends BaseApplication{
+
+    public static boolean isMSGPageShow = false;
     @Override
     public void onCreate() {
         super.onCreate();
