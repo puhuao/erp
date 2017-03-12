@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -73,7 +72,7 @@ public class MsgNotReadFragment extends BaseListRefreshFragment<Message> {
 //                        @Override
 //                        public void run() {
 //                            timer.cancel();
-                            JPushInterface.clearAllNotifications(getContext().getApplicationContext());
+//                            JPushInterface.clearAllNotifications(getContext().getApplicationContext());
 //                        }
 //                    });
 //                }

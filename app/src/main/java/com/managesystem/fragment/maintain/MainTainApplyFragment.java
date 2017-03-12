@@ -131,7 +131,7 @@ Bundle bundle;
             UrlUtils.getInstance(sb).praseToUrl("userId", config.getString("userId", ""))
                     .praseToUrl("infor", remark.getText().toString()).praseToUrl("servicetypeId", meetingType.getServicetypeId())
                     .praseToUrl("materialNames", equipmentNames)
-                    .praseToUrl("materianameIds",ids)
+                    .praseToUrl("materialnameIds",ids)
                     .removeLastWord();
             DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
                 @Override

@@ -1,6 +1,7 @@
 package com.managesystem.fragment.loginAndRegister;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,7 +55,8 @@ public class LoginFragment extends CommonFragment {
     private String password;
     private Boolean isAotuLogin = false;
     public Boolean isSilence = false;
-
+    public final static String TAG = "jpush";
+     DialogCallback callback;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -113,7 +115,7 @@ public class LoginFragment extends CommonFragment {
         StringBuilder sb = new StringBuilder(Urls.LOGIN);
         UrlUtils.getInstance(sb).praseToUrl("phone", username).praseToUrl("password", MD5Utils.encode(password))
                 .removeLastWord();
-        final DialogCallback callback = new DialogCallback<PersonalInfo>(getContext(), PersonalInfo.class) {
+        callback = new DialogCallback<PersonalInfo>(getContext(), PersonalInfo.class) {
 
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -155,15 +157,33 @@ public class LoginFragment extends CommonFragment {
                     if (JPushInterface.isPushStopped(getContext().getApplicationContext())){
                         JPushInterface.resumePush(getContext().getApplicationContext());
                     }
-                    JPushInterface.setAlias(CustomApplication.getContext(), o.getUserId(), new TagAliasCallback() {
-                        @Override
-                        public void gotResult(int i, String s, Set<String> set) {
-                            Log.i("TAG", "jpush:设置别名成功");
+                    String alias = o.getUserId();
+                    mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
+//                    JPushInterface.setAlias(CustomApplication.getContext(), alias, new TagAliasCallback() {
+//                        @Override
+//                        public void gotResult(int i, String s, Set<String> set) {
+//                            switch (i) {
+//                                String logs = null;
+//                                case 0:
+//                                    logs = "Set tag and alias success";
+//                                    Log.i(TAG, logs);
+//                                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+//                                    break;
+//                                case 6002:
+//                                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+//                                    Log.i(TAG, logs);
+//                                    // 延迟 60 秒来调用 Handler 设置别名
+//                                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+//                                    break;
+//                                default:
+//                                    logs = "Failed with errorCode = " + i;
+//                                    Log.e(TAG, logs);
+//                            }
+//
+//                        }
+//
+//                    });
 
-                        }
-                    });
-                    startActivity(MainActivity.class);
-                    getActivity().finish();
                 }
 
             }
@@ -172,5 +192,51 @@ public class LoginFragment extends CommonFragment {
                 .tag(this)//
                 .execute(callback);
     }
+
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs ;
+            switch (code) {
+                case 0:
+                    callback.getDialog().dismiss();
+                    startActivity(MainActivity.class);
+                    getActivity().finish();
+                    logs = "Set tag and alias success";
+                    Log.i(TAG, logs);
+                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+                    break;
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    Log.i(TAG, logs);
+                    // 延迟 60 秒来调用 Handler 设置别名
+                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 10);
+                    break;
+                default:
+                    logs = "Failed with errorCode = " + code;
+                    Log.e(TAG, logs);
+            }
+        }
+    };
+
+    private static final int MSG_SET_ALIAS = 1001;
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    callback.getDialog().show();
+                    Log.d(TAG, "Set alias in handler.");
+                    // 调用 JPush 接口来设置别名。
+                    JPushInterface.setAlias(CustomApplication.getContext(), String.valueOf(msg.obj),
+                            mAliasCallback);
+                    break;
+                default:
+                    Log.i(TAG, "Unhandled msg - " + msg.what);
+            }
+        }
+    };
 
 }

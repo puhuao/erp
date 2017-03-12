@@ -29,6 +29,10 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
 
     private ProgressDialog dialog;
 
+    public ProgressDialog getDialog() {
+        return dialog;
+    }
+
     private void initDialog(final Activity activity) {
 
         dialog = new ProgressDialog(activity);
