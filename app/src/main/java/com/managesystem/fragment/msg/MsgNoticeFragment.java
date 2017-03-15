@@ -46,7 +46,7 @@ public class MsgNoticeFragment extends CommonFragment {
     }
 
     private void initView() {
-        setHeaderTitle("运维保障通知");
+        setHeaderTitle(message.title);
         content.setText(message.content);
         fab.setText("确认");
         if (message.status==1){

@@ -47,6 +47,7 @@ public class WorkListAdapter extends BaseListAdapter<WorkList> {
         }
 
         WorkList workList = mList.get(position);
+        if(workList.getServicetypeName()!=null)
         if (workList.getServicetypeName().equals("会议")){
             holder.image.setImageResource(R.drawable.img_work_meeting);
         }else{

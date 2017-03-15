@@ -139,6 +139,8 @@ public class LoginFragment extends CommonFragment {
                     config.setString("sign", o.getSign());
                     config.setString("phone", o.getPhone());
                     config.setString("status",o.getStatus());
+                    config.setString("position",o.getPosition()==null?"":o.getPosition());
+
                     if (o.getIspublish() == 1) {
                         config.setBoolean("ispublish", true);
                     } else {

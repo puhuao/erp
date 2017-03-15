@@ -59,7 +59,7 @@ public class MsgMeetingFinishFragment extends CommonFragment {
     }
 
     private void initView() {
-        setHeaderTitle("会议保障完成通知");
+        setHeaderTitle(message.title);
         content.setText(message.content);
         fab.setText("去评价");
         if (message.status == 1) {

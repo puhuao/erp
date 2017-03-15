@@ -123,6 +123,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PPSDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PublishPPSActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>

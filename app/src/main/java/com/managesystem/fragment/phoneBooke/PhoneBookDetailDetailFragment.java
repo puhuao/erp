@@ -62,23 +62,27 @@ public class PhoneBookDetailDetailFragment extends CommonFragment {
         tvDepartment.setText(personalInfo.getDepartmentName());
         tvCPhone.setText(personalInfo.getCphone());
         tvOffice.setText(personalInfo.getOfficeNo());
-        if (personalInfo.getIspublish()==0){
-            StringBuilder sb  =new StringBuilder();
-            if (!StringUtils.isBlank(personalInfo.getPhone())&& personalInfo.getPhone().length() >= 6){
-                for (int i = 0; i < personalInfo.getPhone().length(); i++) {
-                    char c = personalInfo.getPhone().charAt(i);
-                    if (i >= 3 && i <= 6) {
-                        sb.append('*');
-                    } else {
-                        sb.append(c);
-                    }
-                }
-            }
-            tvPhone.setText(sb.toString());
-        }else{
-            tvPhone.setText(personalInfo.getPhone());
-        }
-
+        tvPhone.setText(personalInfo.getPhone());
+//        if (config.getString("position","").equals("院领导")){
+//
+//        }else{
+//            if (personalInfo.getIspublish()==0){
+//                StringBuilder sb  =new StringBuilder();
+//                if (!StringUtils.isBlank(personalInfo.getPhone())&& personalInfo.getPhone().length() >= 6){
+//                    for (int i = 0; i < personalInfo.getPhone().length(); i++) {
+//                        char c = personalInfo.getPhone().charAt(i);
+//                        if (i >= 3 && i <= 6) {
+//                            sb.append('*');
+//                        } else {
+//                            sb.append(c);
+//                        }
+//                    }
+//                }
+//                tvPhone.setText(sb.toString());
+//            }else{
+//                tvPhone.setText(personalInfo.getPhone());
+//            }
+//        }
         tvState.setText(personalInfo.getStationName());
         String headPic = null;
         if (!StringUtils.isBlank(personalInfo.getHeadPic())){

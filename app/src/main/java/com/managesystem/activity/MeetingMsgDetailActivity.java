@@ -45,32 +45,52 @@ public class MeetingMsgDetailActivity  extends CommonActivity {
             }
             if (message.type.equals(Message.MEETING_REMIND)){
                 //会议提醒
+                message.title = "工单提醒";
                 pushFragmentToBackStack(MsgNoticeFragment.class, message);
 //                pushFragmentToBackStack(MeetingMSGDetailFragment.class, message);
             }else if(message.type.equals(Message.REGISTER_NOTICE)){
                 //新用户注册，提示管理员审核
+                message.title = "注册提醒";
                 pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }else if(message.type.equals(Message.WORK_LIST_REMIND)){
                 //工单提醒，提醒管理员
+                message.title = "工单提醒";
                 pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }else if(message.type.equals(Message.MEETING_NOTICE)){
                 //会议通知（可以报名）
+                message.title = "会议报名";
                 pushFragmentToBackStack(MeetingMSGDetailFragment.class, message);
 //                pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }else if(message.type.equals(Message.DESPATCH_NOTICE)){
                 //派单通知（确认）
-
+                message.title = "工单确认通知";
                 pushFragmentToBackStack(MsgMeetingGuaranteeDetailFragment.class, message);
             }else if(message.type.equals(Message.MEETING_FINISH)){
                 //会议工单完成，去评价
+                message.title = "会议完成通知";
                 pushFragmentToBackStack(MsgMeetingFinishFragment.class, message);
             }else if(message.type.equals(Message.WORK_LIST_FINISH)){
                 //工单完成，去评价
+                message.title = "工单完成通知";
                 pushFragmentToBackStack(MsgMeetingFinishFragment.class, message);
             }else if(message.type.equals(Message.COMMENT_FINISH)){
                 //评价完成，提示就行
+                message.title = "会议评价通知";
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+            }else if(message.type.equals("10013")){
+                //评价完成，提示就行
+                message.title = "工单评价通知";
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+            }else if(message.type.equals("10008")){
+                //运维人员会议保障确认进行中
+                message.title = "会议保障确认";
+                pushFragmentToBackStack(MsgNoticeFragment.class, message);
+            }else if(message.type.equals("10009")){
+                //运维人员已确认工单进行中
+                message.title = "工单确认通知";
                 pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }else{
+                message.title = "工单通知";
                 pushFragmentToBackStack(MsgNoticeFragment.class, message);
             }
         }else{

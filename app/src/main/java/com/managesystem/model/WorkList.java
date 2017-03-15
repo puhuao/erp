@@ -36,6 +36,16 @@ public class WorkList implements Serializable {
     private List<Users> handleUsers;
     private String name;
     private String departmentName;
+    private String officeNo;
+
+    public String getOfficeNo() {
+        return officeNo;
+    }
+
+    public void setOfficeNo(String officeNo) {
+        this.officeNo = officeNo;
+    }
+
     /**
      * materialnameIds : null
      * materialNames : 易耗,易耗

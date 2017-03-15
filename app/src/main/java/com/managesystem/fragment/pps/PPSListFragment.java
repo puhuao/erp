@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 
 import com.managesystem.R;
 import com.managesystem.activity.MeetingMsgDetailActivity;
+import com.managesystem.activity.PPSDetailActivity;
+import com.managesystem.activity.PublishPPSActivity;
 import com.managesystem.adapter.MsgReadAdapter;
 import com.managesystem.adapter.PPSAdapter;
 import com.managesystem.config.Urls;
@@ -63,14 +65,20 @@ public class PPSListFragment extends BaseListRefreshFragment<PPSModel> {
         getTitleHeaderBar().setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContext().pushFragmentToBackStack(PublishPPSFragment.class, null);
+//                getContext().pushFragmentToBackStack(PublishPPSFragment.class, null);
+                startActivity(PublishPPSActivity.class);
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position != messages.size()) {
-                    getContext().pushFragmentToBackStack(PPSDetailFragment.class, messages.get(position));
+//                    getContext().pushFragmentToBackStack(PPSDetailFragment.class, messages.get(position));
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("item",messages.get(position));
+                    Intent intent = new Intent(getContext(), PPSDetailActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             }
         });

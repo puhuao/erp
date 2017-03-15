@@ -91,10 +91,10 @@ public class PublishPPSFragment extends CommonFragment {
                 break;
             case R.id.fab:
                 sTheme = theme.getText().toString();
-                if (StringUtils.isBlank(sTheme)) {
-                    ToastUtil.showShortMessage(getContext(), "请填写主题");
-                    return;
-                }
+//                if (StringUtils.isBlank(sTheme)) {
+//                    ToastUtil.showShortMessage(getContext(), "请填写主题");
+//                    return;
+//                }
                 sContent = content.getText().toString();
                 if (StringUtils.isBlank(sContent)) {
                     ToastUtil.showShortMessage(getContext(), "请填写话题内容");
@@ -106,7 +106,7 @@ public class PublishPPSFragment extends CommonFragment {
     }
 
     private void initView() {
-        setHeaderTitle("发布新消息");
+        setHeaderTitle("发布新话题");
         gridImageAdapter = new GridImageAdapter(getContext());
         gridImageAdapter.excute();
     }
@@ -117,11 +117,12 @@ public class PublishPPSFragment extends CommonFragment {
             gridImageAdapter.sb.deleteCharAt(gridImageAdapter.sb.length() - 1);
         }
         StringBuilder sb = new StringBuilder(Urls.PPS_POST);
-        UrlUtils.getInstance(sb).praseToUrl("title", sTheme)
+        UrlUtils.getInstance(sb).praseToUrl("title", "话题")
                 .praseToUrl("userId", config.getString("userId", ""))
                 .praseToUrl("content", sContent)
                 .praseToUrl("pics", gridImageAdapter.sb.toString())
                 .removeLastWord();
+//        sb.append("&title=");
         DialogCallback callback = new DialogCallback<String>(getContext(), String.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -134,7 +135,7 @@ public class PublishPPSFragment extends CommonFragment {
                 if (o != null) {
                     ToastUtil.showShortMessage(getContext(), "发布新消息成功");
                     EventBus.getDefault().post(new PPSListUpdateEvent());
-                    getContext().popTopFragment(null);
+                    getContext().finish();
                 }
             }
         };

@@ -1,11 +1,12 @@
 package com.managesystem.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/11/23.
  */
-public class PPSModel {
+public class PPSModel implements Serializable{
 
     /**
      * content : 423432432

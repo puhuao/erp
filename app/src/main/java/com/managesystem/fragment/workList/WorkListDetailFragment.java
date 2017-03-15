@@ -79,6 +79,8 @@ public class WorkListDetailFragment extends CommonFragment {
     TextView equipmentType;
     @Bind(R.id.ll_equipment_type)
     LinearLayout llEquipmentType;
+    @Bind(R.id.work_list_apply_office_number)
+    TextView officeNumber;
 
     private WorkList workList;
     private MeetingSelectCondition meetingSelectCondition;
@@ -160,6 +162,7 @@ public class WorkListDetailFragment extends CommonFragment {
         department.setText(workList.getDepartmentName());
         location.setText(workList.getCphone());
         time.setText(workList.getCtime());
+        officeNumber.setText(workList.getOfficeNo());
         String statu = null;
         switch (workList.getStatus()) {
             case MeetingApplyRecord.STATUS_ADD:
